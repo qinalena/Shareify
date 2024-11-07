@@ -1,6 +1,7 @@
 package app;
 
 import data_access.DBNoteDataAccessObject;
+import spotifyAPI.SpotifyService;
 import use_case.note.NoteDataAccessInterface;
 
 /**
@@ -20,7 +21,6 @@ import use_case.note.NoteDataAccessInterface;
  * switching between views depending on your project.
  */
 public class MainNoteApplication {
-
     /**
      * The main entry point of the application.
      * <p>
@@ -48,6 +48,8 @@ public class MainNoteApplication {
         // create the data access and inject it into our builder!
         final NoteDataAccessInterface noteDataAccess = new DBNoteDataAccessObject();
 
+        SpotifyService spotify = new SpotifyService();
+        System.out.println(spotify.getSongArtist("Starships"));
         final NoteAppBuilder builder = new NoteAppBuilder();
         builder.addNoteDAO(noteDataAccess)
                .addNoteView()
