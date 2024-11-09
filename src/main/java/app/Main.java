@@ -3,6 +3,8 @@ package app;
 import data_access.DBNoteDataAccessObject;
 import use_case.note.NoteDataAccessInterface;
 
+import javax.swing.JFrame;
+
 /**
  * An application where we can view and add to a note stored by a user.
  * <p>
@@ -19,7 +21,7 @@ import use_case.note.NoteDataAccessInterface;
  * view. Your team may wish to bring back the ViewManager or make your own implementation of supporting
  * switching between views depending on your project.
  */
-public class MainNoteApplication {
+public class Main {
 
     /**
      * The main entry point of the application.
@@ -48,9 +50,15 @@ public class MainNoteApplication {
         // create the data access and inject it into our builder!
         final NoteDataAccessInterface noteDataAccess = new DBNoteDataAccessObject();
 
-        final NoteAppBuilder builder = new NoteAppBuilder();
-        builder.addNoteDAO(noteDataAccess)
-               .addNoteView()
-               .addNoteUseCase().build().setVisible(true);
+        final AppBuilder builder = new AppBuilder();
+        final JFrame application = builder
+                .addSignupView()
+                .addSignupUseCase()
+//                .addNoteDAO(noteDataAccess)
+//                .addNoteView()
+                .build();
+
+        application.pack();
+        application.setVisible(true);
     }
 }
