@@ -1,7 +1,9 @@
 package app;
 
 import data_access.DBNoteDataAccessObject;
+import entity.User;
 import spotifyAPI.SpotifyService;
+import use_case.note.DataAccessException;
 import use_case.note.NoteDataAccessInterface;
 
 /**
@@ -41,18 +43,42 @@ public class MainNoteApplication {
      * in your application; it just depends on what your program's main
      * functionality.
      * </p>
+     *
      * @param args commandline arguments are ignored
      */
     public static void main(String[] args) {
 
-        // create the data access and inject it into our builder!
+        // Create the data access and inject it into our builder!
         final NoteDataAccessInterface noteDataAccess = new DBNoteDataAccessObject();
 
         SpotifyService spotify = new SpotifyService();
         System.out.println(spotify.getSongArtist("Starships"));
+
+        // AFTER CREATING A NEW USER HERE PUT IN YOUR CREDENTIALS IN NoteInteractor AND THEN COMMENT THIS BLOCK OUT
+        // OTHERWISE IT WILL KEEP TRYING TO CREATE A NEW USER EACH TIME WITH THE SAME STUFF
+//        // Create a new user
+//        User newUser = new User("newUserName2", "password123");
+//
+//        try {
+//            // Create the user in the data storage
+//            DBNoteDataAccessObject.createUser(newUser);
+//            System.out.println("User created successfully!");
+//
+//            // Add a default note for the new user
+//            String initialNote = "This is the first note for user: " + newUser.getName());
+//            noteDataAccess.saveNote(newUser, initialNote);
+//            System.out.println("Note added successfully for user: " + newUser.getName());
+//
+//        } catch (DataAccessException ex) {
+//            System.err.println("Error creating user or saving note: " + ex.getMessage());
+//        }
+
+        // Build and display the Note application
         final NoteAppBuilder builder = new NoteAppBuilder();
         builder.addNoteDAO(noteDataAccess)
-               .addNoteView()
-               .addNoteUseCase().build().setVisible(true);
+                .addNoteView()
+                .addNoteUseCase()
+                .build()
+                .setVisible(true);
     }
 }

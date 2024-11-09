@@ -14,8 +14,8 @@ import java.io.IOException;
 
 public class SpotifyService implements SpotifyServiceInterface {
     private final SpotifyApi spotifyApi = new SpotifyApi.Builder()
-            .setClientId("c2cd5d9b2e994bfcae5dbea6d8df3c5b")
-            .setClientSecret("888ed62c53024f8abfd7d8fd49854e17")
+            .setClientId("32417f0d214a4603a18504410ce1ad12")
+            .setClientSecret("08679a815a3e4fd3803f1fd744e5a988")
             .build();
 
     private final ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials().build();

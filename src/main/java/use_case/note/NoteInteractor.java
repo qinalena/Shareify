@@ -1,5 +1,6 @@
 package use_case.note;
 
+import data_access.DBNoteDataAccessObject;
 import entity.User;
 
 /**
@@ -11,27 +12,20 @@ public class NoteInteractor implements NoteInputBoundary {
 
     private final NoteDataAccessInterface noteDataAccessInterface;
     private final NoteOutputBoundary noteOutputBoundary;
-    // Note: this program has it hardcoded which user object it is getting data for;
-    // you could change this if you wanted to generalize the code. For example,
-    // you might allow a user of the program to create a new note, which you
-    // could store as a "user" through the API OR you might maintain all notes
-    // in a JSON object stored in one common "user" stored through the API.
-    private final User user = new User("jonathan_calver2", "abc123");
+    private final User user = new User("newUserName2", "password123");
 
-    public NoteInteractor(NoteDataAccessInterface noteDataAccessInterface,
-                          NoteOutputBoundary noteOutputBoundary) {
+    public NoteInteractor(NoteDataAccessInterface noteDataAccessInterface, NoteOutputBoundary noteOutputBoundary) {
         this.noteDataAccessInterface = noteDataAccessInterface;
         this.noteOutputBoundary = noteOutputBoundary;
+
+        // Example usage: Create a new user if needed
+//        User newUser = new User("new_user_name_1", "password123");
+//        executeCreateUser(newUser);
     }
 
-    /**
-     * Executes the refresh note use case.
-     *
-     */
     @Override
     public void executeRefresh() {
         try {
-
             final String note = noteDataAccessInterface.loadNote(user);
             noteOutputBoundary.prepareSuccessView(note);
         }
@@ -40,19 +34,23 @@ public class NoteInteractor implements NoteInputBoundary {
         }
     }
 
-    /**
-     * Executes the save note use case.
-     *
-     * @param note the input data
-     */
     @Override
     public void executeSave(String note) {
         try {
-
             final String updatedNote = noteDataAccessInterface.saveNote(user, note);
             noteOutputBoundary.prepareSuccessView(updatedNote);
         }
         catch (DataAccessException ex) {
+            noteOutputBoundary.prepareFailView(ex.getMessage());
+        }
+    }
+
+    // Method to create a new user
+    public void executeCreateUser(User user) {
+        try {
+            DBNoteDataAccessObject.createUser(user);
+            noteOutputBoundary.prepareSuccessView("User created successfully");
+        } catch (DataAccessException ex) {
             noteOutputBoundary.prepareFailView(ex.getMessage());
         }
     }
