@@ -1,7 +1,7 @@
 package app;
 
 import data_access.DBNoteDataAccessObject;
-import spotifyAPI.SpotifyService;
+import spotify_api.SpotifyConnection;
 import use_case.note.NoteDataAccessInterface;
 
 /**
@@ -48,8 +48,12 @@ public class MainNoteApplication {
         // create the data access and inject it into our builder!
         final NoteDataAccessInterface noteDataAccess = new DBNoteDataAccessObject();
 
-        SpotifyService spotify = new SpotifyService();
-        System.out.println(spotify.getSongArtist("Starships"));
+        // Connect to Spotify API
+        final SpotifyConnection spotifyConnection = new SpotifyConnection();
+
+        // Example call using Spotify API
+        System.out.println(spotifyConnection.getSongArtist("Starships"));
+
         final NoteAppBuilder builder = new NoteAppBuilder();
         builder.addNoteDAO(noteDataAccess)
                .addNoteView()
