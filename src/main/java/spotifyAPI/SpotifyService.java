@@ -4,15 +4,13 @@ import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
-import se.michaelthelin.spotify.model_objects.specification.Artist;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
-import se.michaelthelin.spotify.requests.data.artists.GetArtistRequest;
 import se.michaelthelin.spotify.requests.data.search.simplified.SearchTracksRequest;
 
 import java.io.IOException;
 
-public class SpotifyService implements SpotifyServiceInterface {
+public class SpotifyService {
     private final SpotifyApi spotifyApi = new SpotifyApi.Builder()
             .setClientId("c2cd5d9b2e994bfcae5dbea6d8df3c5b")
             .setClientSecret("888ed62c53024f8abfd7d8fd49854e17")
