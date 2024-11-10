@@ -1,21 +1,14 @@
-# Note Application
+# Shareify
 
-This is a minimal example demonstrating usage of the
-password-protected user part of the API used in lab 5.
+Music social media app with Spotify Web API
 
-You can find more information about the API endpoints in
-[the documentation](https://www.postman.com/cloudy-astronaut-813156/csc207-grade-apis-demo/documentation/fg3zkjm/5-password-protected-user).
+This program is a social media platform that allows users to connect with others through their common interests in music.
 
-If your team is considering an application for which it would be convenient to
-store data in something like a database, you may find that the API calls demonstrated
-here will be useful in your project, as this will allow you to store
-an arbitrary JSON object associated with a username and password.
+When the user opens the app, they will be prompted to either sign up for an account by creating a username and password or log into their existing account.  Once logged in, the user will have access to their own account profile, where they can edit their username, and write a prompt for their bibliography/description section.  Their profile will display these features, as well as their friend list, playlist collection, and Spotify stats.  The Spotify stats will consist of their top five tracks, top artists, top genres, and the amount of minutes they’ve listened to music on the Spotify app.
 
-In this application, a single note has a name (the "username" in terms of the API) and the note
-can be read by anyone who knows the name — but only edited by someone who
-knows the password for it.
+Each user will have the ability to create their own playlist of soundtracks/songs, as well as selecting whether they want the playlist to be private or public, where the playlist can be shared amongst their friends.  Each playlist the user creates will be added to the user’s collection.  The user can also like and/or comment on the playlists of their friends, as well as add it to their own collection of playlists.  There will also be an option where the user can ask an AI to generate a playlist for them, it can be based on a specific genre or even based on their MBTI.  The user will be able to either add this generated playlist to their collection, or just simply discard it if they don’t like it.
 
-You can see the documentation in the various files for more information.
+Users will also have their own friends list, where they can add other users to this list or remove them from it.  Any users that are friends with each other will be able to view each other’s account profiles.
 
 ## Testing
 
@@ -29,8 +22,11 @@ specific UI implementation.
 
 ## Project Starter Code
 
-Your team may choose to use this repo as starter code for your project. You could
-also use the lab 5 code — or start from an empty repo if your team prefers.
+We used the Notes App as our starter code
 
-If you choose to use one of the repositories we have provided, you can either make
-a fork of it or copy the subset of code you want into a completely new repository.
+## Team Members and Use Cases
+Junyu Li - Signup / Login / Logout an account
+Alena Qin - Creating and editing a playlist
+Ashleigh Wong - View and manage a playlist collection
+Aseef Ali Hasan - View and manage friends list
+Don Edirisinghe - Interact with playlists in a friend’s playlist collection
