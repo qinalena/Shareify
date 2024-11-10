@@ -12,7 +12,7 @@ public class NoteInteractor implements NoteInputBoundary {
 
     private final NoteDataAccessInterface noteDataAccessInterface;
     private final NoteOutputBoundary noteOutputBoundary;
-    private final User user = new User("newUserName2", "password123");
+    private final User user = new User("newUserName3", "password123");
 
     public NoteInteractor(NoteDataAccessInterface noteDataAccessInterface, NoteOutputBoundary noteOutputBoundary) {
         this.noteDataAccessInterface = noteDataAccessInterface;

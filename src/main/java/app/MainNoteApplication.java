@@ -56,8 +56,8 @@ public class MainNoteApplication {
 
         // AFTER CREATING A NEW USER HERE PUT IN YOUR CREDENTIALS IN NoteInteractor AND THEN COMMENT THIS BLOCK OUT
         // OTHERWISE IT WILL KEEP TRYING TO CREATE A NEW USER EACH TIME WITH THE SAME STUFF
-//        // Create a new user
-//        User newUser = new User("newUserName2", "password123");
+        // Create a new user
+//        User newUser = new User("newUserName3", "password123");
 //
 //        try {
 //            // Create the user in the data storage
@@ -65,7 +65,10 @@ public class MainNoteApplication {
 //            System.out.println("User created successfully!");
 //
 //            // Add a default note for the new user
-//            String initialNote = "This is the first note for user: " + newUser.getName());
+//            String initialNote = "Username: " + newUser.getName();
+//            initialNote += "\nPassword: " + newUser.getPassword();
+//            initialNote += "\nFavourite artist: " + spotify.getSongArtist("Starships");
+//
 //            noteDataAccess.saveNote(newUser, initialNote);
 //            System.out.println("Note added successfully for user: " + newUser.getName());
 //

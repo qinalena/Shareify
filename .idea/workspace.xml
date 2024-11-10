@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e055157d-4d6d-4cf0-ac2b-ab8e1b69b6c9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/app/MainNoteApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/MainNoteApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data_access/DBNoteDataAccessObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data_access/DBNoteDataAccessObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/spotifyAPI/SpotifyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/spotifyAPI/SpotifyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/use_case/note/NoteInteractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/use_case/note/NoteInteractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/NoteView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/NoteView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +80,7 @@
       <option name="presentableId" value="Default" />
       <updated>1731018555449</updated>
       <workItem from="1731018556812" duration="71000" />
-      <workItem from="1731020090408" duration="23726000" />
+      <workItem from="1731020090408" duration="26384000" />
     </task>
     <servers />
   </component>
