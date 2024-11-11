@@ -1,9 +1,7 @@
 package app;
 
 import data_access.DBNoteDataAccessObject;
-import entity.User;
-import spotifyAPI.SpotifyService;
-import use_case.note.DataAccessException;
+import spotify_api.SpotifyConnection;
 import use_case.note.NoteDataAccessInterface;
 
 /**
@@ -43,45 +41,22 @@ public class MainNoteApplication {
      * in your application; it just depends on what your program's main
      * functionality.
      * </p>
-     *
      * @param args commandline arguments are ignored
      */
     public static void main(String[] args) {
 
-        // Create the data access and inject it into our builder!
+        // create the data access and inject it into our builder!
         final NoteDataAccessInterface noteDataAccess = new DBNoteDataAccessObject();
 
-        SpotifyService spotify = new SpotifyService();
-        System.out.println(spotify.getSongArtist("Starships"));
+        // Connect to Spotify API
+        final SpotifyConnection spotifyConnection = new SpotifyConnection();
 
-        // AFTER CREATING A NEW USER HERE PUT IN YOUR CREDENTIALS IN NoteInteractor AND THEN COMMENT THIS BLOCK OUT
-        // OTHERWISE IT WILL KEEP TRYING TO CREATE A NEW USER EACH TIME WITH THE SAME STUFF
-        // Create a new user
-//        User newUser = new User("newUserName3", "password123");
-//
-//        try {
-//            // Create the user in the data storage
-//            DBNoteDataAccessObject.createUser(newUser);
-//            System.out.println("User created successfully!");
-//
-//            // Add a default note for the new user
-//            String initialNote = "Username: " + newUser.getName();
-//            initialNote += "\nPassword: " + newUser.getPassword();
-//            initialNote += "\nFavourite artist: " + spotify.getSongArtist("Starships");
-//
-//            noteDataAccess.saveNote(newUser, initialNote);
-//            System.out.println("Note added successfully for user: " + newUser.getName());
-//
-//        } catch (DataAccessException ex) {
-//            System.err.println("Error creating user or saving note: " + ex.getMessage());
-//        }
+        // Example call using Spotify API
+        System.out.println(spotifyConnection.getSongArtist("Starships"));
 
-        // Build and display the Note application
         final NoteAppBuilder builder = new NoteAppBuilder();
         builder.addNoteDAO(noteDataAccess)
-                .addNoteView()
-                .addNoteUseCase()
-                .build()
-                .setVisible(true);
+               .addNoteView()
+               .addNoteUseCase().build().setVisible(true);
     }
 }
