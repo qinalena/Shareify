@@ -23,6 +23,10 @@ public class NoteInteractor implements NoteInputBoundary {
 //        executeCreateUser(newUser);
     }
 
+    /**
+     * Executes the refresh note use case.
+     *
+     */
     @Override
     public void executeRefresh() {
         try {
@@ -34,6 +38,11 @@ public class NoteInteractor implements NoteInputBoundary {
         }
     }
 
+    /**
+     * Executes the save note use case.
+     *
+     * @param note the input data
+     */
     @Override
     public void executeSave(String note) {
         try {
