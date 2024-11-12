@@ -69,7 +69,7 @@ public class NoteAppBuilder {
     public JFrame build() {
         final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setTitle("Note Application");
+        frame.setTitle("Shareify");
         frame.setSize(WIDTH, HEIGHT);
 
         frame.add(noteView);
