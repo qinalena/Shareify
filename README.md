@@ -1,5 +1,7 @@
 # Note Application
 
+# TEST CHANGE
+
 This is a minimal example demonstrating usage of the
 password-protected user part of the API used in lab 5.
 
