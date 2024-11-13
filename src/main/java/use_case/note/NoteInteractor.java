@@ -12,7 +12,7 @@ public class NoteInteractor implements NoteInputBoundary {
 
     private final NoteDataAccessInterface noteDataAccessInterface;
     private final NoteOutputBoundary noteOutputBoundary;
-    private final User user = new User("newUserName2", "password123");
+    private final User user = new User("newUserName3", "password123");
 
     public NoteInteractor(NoteDataAccessInterface noteDataAccessInterface, NoteOutputBoundary noteOutputBoundary) {
         this.noteDataAccessInterface = noteDataAccessInterface;
@@ -23,6 +23,10 @@ public class NoteInteractor implements NoteInputBoundary {
 //        executeCreateUser(newUser);
     }
 
+    /**
+     * Executes the refresh note use case.
+     *
+     */
     @Override
     public void executeRefresh() {
         try {
@@ -34,6 +38,11 @@ public class NoteInteractor implements NoteInputBoundary {
         }
     }
 
+    /**
+     * Executes the save note use case.
+     *
+     * @param note the input data
+     */
     @Override
     public void executeSave(String note) {
         try {
