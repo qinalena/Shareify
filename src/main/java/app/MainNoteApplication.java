@@ -1,9 +1,7 @@
 package app;
 
 import data_access.DBNoteDataAccessObject;
-import entity.User;
 import spotify_api.SpotifyConnection;
-import use_case.note.DataAccessException;
 import use_case.note.NoteDataAccessInterface;
 
 /**
@@ -78,9 +76,14 @@ public class MainNoteApplication {
 //            System.err.println("Error creating user or saving note: " + ex.getMessage());
 //        }
 
-        final NoteAppBuilder builder = new NoteAppBuilder();
-        builder.addNoteDAO(noteDataAccess)
-               .addNoteView()
-               .addNoteUseCase().build().setVisible(true);
+//        final NoteAppBuilder builder = new NoteAppBuilder();
+//        builder.addNoteDAO(noteDataAccess)
+//               .addNoteView()
+//               .addNoteUseCase().build().setVisible(true);
+
+        final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
+        userProfileAppBuilder.addNoteDAO(noteDataAccess)
+                .addUserProfileView()
+                .addUserProfileUseCase().build().setVisible(true);
     }
 }
