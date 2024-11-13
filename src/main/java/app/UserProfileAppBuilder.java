@@ -1,5 +1,6 @@
 package app;
 
+import interface_adapter.ViewManagerModel;
 import interface_adapter.note.NoteViewModel;
 import interface_adapter.user_profile.UserProfileController;
 import interface_adapter.user_profile.UserProfilePresenter;
@@ -9,8 +10,10 @@ import use_case.user_profile.UserProfileInteractor;
 import use_case.user_profile.UserProfileOutputBoundary;
 import view.NoteView;
 import view.UserProfileView;
+import view.ViewManager;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Builder for the Shareify Application.
@@ -19,15 +22,25 @@ public class UserProfileAppBuilder {
     public static final int HEIGHT = 300;
     public static final int WIDTH = 400;
 
+    private final JPanel cardPanel = new JPanel();
+    private final CardLayout cardLayout = new CardLayout();
+
+    private final ViewManagerModel viewManagerModel = new ViewManagerModel();
+    private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
+
     private NoteDataAccessInterface noteDAO;
 
-    private UserProfileViewModel userProfileViewModel = new UserProfileViewModel();
+    private UserProfileViewModel userProfileViewModel;
     private UserProfileView userProfileView;
 
     private NoteViewModel noteViewModel;
     private NoteView noteView;
 
     private UserProfileInteractor userProfileInteractor;
+
+    public UserProfileAppBuilder() {
+        cardPanel.setLayout(cardLayout);
+    }
 
     /**
      * Sets the NoteDAO to be used in this application.
@@ -39,9 +52,26 @@ public class UserProfileAppBuilder {
         return this;
     }
 
+    /**
+     * Creates the UserProfileView and underlying UserProfileViewModel.
+     * @return this builder
+     */
     public UserProfileAppBuilder addNoteView() {
         noteViewModel = new NoteViewModel();
         noteView = new NoteView(noteViewModel);
+        cardPanel.add(noteView, noteView.getViewName());
+        return this;
+    }
+
+    /**
+     * Creates the UserProfileView and underlying UserProfileViewModel.
+     * @return this builder
+     */
+    public UserProfileAppBuilder addUserProfileView() {
+        userProfileViewModel = new UserProfileViewModel();
+        userProfileView = new UserProfileView(userProfileViewModel);
+        cardPanel.add(userProfileView, userProfileView.getViewName());
+        return this;
     }
 
     /**
@@ -65,15 +95,6 @@ public class UserProfileAppBuilder {
     }
 
     /**
-     * Creates the UserProfileView and underlying UserProfileViewModel.
-     * @return this builder
-     */
-    public UserProfileAppBuilder addUserProfileView() {
-        userProfileView = new UserProfileView(userProfileViewModel);
-        return this;
-    }
-
-    /**
      * Builds the application.
      * @return the JFrame for the application
      */
@@ -83,7 +104,10 @@ public class UserProfileAppBuilder {
         frame.setTitle("Shareify");
         frame.setSize(WIDTH, HEIGHT);
 
-        frame.add(userProfileView);
+        frame.add(cardPanel);
+
+        viewManagerModel.setState(userProfileView.getViewName());
+        viewManagerModel.firePropertyChanged();
 
         // refresh so that the note will be visible when we start the program
 //        userProfileInteractor.executeRefresh();

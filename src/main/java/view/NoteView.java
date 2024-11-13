@@ -22,7 +22,7 @@ import interface_adapter.note.NoteViewModel;
  * The View for when the user is viewing a note in the program.
  */
 public class NoteView extends JPanel implements ActionListener, PropertyChangeListener {
-
+    private final String viewName = "note view";
     private final NoteViewModel noteViewModel;
 
     // Example user
@@ -94,6 +94,10 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
 
     public void setNoteController(NoteController controller) {
         this.noteController = controller;
+    }
+
+    public String getViewName() {
+        return viewName;
     }
 }
 

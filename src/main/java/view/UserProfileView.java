@@ -4,6 +4,7 @@ import entity.User;
 import interface_adapter.note.NoteController;
 import interface_adapter.note.NoteState;
 import interface_adapter.user_profile.UserProfileController;
+import interface_adapter.user_profile.UserProfileState;
 import interface_adapter.user_profile.UserProfileViewModel;
 
 import javax.swing.*;
@@ -17,6 +18,7 @@ import java.beans.PropertyChangeListener;
  * The View for when the user is viewing a note in the program.
  */
 public class UserProfileView extends JPanel implements ActionListener, PropertyChangeListener {
+    private final String viewName = "user profile";
 
     private final UserProfileViewModel userViewModel;
 
@@ -68,7 +70,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final NoteState state = (NoteState) evt.getNewValue();
+        final UserProfileState state = (UserProfileState) evt.getNewValue();
         setFields(state);
         if (state.getError() != null) {
             JOptionPane.showMessageDialog(this, state.getError(),
@@ -76,12 +78,16 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
         }
     }
 
-    private void setFields(NoteState state) {
-        note.setText(state.getNote());
+    private void setFields(UserProfileState state) {
+        note.setText("userprofileviewtest");
     }
 
     public void setUserProfileController(UserProfileController controller) {
         this.userProfileController = controller;
+    }
+
+    public String getViewName() {
+        return viewName;
     }
 }
 
