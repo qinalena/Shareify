@@ -1,6 +1,9 @@
 package data_access;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import entity.User;
@@ -38,6 +41,11 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         final JSONObject extra = new JSONObject();
         extra.put("note", note);
         requestBody.put("info", extra);
+
+        System.out.println(requestBody);
+        // The reason this doesn't work is because saveNote is only happening when you create a new user
+        // we are not saving any new notes so theres nothing else to save so these tests wont work
+
         final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
         final Request request = new Request.Builder()
                 .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
@@ -78,6 +86,13 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
                 final JSONObject data = userJSONObject.getJSONObject("info");
+
+                // Print the info list using getter
+                System.out.println("Info List:");
+                System.out.println(user.getInfo());
+
+                System.out.println(data.getString("test"));
+
                 return data.getString("note");
             } else {
                 throw new DataAccessException(responseBody.getString(MESSAGE));
@@ -97,9 +112,14 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         requestBody.put(USERNAME, user.getName());
         requestBody.put(PASSWORD, user.getPassword());
 
-        // Add a default note (if necessary) for new users
+        // Add the 'info' property to the request body (you can modify this to include the actual info)
         JSONObject userInfo = new JSONObject();
-        userInfo.put("note", "Default Note");
+        // If you want to save a list, convert it into a JSON array
+        if (user.getInfo() != null && !user.getInfo().isEmpty()) {
+            for (String info : user.getInfo()) {
+                userInfo.append("info", info);
+            }
+        }
         requestBody.put("info", userInfo);
 
         final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
@@ -125,4 +145,36 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
             throw new DataAccessException(ex.getMessage());
         }
     }
+
+    public String getUserByUsername(String username) throws DataAccessException {
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+        // Create the request to search for the user
+        final Request request = new Request.Builder()
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
+                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .build();
+
+        try {
+            // Execute the request
+            final Response response = client.newCall(request).execute();
+
+            // Parse the response
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            // Check if the response indicates the user was found
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                // User found, return the username (or any user data)
+                return responseBody.getJSONObject("user").getString(USERNAME);
+            } else {
+                // User not found, raise an exception
+                throw new DataAccessException("User not found in the database.");
+            }
+
+        } catch (IOException | JSONException ex) {
+            // Handle errors (network issues, parsing issues, etc.)
+            throw new DataAccessException("Error occurred while searching for the user: " + ex.getMessage());
+        }
+    }
+
 }

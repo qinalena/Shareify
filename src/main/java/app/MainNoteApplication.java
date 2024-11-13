@@ -78,6 +78,17 @@ public class MainNoteApplication {
 //            System.err.println("Error creating user or saving note: " + ex.getMessage());
 //        }
 
+        // Example username to search for
+        String usernameToSearch = "Aseef"; // Replace with the username you want to search for
+
+        try {
+            // Try to get the user by username
+            String foundUsername = ((DBNoteDataAccessObject) noteDataAccess).getUserByUsername(usernameToSearch);
+            System.out.println("User found: " + foundUsername);
+        } catch (DataAccessException ex) {
+            System.err.println("Error: " + ex.getMessage());
+        }
+
         final NoteAppBuilder builder = new NoteAppBuilder();
         builder.addNoteDAO(noteDataAccess)
                .addNoteView()
