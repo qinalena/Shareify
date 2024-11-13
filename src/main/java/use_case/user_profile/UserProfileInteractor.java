@@ -4,9 +4,7 @@ import entity.User;
 import use_case.note.NoteDataAccessInterface;
 
 /**
- * The "Use Case Interactor" for our two note-related use cases of refreshing
- * the contents of the note and saving the contents of the note. Since they
- * are closely related, we have combined them here for simplicity.
+ * The interactor for our User Profile.
  */
 public class UserProfileInteractor implements UserProfileInputBoundary {
 
@@ -27,37 +25,6 @@ public class UserProfileInteractor implements UserProfileInputBoundary {
     public void switchToNoteView() {
         userProfilePresenter.switchToNoteView();
     }
-
-//    /**
-//     * Executes the refresh note use case.
-//     *
-//     */
-//    @Override
-//    public void executeRefresh() {
-//        try {
-//            final String note = noteDataAccessInterface.loadNote(user);
-//            userProfileOutputBoundary.prepareSuccessView(note);
-//        }
-//        catch (DataAccessException ex) {
-//            userProfileOutputBoundary.prepareFailView(ex.getMessage());
-//        }
-//    }
-//
-//    /**
-//     * Executes the save note use case.
-//     *
-//     * @param note the input data
-//     */
-//    @Override
-//    public void executeSave(String note) {
-//        try {
-//            final String updatedNote = noteDataAccessInterface.saveNote(user, note);
-//            userProfileOutputBoundary.prepareSuccessView(updatedNote);
-//        }
-//        catch (DataAccessException ex) {
-//            userProfileOutputBoundary.prepareFailView(ex.getMessage());
-//        }
-//    }
 
     // Method to create a new user
 //    public void executeCreateUser(User user) {

@@ -1,5 +1,9 @@
 package app;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import interface_adapter.ViewManagerModel;
 import interface_adapter.note.NoteController;
 import interface_adapter.note.NotePresenter;
@@ -18,8 +22,7 @@ import view.NoteView;
 import view.UserProfileView;
 import view.ViewManager;
 
-import javax.swing.*;
-import java.awt.*;
+
 
 /**
  * Builder for the Shareify Application.
@@ -42,6 +45,9 @@ public class UserProfileAppBuilder {
     private NoteViewModel noteViewModel;
     private NoteView noteView;
 
+    // For refreshing the note before displaying the Note View
+    private NoteInputBoundary noteInteractor;
+
     public UserProfileAppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
@@ -57,7 +63,7 @@ public class UserProfileAppBuilder {
     }
 
     /**
-     * Creates the UserProfileView and underlying UserProfileViewModel.
+     * Creates the NoteView and underlying NoteViewModel.
      * @return this builder
      */
     public UserProfileAppBuilder addNoteView() {
@@ -108,7 +114,7 @@ public class UserProfileAppBuilder {
      */
     public UserProfileAppBuilder addNoteUseCase() {
         final NoteOutputBoundary noteOutputBoundary = new NotePresenter(noteViewModel, viewManagerModel);
-        final NoteInputBoundary noteInteractor = new NoteInteractor(
+        noteInteractor = new NoteInteractor(
                 noteDAO, noteOutputBoundary);
 
         final NoteController noteController = new NoteController(noteInteractor);
@@ -135,7 +141,7 @@ public class UserProfileAppBuilder {
         viewManagerModel.firePropertyChanged();
 
         // refresh so that the note will be visible when we start the program
-//        userProfileInteractor.executeRefresh();
+        noteInteractor.executeRefresh();
 
         return frame;
 

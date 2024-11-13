@@ -54,8 +54,7 @@ public class MainNoteApplication {
         // Example call using Spotify API
         System.out.println(spotifyConnection.getSongArtist("Starships"));
 
-        // AFTER CREATING A NEW USER HERE PUT IN YOUR CREDENTIALS IN NoteInteractor AND THEN COMMENT THIS BLOCK OUT
-        // OTHERWISE IT WILL KEEP TRYING TO CREATE A NEW USER EACH TIME WITH THE SAME STUFF
+        // DON'T UNCOMMENT! This example user is already created in the database, so avoid recreating the same user.
         // Create a new user
 //        User newUser = new User("newUserName3", "password123");
 //
@@ -75,11 +74,6 @@ public class MainNoteApplication {
 //        } catch (DataAccessException ex) {
 //            System.err.println("Error creating user or saving note: " + ex.getMessage());
 //        }
-
-//        final NoteAppBuilder builder = new NoteAppBuilder();
-//        builder.addNoteDAO(noteDataAccess)
-//               .addNoteView()
-//               .addNoteUseCase().build().setVisible(true);
 
         final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
         userProfileAppBuilder.addNoteDAO(noteDataAccess)

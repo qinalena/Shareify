@@ -3,7 +3,7 @@ package interface_adapter.user_profile;
 import use_case.user_profile.UserProfileInputBoundary;
 
 /**
- * Controller for our Note related Use Cases.
+ * Controller for our User Profile related Use Cases.
  */
 public class UserProfileController {
 
@@ -13,12 +13,13 @@ public class UserProfileController {
         this.userProfileInteractor = userProfileInteractor;
     }
 
+    // Update when needed
     /**
      * Executes the User Profile related Use Cases.
-     * @param note the note to be recorded
      */
-    public void execute(String note) {
-        }
+    public void execute() {
+
+    }
 
     /**
      * Executes the "switch to NoteView" Use Case.

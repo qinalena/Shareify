@@ -5,7 +5,7 @@ import interface_adapter.note.NoteViewModel;
 import use_case.user_profile.UserProfileOutputBoundary;
 
 /**
- * The presenter for our User Profile viewing and editing program.
+ * The presenter for our User Profile.
  */
 public class UserProfilePresenter implements UserProfileOutputBoundary {
 

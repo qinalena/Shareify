@@ -1,7 +1,7 @@
 package use_case.user_profile;
 
 /**
- * The output boundary for the Login Use Case.
+ * The output boundary for the User Profile.
  */
 public interface UserProfileOutputBoundary {
     /**
