@@ -14,10 +14,16 @@ public class UserProfileController {
     }
 
     /**
-     * Executes the Note related Use Cases.
+     * Executes the User Profile related Use Cases.
      * @param note the note to be recorded
      */
     public void execute(String note) {
-
         }
+
+    /**
+     * Executes the "switch to NoteView" Use Case.
+     */
+    public void switchToNoteView() {
+        userProfileInteractor.switchToNoteView();
+    }
 }

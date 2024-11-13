@@ -1,20 +1,28 @@
 package interface_adapter.user_profile;
 
+import interface_adapter.ViewManagerModel;
+import interface_adapter.note.NoteViewModel;
 import use_case.user_profile.UserProfileOutputBoundary;
 
 /**
- * The presenter for our Note viewing and editing program.
+ * The presenter for our User Profile viewing and editing program.
  */
 public class UserProfilePresenter implements UserProfileOutputBoundary {
 
     private final UserProfileViewModel userProfileViewModel;
+    private final NoteViewModel noteViewModel;
+    private final ViewManagerModel viewManagerModel;
 
-    public UserProfilePresenter(UserProfileViewModel userProfileViewModel) {
+    public UserProfilePresenter(UserProfileViewModel userProfileViewModel,
+                                NoteViewModel noteViewModel,
+                                ViewManagerModel viewManagerModel) {
         this.userProfileViewModel = userProfileViewModel;
+        this.noteViewModel = noteViewModel;
+        this.viewManagerModel = viewManagerModel;
     }
 
     /**
-     * Prepares the success view for the Note related Use Cases.
+     * Prepares the success view for the User Profile related Use Cases.
      *
      * @param note the output data
      */
@@ -25,7 +33,7 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
     }
 
     /**
-     * Prepares the failure view for the Note related Use Cases.
+     * Prepares the failure view for the User Profile related Use Cases.
      *
      * @param errorMessage the explanation of the failure
      */
@@ -33,5 +41,11 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
     public void prepareFailView(String errorMessage) {
         userProfileViewModel.getState().setError(errorMessage);
         userProfileViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToNoteView() {
+        viewManagerModel.setState(noteViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

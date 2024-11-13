@@ -6,6 +6,11 @@ package use_case.user_profile;
  */
 public interface UserProfileInputBoundary {
 
+    /**
+     * Executes the switch to Note view use case.
+     */
+    void switchToNoteView();
+
 //    /**
 //     * Executes the refresh note use case.
 //     */

@@ -1,11 +1,17 @@
 package app;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.note.NoteController;
+import interface_adapter.note.NotePresenter;
 import interface_adapter.note.NoteViewModel;
 import interface_adapter.user_profile.UserProfileController;
 import interface_adapter.user_profile.UserProfilePresenter;
 import interface_adapter.user_profile.UserProfileViewModel;
 import use_case.note.NoteDataAccessInterface;
+import use_case.note.NoteInputBoundary;
+import use_case.note.NoteInteractor;
+import use_case.note.NoteOutputBoundary;
+import use_case.user_profile.UserProfileInputBoundary;
 import use_case.user_profile.UserProfileInteractor;
 import use_case.user_profile.UserProfileOutputBoundary;
 import view.NoteView;
@@ -35,8 +41,6 @@ public class UserProfileAppBuilder {
 
     private NoteViewModel noteViewModel;
     private NoteView noteView;
-
-    private UserProfileInteractor userProfileInteractor;
 
     public UserProfileAppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -82,15 +86,36 @@ public class UserProfileAppBuilder {
      * @throws RuntimeException if this method is called before addUserProfileView
      */
     public UserProfileAppBuilder addUserProfileUseCase() {
-        final UserProfileOutputBoundary userProfileOutputBoundary = new UserProfilePresenter(userProfileViewModel);
-        userProfileInteractor = new UserProfileInteractor(
+        final UserProfileOutputBoundary userProfileOutputBoundary =
+                new UserProfilePresenter(userProfileViewModel, noteViewModel, viewManagerModel);
+        final UserProfileInputBoundary userProfileInteractor = new UserProfileInteractor(
                 noteDAO, userProfileOutputBoundary);
 
-        final UserProfileController controller = new UserProfileController(userProfileInteractor);
+        final UserProfileController userProfileController = new UserProfileController(userProfileInteractor);
         if (userProfileView == null) {
             throw new RuntimeException("addUserProfileView must be called before addUserProfileUseCase");
         }
-        userProfileView.setUserProfileController(controller);
+        userProfileView.setUserProfileController(userProfileController);
+        return this;
+    }
+
+    /**
+     * Creates the objects for the Note Use Case and connects the NoteView to its
+     * controller.
+     * <p>This method must be called after addNoteView!</p>
+     * @return this builder
+     * @throws RuntimeException if this method is called before addNoteView
+     */
+    public UserProfileAppBuilder addNoteUseCase() {
+        final NoteOutputBoundary noteOutputBoundary = new NotePresenter(noteViewModel, viewManagerModel);
+        final NoteInputBoundary noteInteractor = new NoteInteractor(
+                noteDAO, noteOutputBoundary);
+
+        final NoteController noteController = new NoteController(noteInteractor);
+        if (noteView == null) {
+            throw new RuntimeException("addNoteView must be called before addNoteUseCase");
+        }
+        noteView.setNoteController(noteController);
         return this;
     }
 

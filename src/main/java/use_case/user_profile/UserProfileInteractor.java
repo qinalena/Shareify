@@ -1,6 +1,5 @@
 package use_case.user_profile;
 
-import data_access.DBNoteDataAccessObject;
 import entity.User;
 import use_case.note.NoteDataAccessInterface;
 
@@ -12,16 +11,21 @@ import use_case.note.NoteDataAccessInterface;
 public class UserProfileInteractor implements UserProfileInputBoundary {
 
     private final NoteDataAccessInterface noteDataAccessInterface;
-    private final UserProfileOutputBoundary userProfileOutputBoundary;
+    private final UserProfileOutputBoundary userProfilePresenter;
     private final User user = new User("newUserName3", "password123");
 
-    public UserProfileInteractor(NoteDataAccessInterface noteDataAccessInterface, UserProfileOutputBoundary userProfileOutputBoundary) {
+    public UserProfileInteractor(NoteDataAccessInterface noteDataAccessInterface, UserProfileOutputBoundary userProfilePresenter) {
         this.noteDataAccessInterface = noteDataAccessInterface;
-        this.userProfileOutputBoundary = userProfileOutputBoundary;
+        this.userProfilePresenter = userProfilePresenter;
 
         // Example usage: Create a new user if needed
 //        User newUser = new User("new_user_name_1", "password123");
 //        executeCreateUser(newUser);
+    }
+
+    @Override
+    public void switchToNoteView() {
+        userProfilePresenter.switchToNoteView();
     }
 
 //    /**

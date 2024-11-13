@@ -22,7 +22,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
 
     private final UserProfileViewModel userViewModel;
 
-    // Example user
+    // Hardcoded example user
     private final User user = new User("newUserName3", "password123");
 
     private final JLabel username = new JLabel("Shareify - " + user.getName());
@@ -45,9 +45,9 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
         buttons.add(friends);
 
         editProfile.addActionListener(
-                evt -> {
-                    if (evt.getSource().equals(editProfile)) {
-                        userProfileController.execute(note.getText());
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        userProfileController.switchToNoteView();
 
                     }
                 }

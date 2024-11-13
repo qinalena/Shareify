@@ -83,7 +83,9 @@ public class MainNoteApplication {
 
         final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
         userProfileAppBuilder.addNoteDAO(noteDataAccess)
+                .addNoteView()
                 .addUserProfileView()
+                .addNoteUseCase()
                 .addUserProfileUseCase().build().setVisible(true);
     }
 }
