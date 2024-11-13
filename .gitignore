@@ -4,7 +4,7 @@ out/
 !**/src/test/**/out/
 .idea/easycode.ignore
 .idea/
-
+note-application.iml
 target/
 
 ### Eclipse ###
