@@ -12,5 +12,6 @@ public class PlaylistViewModel {
     }
 
     private void setState(PlaylistState playlistState) {
+
     }
 }

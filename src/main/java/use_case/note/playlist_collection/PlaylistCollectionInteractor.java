@@ -1,9 +1,7 @@
 package use_case.note.playlist_collection;
 
-import data_access.DBPlaylistDataAccessObject;
-import entity.Playlist;
-
-import java.util.List;
+import entity.User;
+import interface_adapter.playlist_collection.PlaylistCollectionPresenter;
 
 /**
  * The "Use Case Interactor" for our playlist collection related use cases of creating
@@ -12,22 +10,16 @@ import java.util.List;
 
 public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoundary {
 
-    private DBPlaylistDataAccessObject playlistDataAccessObject;
+    private final PlaylistCollectionDataAccessInterface playlistCollectionDataAccessInterface;
+    private final PlaylistCollectionOutputBoundary playlistCollectionPresenter;
 
-    public PlaylistCollectionInteractor(DBPlaylistDataAccessObject playlistDataAccessObject) {
-        this.playlistDataAccessObject = playlistDataAccessObject;
+    public PlaylistCollectionInteractor(PlaylistCollectionDataAccessInterface playlistCollectionDataAccessInterface,
+                                        PlaylistCollectionOutputBoundary playlistCollectionOutputBoundary) {
+        this.playlistCollectionDataAccessInterface = playlistCollectionDataAccessInterface;
+        this.playlistCollectionPresenter = playlistCollectionOutputBoundary;
     }
 
-    public Playlist createPlaylist(int userId, String name, List<Integer> songIds, String privacy) {
-        Playlist playlist = new Playlist(userId, name, songIds, privacy);
-        return playlistDataAccessObject.savePlaylist(playlist);
-    }
-
-    public List<Playlist> getAllPlaylists(int userId) {
-        return playlistDataAccessObject.getAllPlaylistsForUser(userId);
-    }
-
-    public void deletePlaylist(int playlistId) {
-        playlistDataAccessObject.deletePlaylist(playlistId);
-    }
+    @Override
+    public void switchToPlaylistView();
+        PlaylistCollectionPresenter.switchToPlaylistView();
 }

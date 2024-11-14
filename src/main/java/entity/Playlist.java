@@ -9,7 +9,9 @@ public class Playlist {
     private int id;
     private String name;
     private String privacy;
+    // need to add a list for songs stored later
 
+    // Constructor for creating a new playlist with a name
     public Playlist(int id, String name, String privacy) {
         this.id = id;
         this.name = name;
@@ -38,5 +40,11 @@ public class Playlist {
 
     public void setPrivacy(String privacy) {
         this.privacy = privacy;
+    }
+
+    // String rep of the playlist
+    @Override
+    public String toString() {
+        return name;
     }
 }
