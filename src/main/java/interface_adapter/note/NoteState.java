@@ -2,7 +2,7 @@ package interface_adapter.note;
 
 /**
  * The State for a note.
- * <p>For this example, a note is simplay a string.</p>
+ * <p>For this example, a note is simply a string.</p>
  */
 public class NoteState {
     private String note = "";
