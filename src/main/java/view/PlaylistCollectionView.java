@@ -1,11 +1,14 @@
-package view.playlist;
+package view;
 
+import interface_adapter.playlist_collection.PlaylistCollectionController;
+import interface_adapter.playlist_collection.PlaylistCollectionState;
 import interface_adapter.playlist_collection.PlaylistCollectionViewModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
@@ -45,13 +48,12 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         scrollPanel.add(new JScrollPane(playlistCollectionList));
 
         // Action listener to create a playlist
-        createPlaylistButton.addActionListener(
-                evt -> {
-                    if (evt.getSource().equals(createPlaylistButton)) {
-                        playlistCollectionList.execute(createPlaylist());
-                    }
-                }
-        );
+        createPlaylistButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createPlaylist();
+            }
+        });
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -68,6 +70,27 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // to be implemented
+        System.out.println("Click" + e.getActionCommand());
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent e) {
+        final PlaylistCollectionState playlistCollectionState = (PlaylistCollectionState) e.getNewValue();
+        setFields(playlistCollectionState);
+        if (playlistCollectionState != null) {
+            JOptionPane.showMessageDialog(this, playlistCollectionState.getPlaylistError(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void setFields(PlaylistCollectionState playlistCollectionState) {
+    }
+
+    public void setPlaylistCollectionController(PlaylistCollectionController playlistCollectionController) {
+        this.playlistCollectionController = playlistCollectionController;
+    }
+
+    public String getViewName() {
+        return playlistCollectionViewModel.getViewName();
     }
 }

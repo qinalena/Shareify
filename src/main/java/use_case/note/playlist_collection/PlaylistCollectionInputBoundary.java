@@ -8,10 +8,9 @@ public interface PlaylistCollectionInputBoundary {
 
     /**
      * Executes the create playlist use case.
-     * @param playlist the input data
      */
 
-    void executeCreatePlaylist(List playlist);
+    void switchToPlaylistCollectionView();
 
 
 }

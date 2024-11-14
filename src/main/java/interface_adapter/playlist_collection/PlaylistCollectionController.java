@@ -19,14 +19,8 @@ public class PlaylistCollectionController {
 
     /**
      * Executes the PlayistCollection related Use Cases.
-     * @param playlist the playlist to be added
      */
-    public void execute(List playlist) {
-        if (playlist != null) {
-            playlistCollectionInteractor.executeCreate(playlist);
-        }
-        else {
-            playlistCollectionInteractor.executeRefresh();
-        }
+    public void execute() {
+        // To be implemented
     }
 }
