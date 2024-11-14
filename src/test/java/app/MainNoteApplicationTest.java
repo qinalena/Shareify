@@ -35,7 +35,7 @@ public class MainNoteApplicationTest {
             }
         };
 
-        final UserProfileAppBuilder builder = new UserProfileAppBuilder();
+        final ShareifyAppBuilder builder = new ShareifyAppBuilder();
         app = builder.addNoteDAO(noteDataAccess)
                 .addNoteView()
                 .addNoteUseCase().build();
