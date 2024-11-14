@@ -1,15 +1,23 @@
 package app;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import entity.UserFactory;
+import interface_adapter.ViewManagerModel;
 import interface_adapter.note.NoteController;
 import interface_adapter.note.NotePresenter;
 import interface_adapter.note.NoteViewModel;
+import interface_adapter.signup.SignupViewModel;
 import use_case.note.NoteDataAccessInterface;
 import use_case.note.NoteInteractor;
 import use_case.note.NoteOutputBoundary;
 import view.NoteView;
+
+
+
+import java.awt.*;
 
 /**
  * Builder for the Note Application.
@@ -21,6 +29,8 @@ public class NoteAppBuilder {
     private NoteViewModel noteViewModel = new NoteViewModel();
     private NoteView noteView;
     private NoteInteractor noteInteractor;
+
+
 
     /**
      * Sets the NoteDAO to be used in this application.
@@ -69,6 +79,7 @@ public class NoteAppBuilder {
     public JFrame build() {
         final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
         frame.setTitle("Shareify");
         frame.setSize(WIDTH, HEIGHT);
 
@@ -80,4 +91,5 @@ public class NoteAppBuilder {
         return frame;
 
     }
+
 }
