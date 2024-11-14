@@ -1,10 +1,10 @@
 package app;
 
 import data_access.DBNoteDataAccessObject;
-import entity.User;
 import spotify_api.SpotifyConnection;
-import use_case.note.DataAccessException;
 import use_case.note.NoteDataAccessInterface;
+
+import javax.swing.*;
 
 /**
  * An application where we can view and add to a note stored by a user.
@@ -56,10 +56,7 @@ public class MainNoteApplication {
         // Example call using Spotify API
         System.out.println(spotifyConnection.getSongArtist("Starships"));
 
-        // Create Comment section for a playlist
-
-        // AFTER CREATING A NEW USER HERE PUT IN YOUR CREDENTIALS IN NoteInteractor AND THEN COMMENT THIS BLOCK OUT
-        // OTHERWISE IT WILL KEEP TRYING TO CREATE A NEW USER EACH TIME WITH THE SAME STUFF
+        // DON'T UNCOMMENT! This example user is already created in the database, so avoid recreating the same user.
         // Create a new user
 //        User newUser = new User("newUserName3", "password123");
 //
@@ -79,10 +76,23 @@ public class MainNoteApplication {
 //        } catch (DataAccessException ex) {
 //            System.err.println("Error creating user or saving note: " + ex.getMessage());
 //        }
+        final AppBuilder builder1 = new AppBuilder();
+        final JFrame application= builder1
+                .addLoginView()
+                .addSignupView()
+                .addSignupUseCase()
+                .addLoginUseCase()
+                .addUserProfileView()
+                .addUserProfileUseCase()
+                .build();
+        application.pack();
+        application.setVisible(true);
 
-        final NoteAppBuilder builder = new NoteAppBuilder();
-        builder.addNoteDAO(noteDataAccess)
-                .addCommentView().build().setVisible(true);
+        final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
+        userProfileAppBuilder.addNoteDAO(noteDataAccess)
+                .addNoteView()
+                .addUserProfileView()
+                .addNoteUseCase()
+                .addUserProfileUseCase().build().setVisible(true);
     }
-
 }
