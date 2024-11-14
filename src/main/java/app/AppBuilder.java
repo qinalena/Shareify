@@ -4,16 +4,19 @@ import data_access.DBUserDataAccessObject;
 import entity.UserFactory;
 import entity.UserFactoryInter;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.change_password.ChangePasswordController;
-import interface_adapter.change_password.ChangePasswordPresenter;
-import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.note.NoteController;
+import interface_adapter.note.NotePresenter;
+import interface_adapter.note.NoteViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.user_profile.UserProfileController;
+import interface_adapter.user_profile.UserProfilePresenter;
+import interface_adapter.user_profile.UserProfileViewModel;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -24,17 +27,21 @@ import use_case.login.LoginOutputBoundary;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
+import use_case.note.NoteDataAccessInterface;
+import use_case.note.NoteInputBoundary;
+import use_case.note.NoteInteractor;
+import use_case.note.NoteOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.LoggedInView;
-import view.SignupView;
+import use_case.user_profile.UserProfileInputBoundary;
+import use_case.user_profile.UserProfileInteractor;
+import use_case.user_profile.UserProfileOutputBoundary;
+import view.*;
 
 
 // Login
 import interface_adapter.login.LoginViewModel;
-import view.ViewManager;
-import view.LoginView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,6 +56,19 @@ public class AppBuilder {
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
     private final UserFactoryInter userFactory = new UserFactory();
     private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
+    public static final int HEIGHT = 300;
+    public static final int WIDTH = 400;
+
+    private NoteDataAccessInterface noteDAO;
+
+    private UserProfileViewModel userProfileViewModel;
+    private UserProfileView userProfileView;
+
+    private NoteViewModel noteViewModel;
+    private NoteView noteView;
+
+    // For refreshing the note before displaying the Note View
+    private NoteInputBoundary noteInteractor;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -56,9 +76,9 @@ public class AppBuilder {
 
 
     private LoginViewModel loginViewModel;
-    private LoggedInViewModel loggedInViewModel;
-    private LoggedInView loggedInView;
     private LoginView loginView;
+    private UserProfileViewModel profileViewModel;
+    private UserProfileView profileView;
 
     public AppBuilder addSignupView() {
         signupViewModel = new SignupViewModel();
@@ -78,16 +98,6 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the LoggedIn View to the application.
-     * @return this builder
-     */
-    public AppBuilder addLoggedInView() {
-        loggedInViewModel = new LoggedInViewModel();
-        loggedInView = new LoggedInView(loggedInViewModel);
-        cardPanel.add(loggedInView, loggedInView.getViewName());
-        return this;
-    }
 
     /**
      * Adds the Signup Use Case to the application.
@@ -110,7 +120,7 @@ public class AppBuilder {
      */
     public AppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel);
+                profileViewModel, loginViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary);
 
@@ -118,47 +128,42 @@ public class AppBuilder {
         loginView.setLoginController(loginController);
         return this;
     }
+    public AppBuilder addUserProfileUseCase() {
+        final UserProfileOutputBoundary userProfileOutputBoundary =
+                new UserProfilePresenter(userProfileViewModel, noteViewModel, viewManagerModel);
+        final UserProfileInputBoundary userProfileInteractor = new UserProfileInteractor(
+                noteDAO, userProfileOutputBoundary);
 
-    /**
-     * Adds the Change Password Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addChangePasswordUseCase() {
-        final ChangePasswordOutputBoundary changePasswordOutputBoundary =
-                new ChangePasswordPresenter(loggedInViewModel);
+        final UserProfileController userProfileController = new UserProfileController(userProfileInteractor);
+        if (userProfileView == null) {
+            throw new RuntimeException("addUserProfileView must be called before addUserProfileUseCase");
+        }
+        userProfileView.setUserProfileController(userProfileController);
+        return this;
+    }
 
-        final ChangePasswordInputBoundary changePasswordInteractor =
-                new ChangePasswordInteractor((ChangePasswordUserDataAccessInterface) userDataAccessObject, changePasswordOutputBoundary, (UserFactory) userFactory);
-
-        final ChangePasswordController changePasswordController =
-                new ChangePasswordController(changePasswordInteractor);
-        loggedInView.setChangePasswordController(changePasswordController);
+    public AppBuilder addUserProfileView() {
+        userProfileViewModel = new UserProfileViewModel();
+        userProfileView = new UserProfileView(userProfileViewModel);
+        cardPanel.add(userProfileView, userProfileView.getViewName());
         return this;
     }
 
     /**
-     * Adds the Logout Use Case to the application.
-     * @return this builder
+     * Builds the application.
+     * @return the JFrame for the application
      */
-    public AppBuilder addLogoutUseCase() {
-        final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel);
-
-        final LogoutInputBoundary logoutInteractor =
-                new LogoutInteractor(userDataAccessObject, logoutOutputBoundary);
-
-        final LogoutController logoutController = new LogoutController(logoutInteractor);
-        loggedInView.setLogoutController(logoutController);
-        return this;
-    }
 
     public JFrame build() {
-        final JFrame frame = new JFrame("sign up");
+        final JFrame frame = new JFrame();
+        frame.setTitle("Shareify");
+        frame.setSize(WIDTH, HEIGHT);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         frame.add(cardPanel);
 
         viewManagerModel.setState(signupView.getViewName());
+//        viewManagerModel.setState(userProfileView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return frame;

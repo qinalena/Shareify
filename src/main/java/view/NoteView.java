@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import entity.User;
 import interface_adapter.note.NoteController;
 import interface_adapter.note.NoteState;
 import interface_adapter.note.NoteViewModel;
@@ -21,10 +22,13 @@ import interface_adapter.note.NoteViewModel;
  * The View for when the user is viewing a note in the program.
  */
 public class NoteView extends JPanel implements ActionListener, PropertyChangeListener {
-
+    private final String viewName = "note";
     private final NoteViewModel noteViewModel;
 
-    private final JLabel noteName = new JLabel("Shareify - User Profile");
+    // Example user
+    private final User user = new User("newUserName3", "password123");
+
+    private final JLabel noteName = new JLabel("Shareify - " + user.getName());
     private final JTextArea noteInputField = new JTextArea();
 
     private final JButton saveButton = new JButton("Save");
@@ -90,6 +94,10 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
 
     public void setNoteController(NoteController controller) {
         this.noteController = controller;
+    }
+
+    public String getViewName() {
+        return viewName;
     }
 }
 

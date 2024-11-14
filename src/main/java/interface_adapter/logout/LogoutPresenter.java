@@ -1,10 +1,10 @@
 package interface_adapter.logout;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.change_password.LoggedInState;
-import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.user_profile.UserProfileState;
+import interface_adapter.user_profile.UserProfileViewModel;
 import use_case.logout.LogoutOutputBoundary;
 import use_case.logout.LogoutOutputData;
 
@@ -13,42 +13,25 @@ import use_case.logout.LogoutOutputData;
  */
 public class LogoutPresenter implements LogoutOutputBoundary {
 
-    private LoggedInViewModel loggedInViewModel;
+    private UserProfileViewModel userProfileViewModel;
     private ViewManagerModel viewManagerModel;
     private LoginViewModel loginViewModel;
 
     public LogoutPresenter(ViewManagerModel viewManagerModel,
-                          LoggedInViewModel loggedInViewModel,
+                           UserProfileViewModel UserprofileViewModel,
                            LoginViewModel loginViewModel) {
-        this.loggedInViewModel = loggedInViewModel;
+        this.userProfileViewModel = UserprofileViewModel;
         this.loginViewModel = loginViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
     @Override
     public void prepareSuccessView(LogoutOutputData response) {
-        // We need to switch to the login view, which should have
-        // an empty username and password.
 
-        // We also need to set the username in the LoggedInState to
-        // the empty string.
+        final UserProfileState currentState = userProfileViewModel.getState();
+        userProfileViewModel.setState(currentState);
+        userProfileViewModel.firePropertyChanged();
 
-        // TODO: have prepareSuccessView update the LoggedInState
-
-        // 1. get the LoggedInState out of the appropriate View Model,
-        // 2. set the username in the state to the empty string
-        // 3. set the state in the LoggedInViewModel to the updated state
-        // 4. firePropertyChanged so that the View that is listening is updated.
-        final LoggedInState currentState = loggedInViewModel.getState();
-        currentState.setUsername("");
-        loggedInViewModel.setState(currentState);
-        loggedInViewModel.firePropertyChanged();
-
-        // TODO: have prepareSuccessView update the LoginState
-        // 5. get the LoginState out of the appropriate View Model,
-        // 6. set the username and password in the state to the empty string
-        // 7. set the state in the LoginViewModel to the updated state
-        // 8. firePropertyChanged so that the View that is listening is updated.
         final LoginState currentLoginState = loginViewModel.getState();
         currentLoginState.setUsername("");
         currentLoginState.setPassword("");
