@@ -15,4 +15,9 @@ public interface NoteOutputBoundary {
      * @param errorMessage the explanation of the failure
      */
     void prepareFailView(String errorMessage);
+
+    /**
+     * Executes the switch to User Profile view use case.
+     */
+    void switchToUserProfileView();
 }

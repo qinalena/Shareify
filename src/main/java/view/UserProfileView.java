@@ -16,7 +16,7 @@ import java.beans.PropertyChangeListener;
  * The View for when the User had logged in, displaying their User Profile.
  */
 public class UserProfileView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final String viewName = "user profile";
+    private final String viewName = "userProfile";
 
     private final UserProfileViewModel userViewModel;
 
@@ -24,11 +24,12 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     private final User user = new User("newUserName3", "password123");
 
     private final JLabel username = new JLabel("Shareify - " + user.getName());
-    private final JLabel note = new JLabel();
+    private final JLabel note = new JLabel(user.getNote());
 
-    private final JButton editProfile = new JButton("Edit Profile");
-    private final JButton playlists = new JButton("Playlists");
-    private final JButton friends = new JButton("Friends");
+    private final JButton editProfileButton = new JButton("Edit Profile");
+    private final JButton playlistsButton = new JButton("Playlists");
+    private final JButton friendsButton = new JButton("Friends");
+    private final JButton logoutButton = new JButton("Logout");
     private UserProfileController userProfileController;
 
     public UserProfileView(UserProfileViewModel userViewModel) {
@@ -38,11 +39,12 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
         this.userViewModel.addPropertyChangeListener(this);
 
         final JPanel buttons = new JPanel();
-        buttons.add(editProfile);
-        buttons.add(playlists);
-        buttons.add(friends);
+        buttons.add(editProfileButton);
+        buttons.add(playlistsButton);
+        buttons.add(friendsButton);
+        buttons.add(logoutButton);
 
-        editProfile.addActionListener(
+        editProfileButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         userProfileController.switchToNoteView();

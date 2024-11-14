@@ -30,6 +30,9 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
 
+        // Update user object's note
+        user.setNote(note);
+
         // POST METHOD to save note
         final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
         final JSONObject requestBody = new JSONObject();

@@ -16,4 +16,9 @@ public interface NoteInputBoundary {
      * @param message the input data
      */
     void executeSave(String message);
+
+    /**
+     * Executes the switch to User Profile use case.
+     */
+    void switchToUserProfileView();
 }

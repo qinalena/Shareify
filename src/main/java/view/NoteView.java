@@ -31,6 +31,7 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
     private final JLabel noteName = new JLabel("Shareify - " + user.getName());
     private final JTextArea noteInputField = new JTextArea();
 
+    private final JButton backButton = new JButton("Back");
     private final JButton saveButton = new JButton("Save");
     private final JButton refreshButton = new JButton("Refresh");
     private NoteController noteController;
@@ -42,6 +43,7 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
         this.noteViewModel.addPropertyChangeListener(this);
 
         final JPanel buttons = new JPanel();
+        buttons.add(backButton);
         buttons.add(saveButton);
         buttons.add(refreshButton);
 
@@ -58,6 +60,15 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
                 evt -> {
                     if (evt.getSource().equals(refreshButton)) {
                         noteController.execute(null);
+
+                    }
+                }
+        );
+
+        backButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        noteController.switchToUserProfileView();
 
                     }
                 }

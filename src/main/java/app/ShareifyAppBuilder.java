@@ -27,7 +27,7 @@ import view.ViewManager;
 /**
  * Builder for the Shareify Application.
  */
-public class UserProfileAppBuilder {
+public class ShareifyAppBuilder {
     public static final int HEIGHT = 300;
     public static final int WIDTH = 400;
 
@@ -48,7 +48,7 @@ public class UserProfileAppBuilder {
     // For refreshing the note before displaying the Note View
     private NoteInputBoundary noteInteractor;
 
-    public UserProfileAppBuilder() {
+    public ShareifyAppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
 
@@ -57,7 +57,7 @@ public class UserProfileAppBuilder {
      * @param noteDataAccess the DAO to use
      * @return this builder
      */
-    public UserProfileAppBuilder addNoteDAO(NoteDataAccessInterface noteDataAccess) {
+    public ShareifyAppBuilder addNoteDAO(NoteDataAccessInterface noteDataAccess) {
         noteDAO = noteDataAccess;
         return this;
     }
@@ -66,7 +66,7 @@ public class UserProfileAppBuilder {
      * Creates the NoteView and underlying NoteViewModel.
      * @return this builder
      */
-    public UserProfileAppBuilder addNoteView() {
+    public ShareifyAppBuilder addNoteView() {
         noteViewModel = new NoteViewModel();
         noteView = new NoteView(noteViewModel);
         cardPanel.add(noteView, noteView.getViewName());
@@ -77,7 +77,7 @@ public class UserProfileAppBuilder {
      * Creates the UserProfileView and underlying UserProfileViewModel.
      * @return this builder
      */
-    public UserProfileAppBuilder addUserProfileView() {
+    public ShareifyAppBuilder addUserProfileView() {
         userProfileViewModel = new UserProfileViewModel();
         userProfileView = new UserProfileView(userProfileViewModel);
         cardPanel.add(userProfileView, userProfileView.getViewName());
@@ -91,7 +91,7 @@ public class UserProfileAppBuilder {
      * @return this builder
      * @throws RuntimeException if this method is called before addUserProfileView
      */
-    public UserProfileAppBuilder addUserProfileUseCase() {
+    public ShareifyAppBuilder addUserProfileUseCase() {
         final UserProfileOutputBoundary userProfileOutputBoundary =
                 new UserProfilePresenter(userProfileViewModel, noteViewModel, viewManagerModel);
         final UserProfileInputBoundary userProfileInteractor = new UserProfileInteractor(
@@ -112,8 +112,9 @@ public class UserProfileAppBuilder {
      * @return this builder
      * @throws RuntimeException if this method is called before addNoteView
      */
-    public UserProfileAppBuilder addNoteUseCase() {
-        final NoteOutputBoundary noteOutputBoundary = new NotePresenter(noteViewModel, viewManagerModel);
+    public ShareifyAppBuilder addNoteUseCase() {
+        final NoteOutputBoundary noteOutputBoundary = new NotePresenter(noteViewModel,
+                userProfileViewModel, viewManagerModel);
         noteInteractor = new NoteInteractor(
                 noteDAO, noteOutputBoundary);
 

@@ -11,12 +11,12 @@ import entity.User;
 public class NoteInteractor implements NoteInputBoundary {
 
     private final NoteDataAccessInterface noteDataAccessInterface;
-    private final NoteOutputBoundary noteOutputBoundary;
+    private final NoteOutputBoundary notePresenter;
     private final User user = new User("newUserName3", "password123");
 
-    public NoteInteractor(NoteDataAccessInterface noteDataAccessInterface, NoteOutputBoundary noteOutputBoundary) {
+    public NoteInteractor(NoteDataAccessInterface noteDataAccessInterface, NoteOutputBoundary notePresenter) {
         this.noteDataAccessInterface = noteDataAccessInterface;
-        this.noteOutputBoundary = noteOutputBoundary;
+        this.notePresenter = notePresenter;
 
         // Example usage: Create a new user if needed
 //        User newUser = new User("new_user_name_1", "password123");
@@ -31,10 +31,10 @@ public class NoteInteractor implements NoteInputBoundary {
     public void executeRefresh() {
         try {
             final String note = noteDataAccessInterface.loadNote(user);
-            noteOutputBoundary.prepareSuccessView(note);
+            notePresenter.prepareSuccessView(note);
         }
         catch (DataAccessException ex) {
-            noteOutputBoundary.prepareFailView(ex.getMessage());
+            notePresenter.prepareFailView(ex.getMessage());
         }
     }
 
@@ -47,20 +47,25 @@ public class NoteInteractor implements NoteInputBoundary {
     public void executeSave(String note) {
         try {
             final String updatedNote = noteDataAccessInterface.saveNote(user, note);
-            noteOutputBoundary.prepareSuccessView(updatedNote);
+            notePresenter.prepareSuccessView(updatedNote);
         }
         catch (DataAccessException ex) {
-            noteOutputBoundary.prepareFailView(ex.getMessage());
+            notePresenter.prepareFailView(ex.getMessage());
         }
+    }
+
+    @Override
+    public void switchToUserProfileView() {
+        notePresenter.switchToUserProfileView();
     }
 
     // Method to create a new user
     public void executeCreateUser(User user) {
         try {
             DBNoteDataAccessObject.createUser(user);
-            noteOutputBoundary.prepareSuccessView("User created successfully");
+            notePresenter.prepareSuccessView("User created successfully");
         } catch (DataAccessException ex) {
-            noteOutputBoundary.prepareFailView(ex.getMessage());
+            notePresenter.prepareFailView(ex.getMessage());
         }
     }
 }

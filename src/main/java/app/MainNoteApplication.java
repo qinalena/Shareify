@@ -75,8 +75,8 @@ public class MainNoteApplication {
 //            System.err.println("Error creating user or saving note: " + ex.getMessage());
 //        }
 
-        final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
-        userProfileAppBuilder.addNoteDAO(noteDataAccess)
+        final ShareifyAppBuilder shareifyAppBuilder = new ShareifyAppBuilder();
+        shareifyAppBuilder.addNoteDAO(noteDataAccess)
                 .addNoteView()
                 .addUserProfileView()
                 .addNoteUseCase()
