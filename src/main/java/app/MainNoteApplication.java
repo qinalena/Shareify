@@ -59,7 +59,7 @@ public class MainNoteApplication {
         // AFTER CREATING A NEW USER HERE PUT IN YOUR CREDENTIALS IN NoteInteractor AND THEN COMMENT THIS BLOCK OUT
         // OTHERWISE IT WILL KEEP TRYING TO CREATE A NEW USER EACH TIME WITH THE SAME STUFF
         // Create a new user
-//        User newUser = new User("newUserName3", "password123");
+//        User newUser = new User("newUserName5", "password123");
 //
 //        try {
 //            // Create the user in the data storage
@@ -79,7 +79,7 @@ public class MainNoteApplication {
 //        }
 
         // Example username to search for
-        String usernameToSearch = "Aseef"; // Replace with the username you want to search for
+        String usernameToSearch = "newUserName3"; // Replace with the username you want to search for
 
         try {
             // Try to get the user by username
@@ -88,6 +88,18 @@ public class MainNoteApplication {
         } catch (DataAccessException ex) {
             System.err.println("Error: " + ex.getMessage());
         }
+
+        // Example usage of the updated method
+        String key = "blah";  // This can be any key you want to update
+        String newInfo = "blah blah";  // New info to be added to the key
+        User userToUpdate = new User(usernameToSearch, "password123");
+
+        try {
+            ((DBNoteDataAccessObject) noteDataAccess).updateUserInfo(userToUpdate, key, newInfo);
+        } catch (DataAccessException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+
 
         final NoteAppBuilder builder = new NoteAppBuilder();
         builder.addNoteDAO(noteDataAccess)

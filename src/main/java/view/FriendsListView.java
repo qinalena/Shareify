@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import data_access.DBNoteDataAccessObject;
 
 public class FriendsListView extends JFrame {
     private JList<String> friendsList;
@@ -36,7 +37,8 @@ public class FriendsListView extends JFrame {
         addFriendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddFriendView((DefaultListModel<String>) friendsList.getModel()).setVisible(true);
+                DBNoteDataAccessObject dbNoteDataAcessObject = new DBNoteDataAccessObject();
+                new AddFriendView((DefaultListModel<String>) friendsList.getModel(), dbNoteDataAcessObject).setVisible(true);
             }
         });
 

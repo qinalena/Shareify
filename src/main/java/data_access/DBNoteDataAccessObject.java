@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import entity.User;
@@ -40,11 +41,16 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         requestBody.put(PASSWORD, user.getPassword());
         final JSONObject extra = new JSONObject();
         extra.put("note", note);
-        requestBody.put("info", extra);
 
-        System.out.println(requestBody);
-        // The reason this doesn't work is because saveNote is only happening when you create a new user
-        // we are not saving any new notes so theres nothing else to save so these tests wont work
+        // Create a list of test strings
+        JSONArray testList = new JSONArray();
+        testList.put("Test String 1");
+        testList.put("Test String 2");
+        testList.put("Test String 3");
+        extra.put("test", testList);
+
+        // Put the extra object into the main request body
+        requestBody.put("info", extra);
 
         final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
         final Request request = new Request.Builder()
@@ -52,6 +58,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
                 .method("PUT", body)
                 .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
                 .build();
+
         try {
             final Response response = client.newCall(request).execute();
 
@@ -71,34 +78,30 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
 
     @Override
     public String loadNote(User user) throws DataAccessException {
-        // Make an API call to get the user object.
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
                 .addHeader("Content-Type", CONTENT_TYPE_JSON)
                 .build();
+
         try {
             final Response response = client.newCall(request).execute();
-
             final JSONObject responseBody = new JSONObject(response.body().string());
 
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
                 final JSONObject data = userJSONObject.getJSONObject("info");
 
-                // Print the info list using getter
-                System.out.println("Info List:");
-                System.out.println(user.getInfo());
-
-                System.out.println(data.getString("test"));
+                System.out.println("Info JSON file:");
+                System.out.println(data);
 
                 return data.getString("note");
             } else {
                 throw new DataAccessException(responseBody.getString(MESSAGE));
             }
         } catch (IOException | JSONException ex) {
-            throw new RuntimeException(ex);
+            throw new DataAccessException(ex.getMessage());
         }
     }
 
@@ -112,9 +115,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         requestBody.put(USERNAME, user.getName());
         requestBody.put(PASSWORD, user.getPassword());
 
-        // Add the 'info' property to the request body (you can modify this to include the actual info)
-        JSONObject userInfo = new JSONObject();
-        // If you want to save a list, convert it into a JSON array
+        final JSONObject userInfo = new JSONObject();
         if (user.getInfo() != null && !user.getInfo().isEmpty()) {
             for (String info : user.getInfo()) {
                 userInfo.append("info", info);
@@ -131,14 +132,11 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
 
         try {
             final Response response = client.newCall(request).execute();
-
             final JSONObject responseBody = new JSONObject(response.body().string());
 
-            // Handle the response status
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 // Success, user created!
             } else {
-                // Throw error if status is not 200 (success)
                 throw new DataAccessException(responseBody.getString(MESSAGE));
             }
         } catch (IOException | JSONException ex) {
@@ -146,34 +144,95 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
-    public String getUserByUsername(String username) throws DataAccessException {
+    public static String getUserByUsername(String username) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
-        // Create the request to search for the user
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
                 .addHeader("Content-Type", CONTENT_TYPE_JSON)
                 .build();
 
         try {
-            // Execute the request
             final Response response = client.newCall(request).execute();
-
-            // Parse the response
             final JSONObject responseBody = new JSONObject(response.body().string());
 
-            // Check if the response indicates the user was found
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
-                // User found, return the username (or any user data)
                 return responseBody.getJSONObject("user").getString(USERNAME);
             } else {
-                // User not found, raise an exception
                 throw new DataAccessException("User not found in the database.");
+            }
+        } catch (IOException | JSONException ex) {
+            throw new DataAccessException("Error occurred while searching for the user: " + ex.getMessage());
+        }
+    }
+
+    // New method for updating user info at any time
+    public void updateUserInfo(User user, String key, String newInfo) throws DataAccessException {
+        final String username = user.getName();
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+        // URL to fetch the current user data
+        final Request request = new Request.Builder()
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
+                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .build();
+
+        try {
+            // Make the request and get the response
+            final Response response = client.newCall(request).execute();
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            // Check if the response was successful
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                // Get the 'user' and 'info' data from the response
+                final JSONObject userJSONObject = responseBody.getJSONObject("user");
+                final JSONObject data = userJSONObject.getJSONObject("info");
+
+                // Debug: Print current info to check the state before update
+                System.out.println("Before update - Info JSON file: " + data.toString(4));
+
+                // Check if the key exists in the 'info' JSON
+                if (data.has(key)) {
+                    String oldText = data.getString(key);
+                    data.put(key, oldText + newInfo);
+                } else {
+                    data.put(key, newInfo);
+                }
+
+                // Debug: Print the updated 'info' JSON
+                System.out.println("After update - Info JSON file: " + data.toString(4));
+
+                // Create the updated request body
+                JSONObject updatedUser = new JSONObject();
+                updatedUser.put("username", username);
+                updatedUser.put("password", user.getPassword());
+                updatedUser.put("info", data);
+
+                final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
+                final RequestBody body = RequestBody.create(updatedUser.toString(), mediaType);
+                final Request updateRequest = new Request.Builder()
+                        .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
+                        .method("PUT", body)
+                        .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                        .build();
+
+                // Send the update request
+                final Response updateResponse = client.newCall(updateRequest).execute();
+                final JSONObject updateResponseBody = new JSONObject(updateResponse.body().string());
+
+                // Handle the response from the server after updating the user info
+                if (updateResponseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                    System.out.println("User info updated successfully!");
+                } else {
+                    throw new DataAccessException("Error updating user info: " + updateResponseBody.getString(MESSAGE));
+                }
+
+            } else {
+                throw new DataAccessException("Error retrieving user data: " + responseBody.getString(MESSAGE));
             }
 
         } catch (IOException | JSONException ex) {
-            // Handle errors (network issues, parsing issues, etc.)
-            throw new DataAccessException("Error occurred while searching for the user: " + ex.getMessage());
+            throw new DataAccessException("Error occurred while updating user info: " + ex.getMessage());
         }
     }
 

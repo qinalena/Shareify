@@ -63,4 +63,14 @@ public class NoteInteractor implements NoteInputBoundary {
             noteOutputBoundary.prepareFailView(ex.getMessage());
         }
     }
+
+    public void executeGetUserByUsername(String username) {
+        try {
+            // Try to get the user by username
+            String foundUsername = DBNoteDataAccessObject.getUserByUsername(username);
+            System.out.println("User found: " + foundUsername);
+        } catch (DataAccessException ex) {
+            System.err.println("Error: " + ex.getMessage());
+        }
+    }
 }
