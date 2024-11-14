@@ -125,4 +125,5 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
             throw new DataAccessException(ex.getMessage());
         }
     }
+
 }
