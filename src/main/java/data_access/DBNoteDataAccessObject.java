@@ -41,24 +41,13 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         requestBody.put(PASSWORD, user.getPassword());
         final JSONObject extra = new JSONObject();
         extra.put("note", note);
-
-        // Create a list of test strings
-        JSONArray testList = new JSONArray();
-        testList.put("Test String 1");
-        testList.put("Test String 2");
-        testList.put("Test String 3");
-        extra.put("test", testList);
-
-        // Put the extra object into the main request body
         requestBody.put("info", extra);
-
         final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
         final Request request = new Request.Builder()
                 .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
                 .method("PUT", body)
                 .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
                 .build();
-
         try {
             final Response response = client.newCall(request).execute();
 
@@ -78,30 +67,27 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
 
     @Override
     public String loadNote(User user) throws DataAccessException {
+        // Make an API call to get the user object.
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
                 .addHeader("Content-Type", CONTENT_TYPE_JSON)
                 .build();
-
         try {
             final Response response = client.newCall(request).execute();
+
             final JSONObject responseBody = new JSONObject(response.body().string());
 
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
                 final JSONObject data = userJSONObject.getJSONObject("info");
-
-                System.out.println("Info JSON file:");
-                System.out.println(data);
-
                 return data.getString("note");
             } else {
                 throw new DataAccessException(responseBody.getString(MESSAGE));
             }
         } catch (IOException | JSONException ex) {
-            throw new DataAccessException(ex.getMessage());
+            throw new RuntimeException(ex);
         }
     }
 
@@ -132,11 +118,14 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
 
         try {
             final Response response = client.newCall(request).execute();
+
             final JSONObject responseBody = new JSONObject(response.body().string());
 
+            // Handle the response status
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 // Success, user created!
             } else {
+                // Throw error if status is not 200 (success)
                 throw new DataAccessException(responseBody.getString(MESSAGE));
             }
         } catch (IOException | JSONException ex) {

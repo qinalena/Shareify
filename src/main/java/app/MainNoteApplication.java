@@ -1,10 +1,10 @@
 package app;
 
 import data_access.DBNoteDataAccessObject;
-import entity.User;
 import spotify_api.SpotifyConnection;
-import use_case.note.DataAccessException;
 import use_case.note.NoteDataAccessInterface;
+
+import javax.swing.*;
 
 /**
  * An application where we can view and add to a note stored by a user.
@@ -56,10 +56,9 @@ public class MainNoteApplication {
         // Example call using Spotify API
         System.out.println(spotifyConnection.getSongArtist("Starships"));
 
-        // AFTER CREATING A NEW USER HERE PUT IN YOUR CREDENTIALS IN NoteInteractor AND THEN COMMENT THIS BLOCK OUT
-        // OTHERWISE IT WILL KEEP TRYING TO CREATE A NEW USER EACH TIME WITH THE SAME STUFF
+        // DON'T UNCOMMENT! This example user is already created in the database, so avoid recreating the same user.
         // Create a new user
-//        User newUser = new User("newUserName5", "password123");
+//        User newUser = new User("newUserName3", "password123");
 //
 //        try {
 //            // Create the user in the data storage
@@ -77,33 +76,23 @@ public class MainNoteApplication {
 //        } catch (DataAccessException ex) {
 //            System.err.println("Error creating user or saving note: " + ex.getMessage());
 //        }
+        final AppBuilder builder1 = new AppBuilder();
+        final JFrame application= builder1
+                .addLoginView()
+                .addSignupView()
+                .addSignupUseCase()
+                .addLoginUseCase()
+                .addUserProfileView()
+                .addUserProfileUseCase()
+                .build();
+        application.pack();
+        application.setVisible(true);
 
-        // Example username to search for
-        String usernameToSearch = "newUserName3"; // Replace with the username you want to search for
-
-        try {
-            // Try to get the user by username
-            String foundUsername = ((DBNoteDataAccessObject) noteDataAccess).getUserByUsername(usernameToSearch);
-            System.out.println("User found: " + foundUsername);
-        } catch (DataAccessException ex) {
-            System.err.println("Error: " + ex.getMessage());
-        }
-
-        // Example usage of the updated method
-        String key = "blah";  // This can be any key you want to update
-        String newInfo = "blah blah";  // New info to be added to the key
-        User userToUpdate = new User(usernameToSearch, "password123");
-
-        try {
-            ((DBNoteDataAccessObject) noteDataAccess).updateUserInfo(userToUpdate, key, newInfo);
-        } catch (DataAccessException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-
-
-        final NoteAppBuilder builder = new NoteAppBuilder();
-        builder.addNoteDAO(noteDataAccess)
-               .addNoteView()
-               .addNoteUseCase().build().setVisible(true);
+        final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
+        userProfileAppBuilder.addNoteDAO(noteDataAccess)
+                .addNoteView()
+                .addUserProfileView()
+                .addNoteUseCase()
+                .addUserProfileUseCase().build().setVisible(true);
     }
 }
