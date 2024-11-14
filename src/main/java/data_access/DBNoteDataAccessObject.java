@@ -51,12 +51,15 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
 
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 return loadNote(user);
-            } else if (responseBody.getInt(STATUS_CODE_LABEL) == CREDENTIAL_ERROR) {
+            }
+            else if (responseBody.getInt(STATUS_CODE_LABEL) == CREDENTIAL_ERROR) {
                 throw new DataAccessException("Message could not be found or password was incorrect");
-            } else {
+            }
+            else {
                 throw new DataAccessException("Database error: " + responseBody.getString(MESSAGE));
             }
-        } catch (IOException | JSONException ex) {
+        }
+        catch (IOException | JSONException ex) {
             throw new DataAccessException(ex.getMessage());
         }
     }
@@ -79,10 +82,12 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
                 final JSONObject data = userJSONObject.getJSONObject("info");
                 return data.getString("note");
-            } else {
+            }
+            else {
                 throw new DataAccessException(responseBody.getString(MESSAGE));
             }
-        } catch (IOException | JSONException ex) {
+        }
+        catch (IOException | JSONException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -117,11 +122,13 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
             // Handle the response status
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 // Success, user created!
-            } else {
+            }
+            else {
                 // Throw error if status is not 200 (success)
                 throw new DataAccessException(responseBody.getString(MESSAGE));
             }
-        } catch (IOException | JSONException ex) {
+        }
+        catch (IOException | JSONException ex) {
             throw new DataAccessException(ex.getMessage());
         }
     }
