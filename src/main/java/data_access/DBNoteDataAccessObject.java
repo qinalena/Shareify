@@ -87,6 +87,38 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
+    // Access a user's playlist and load comments from that person's object in the database
+
+    /**
+     * Method to load the comments of a user's playlist.
+     * @param username The username of the friend
+     * @return an array containing the comments
+     * @throws DataAccessException exception
+     */
+    public String loadComments(String username) throws DataAccessException {
+        // Make an API call to get the user object.
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
+        final Request request = new Request.Builder()
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
+                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                final JSONObject userJSONObject = responseBody.getJSONObject("user");
+                final JSONObject data = userJSONObject.getJSONObject("info");
+                return data.getString("note");
+            } else {
+                throw new DataAccessException(responseBody.getString(MESSAGE));
+            }
+        } catch (IOException | JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     public static void createUser(User user) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -125,4 +157,5 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
             throw new DataAccessException(ex.getMessage());
         }
     }
+
 }

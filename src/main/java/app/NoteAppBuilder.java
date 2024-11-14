@@ -10,6 +10,8 @@ import use_case.note.NoteDataAccessInterface;
 import use_case.note.NoteInteractor;
 import use_case.note.NoteOutputBoundary;
 import view.NoteView;
+import view.CommentView;
+import interface_adapter.comment.CommentViewModel;
 
 /**
  * Builder for the Note Application.
@@ -21,6 +23,8 @@ public class NoteAppBuilder {
     private NoteViewModel noteViewModel = new NoteViewModel();
     private NoteView noteView;
     private NoteInteractor noteInteractor;
+    private CommentViewModel commentViewModel;
+    private CommentView commentView;
 
     /**
      * Sets the NoteDAO to be used in this application.
@@ -63,6 +67,16 @@ public class NoteAppBuilder {
     }
 
     /**
+     * Creates Comment View.
+     * @return this builder
+     */
+    public NoteAppBuilder addCommentView() {
+        commentViewModel = new CommentViewModel();
+        commentView = new CommentView(commentViewModel);
+        return this;
+    }
+
+    /**
      * Builds the application.
      * @return the JFrame for the application
      */
@@ -72,10 +86,9 @@ public class NoteAppBuilder {
         frame.setTitle("Shareify");
         frame.setSize(WIDTH, HEIGHT);
 
-        frame.add(noteView);
+        frame.add(commentView);
 
         // refresh so that the note will be visible when we start the program
-        noteInteractor.executeRefresh();
 
         return frame;
 

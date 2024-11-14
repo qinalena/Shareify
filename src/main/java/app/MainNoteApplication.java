@@ -56,6 +56,8 @@ public class MainNoteApplication {
         // Example call using Spotify API
         System.out.println(spotifyConnection.getSongArtist("Starships"));
 
+        // Create Comment section for a playlist
+
         // AFTER CREATING A NEW USER HERE PUT IN YOUR CREDENTIALS IN NoteInteractor AND THEN COMMENT THIS BLOCK OUT
         // OTHERWISE IT WILL KEEP TRYING TO CREATE A NEW USER EACH TIME WITH THE SAME STUFF
         // Create a new user
@@ -80,7 +82,7 @@ public class MainNoteApplication {
 
         final NoteAppBuilder builder = new NoteAppBuilder();
         builder.addNoteDAO(noteDataAccess)
-               .addNoteView()
-               .addNoteUseCase().build().setVisible(true);
+                .addCommentView().build().setVisible(true);
     }
+
 }
