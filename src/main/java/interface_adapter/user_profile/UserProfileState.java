@@ -14,4 +14,5 @@ public class UserProfileState {
     public String getError() {
         return error;
     }
+
 }

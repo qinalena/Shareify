@@ -58,21 +58,41 @@ public class MainNoteApplication {
 
         // DON'T UNCOMMENT! This example user is already created in the database, so avoid recreating the same user.
         // Create a new user
-
-        final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
-
-        userProfileAppBuilder.addNoteDAO(noteDataAccess);
-
-        final JFrame application = userProfileAppBuilder
-                .addNoteView()
-                .addPlaylistCollectionView()
+//        User newUser = new User("newUserName3", "password123");
+//
+//        try {
+//            // Create the user in the data storage
+//            DBNoteDataAccessObject.createUser(newUser);
+//            System.out.println("User created successfully!");
+//
+//            // Add a default note for the new user
+//            String initialNote = "Username: " + newUser.getName();
+//            initialNote += "\nPassword: " + newUser.getPassword();
+//            initialNote += "\nFavourite artist: " + spotifyConnection.getSongArtist("Starships");
+//
+//            noteDataAccess.saveNote(newUser, initialNote);
+//            System.out.println("Note added successfully for user: " + newUser.getName());
+//
+//        } catch (DataAccessException ex) {
+//            System.err.println("Error creating user or saving note: " + ex.getMessage());
+//        }
+        final AppBuilder builder1 = new AppBuilder();
+        final JFrame application= builder1
+                .addLoginView()
+                .addSignupView()
+                .addSignupUseCase()
+                .addLoginUseCase()
                 .addUserProfileView()
-                .addNoteUseCase()
-                .addPlaylistCollectionUseCase()
                 .addUserProfileUseCase()
                 .build();
-
         application.pack();
         application.setVisible(true);
+
+        final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
+        userProfileAppBuilder.addNoteDAO(noteDataAccess)
+                .addNoteView()
+                .addUserProfileView()
+                .addNoteUseCase()
+                .addUserProfileUseCase().build().setVisible(true);
     }
 }
