@@ -16,6 +16,7 @@ import java.beans.PropertyChangeListener;
  */
 
 public class PlaylistCollectionView extends JPanel implements ActionListener, PropertyChangeListener {
+    private final String viewName = "playlists";
 
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
 
@@ -23,12 +24,12 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
     // Initialize components
     private JButton createPlaylistButton = new JButton("Create Playlist");
-    // JList to show the names of the playlists
-    private JList<String> playlistCollectionList;
     private PlaylistCollectionController playlistCollectionController;
 
-    public PlaylistCollectionView(PlaylistCollectionViewModel playlistCollectionViewModel) {
+    // JList to show the names of the playlists
+    private JList<String> playlistCollectionList;
 
+    public PlaylistCollectionView(PlaylistCollectionViewModel playlistCollectionViewModel) {
         // Setting label properties
         playlistCollectionName.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -36,7 +37,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         playlistCollectionList = new JList<>();
 
         this.playlistCollectionViewModel = playlistCollectionViewModel;
-        this.playlistCollectionList.addPropertyChangeListener(this);
+        this.playlistCollectionViewModel.addPropertyChangeListener(this);
 
         // Add buttons to frame
         final JPanel buttons = new JPanel();
@@ -51,7 +52,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         createPlaylistButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createPlaylist();
+                playlistCollectionController.execute();
             }
         });
 
@@ -63,11 +64,6 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         this.add(scrollPanel);
     }
 
-    // Action method to handle the creation of a new playlist
-    private void createPlaylist() {
-        playlistCollectionViewModel.createNewPlaylist();
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("Click" + e.getActionCommand());
@@ -75,11 +71,19 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
     @Override
     public void propertyChange(PropertyChangeEvent e) {
-        final PlaylistCollectionState playlistCollectionState = (PlaylistCollectionState) e.getNewValue();
-        setFields(playlistCollectionState);
-        if (playlistCollectionState != null) {
-            JOptionPane.showMessageDialog(this, playlistCollectionState.getPlaylistError(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+        final Object newValue = e.getNewValue();
+        if (newValue instanceof PlaylistCollectionState) {
+            final PlaylistCollectionState state = (PlaylistCollectionState) newValue;
+            setFields(state);
+
+            if (state.getPlaylistError() != null) {
+                JOptionPane.showMessageDialog(this, state.getPlaylistError(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else {
+            // Handle unexpected object type (log or throw an exception)
+            System.err.println("Unexpected value in property change: " + newValue.getClass().getName());
         }
     }
 
@@ -91,6 +95,6 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     }
 
     public String getViewName() {
-        return playlistCollectionViewModel.getViewName();
+        return viewName;
     }
 }

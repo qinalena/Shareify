@@ -1,8 +1,9 @@
 package interface_adapter.playlist_collection;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.playlist.PlaylistViewModel;
-import use_case.note.playlist_collection.PlaylistCollectionOutputBoundary;
+import use_case.playlist_collection.PlaylistCollectionOutputBoundary;
+
+import java.awt.*;
 
 /**
  * The Presenter for Playlist Collection Use Case.
@@ -10,35 +11,39 @@ import use_case.note.playlist_collection.PlaylistCollectionOutputBoundary;
 public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoundary {
 
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
-    private final PlaylistViewModel playlistViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    //    private final ViewManagerModel viewManagerModel;
+    public PlaylistCollectionPresenter(PlaylistCollectionViewModel playlistCollectionViewModel,
+                                       ViewManagerModel viewManagerModel) {
 
-    public PlaylistCollectionPresenter(ViewManagerModel viewManagerModel,
-                                       PlaylistCollectionViewModel playlistCollectionViewModel,
-                                       PlaylistViewModel playlistViewModel) {
-        this.viewManagerModel = viewManagerModel;
         this.playlistCollectionViewModel = playlistCollectionViewModel;
-        this.playlistViewModel = playlistViewModel;
+        this.viewManagerModel = viewManagerModel;
+    }
+
+    /**
+     * Prepares the success view for the PlaylistCollection related Use Cases.
+     * @param note the output data
+     */
+    @Override
+    public void prepareSuccessView(String note) {
+        playlistCollectionViewModel.getState().setPlaylistError(null);
+        playlistCollectionViewModel.firePropertyChanged();
+    }
+
+    /**
+     * Prepares the failure view for the Note related Use Cases.
+     *
+     * @param errorMessage the explanation of the failure
+     */
+    @Override
+    public void prepareFailView(String errorMessage) {
+        playlistCollectionViewModel.getState().setPlaylistError(errorMessage);
+        playlistCollectionViewModel.firePropertyChanged();
     }
 
     @Override
-    public void prepareSuccessView(PlaylistCollectionOutputBoundary response) {
-        // On success, switch to the playlist collection in view.
-
-        final PlaylistCollectionState playlistCollectionState = playlistCollectionViewModel.getState();
-        this.playlistCollectionViewModel.setState(playlistCollectionState);
-        this.playlistCollectionViewModel.firePropertyChanged();
-
-        this.viewManagerModel.setState(playlistCollectionViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
+    public void switchToPlaylistCollectionView() {
+        viewManagerModel.setState(playlistCollectionViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
-
-     @Override
-     public void prepareFailView(String errorMessage) {
-        final PlaylistCollectionState playlistCollectionState = playlistCollectionViewModel.getState();
-        playlistCollectionState.setPlaylistError(errorMessage);
-        playlistCollectionViewModel.firePropertyChanged();
-     }
 }

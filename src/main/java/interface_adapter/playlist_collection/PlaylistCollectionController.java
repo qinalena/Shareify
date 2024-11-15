@@ -1,14 +1,10 @@
 package interface_adapter.playlist_collection;
 
-
-import use_case.note.NoteInputBoundary;
-
-import java.util.List;
+import use_case.user_profile.PlaylistCollectionInputBoundary;
 
 /**
  * Controller for our Playlist Collection related Use Cases.
  */
-
 public class PlaylistCollectionController {
 
     private final PlaylistCollectionInputBoundary playlistCollectionInteractor;
@@ -18,9 +14,10 @@ public class PlaylistCollectionController {
     }
 
     /**
-     * Executes the PlayistCollection related Use Cases.
+     * Executes the Playlist Collection related Use Cases.
      */
     public void execute() {
         // To be implemented
     }
+    // need to add switch to playlist view
 }

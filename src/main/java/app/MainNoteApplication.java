@@ -4,6 +4,8 @@ import data_access.DBNoteDataAccessObject;
 import spotify_api.SpotifyConnection;
 import use_case.note.NoteDataAccessInterface;
 
+import javax.swing.*;
+
 /**
  * An application where we can view and add to a note stored by a user.
  * <p>
@@ -58,10 +60,19 @@ public class MainNoteApplication {
         // Create a new user
 
         final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
-        userProfileAppBuilder.addNoteDAO(noteDataAccess)
+
+        userProfileAppBuilder.addNoteDAO(noteDataAccess);
+
+        final JFrame application = userProfileAppBuilder
                 .addNoteView()
+                .addPlaylistCollectionView()
                 .addUserProfileView()
                 .addNoteUseCase()
-                .addUserProfileUseCase().build().setVisible(true);
+                .addPlaylistCollectionUseCase()
+                .addUserProfileUseCase()
+                .build();
+
+        application.pack();
+        application.setVisible(true);
     }
 }

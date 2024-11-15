@@ -5,16 +5,11 @@ package interface_adapter.playlist_collection;
  */
 
 public class PlaylistCollectionState {
-    private String addPlaylist = "";
-    private String removePlaylist = "";
+    private String addPlaylist;
     private String playlistError;
 
     public String getAddPlaylist() {
         return addPlaylist;
-    }
-
-    public String getRemovePlaylist() {
-        return removePlaylist;
     }
 
     public String getPlaylistError() {
@@ -23,10 +18,6 @@ public class PlaylistCollectionState {
 
     public void setAddPlaylist(String addPlaylist) {
         this.addPlaylist = addPlaylist;
-    }
-
-    public void setRemovePlaylist(String removePlaylist) {
-        this.removePlaylist = removePlaylist;
     }
 
     public void setPlaylistError(String playlistError) {

@@ -8,12 +8,7 @@ import interface_adapter.ViewModel;
 public class PlaylistCollectionViewModel extends ViewModel<PlaylistCollectionState> {
 
     public PlaylistCollectionViewModel() {
-        super("Playlist");
+        super("PlaylistCollection");
         setState(new PlaylistCollectionState());
-    }
-
-    public void createNewPlaylist() {
-        // Handle the creation of a new playlist (to be implemented later)
-        System.out.println("New playlist created!");
     }
 }

@@ -8,6 +8,9 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.note.NoteController;
 import interface_adapter.note.NotePresenter;
 import interface_adapter.note.NoteViewModel;
+import interface_adapter.playlist_collection.PlaylistCollectionController;
+import interface_adapter.playlist_collection.PlaylistCollectionPresenter;
+import interface_adapter.playlist_collection.PlaylistCollectionViewModel;
 import interface_adapter.user_profile.UserProfileController;
 import interface_adapter.user_profile.UserProfilePresenter;
 import interface_adapter.user_profile.UserProfileViewModel;
@@ -15,14 +18,14 @@ import use_case.note.NoteDataAccessInterface;
 import use_case.note.NoteInputBoundary;
 import use_case.note.NoteInteractor;
 import use_case.note.NoteOutputBoundary;
-import use_case.user_profile.UserProfileInputBoundary;
+import use_case.playlist_collection.PlaylistCollectionOutputBoundary;
+import use_case.user_profile.PlaylistCollectionInputBoundary;
 import use_case.user_profile.UserProfileInteractor;
 import use_case.user_profile.UserProfileOutputBoundary;
 import view.NoteView;
+import view.PlaylistCollectionView;
 import view.UserProfileView;
 import view.ViewManager;
-
-
 
 /**
  * Builder for the Shareify Application.
@@ -45,8 +48,13 @@ public class UserProfileAppBuilder {
     private NoteViewModel noteViewModel;
     private NoteView noteView;
 
+    private PlaylistCollectionViewModel playlistCollectionViewModel;
+    private PlaylistCollectionView playlistCollectionView;
+
     // For refreshing the note before displaying the Note View
     private NoteInputBoundary noteInteractor;
+
+    private PlaylistCollectionInputBoundary playlistCollectionInteractor;
 
     public UserProfileAppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -85,6 +93,17 @@ public class UserProfileAppBuilder {
     }
 
     /**
+     * Adds the Playlist Collection View to the application.
+     * @return this builder
+     */
+    public UserProfileAppBuilder addPlaylistCollectionView() {
+        playlistCollectionViewModel = new PlaylistCollectionViewModel();
+        playlistCollectionView = new PlaylistCollectionView(playlistCollectionViewModel);
+        cardPanel.add(playlistCollectionView, playlistCollectionView.getViewName());
+        return this;
+    }
+
+    /**
      * Creates the objects for the User Profile Use Case and connects the UserProfileView to its
      * controller.
      * <p>This method must be called after addUserProfileView!</p>
@@ -94,8 +113,12 @@ public class UserProfileAppBuilder {
     public UserProfileAppBuilder addUserProfileUseCase() {
         final UserProfileOutputBoundary userProfileOutputBoundary =
                 new UserProfilePresenter(userProfileViewModel, noteViewModel, viewManagerModel);
-        final UserProfileInputBoundary userProfileInteractor = new UserProfileInteractor(
-                noteDAO, userProfileOutputBoundary);
+
+        final PlaylistCollectionOutputBoundary playlistCollectionOutputBoundary = new PlaylistCollectionPresenter(
+                playlistCollectionViewModel, viewManagerModel);
+
+        final PlaylistCollectionInputBoundary userProfileInteractor = new UserProfileInteractor(
+                noteDAO, userProfileOutputBoundary, playlistCollectionOutputBoundary);
 
         final UserProfileController userProfileController = new UserProfileController(userProfileInteractor);
         if (userProfileView == null) {
@@ -122,6 +145,18 @@ public class UserProfileAppBuilder {
             throw new RuntimeException("addNoteView must be called before addNoteUseCase");
         }
         noteView.setNoteController(noteController);
+        return this;
+    }
+
+    /**
+     * Adds the Playlist Collection Use Case to the application.
+     * @return this builder
+     */
+    public UserProfileAppBuilder addPlaylistCollectionUseCase() {
+        final PlaylistCollectionController playlistCollectionController = new PlaylistCollectionController(
+                playlistCollectionInteractor);
+
+        playlistCollectionView.setPlaylistCollectionController(playlistCollectionController);
         return this;
     }
 

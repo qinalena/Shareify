@@ -1,9 +1,8 @@
-package use_case.note.playlist_collection;
+package use_case.playlist_collection;
 
 /**
  * The output boundary for Playlist Collection.
  */
-
 public interface PlaylistCollectionOutputBoundary {
 
     /**
@@ -19,7 +18,7 @@ public interface PlaylistCollectionOutputBoundary {
     void prepareFailView(String error);
 
     /**
-     * Switches to Playlist View.
+     * Switches to the PlaylistCollen View.
      */
-    void switchToPlaylistView;
+    void switchToPlaylistCollectionView();
 }
