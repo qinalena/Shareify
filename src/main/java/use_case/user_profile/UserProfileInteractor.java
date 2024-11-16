@@ -2,6 +2,7 @@ package use_case.user_profile;
 
 import entity.User;
 import use_case.note.NoteDataAccessInterface;
+import use_case.playlist_collection.PlaylistCollectionDataAccessInterface;
 import use_case.playlist_collection.PlaylistCollectionOutputBoundary;
 
 /**

@@ -31,7 +31,7 @@ public class UserProfileController {
     /**
      * Executes the "switch to PlaylistCollectionView" User Case.
      */
-    public void switchToPlaylistView() {
+    public void switchToPlaylistCollectionView() {
         userProfileInteractor.switchToPlaylistCollectionView();
     }
 }

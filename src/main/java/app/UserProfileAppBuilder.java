@@ -18,6 +18,7 @@ import use_case.note.NoteDataAccessInterface;
 import use_case.note.NoteInputBoundary;
 import use_case.note.NoteInteractor;
 import use_case.note.NoteOutputBoundary;
+import use_case.playlist_collection.PlaylistCollectionInteractor;
 import use_case.playlist_collection.PlaylistCollectionOutputBoundary;
 import use_case.user_profile.PlaylistCollectionInputBoundary;
 import use_case.user_profile.UserProfileInteractor;
@@ -151,11 +152,17 @@ public class UserProfileAppBuilder {
     /**
      * Adds the Playlist Collection Use Case to the application.
      * @return this builder
+     * @throws RuntimeException if this method is called before addPlaylistCollectionView
      */
     public UserProfileAppBuilder addPlaylistCollectionUseCase() {
+        final PlaylistCollectionOutputBoundary playlistCollectionOutputBoundary = new PlaylistCollectionPresenter(
+                playlistCollectionViewModel, viewManagerModel);
+
         final PlaylistCollectionController playlistCollectionController = new PlaylistCollectionController(
                 playlistCollectionInteractor);
-
+        if (playlistCollectionView == null) {
+            throw new RuntimeException("addPlaylistCollectionView must be called before addPlaylistCollectionUseCase");
+        }
         playlistCollectionView.setPlaylistCollectionController(playlistCollectionController);
         return this;
     }

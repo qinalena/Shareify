@@ -16,7 +16,7 @@ import java.beans.PropertyChangeListener;
  */
 
 public class PlaylistCollectionView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final String viewName = "playlists";
+    private final String viewName = "playlist collection";
 
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
 
@@ -24,6 +24,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
     // Initialize components
     private JButton createPlaylistButton = new JButton("Create Playlist");
+    private JButton deletePlaylistButton = new JButton("Delete Playlist");
     private PlaylistCollectionController playlistCollectionController;
 
     // JList to show the names of the playlists
@@ -34,25 +35,43 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         playlistCollectionName.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Initializing JList
-        playlistCollectionList = new JList<>();
+        playlistCollectionList = new JList<>(new DefaultListModel<>());
+
+        // Add a sample friend to the list for testing
+        ((DefaultListModel<String>) playlistCollectionList.getModel()).addElement("Sample Playlist");
 
         this.playlistCollectionViewModel = playlistCollectionViewModel;
         this.playlistCollectionViewModel.addPropertyChangeListener(this);
 
         // Add buttons to frame
         final JPanel buttons = new JPanel();
+        buttons.setLayout(new FlowLayout());
         buttons.add(createPlaylistButton);
+        buttons.add(deletePlaylistButton);
+        add(buttons, BorderLayout.SOUTH);
 
-        // Add scroll panel to frame for list of playlists created
-        final JPanel scrollPanel = new JPanel();
-        scrollPanel.setLayout(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS));
-        scrollPanel.add(new JScrollPane(playlistCollectionList));
-
-        // Action listener to create a playlist
+        // Button to open Add Playlist screen
         createPlaylistButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                playlistCollectionController.execute();
+                new AddPlaylistView((DefaultListModel<String>) playlistCollectionList.getModel()).setVisible(true);
+            }
+        });
+
+        // Button to delete the selected playlist
+        deletePlaylistButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get selected index from the JList
+                int selectedIndex = playlistCollectionList.getSelectedIndex();
+                if (selectedIndex != -1) {
+                    // Remove the selected playlist from the list
+                    ((DefaultListModel<String>) playlistCollectionList.getModel()).remove(selectedIndex);
+                }
+                else {
+                    JOptionPane.showMessageDialog(PlaylistCollectionView.this,
+                            "No playlist selected to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
@@ -61,7 +80,8 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         // Adding components to the frame
         this.add(playlistCollectionName);
         this.add(buttons);
-        this.add(scrollPanel);
+        // Add scroll panel to frame for list of playlists created
+        this.add(new JScrollPane(playlistCollectionList), BorderLayout.CENTER);
     }
 
     @Override
