@@ -1,6 +1,6 @@
 package app;
 
-import data_access.DBNoteDataAccessObject;
+import data_access.DBCommentDataAccessObject;
 import spotify_api.SpotifyConnection;
 import use_case.note.NoteDataAccessInterface;
 
@@ -48,7 +48,7 @@ public class MainNoteApplication {
     public static void main(String[] args) {
 
         // create the data access and inject it into our builder!
-        final NoteDataAccessInterface noteDataAccess = new DBNoteDataAccessObject();
+        final NoteDataAccessInterface noteDataAccess = new DBCommentDataAccessObject();
 
         // Connect to Spotify API
         final SpotifyConnection spotifyConnection = new SpotifyConnection();
@@ -93,6 +93,10 @@ public class MainNoteApplication {
                 .addNoteView()
                 .addUserProfileView()
                 .addNoteUseCase()
+                .addUserProfileUseCase()
                 .addUserProfileUseCase().build().setVisible(true);
+
+        final CommentAppBuilder builder = new CommentAppBuilder();
+        builder.addCommentView().build().setVisible(true);
     }
 }

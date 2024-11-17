@@ -1,6 +1,5 @@
 package use_case.signup;
 
-import data_access.DBNoteDataAccessObject;
 import data_access.DBUserDataAccessObject;
 import entity.User;
 import entity.UserFactoryInter;

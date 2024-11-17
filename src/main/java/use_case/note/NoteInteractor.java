@@ -1,6 +1,6 @@
 package use_case.note;
 
-import data_access.DBNoteDataAccessObject;
+import data_access.DBCommentDataAccessObject;
 import entity.User;
 
 /**
@@ -57,7 +57,7 @@ public class NoteInteractor implements NoteInputBoundary {
     // Method to create a new user
     public void executeCreateUser(User user) {
         try {
-            DBNoteDataAccessObject.createUser(user);
+            DBCommentDataAccessObject.createUser(user);
             noteOutputBoundary.prepareSuccessView("User created successfully");
         } catch (DataAccessException ex) {
             noteOutputBoundary.prepareFailView(ex.getMessage());

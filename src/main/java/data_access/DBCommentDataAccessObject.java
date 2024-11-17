@@ -1,6 +1,10 @@
 package data_access;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import entity.User;
@@ -15,7 +19,7 @@ import use_case.note.NoteDataAccessInterface;
 /**
  * The DAO for accessing notes stored in the database.
  */
-public class DBNoteDataAccessObject implements NoteDataAccessInterface {
+public class DBCommentDataAccessObject implements NoteDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final int CREDENTIAL_ERROR = 401;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -61,6 +65,43 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
+    public static List<String> saveComment(String playlistName, String comment) throws DataAccessException {
+        final OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+
+        // POST METHOD to save note
+        final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
+        final JSONObject requestBody = new JSONObject();
+        requestBody.put(USERNAME, playlistName);
+        requestBody.put(PASSWORD, playlistName);
+        final JSONObject extra = new JSONObject();
+        final List<String> currentComments = loadComments(playlistName);
+        currentComments.add(comment);
+        extra.put("comments", currentComments);
+        requestBody.put("info", extra);
+        final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
+        final Request request = new Request.Builder()
+                .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
+                .method("PUT", body)
+                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                return loadComments(playlistName);
+            } else if (responseBody.getInt(STATUS_CODE_LABEL) == CREDENTIAL_ERROR) {
+                throw new DataAccessException("Message could not be found or password was incorrect");
+            } else {
+                throw new DataAccessException("Database error: " + responseBody.getString(MESSAGE));
+            }
+        } catch (IOException | JSONException ex) {
+            throw new DataAccessException(ex.getMessage());
+        }
+    }
+
     @Override
     public String loadNote(User user) throws DataAccessException {
         // Make an API call to get the user object.
@@ -91,15 +132,16 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
 
     /**
      * Method to load the comments of a user's playlist.
-     * @param username The username of the friend
+     * @param playlistName the name of the playlist we are loading the comments from
      * @return an array containing the comments
      * @throws DataAccessException exception
+     * @throws RuntimeException exception
      */
-    public String loadComments(String username) throws DataAccessException {
+    public static List<String> loadComments(String playlistName) throws DataAccessException {
         // Make an API call to get the user object.
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
         final Request request = new Request.Builder()
-                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", playlistName))
                 .addHeader("Content-Type", CONTENT_TYPE_JSON)
                 .build();
         try {
@@ -110,7 +152,12 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
                 final JSONObject data = userJSONObject.getJSONObject("info");
-                return data.getString("note");
+                final List<String> commentsList = new ArrayList<>();
+                final JSONArray jsonArray = data.getJSONArray("comments");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    commentsList.add(jsonArray.getString(i));
+                }
+                return commentsList;
             } else {
                 throw new DataAccessException(responseBody.getString(MESSAGE));
             }

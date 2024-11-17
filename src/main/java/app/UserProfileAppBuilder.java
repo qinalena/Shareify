@@ -5,6 +5,9 @@ import java.awt.*;
 import javax.swing.*;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.ViewModel;
+import interface_adapter.comment.CommentState;
+import interface_adapter.comment.CommentViewModel;
 import interface_adapter.note.NoteController;
 import interface_adapter.note.NotePresenter;
 import interface_adapter.note.NoteViewModel;
@@ -18,6 +21,7 @@ import use_case.note.NoteOutputBoundary;
 import use_case.user_profile.UserProfileInputBoundary;
 import use_case.user_profile.UserProfileInteractor;
 import use_case.user_profile.UserProfileOutputBoundary;
+import view.CommentView;
 import view.NoteView;
 import view.UserProfileView;
 import view.ViewManager;
@@ -44,6 +48,8 @@ public class UserProfileAppBuilder {
 
     private NoteViewModel noteViewModel;
     private NoteView noteView;
+    private CommentView commentView;
+    private CommentViewModel commentViewModel;
 
     // For refreshing the note before displaying the Note View
     private NoteInputBoundary noteInteractor;
@@ -70,6 +76,17 @@ public class UserProfileAppBuilder {
         noteViewModel = new NoteViewModel();
         noteView = new NoteView(noteViewModel);
         cardPanel.add(noteView, noteView.getViewName());
+        return this;
+    }
+
+    /**
+     * Creates the NoteView and underlying NoteViewModel.
+     * @return this builder
+     */
+    public UserProfileAppBuilder addCommentView() {
+        commentViewModel = new CommentViewModel();
+        commentView = new CommentView(commentViewModel);
+        cardPanel.add(commentView, commentView.getViewName());
         return this;
     }
 

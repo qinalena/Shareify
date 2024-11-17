@@ -2,6 +2,8 @@ package use_case.note;
 
 import entity.User;
 
+import java.util.List;
+
 /**
  * Interface for the NoteDAO. It consists of methods for
  * both loading and saving a note.
