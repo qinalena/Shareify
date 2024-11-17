@@ -92,7 +92,9 @@ public class MainNoteApplication {
         userProfileAppBuilder.addNoteDAO(noteDataAccess)
                 .addNoteView()
                 .addUserProfileView()
+                .addFriendsListView()
                 .addNoteUseCase()
+                .addFriendsListUseCase()
                 .addUserProfileUseCase().build().setVisible(true);
     }
 }

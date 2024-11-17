@@ -51,6 +51,15 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
                 }
         );
 
+        friends.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        userProfileController.switchToFriendsListView();
+
+                    }
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(username);
