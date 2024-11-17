@@ -25,4 +25,11 @@ public class NoteController {
             noteInteractor.executeRefresh();
         }
     }
+
+    /**
+     * Executes the switch to User Profile view use case.
+     */
+    public void switchToUserProfileView() {
+        noteInteractor.switchToUserProfileView();
+    }
 }

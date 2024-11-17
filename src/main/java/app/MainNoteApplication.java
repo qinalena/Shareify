@@ -4,6 +4,8 @@ import data_access.DBNoteDataAccessObject;
 import spotify_api.SpotifyConnection;
 import use_case.note.NoteDataAccessInterface;
 
+import javax.swing.*;
+
 /**
  * An application where we can view and add to a note stored by a user.
  * <p>
@@ -74,6 +76,17 @@ public class MainNoteApplication {
 //        } catch (DataAccessException ex) {
 //            System.err.println("Error creating user or saving note: " + ex.getMessage());
 //        }
+        final AppBuilder builder1 = new AppBuilder();
+        final JFrame application= builder1
+                .addLoginView()
+                .addSignupView()
+                .addSignupUseCase()
+                .addLoginUseCase()
+                .addUserProfileView()
+                .addUserProfileUseCase()
+                .build();
+        application.pack();
+        application.setVisible(true);
 
         final ShareifyAppBuilder shareifyAppBuilder = new ShareifyAppBuilder();
         shareifyAppBuilder.addNoteDAO(noteDataAccess)
