@@ -77,7 +77,7 @@ public class MainNoteApplication {
 //            System.err.println("Error creating user or saving note: " + ex.getMessage());
 //        }
         final AppBuilder builder1 = new AppBuilder();
-        final JFrame application= builder1
+        final JFrame application = builder1
                 .addLoginView()
                 .addSignupView()
                 .addSignupUseCase()
