@@ -4,13 +4,22 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import data_access.DBNoteDataAccessObject;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.add_friend.AddFriendPresenter;
+import interface_adapter.friends_list.FriendsListViewModel;
 import interface_adapter.note.NoteController;
 import interface_adapter.note.NotePresenter;
 import interface_adapter.note.NoteViewModel;
 import interface_adapter.user_profile.UserProfileController;
 import interface_adapter.user_profile.UserProfilePresenter;
 import interface_adapter.user_profile.UserProfileViewModel;
+import interface_adapter.friends_list.FriendsListController;
+import interface_adapter.friends_list.FriendsListPresenter;
+import use_case.add_friend.AddFriendOutputBoundary;
+import use_case.friends_list.FriendsListInputBoundary;
+import use_case.friends_list.FriendsListOutputBoundary;
+import use_case.friends_list.FriendsListInteractor;
 import use_case.note.NoteDataAccessInterface;
 import use_case.note.NoteInputBoundary;
 import use_case.note.NoteInteractor;
@@ -21,6 +30,7 @@ import use_case.user_profile.UserProfileOutputBoundary;
 import view.NoteView;
 import view.UserProfileView;
 import view.ViewManager;
+import view.FriendsListView;
 
 
 
@@ -44,6 +54,17 @@ public class ShareifyAppBuilder {
 
     private NoteViewModel noteViewModel;
     private NoteView noteView;
+
+    private FriendsListViewModel friendsListViewModel;
+    private FriendsListView friendsListView;
+    private FriendsListController friendsListController;
+    private FriendsListPresenter friendsListPresenter;
+    private FriendsListInputBoundary friendsListInputBoundary;
+    private FriendsListOutputBoundary friendsListOutputBoundary;
+    private FriendsListInteractor friendsListInteractor;
+    private DBNoteDataAccessObject dbNoteDataAccessObject = new DBNoteDataAccessObject();
+    private interface_adapter.add_friend.AddFriendViewModel AddFriendViewModel = new interface_adapter.add_friend.AddFriendViewModel();
+    private AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(AddFriendViewModel);
 
     // For refreshing the note before displaying the Note View
     private NoteInputBoundary noteInteractor;
@@ -84,6 +105,13 @@ public class ShareifyAppBuilder {
         return this;
     }
 
+    public ShareifyAppBuilder addFriendsListView() {
+        friendsListViewModel = new FriendsListViewModel();
+        friendsListView = new FriendsListView(friendsListController, friendsListViewModel, dbNoteDataAccessObject, addFriendOutputBoundary);
+        cardPanel.add(friendsListView, friendsListView.getViewName());
+        return this;
+    }
+
     /**
      * Creates the objects for the User Profile Use Case and connects the UserProfileView to its
      * controller.
@@ -102,6 +130,24 @@ public class ShareifyAppBuilder {
             throw new RuntimeException("addUserProfileView must be called before addUserProfileUseCase");
         }
         userProfileView.setUserProfileController(userProfileController);
+        return this;
+    }
+
+    public ShareifyAppBuilder addFriendsListUseCase() {
+        if (friendsListView == null) {
+            throw new RuntimeException("addFriendsListView must be called before addFriendsListUseCase");
+        }
+
+        // Instantiate the output boundary (presenter) and input boundary (interactor)
+        friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel);
+        friendsListInteractor = new FriendsListInteractor(friendsListOutputBoundary);
+
+        // Create the controller and connect it to the interactor
+        friendsListController = new FriendsListController(friendsListInteractor);
+
+        // Link the controller to the view
+        friendsListView.setFriendsListController(friendsListController);
+
         return this;
     }
 

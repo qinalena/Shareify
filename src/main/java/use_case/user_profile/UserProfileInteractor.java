@@ -26,6 +26,11 @@ public class UserProfileInteractor implements UserProfileInputBoundary {
         userProfilePresenter.switchToNoteView();
     }
 
+    @Override
+    public void switchToFriendsListView() {
+        userProfilePresenter.switchToFriendsListView();
+    }
+
     // Method to create a new user
 //    public void executeCreateUser(User user) {
 //        try {

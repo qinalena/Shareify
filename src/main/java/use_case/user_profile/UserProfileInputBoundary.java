@@ -10,4 +10,5 @@ public interface UserProfileInputBoundary {
      */
     void switchToNoteView();
 
+    void switchToFriendsListView();
 }

@@ -92,7 +92,9 @@ public class MainNoteApplication {
         shareifyAppBuilder.addNoteDAO(noteDataAccess)
                 .addNoteView()
                 .addUserProfileView()
+                .addFriendsListView()
                 .addNoteUseCase()
+                .addFriendsListUseCase()
                 .addUserProfileUseCase().build().setVisible(true);
     }
 }

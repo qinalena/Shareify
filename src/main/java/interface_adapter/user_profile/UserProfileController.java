@@ -27,4 +27,8 @@ public class UserProfileController {
     public void switchToNoteView() {
         userProfileInteractor.switchToNoteView();
     }
+
+    public void switchToFriendsListView() {
+        userProfileInteractor.switchToFriendsListView();
+    }
 }
