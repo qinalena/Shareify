@@ -3,12 +3,10 @@
   <component name="CheckStyle-IDEA" serialisationVersion="2">
     <checkstyleVersion>10.18.0</checkstyleVersion>
     <scanScope>JavaOnly</scanScope>
-    <copyLibs>true</copyLibs>
     <option name="thirdPartyClasspath" />
     <option name="activeLocationIds">
       <option value="a12e12d0-c511-43fb-8087-db6b548f5394" />
     </option>
-    <option name="activeLocationIds" />
     <option name="locations">
       <list>
         <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
