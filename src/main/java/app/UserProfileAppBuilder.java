@@ -68,7 +68,7 @@ public class UserProfileAppBuilder {
     private final UserFactoryInter userFactory = new UserFactory();
     private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
 
-    private LoginViewModel loginViewModel;
+    private LoginViewModel loginViewModel = new LoginViewModel();
     private LoginView loginView;
 
     private NoteDataAccessInterface noteDAO;
