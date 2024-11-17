@@ -15,8 +15,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -101,18 +99,6 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
             );
             addFriendView.setAddFriendController(addFriendController); // Inject the Controller
             addFriendView.setVisible(true); // Display the Add Friend window
-
-            // Add the new friend to the JList when the AddFriendView is closed
-            addFriendView.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e) {
-                    String newFriend = addFriendViewModel.getNewFriend(); // Assuming getNewFriend() returns the username
-                    if (newFriend != null) {
-                        DefaultListModel<String> listModel = (DefaultListModel<String>) friendsList.getModel();
-//                        listModel.addElement(newFriend);
-                    }
-                }
-            });
         }
         else if (evt.getSource() == deleteFriendButton) {
             int[] selectedIndices = friendsList.getSelectedIndices();

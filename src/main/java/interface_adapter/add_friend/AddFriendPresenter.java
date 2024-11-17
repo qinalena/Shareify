@@ -16,9 +16,9 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
         // Directly set the updated list of friends in the state
         AddFriendState state = new AddFriendState();
         state.setFriendsList(updatedFriendsList);
-        state.setError(null); // No error if successful
-        addFriendViewModel.setState(state); // Update the view model with the new state
-        addFriendViewModel.firePropertyChanged(); // Notify the view of the state change
+        state.setError(null);
+        addFriendViewModel.setState(state);
+        addFriendViewModel.firePropertyChanged();
     }
 
     @Override

@@ -133,6 +133,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
+    // Method of checking if a user exists in our database
     public static String getUserByUsername(String username) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
