@@ -16,7 +16,7 @@ import java.beans.PropertyChangeListener;
  * The View for when the User had logged in, displaying their User Profile.
  */
 public class UserProfileView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final String viewName = "user profile";
+    private final String viewName = "userProfile";
 
     private final UserProfileViewModel userViewModel;
 
