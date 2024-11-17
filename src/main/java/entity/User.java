@@ -1,11 +1,9 @@
 package entity;
 
-import java.io.Serializable;
-
 /**
  * The representation of a password-protected user for our program.
  */
-public class User implements UserInterface {
+public class User implements UserInter {
 
     private final String name;
     private final String password;
