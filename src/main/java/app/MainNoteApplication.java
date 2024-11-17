@@ -84,15 +84,16 @@ public class MainNoteApplication {
                 .addLoginUseCase()
                 .addUserProfileView()
                 .addUserProfileUseCase()
+                .addWelcomeView()
                 .build();
         application.pack();
         application.setVisible(true);
 
-        final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
-        userProfileAppBuilder.addNoteDAO(noteDataAccess)
-                .addNoteView()
-                .addUserProfileView()
-                .addNoteUseCase()
-                .addUserProfileUseCase().build().setVisible(true);
+//        final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
+//        userProfileAppBuilder.addNoteDAO(noteDataAccess)
+//                .addNoteView()
+//                .addUserProfileView()
+//                .addNoteUseCase()
+//                .addUserProfileUseCase().build().setVisible(true);
     }
 }

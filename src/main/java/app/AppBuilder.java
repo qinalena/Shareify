@@ -17,6 +17,7 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.user_profile.UserProfileController;
 import interface_adapter.user_profile.UserProfilePresenter;
 import interface_adapter.user_profile.UserProfileViewModel;
+import interface_adapter.welcome.WelcomeViewModel;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -63,9 +64,10 @@ public class AppBuilder {
 
     private UserProfileViewModel userProfileViewModel;
     private UserProfileView userProfileView;
-
     private NoteViewModel noteViewModel;
-    private NoteView noteView;
+
+    private WelcomeViewModel welcomeViewModel;
+    private WelcomeView welcomeView;
 
     // For refreshing the note before displaying the Note View
     private NoteInputBoundary noteInteractor;
@@ -119,6 +121,7 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addLoginUseCase() {
+        profileViewModel = new UserProfileViewModel();
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 profileViewModel, loginViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
@@ -149,6 +152,13 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addWelcomeView() {
+        welcomeViewModel = new WelcomeViewModel();
+        welcomeView = new WelcomeView(welcomeViewModel,viewManagerModel);
+        cardPanel.add(welcomeView, welcomeView.getViewName());
+        return this;
+    }
+
     /**
      * Builds the application.
      * @return the JFrame for the application
@@ -162,8 +172,7 @@ public class AppBuilder {
 
         frame.add(cardPanel);
 
-        viewManagerModel.setState(signupView.getViewName());
-//        viewManagerModel.setState(userProfileView.getViewName());
+        viewManagerModel.setState(welcomeView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return frame;
