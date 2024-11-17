@@ -76,24 +76,20 @@ public class MainNoteApplication {
 //        } catch (DataAccessException ex) {
 //            System.err.println("Error creating user or saving note: " + ex.getMessage());
 //        }
-        final AppBuilder builder1 = new AppBuilder();
-        final JFrame application= builder1
-                .addLoginView()
+
+        final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
+        userProfileAppBuilder
+                .addWelcomeView()
                 .addSignupView()
                 .addSignupUseCase()
+                .addLoginView()
                 .addLoginUseCase()
+                .addNoteDAO(noteDataAccess)
+                .addNoteView()
                 .addUserProfileView()
-                .addUserProfileUseCase()
-                .addWelcomeView()
-                .build();
-        application.pack();
-        application.setVisible(true);
-
-//        final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
-//        userProfileAppBuilder.addNoteDAO(noteDataAccess)
-//                .addNoteView()
-//                .addUserProfileView()
-//                .addNoteUseCase()
-//                .addUserProfileUseCase().build().setVisible(true);
+                .addFriendsListView()
+                .addNoteUseCase()
+                .addFriendsListUseCase()
+                .addUserProfileUseCase().build().setVisible(true);
     }
 }
