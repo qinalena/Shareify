@@ -4,16 +4,38 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import data_access.DBNoteDataAccessObject;
+import data_access.DBUserDataAccessObject;
+import entity.UserFactory;
+import entity.UserFactoryInter;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.add_friend.AddFriendPresenter;
+import interface_adapter.friends_list.FriendsListViewModel;
+import interface_adapter.login.LoginController;
+import interface_adapter.login.LoginPresenter;
+import interface_adapter.login.LoginViewModel;
 import interface_adapter.note.NoteController;
 import interface_adapter.note.NotePresenter;
 import interface_adapter.note.NoteViewModel;
 import interface_adapter.playlist_collection.PlaylistCollectionController;
 import interface_adapter.playlist_collection.PlaylistCollectionPresenter;
 import interface_adapter.playlist_collection.PlaylistCollectionViewModel;
+import interface_adapter.signup.SignupController;
+import interface_adapter.signup.SignupPresenter;
+import interface_adapter.signup.SignupViewModel;
 import interface_adapter.user_profile.UserProfileController;
 import interface_adapter.user_profile.UserProfilePresenter;
 import interface_adapter.user_profile.UserProfileViewModel;
+import interface_adapter.friends_list.FriendsListController;
+import interface_adapter.friends_list.FriendsListPresenter;
+import interface_adapter.welcome.WelcomeViewModel;
+import use_case.add_friend.AddFriendOutputBoundary;
+import use_case.friends_list.FriendsListInputBoundary;
+import use_case.friends_list.FriendsListOutputBoundary;
+import use_case.friends_list.FriendsListInteractor;
+import use_case.login.LoginInputBoundary;
+import use_case.login.LoginInteractor;
+import use_case.login.LoginOutputBoundary;
 import use_case.note.NoteDataAccessInterface;
 import use_case.note.NoteInputBoundary;
 import use_case.note.NoteInteractor;
@@ -21,12 +43,19 @@ import use_case.note.NoteOutputBoundary;
 import use_case.playlist_collection.PlaylistCollectionInteractor;
 import use_case.playlist_collection.PlaylistCollectionOutputBoundary;
 import use_case.user_profile.PlaylistCollectionInputBoundary;
+import use_case.signup.SignupInputBoundary;
+import use_case.signup.SignupInteractor;
+import use_case.signup.SignupOutputBoundary;
+import use_case.user_profile.UserProfileInputBoundary;
 import use_case.user_profile.UserProfileInteractor;
 import use_case.user_profile.UserProfileOutputBoundary;
 import view.NoteView;
 import view.PlaylistCollectionView;
 import view.UserProfileView;
 import view.ViewManager;
+
+import view.*;
+
 
 /**
  * Builder for the Shareify Application.
@@ -41,6 +70,18 @@ public class UserProfileAppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
+    private WelcomeViewModel welcomeViewModel;
+    private WelcomeView welcomeView;
+
+
+    private SignupView signupView;
+    private SignupViewModel signupViewModel;
+    private final UserFactoryInter userFactory = new UserFactory();
+    private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
+
+    private LoginViewModel loginViewModel = new LoginViewModel();
+    private LoginView loginView;
+
     private NoteDataAccessInterface noteDAO;
 
     private UserProfileViewModel userProfileViewModel;
@@ -51,6 +92,17 @@ public class UserProfileAppBuilder {
 
     private PlaylistCollectionViewModel playlistCollectionViewModel;
     private PlaylistCollectionView playlistCollectionView;
+
+    private FriendsListViewModel friendsListViewModel;
+    private FriendsListView friendsListView;
+    private FriendsListController friendsListController;
+    private FriendsListPresenter friendsListPresenter;
+    private FriendsListInputBoundary friendsListInputBoundary;
+    private FriendsListOutputBoundary friendsListOutputBoundary;
+    private FriendsListInteractor friendsListInteractor;
+    private DBNoteDataAccessObject dbNoteDataAccessObject = new DBNoteDataAccessObject();
+    private interface_adapter.add_friend.AddFriendViewModel AddFriendViewModel = new interface_adapter.add_friend.AddFriendViewModel();
+    private AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(AddFriendViewModel);
 
     // For refreshing the note before displaying the Note View
     private NoteInputBoundary noteInteractor;
@@ -104,6 +156,13 @@ public class UserProfileAppBuilder {
         return this;
     }
 
+    public UserProfileAppBuilder addFriendsListView() {
+        friendsListViewModel = new FriendsListViewModel();
+        friendsListView = new FriendsListView(friendsListController, friendsListViewModel, dbNoteDataAccessObject, addFriendOutputBoundary);
+        cardPanel.add(friendsListView, friendsListView.getViewName());
+        return this;
+    }
+
     /**
      * Creates the objects for the User Profile Use Case and connects the UserProfileView to its
      * controller.
@@ -126,6 +185,24 @@ public class UserProfileAppBuilder {
             throw new RuntimeException("addUserProfileView must be called before addUserProfileUseCase");
         }
         userProfileView.setUserProfileController(userProfileController);
+        return this;
+    }
+
+    public UserProfileAppBuilder addFriendsListUseCase() {
+        if (friendsListView == null) {
+            throw new RuntimeException("addFriendsListView must be called before addFriendsListUseCase");
+        }
+
+        // Instantiate the output boundary (presenter) and input boundary (interactor)
+        friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel);
+        friendsListInteractor = new FriendsListInteractor(friendsListOutputBoundary);
+
+        // Create the controller and connect it to the interactor
+        friendsListController = new FriendsListController(friendsListInteractor);
+
+        // Link the controller to the view
+        friendsListView.setFriendsListController(friendsListController);
+
         return this;
     }
 
@@ -170,6 +247,74 @@ public class UserProfileAppBuilder {
         playlistCollectionView.setPlaylistCollectionController(playlistCollectionController);
         return this;
     }
+
+    /**
+     * Adds the Signup View to the application.
+     * @return this builder
+     */
+    public UserProfileAppBuilder addSignupView() {
+        signupViewModel = new SignupViewModel();
+        signupView = new SignupView(signupViewModel, viewManagerModel);
+        cardPanel.add(signupView, signupView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Signup Use Case to the application.
+     * @return this builder
+     */
+    public UserProfileAppBuilder addSignupUseCase() {
+        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(
+                signupViewModel, loginViewModel, viewManagerModel);
+        final SignupInputBoundary userSignupInteractor = new SignupInteractor(
+                userDataAccessObject, signupOutputBoundary, userFactory);
+
+        final SignupController controller = new SignupController(userSignupInteractor);
+        signupView.setSignupController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Login Use Case to the application.
+     * @return this builder
+     */
+    public UserProfileAppBuilder addLoginUseCase() {
+        userProfileViewModel = new UserProfileViewModel();
+        final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
+                userProfileViewModel, loginViewModel);
+        final LoginInputBoundary loginInteractor = new LoginInteractor(
+                userDataAccessObject, loginOutputBoundary);
+
+        final LoginController loginController = new LoginController(loginInteractor);
+        loginView.setLoginController(loginController);
+        return this;
+    }
+
+    /**
+     * Adds the Login View to the application.
+     * @return this builder
+     */
+    public UserProfileAppBuilder addLoginView() {
+        loginViewModel = new LoginViewModel();
+        loginView = new LoginView(loginViewModel,viewManagerModel);
+        cardPanel.add(loginView, loginView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Welcome view to the application.
+     * @return this builder
+     */
+    public UserProfileAppBuilder addWelcomeView() {
+        welcomeViewModel = new WelcomeViewModel();
+        welcomeView = new WelcomeView(welcomeViewModel,viewManagerModel);
+        cardPanel.add(welcomeView, welcomeView.getViewName());
+        return this;
+    }
+
+
+
+
 
     /**
      * Builds the application.

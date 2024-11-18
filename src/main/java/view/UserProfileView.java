@@ -17,7 +17,7 @@ import java.beans.PropertyChangeListener;
  * The View for when the User had logged in, displaying their User Profile.
  */
 public class UserProfileView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final String viewName = "user profile";
+    private final String viewName = "userProfile";
 
     private final UserProfileViewModel userViewModel;
 
@@ -61,6 +61,15 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
                 }
             }
         }
+        );
+
+        friends.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        userProfileController.switchToFriendsListView();
+
+                    }
+                }
         );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

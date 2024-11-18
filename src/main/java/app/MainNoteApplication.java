@@ -78,12 +78,20 @@ public class MainNoteApplication {
 //        }
 
         final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
-        userProfileAppBuilder.addNoteDAO(noteDataAccess)
+        userProfileAppBuilder
+                .addWelcomeView()
+                .addSignupView()
+                .addSignupUseCase()
+                .addLoginView()
+                .addLoginUseCase()
+                .addNoteDAO(noteDataAccess)
                 .addNoteView()
                 .addPlaylistCollectionView()
                 .addUserProfileView()
+                .addFriendsListView()
                 .addNoteUseCase()
                 .addPlaylistCollectionUseCase()
+                .addFriendsListUseCase()
                 .addUserProfileUseCase().build().setVisible(true);
     }
 }

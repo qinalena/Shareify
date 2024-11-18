@@ -7,16 +7,14 @@ import use_case.playlist_collection.PlaylistCollectionOutputBoundary;
 /**
  * The interactor for our User Profile.
  */
-public class UserProfileInteractor implements PlaylistCollectionInputBoundary {
+public class UserProfileInteractor implements UserProfileInputBoundary {
 
     private final NoteDataAccessInterface noteDataAccessInterface;
     private final UserProfileOutputBoundary userProfilePresenter;
     private final PlaylistCollectionOutputBoundary playlistCollectionPresenter;
     private final User user = new User("newUserName3", "password123");
 
-    public UserProfileInteractor(NoteDataAccessInterface noteDataAccessInterface,
-                                 UserProfileOutputBoundary userProfilePresenter,
-                                 PlaylistCollectionOutputBoundary playlistCollectionPresenter) {
+    public UserProfileInteractor(NoteDataAccessInterface noteDataAccessInterface, UserProfileOutputBoundary userProfilePresenter) {
         this.noteDataAccessInterface = noteDataAccessInterface;
         this.userProfilePresenter = userProfilePresenter;
         this.playlistCollectionPresenter = playlistCollectionPresenter;
@@ -34,6 +32,11 @@ public class UserProfileInteractor implements PlaylistCollectionInputBoundary {
     @Override
     public void switchToPlaylistCollectionView() {
         userProfilePresenter.switchToPlaylistCollectionView();
+    }
+
+    @Override
+    public void switchToFriendsListView() {
+        userProfilePresenter.switchToFriendsListView();
     }
 
     // Method to create a new user

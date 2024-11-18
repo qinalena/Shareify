@@ -1,15 +1,15 @@
 package interface_adapter.user_profile;
 
-import use_case.user_profile.PlaylistCollectionInputBoundary;
+import use_case.user_profile.UserProfileInputBoundary;
 
 /**
  * Controller for our User Profile related Use Cases.
  */
 public class UserProfileController {
 
-    private final PlaylistCollectionInputBoundary userProfileInteractor;
+    private final UserProfileInputBoundary userProfileInteractor;
 
-    public UserProfileController(PlaylistCollectionInputBoundary userProfileInteractor) {
+    public UserProfileController(UserProfileInputBoundary userProfileInteractor) {
         this.userProfileInteractor = userProfileInteractor;
     }
 
@@ -33,5 +33,9 @@ public class UserProfileController {
      */
     public void switchToPlaylistCollectionView() {
         userProfileInteractor.switchToPlaylistCollectionView();
+    }
+
+    public void switchToFriendsListView() {
+        userProfileInteractor.switchToFriendsListView();
     }
 }
