@@ -33,7 +33,7 @@ public class UserProfileInteractor implements PlaylistCollectionInputBoundary {
 
     @Override
     public void switchToPlaylistCollectionView() {
-        playlistCollectionPresenter.switchToPlaylistCollectionView();
+        userProfilePresenter.switchToPlaylistCollectionView();
     }
 
     // Method to create a new user
