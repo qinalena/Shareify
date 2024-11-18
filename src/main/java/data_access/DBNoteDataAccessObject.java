@@ -2,6 +2,7 @@ package data_access;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -28,6 +29,13 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String MESSAGE = "message";
+    private final HashMap<String, ArrayList> info;
+
+    public DBNoteDataAccessObject() {
+        this.info = new HashMap<>();
+        this.info.put("playlists", new ArrayList());
+        this.info.put("Friends", new ArrayList());
+    }
 
     @Override
     public String saveNote(User user, String note) throws DataAccessException {
@@ -91,7 +99,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
-    public static void createUser(User user) throws DataAccessException {
+    public void createUser(User user) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
 
@@ -100,14 +108,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         final JSONObject requestBody = new JSONObject();
         requestBody.put(USERNAME, user.getName());
         requestBody.put(PASSWORD, user.getPassword());
-
-        final JSONObject userInfo = new JSONObject();
-        if (user.getInfo() != null && !user.getInfo().isEmpty()) {
-            for (String info : user.getInfo()) {
-                userInfo.append("info", info);
-            }
-        }
-        requestBody.put("info", userInfo);
+        requestBody.put("info", this.info);
 
         final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
         final Request request = new Request.Builder()
@@ -157,7 +158,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
     }
 
     // New method for updating user info at any time
-    public void updateUserInfo(User user, String key, String newInfo) throws DataAccessException {
+    public void updateUserInfo(User user, String key, List newInfo) throws DataAccessException {
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
@@ -225,5 +226,6 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
             throw new DataAccessException("Error occurred while updating user info: " + ex.getMessage());
         }
     }
+
 
 }

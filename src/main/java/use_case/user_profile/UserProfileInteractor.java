@@ -1,6 +1,7 @@
 package use_case.user_profile;
 
 import entity.User;
+import org.json.JSONObject;
 import use_case.note.NoteDataAccessInterface;
 
 /**
@@ -10,7 +11,7 @@ public class UserProfileInteractor implements UserProfileInputBoundary {
 
     private final NoteDataAccessInterface noteDataAccessInterface;
     private final UserProfileOutputBoundary userProfilePresenter;
-    private final User user = new User("newUserName3", "password123");
+    private final User user = new User("newUserName3", "password123", new JSONObject());
 
     public UserProfileInteractor(NoteDataAccessInterface noteDataAccessInterface, UserProfileOutputBoundary userProfilePresenter) {
         this.noteDataAccessInterface = noteDataAccessInterface;

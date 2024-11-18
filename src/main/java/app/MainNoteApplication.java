@@ -1,6 +1,7 @@
 package app;
 
 import data_access.DBNoteDataAccessObject;
+import entity.UserFactory;
 import spotify_api.SpotifyConnection;
 import use_case.note.NoteDataAccessInterface;
 

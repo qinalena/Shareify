@@ -89,6 +89,7 @@ public class UserProfileAppBuilder {
     private DBNoteDataAccessObject dbNoteDataAccessObject = new DBNoteDataAccessObject();
     private interface_adapter.add_friend.AddFriendViewModel AddFriendViewModel = new interface_adapter.add_friend.AddFriendViewModel();
     private AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(AddFriendViewModel);
+    private DBUserDataAccessObject dbUserDataAccessObject = new DBUserDataAccessObject(userFactory);
 
     // For refreshing the note before displaying the Note View
     private NoteInputBoundary noteInteractor;
@@ -131,7 +132,7 @@ public class UserProfileAppBuilder {
 
     public UserProfileAppBuilder addFriendsListView() {
         friendsListViewModel = new FriendsListViewModel();
-        friendsListView = new FriendsListView(friendsListController, friendsListViewModel, dbNoteDataAccessObject, addFriendOutputBoundary);
+        friendsListView = new FriendsListView(friendsListController, friendsListViewModel, dbNoteDataAccessObject, addFriendOutputBoundary, dbUserDataAccessObject);
         cardPanel.add(friendsListView, friendsListView.getViewName());
         return this;
     }

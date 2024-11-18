@@ -1,6 +1,10 @@
 package data_access;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import entity.UserFactoryInter;
 import org.json.JSONException;
@@ -13,7 +17,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import use_case.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
@@ -22,7 +25,6 @@ import use_case.signup.SignupUserDataAccessInterface;
  * The DAO for user data.
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface,
-        ChangePasswordUserDataAccessInterface,
         LogoutUserDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -32,10 +34,15 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
     private static final String PASSWORD = "password";
     private static final String MESSAGE = "message";
     private final UserFactoryInter userFactory;
+    private final HashMap<String, ArrayList> info;
 
 
     public DBUserDataAccessObject(UserFactoryInter userFactory) {
         this.userFactory = userFactory;
+        this.info = new HashMap<>();
+        this.info.put("playlists", new ArrayList());
+        this.info.put("Friends", new ArrayList());
+
         // No need to do anything to reinitialize a user list! The data is the cloud that may be miles away.
     }
 
@@ -55,8 +62,9 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
                 final String name = userJSONObject.getString(USERNAME);
                 final String password = userJSONObject.getString(PASSWORD);
+                final JSONObject info = userJSONObject.getJSONObject("info");
 
-                return userFactory.createUser(name, password);
+                return userFactory.createUser(name, password, info);
             }
             else {
                 throw new RuntimeException(responseBody.getString(MESSAGE));
@@ -101,6 +109,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         final JSONObject requestBody = new JSONObject();
         requestBody.put(USERNAME, user.getName());
         requestBody.put(PASSWORD, user.getPassword());
+        requestBody.put("info", this.info);
         final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
         final Request request = new Request.Builder()
                 .url("http://vm003.teach.cs.toronto.edu:20112/user")

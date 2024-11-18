@@ -4,6 +4,7 @@ import entity.User;
 import interface_adapter.user_profile.UserProfileController;
 import interface_adapter.user_profile.UserProfileState;
 import interface_adapter.user_profile.UserProfileViewModel;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     private final UserProfileViewModel userViewModel;
 
     // Hardcoded example user
-    private final User user = new User("newUserName3", "password123");
+    private final User user = new User("newUserName3", "password123", new JSONObject());
 
     private final JLabel username = new JLabel("Shareify - " + user.getName());
     private final JLabel note = new JLabel();

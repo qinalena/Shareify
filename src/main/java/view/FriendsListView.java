@@ -1,6 +1,7 @@
 package view;
 
 import data_access.DBNoteDataAccessObject;
+import data_access.DBUserDataAccessObject;
 import interface_adapter.add_friend.AddFriendController;
 import interface_adapter.add_friend.AddFriendPresenter;
 import interface_adapter.add_friend.AddFriendViewModel;
@@ -26,6 +27,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     private FriendsListController controller;
     private AddFriendOutputBoundary addFriendOutputBoundary;
     private DBNoteDataAccessObject dbNoteDataAccessObject;
+    private DBUserDataAccessObject dbUserDataAccessObject;
 
     // Moved initialization to the constructor to prevent premature calls with uninitialized dependencies
     private AddFriendInputBoundary addFriendInputBoundary;
@@ -36,19 +38,21 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     private final JButton deleteFriendButton = new JButton("Delete Friend");
 
     public FriendsListView(FriendsListController controller, FriendsListViewModel viewModel,
-                           DBNoteDataAccessObject dbNoteDataAccessObject, AddFriendOutputBoundary addFriendOutputBoundary) {
+                           DBNoteDataAccessObject dbNoteDataAccessObject, AddFriendOutputBoundary addFriendOutputBoundary, DBUserDataAccessObject dbUserDataAccessObject) {
         this.controller = controller;
         this.viewModel = viewModel;
         this.dbNoteDataAccessObject = dbNoteDataAccessObject;
         this.addFriendOutputBoundary = addFriendOutputBoundary;
         this.viewModel.addPropertyChangeListener(this);
+        this.dbUserDataAccessObject =dbUserDataAccessObject;
 
         // Initialize AddFriendInputBoundary here after dependencies are set
         if (this.dbNoteDataAccessObject != null && this.addFriendOutputBoundary != null) {
             this.addFriendInputBoundary = new AddFriendInteractor(
                     dbNoteDataAccessObject,
                     addFriendOutputBoundary,
-                    friendsListModelToList()
+                    friendsListModelToList(),
+                    dbUserDataAccessObject
             );
         }
 
@@ -80,7 +84,8 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
             this.addFriendInputBoundary = new AddFriendInteractor(
                     dbNoteDataAccessObject,
                     addFriendOutputBoundary,
-                    friendsListModelToList()
+                    friendsListModelToList(),
+                    dbUserDataAccessObject
             );
 
             // Create ViewModel
@@ -156,7 +161,8 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
             this.addFriendInputBoundary = new AddFriendInteractor(
                     dbNoteDataAccessObject,
                     addFriendOutputBoundary,
-                    friendsListModelToList()
+                    friendsListModelToList(),
+                    dbUserDataAccessObject
             );
         }
     }
@@ -168,7 +174,8 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
             this.addFriendInputBoundary = new AddFriendInteractor(
                     dbNoteDataAccessObject,
                     addFriendOutputBoundary,
-                    friendsListModelToList()
+                    friendsListModelToList(),
+                    dbUserDataAccessObject
             );
         }
     }

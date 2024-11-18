@@ -4,6 +4,7 @@ import data_access.DBNoteDataAccessObject;
 import data_access.DBUserDataAccessObject;
 import entity.User;
 import entity.UserFactoryInter;
+import org.json.JSONObject;
 import use_case.note.DataAccessException;
 
 public class SignupInteractor implements SignupInputBoundary{
@@ -28,7 +29,7 @@ public class SignupInteractor implements SignupInputBoundary{
             userPresenter.prepareFailView("Passwords don't match.");
         }
         else {
-            final User user = userFactory.createUser(signupInputData.getUsername(), signupInputData.getPassword());
+            final User user = userFactory.createUser(signupInputData.getUsername(), signupInputData.getPassword(), new JSONObject());
             userDataAccessObject.createUser(user);
 
             final SignupOutputData signupOutputData = new SignupOutputData(user.getName(), false);

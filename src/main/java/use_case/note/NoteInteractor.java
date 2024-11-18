@@ -2,6 +2,7 @@ package use_case.note;
 
 import data_access.DBNoteDataAccessObject;
 import entity.User;
+import org.json.JSONObject;
 
 /**
  * The "Use Case Interactor" for our two note-related use cases of refreshing
@@ -12,7 +13,7 @@ public class NoteInteractor implements NoteInputBoundary {
 
     private final NoteDataAccessInterface noteDataAccessInterface;
     private final NoteOutputBoundary noteOutputBoundary;
-    private final User user = new User("newUserName3", "password123");
+    private final User user = new User("newUserName3", "password123", new JSONObject());
 
     public NoteInteractor(NoteDataAccessInterface noteDataAccessInterface, NoteOutputBoundary noteOutputBoundary) {
         this.noteDataAccessInterface = noteDataAccessInterface;
@@ -54,15 +55,15 @@ public class NoteInteractor implements NoteInputBoundary {
         }
     }
 
-    // Method to create a new user
-    public void executeCreateUser(User user) {
-        try {
-            DBNoteDataAccessObject.createUser(user);
-            noteOutputBoundary.prepareSuccessView("User created successfully");
-        } catch (DataAccessException ex) {
-            noteOutputBoundary.prepareFailView(ex.getMessage());
-        }
-    }
+//    // Method to create a new user
+//    public void executeCreateUser(User user) {
+//        try {
+//            DBNoteDataAccessObject.createUser(user);
+//            noteOutputBoundary.prepareSuccessView("User created successfully");
+//        } catch (DataAccessException ex) {
+//            noteOutputBoundary.prepareFailView(ex.getMessage());
+//        }
+//    }
 
     public void executeGetUserByUsername(String username) {
         try {

@@ -17,6 +17,7 @@ import entity.User;
 import interface_adapter.note.NoteController;
 import interface_adapter.note.NoteState;
 import interface_adapter.note.NoteViewModel;
+import org.json.JSONObject;
 
 /**
  * The View for when the user is viewing a note in the program.
@@ -26,7 +27,7 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
     private final NoteViewModel noteViewModel;
 
     // Example user
-    private final User user = new User("newUserName3", "password123");
+    private final User user = new User("newUserName3", "password123", new JSONObject());
 
     private final JLabel noteName = new JLabel("Shareify - " + user.getName());
     private final JTextArea noteInputField = new JTextArea();
