@@ -76,20 +76,14 @@ public class MainNoteApplication {
 //        } catch (DataAccessException ex) {
 //            System.err.println("Error creating user or saving note: " + ex.getMessage());
 //        }
-        final AppBuilder builder1 = new AppBuilder();
-        final JFrame application= builder1
-                .addLoginView()
-                .addSignupView()
-                .addSignupUseCase()
-                .addLoginUseCase()
-                .addUserProfileView()
-                .addUserProfileUseCase()
-                .build();
-        application.pack();
-        application.setVisible(true);
 
         final ShareifyAppBuilder shareifyAppBuilder = new ShareifyAppBuilder();
         shareifyAppBuilder.addNoteDAO(noteDataAccess)
+                .addWelcomeView()
+                .addSignupView()
+                .addSignupUseCase()
+                .addLoginView()
+                .addLoginUseCase()
                 .addNoteView()
                 .addUserProfileView()
                 .addFriendsListView()

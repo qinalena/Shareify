@@ -1,10 +1,15 @@
 package view;
 
+import interface_adapter.ViewManagerModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.signup.SignupState;
+import interface_adapter.welcome.WelcomeState;
+import interface_adapter.welcome.WelcomeViewModel;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
@@ -30,24 +35,50 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     private final JButton logIn;
     private final JButton cancel;
     private LoginController loginController;
+    private final ViewManagerModel viewManagerModel;
 
-    public LoginView(LoginViewModel loginViewModel) {
+
+    public LoginView(LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
 
         this.loginViewModel = loginViewModel;
         this.loginViewModel.addPropertyChangeListener(this);
+        this.viewManagerModel = viewManagerModel;
 
-        final JLabel title = new JLabel("Login Screen");
+
+        // Title
+        final JLabel title = new JLabel("Log in");
+        title.setFont(new Font("Arial", Font.BOLD, 28));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 
+        // Username field
         final LabelTextPanel usernameInfo = new LabelTextPanel(
                 new JLabel("Username"), usernameInputField);
+        usernameInputField.setFont(new Font("Arial", Font.PLAIN, 16));
+        usernameInputField.setMargin(new Insets(5, 5, 5, 5));
+        usernameInputField.setToolTipText("Enter your username");
+
+        // Password field
         final LabelTextPanel passwordInfo = new LabelTextPanel(
                 new JLabel("Password"), passwordInputField);
+        passwordInputField.setFont(new Font("Arial", Font.PLAIN, 16));
+        passwordInputField.setMargin(new Insets(5, 5, 5, 5));
+        passwordInputField.setToolTipText("Enter your password");
 
+
+        // Buttons
         final JPanel buttons = new JPanel();
+        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));
         logIn = new JButton("log in");
+        logIn.setFont(new Font("Arial", Font.BOLD, 20));
+        logIn.setBackground(Color.WHITE);
+        logIn.setPreferredSize(new Dimension(100, 30));
         buttons.add(logIn);
+
         cancel = new JButton("cancel");
+        cancel.setFont(new Font("Arial", Font.BOLD, 20));
+        cancel.setBackground(Color.WHITE);
+        cancel.setPreferredSize(new Dimension(100, 30));
         buttons.add(cancel);
 
         logIn.addActionListener(
@@ -65,7 +96,16 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 }
         );
 
-        cancel.addActionListener(this);
+        cancel.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(cancel)) {
+                            viewManagerModel.setState("Welcome");
+                            viewManagerModel.firePropertyChanged();
+                        }
+                    }
+                }
+        );
 
         usernameInputField.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -129,7 +169,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
      * @param evt the ActionEvent to react to
      */
     public void actionPerformed(ActionEvent evt) {
-        System.out.println("Click " + evt.getActionCommand());
+
     }
 
     @Override

@@ -5,33 +5,45 @@ import java.awt.*;
 import javax.swing.*;
 
 import data_access.DBNoteDataAccessObject;
+import data_access.DBUserDataAccessObject;
+import entity.UserFactory;
+import entity.UserFactoryInter;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.add_friend.AddFriendPresenter;
 import interface_adapter.friends_list.FriendsListViewModel;
+import interface_adapter.login.LoginController;
+import interface_adapter.login.LoginPresenter;
+import interface_adapter.login.LoginViewModel;
 import interface_adapter.note.NoteController;
 import interface_adapter.note.NotePresenter;
 import interface_adapter.note.NoteViewModel;
+import interface_adapter.signup.SignupController;
+import interface_adapter.signup.SignupPresenter;
+import interface_adapter.signup.SignupViewModel;
 import interface_adapter.user_profile.UserProfileController;
 import interface_adapter.user_profile.UserProfilePresenter;
 import interface_adapter.user_profile.UserProfileViewModel;
 import interface_adapter.friends_list.FriendsListController;
 import interface_adapter.friends_list.FriendsListPresenter;
+import interface_adapter.welcome.WelcomeViewModel;
 import use_case.add_friend.AddFriendOutputBoundary;
 import use_case.friends_list.FriendsListInputBoundary;
 import use_case.friends_list.FriendsListOutputBoundary;
 import use_case.friends_list.FriendsListInteractor;
+import use_case.login.LoginInputBoundary;
+import use_case.login.LoginInteractor;
+import use_case.login.LoginOutputBoundary;
 import use_case.note.NoteDataAccessInterface;
 import use_case.note.NoteInputBoundary;
 import use_case.note.NoteInteractor;
 import use_case.note.NoteOutputBoundary;
+import use_case.signup.SignupInputBoundary;
+import use_case.signup.SignupInteractor;
+import use_case.signup.SignupOutputBoundary;
 import use_case.user_profile.UserProfileInputBoundary;
 import use_case.user_profile.UserProfileInteractor;
 import use_case.user_profile.UserProfileOutputBoundary;
-import view.NoteView;
-import view.UserProfileView;
-import view.ViewManager;
-import view.FriendsListView;
-
+import view.*;
 
 
 /**
@@ -39,13 +51,25 @@ import view.FriendsListView;
  */
 public class ShareifyAppBuilder {
     public static final int HEIGHT = 300;
-    public static final int WIDTH = 400;
+    public static final int WIDTH = 600;
 
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
 
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
+
+    private WelcomeViewModel welcomeViewModel;
+    private WelcomeView welcomeView;
+
+
+    private SignupView signupView;
+    private SignupViewModel signupViewModel;
+    private final UserFactoryInter userFactory = new UserFactory();
+    private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
+
+    private LoginViewModel loginViewModel = new LoginViewModel();
+    private LoginView loginView;
 
     private NoteDataAccessInterface noteDAO;
 
@@ -173,6 +197,74 @@ public class ShareifyAppBuilder {
     }
 
     /**
+     * Adds the Signup View to the application.
+     * @return this builder
+     */
+    public UserProfileAppBuilder addSignupView() {
+        signupViewModel = new SignupViewModel();
+        signupView = new SignupView(signupViewModel, viewManagerModel);
+        cardPanel.add(signupView, signupView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Signup Use Case to the application.
+     * @return this builder
+     */
+    public UserProfileAppBuilder addSignupUseCase() {
+        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(
+                signupViewModel, loginViewModel, viewManagerModel);
+        final SignupInputBoundary userSignupInteractor = new SignupInteractor(
+                userDataAccessObject, signupOutputBoundary, userFactory);
+
+        final SignupController controller = new SignupController(userSignupInteractor);
+        signupView.setSignupController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Login Use Case to the application.
+     * @return this builder
+     */
+    public UserProfileAppBuilder addLoginUseCase() {
+        userProfileViewModel = new UserProfileViewModel();
+        final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
+                userProfileViewModel, loginViewModel);
+        final LoginInputBoundary loginInteractor = new LoginInteractor(
+                userDataAccessObject, loginOutputBoundary);
+
+        final LoginController loginController = new LoginController(loginInteractor);
+        loginView.setLoginController(loginController);
+        return this;
+    }
+
+    /**
+     * Adds the Login View to the application.
+     * @return this builder
+     */
+    public UserProfileAppBuilder addLoginView() {
+        loginViewModel = new LoginViewModel();
+        loginView = new LoginView(loginViewModel,viewManagerModel);
+        cardPanel.add(loginView, loginView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Welcome view to the application.
+     * @return this builder
+     */
+    public UserProfileAppBuilder addWelcomeView() {
+        welcomeViewModel = new WelcomeViewModel();
+        welcomeView = new WelcomeView(welcomeViewModel,viewManagerModel);
+        cardPanel.add(welcomeView, welcomeView.getViewName());
+        return this;
+    }
+
+
+
+
+
+    /**
      * Builds the application.
      * @return the JFrame for the application
      */
@@ -184,7 +276,7 @@ public class ShareifyAppBuilder {
 
         frame.add(cardPanel);
 
-        viewManagerModel.setState(userProfileView.getViewName());
+        viewManagerModel.setState(welcomeView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         // refresh so that the note will be visible when we start the program
