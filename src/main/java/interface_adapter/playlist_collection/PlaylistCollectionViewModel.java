@@ -8,7 +8,7 @@ import interface_adapter.ViewModel;
 public class PlaylistCollectionViewModel extends ViewModel<PlaylistCollectionState> {
 
     public PlaylistCollectionViewModel() {
-        super("PlaylistCollection");
+        super("playlistCollection");
         setState(new PlaylistCollectionState());
     }
 }

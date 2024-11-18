@@ -2,6 +2,7 @@ package interface_adapter.user_profile;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.note.NoteViewModel;
+import interface_adapter.playlist_collection.PlaylistCollectionViewModel;
 import use_case.user_profile.UserProfileOutputBoundary;
 
 /**
@@ -12,6 +13,7 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
     private final UserProfileViewModel userProfileViewModel;
     private final NoteViewModel noteViewModel;
     private final ViewManagerModel viewManagerModel;
+    private final PlaylistCollectionViewModel playlistCollectionViewModel = new PlaylistCollectionViewModel();
 
     public UserProfilePresenter(UserProfileViewModel userProfileViewModel,
                                 NoteViewModel noteViewModel,
@@ -46,6 +48,11 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
     @Override
     public void switchToNoteView() {
         viewManagerModel.setState(noteViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    public void switchToPlaylistCollectionView() {
+        viewManagerModel.setState(playlistCollectionViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

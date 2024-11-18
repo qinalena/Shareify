@@ -155,11 +155,15 @@ public class UserProfileAppBuilder {
      * @throws RuntimeException if this method is called before addPlaylistCollectionView
      */
     public UserProfileAppBuilder addPlaylistCollectionUseCase() {
-        final PlaylistCollectionOutputBoundary playlistCollectionOutputBoundary = new PlaylistCollectionPresenter(
-                playlistCollectionViewModel, viewManagerModel);
+        final PlaylistCollectionOutputBoundary playlistCollectionOutputBoundary =
+                new PlaylistCollectionPresenter(playlistCollectionViewModel, viewManagerModel);
 
-        final PlaylistCollectionController playlistCollectionController = new PlaylistCollectionController(
-                playlistCollectionInteractor);
+        // playlistCollectionInteractor = new PlaylistCollectionInteractor(playlistCollectionOutputBoundary);
+
+        // Creating controller + connect to interactor
+        final PlaylistCollectionController playlistCollectionController =
+                new PlaylistCollectionController(playlistCollectionInteractor);
+
         if (playlistCollectionView == null) {
             throw new RuntimeException("addPlaylistCollectionView must be called before addPlaylistCollectionUseCase");
         }

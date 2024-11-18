@@ -10,10 +10,13 @@ import java.awt.event.ActionListener;
  */
 
 public class AddPlaylistView extends JFrame {
+
     private JTextField playlistNameField;
     private JButton saveButton;
 
     public AddPlaylistView(DefaultListModel<String> playlistListModel) {
+
+        // UI components
         setTitle("Add Playlist");
         setSize(300, 150);
         setLayout(new FlowLayout());
@@ -31,14 +34,14 @@ public class AddPlaylistView extends JFrame {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final String playlistName = playlistNameField.getText();
+                String playlistName = playlistNameField.getText();
                 if (!playlistName.isEmpty()) {
                     playlistListModel.addElement(playlistName);
                     dispose();
                 }
                 else {
-                    JOptionPane.showMessageDialog(AddPlaylistView.this, "Please enter a name.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(AddPlaylistView.this,
+                            "Enter a name for playlist.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
