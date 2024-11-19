@@ -1,6 +1,6 @@
 package view;
 
-import data_access.DBNoteDataAccessObject;
+import data_access.DBUserDataAccessObject;
 import interface_adapter.add_playlist.AddPlaylistController;
 import interface_adapter.add_playlist.AddPlaylistPresenter;
 import interface_adapter.add_playlist.AddPlaylistViewModel;
@@ -30,7 +30,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
     private PlaylistCollectionController playlistCollectionController;
     private AddPlaylistOutputBoundary addPlaylistOutputBoundary;
-    private DBNoteDataAccessObject dbNoteDataAccessObject;
+    private DBUserDataAccessObject dbUserDataAccessObject;
 
     private AddPlaylistInputBoundary addPlaylistInputBoundary;
 
@@ -45,12 +45,12 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
     public PlaylistCollectionView(PlaylistCollectionController playlistCollectionController,
                                   PlaylistCollectionViewModel playlistCollectionViewModel,
-                                  DBNoteDataAccessObject dbNoteDataAccessObject,
+                                  DBUserDataAccessObject dbUserDataAccessObject,
                                   AddPlaylistOutputBoundary addPlaylistOutputBoundary) {
 
         this.playlistCollectionController = playlistCollectionController;
         this.playlistCollectionViewModel = playlistCollectionViewModel;
-        this.dbNoteDataAccessObject = dbNoteDataAccessObject;
+        this.dbUserDataAccessObject = dbUserDataAccessObject;
         this.addPlaylistOutputBoundary = addPlaylistOutputBoundary;
         this.playlistCollectionViewModel.addPropertyChangeListener(this);
 
@@ -64,9 +64,9 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         playlistCollectionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         playlistCollectionList.setLayoutOrientation(JList.VERTICAL);
 
-        if (this.dbNoteDataAccessObject != null && this.addPlaylistOutputBoundary != null) {
+        if (this.dbUserDataAccessObject != null && this.addPlaylistOutputBoundary != null) {
             this.addPlaylistInputBoundary = new AddPlaylistInteractor(
-                    dbNoteDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
+                    dbUserDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
             );
         }
 
@@ -80,7 +80,6 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         buttons.setLayout(new FlowLayout());
         buttons.add(createPlaylistButton);
         buttons.add(deletePlaylistButton);
-        add(buttons, BorderLayout.SOUTH);
 
         // Set up button actions
         createPlaylistButton.addActionListener(this);
@@ -109,7 +108,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         // Button to open Add Playlist screen
         if (e.getSource() == createPlaylistButton) {
             this.addPlaylistInputBoundary = new AddPlaylistInteractor(
-                    dbNoteDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
+                    dbUserDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
             );
 
             // Create ViewModel
@@ -177,15 +176,15 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     }
 
     /**
-     * Set up DbNoteDAO + reinitialize AddPlaylistInputBoundary if dependencies change.
-     * @param dbNoteDataAccessObject output data
+     * Set up DbUserDAO + reinitialize AddPlaylistInputBoundary if dependencies change.
+     * @param dbUserDataAccessObject output data
      */
-    public void setDbNoteDataAccessObject(DBNoteDataAccessObject dbNoteDataAccessObject) {
-        this.dbNoteDataAccessObject = dbNoteDataAccessObject;
+    public void setDbUserDataAccessObject(DBUserDataAccessObject dbUserDataAccessObject) {
+        this.dbUserDataAccessObject = dbUserDataAccessObject;
 
         if (this.addPlaylistOutputBoundary != null) {
             this.addPlaylistInputBoundary = new AddPlaylistInteractor(
-                    dbNoteDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
+                    dbUserDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
             );
         }
     }
@@ -197,9 +196,9 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     public void setAddPlaylistOutputBoundary(AddPlaylistOutputBoundary addPlaylistOutputBoundary) {
         this.addPlaylistOutputBoundary = addPlaylistOutputBoundary;
 
-        if (this.dbNoteDataAccessObject != null) {
+        if (this.dbUserDataAccessObject != null) {
             this.addPlaylistInputBoundary = new AddPlaylistInteractor(
-                    dbNoteDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
+                    dbUserDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
             );
         }
     }
