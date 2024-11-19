@@ -197,6 +197,11 @@ public class UserProfileAppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Friends List Use Case to the application.
+     * @return this builder
+     * @throws RuntimeException if this method is called before addFriendsListView
+     */
     public UserProfileAppBuilder addFriendsListUseCase() {
         if (friendsListView == null) {
             throw new RuntimeException("addFriendsListView must be called before addFriendsListUseCase");
@@ -308,7 +313,7 @@ public class UserProfileAppBuilder {
      */
     public UserProfileAppBuilder addLoginView() {
         loginViewModel = new LoginViewModel();
-        loginView = new LoginView(loginViewModel,viewManagerModel);
+        loginView = new LoginView(loginViewModel, viewManagerModel);
         cardPanel.add(loginView, loginView.getViewName());
         return this;
     }
@@ -319,7 +324,7 @@ public class UserProfileAppBuilder {
      */
     public UserProfileAppBuilder addWelcomeView() {
         welcomeViewModel = new WelcomeViewModel();
-        welcomeView = new WelcomeView(welcomeViewModel,viewManagerModel);
+        welcomeView = new WelcomeView(welcomeViewModel, viewManagerModel);
         cardPanel.add(welcomeView, welcomeView.getViewName());
         return this;
     }
