@@ -1,6 +1,6 @@
 package interface_adapter.playlist_collection;
 
-import use_case.user_profile.PlaylistCollectionInputBoundary;
+import use_case.playlist_collection.PlaylistCollectionInputBoundary;
 
 /**
  * Controller for our Playlist Collection related Use Cases.
@@ -15,9 +15,17 @@ public class PlaylistCollectionController {
 
     /**
      * Executes the Playlist Collection related Use Cases.
+     * @param playlistName name of playlist
      */
-    public void execute() {
-        // To be implemented
+    public void addPlaylist(String playlistName) {
+        playlistCollectionInteractor.addPlaylist(playlistName);
     }
-    // need to add switch to playlist view
+
+    /**
+     * Executes the Playlist Collection related Use Cases.
+     * @param playlistName name of playlist
+     */
+    public void removePlaylist(String playlistName) {
+        playlistCollectionInteractor.removePlaylist(playlistName);
+    }
 }

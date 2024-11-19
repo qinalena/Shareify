@@ -15,5 +15,8 @@ public interface UserProfileInputBoundary {
      */
     void switchToPlaylistCollectionView();
 
+    /**
+     * Executes the switch to friends view use case.
+     */
     void switchToFriendsListView();
 }

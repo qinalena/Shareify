@@ -35,6 +35,9 @@ public class UserProfileController {
         userProfileInteractor.switchToPlaylistCollectionView();
     }
 
+    /**
+     * Executes the "switch to FriendsListView" User Case.
+     */
     public void switchToFriendsListView() {
         userProfileInteractor.switchToFriendsListView();
     }

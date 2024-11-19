@@ -3,8 +3,6 @@ package interface_adapter.playlist_collection;
 import interface_adapter.ViewManagerModel;
 import use_case.playlist_collection.PlaylistCollectionOutputBoundary;
 
-import java.awt.*;
-
 /**
  * The Presenter for Playlist Collection Use Case.
  */
@@ -21,29 +19,33 @@ public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoun
     }
 
     /**
-     * Prepares the success view for the PlaylistCollection related Use Cases.
-     * @param note the output data
+     * Prepares the add playlist case.
+     * @param playlistName the output data
      */
     @Override
-    public void prepareSuccessView(String note) {
-        playlistCollectionViewModel.getState().setPlaylistError(null);
+    public void preparePlaylistAddedView(String playlistName) {
+        playlistCollectionViewModel.getState().addPlaylist(playlistName);
         playlistCollectionViewModel.firePropertyChanged();
     }
 
     /**
-     * Prepares the failure view for the Note related Use Cases.
+     * Prepares the delete playlist case.
      *
-     * @param errorMessage the explanation of the failure
+     * @param playlistName the explanation of the failure
      */
     @Override
-    public void prepareFailView(String errorMessage) {
-        playlistCollectionViewModel.getState().setPlaylistError(errorMessage);
+    public void preparePlaylistRemovedView(String playlistName) {
+        playlistCollectionViewModel.getState().removePlaylist(playlistName);
         playlistCollectionViewModel.firePropertyChanged();
     }
 
+    /**
+     * Prepares the failure view for the Playlist Collection related Use cases.
+     * @param error indicates issue
+     */
     @Override
-    public void switchToPlaylistCollectionView() {
-        viewManagerModel.setState(playlistCollectionViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
+    public void prepareFailView(String error) {
+        playlistCollectionViewModel.getState().setPlaylistError(error);
+        playlistCollectionViewModel.firePropertyChanged();
     }
 }
