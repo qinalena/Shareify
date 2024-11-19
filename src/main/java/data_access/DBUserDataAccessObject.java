@@ -124,7 +124,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         }
     }
 
-
     public void changePassword(User user) {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -161,4 +160,3 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         return null;
     }
 }
-

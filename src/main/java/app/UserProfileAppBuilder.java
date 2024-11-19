@@ -159,7 +159,7 @@ public class UserProfileAppBuilder {
         playlistCollectionViewModel = new PlaylistCollectionViewModel();
 
         playlistCollectionView = new PlaylistCollectionView(playlistCollectionController, playlistCollectionViewModel,
-                dbNoteDataAccessObject, addPlaylistOutputBoundary);
+                userDataAccessObject, addPlaylistOutputBoundary);
         cardPanel.add(playlistCollectionView, playlistCollectionView.getViewName());
         return this;
     }
