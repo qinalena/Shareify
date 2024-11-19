@@ -56,9 +56,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
 
         playlists.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                if (evt.getSource().equals(playlists)) {
-                    userProfileController.switchToPlaylistCollectionView();
-                }
+                userProfileController.switchToPlaylistCollectionView();
             }
         }
         );
@@ -76,7 +74,6 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
 
         this.add(username);
         this.add(note);
-        this.add(playlist);
         this.add(buttons);
     }
 
