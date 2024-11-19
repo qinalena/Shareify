@@ -1,23 +1,31 @@
 package interface_adapter.playlist_collection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The state for Playlist Collection View Model.
  */
 
 public class PlaylistCollectionState {
-    private String addPlaylist;
-    private String playlistError;
 
-    public String getAddPlaylist() {
-        return addPlaylist;
+    private String playlistError;
+    private List<String> playlistList = new ArrayList<>();
+
+    public List<String> getPlaylist() {
+        return new ArrayList<>(playlistList);
+    }
+
+    public void addPlaylist(String playlist) {
+        playlistList.add(playlist);
+    }
+
+    public void removePlaylist(String playlist) {
+        playlistList.remove(playlist);
     }
 
     public String getPlaylistError() {
         return playlistError;
-    }
-
-    public void setAddPlaylist(String addPlaylist) {
-        this.addPlaylist = addPlaylist;
     }
 
     public void setPlaylistError(String playlistError) {
