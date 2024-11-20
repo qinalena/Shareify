@@ -64,7 +64,7 @@ import view.*;
  */
 public class UserProfileAppBuilder {
     public static final int HEIGHT = 300;
-    public static final int WIDTH = 400;
+    public static final int WIDTH = 600;
 
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
@@ -341,7 +341,7 @@ public class UserProfileAppBuilder {
 
         frame.add(cardPanel);
 
-        viewManagerModel.setState(userProfileView.getViewName());
+        viewManagerModel.setState(welcomeView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         // refresh so that the note will be visible when we start the program
