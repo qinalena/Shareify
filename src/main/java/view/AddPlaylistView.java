@@ -1,6 +1,7 @@
 package view;
 
 import data_access.DBUserDataAccessObject;
+import entity.UserFactoryInter;
 import interface_adapter.add_playlist.AddPlaylistController;
 import interface_adapter.add_playlist.AddPlaylistViewModel;
 import interface_adapter.add_playlist.AddPlaylistState;
@@ -21,7 +22,8 @@ public class AddPlaylistView extends JFrame implements PropertyChangeListener {
     private AddPlaylistController addPlaylistController;
     private JTextField playlistNameField;
     private JButton saveButton;
-    private DBUserDataAccessObject dbUserDataAccessObject;
+    private UserFactoryInter userFactory;
+    private final DBUserDataAccessObject dbUserDataAccessObject = new DBUserDataAccessObject(userFactory);
 
     public AddPlaylistView(DefaultListModel<String> playlistListModel, AddPlaylistViewModel addPlaylistViewModel) {
         this.playlistModel = playlistListModel;
@@ -53,24 +55,14 @@ public class AddPlaylistView extends JFrame implements PropertyChangeListener {
     private void addPlaylist() {
         // Sets name of playlist as inputted name by user
         final String playlistName = playlistNameField.getText();
-        if (!playlistName.isEmpty()) {
-            // Returns the current logged-in user's username
-            final String currentUser = dbUserDataAccessObject.getCurrentUsername();
-            if (currentUser != null) {
-                // User exists -> add playlist to list
-                final DefaultListModel<String> listModel = playlistModel;
-                listModel.addElement(playlistName);
-                // Stores the username that the playlist is under
-                addPlaylistViewModel.setNewPlaylist(playlistName);
-
-                // Close dialog if successful
-                dispose();
-            }
-            // If user doesn't exist
-            else {
-                JOptionPane.showMessageDialog(this, "User doesn't exist.", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
+        if (!playlistModel.contains(playlistName)) {
+            playlistModel.addElement(playlistName);
+            addPlaylistViewModel.setNewPlaylist(playlistName);
+            dispose();
+        }
+        else if (playlistModel.contains(playlistName)) {
+            JOptionPane.showMessageDialog(this, "Playlist name already exists!",
+                    "NameError", JOptionPane.ERROR_MESSAGE);
         }
         else {
             JOptionPane.showMessageDialog(this, "Please enter a name.", "Error",
