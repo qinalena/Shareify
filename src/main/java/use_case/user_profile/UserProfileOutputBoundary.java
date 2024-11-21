@@ -21,5 +21,10 @@ public interface UserProfileOutputBoundary {
      */
     void switchToNoteView();
 
+    /**
+     * Switches to PlaylistCollection view.
+     */
+    void switchToPlaylistCollectionView();
+
     void switchToFriendsListView();
 }

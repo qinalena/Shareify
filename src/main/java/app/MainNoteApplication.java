@@ -86,9 +86,11 @@ public class MainNoteApplication {
                 .addLoginUseCase()
                 .addNoteDAO(noteDataAccess)
                 .addNoteView()
+                .addPlaylistCollectionView()
                 .addUserProfileView()
                 .addFriendsListView()
                 .addNoteUseCase()
+                .addPlaylistCollectionUseCase()
                 .addFriendsListUseCase()
                 .addUserProfileUseCase().build().setVisible(true);
     }
