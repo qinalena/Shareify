@@ -1,46 +1,8 @@
-# Note Application
-
-This is a minimal example demonstrating usage of the
-password-protected user part of the API used in lab 5.
-
-You can find more information about the API endpoints in
-[the documentation](https://www.postman.com/cloudy-astronaut-813156/csc207-grade-apis-demo/documentation/fg3zkjm/5-password-protected-user).
-
-If your team is considering an application for which it would be convenient to
-store data in something like a database, you may find that the API calls demonstrated
-here will be useful in your project, as this will allow you to store
-an arbitrary JSON object associated with a username and password.
-
-In this application, a single note has a name (the "username" in terms of the API) and the note
-can be read by anyone who knows the name — but only edited by someone who
-knows the password for it.
-
-You can see the documentation in the various files for more information.
-
-## Testing
-
-The repo also includes an example of a use case interactor test, as well as
-an example of an end-to-end test which automates button clicks and inspects
-the contents of the actual views. This is something we discussed in the lectures
-about testing in CA but had not provided a code example of before. Note, one
-could also inspect the contents of the ViewModel objects instead when testing
-CA to make a similar test which would be less dependent on the details of the
-specific UI implementation.
-
-## Project Starter Code
-
-Your team may choose to use this repo as starter code for your project. You could
-also use the lab 5 code — or start from an empty repo if your team prefers.
-
-If you choose to use one of the repositories we have provided, you can either make
-a fork of it or copy the subset of code you want into a completely new repository.
-
-______
 # Sharify
 
 ## Team: Pineapple
 - ### Alena Qin (qinalena)
-  - User Stories: Searching and adding songs to playlist
+  - User Stories: Creating and editing a playlist
 - ### Junyu Li (Jasjas7777)
   - User Stories: Signup/Login/Logout an account
 - ### Don Prathap C. Edirisinghe (DonPrathap)
@@ -67,7 +29,6 @@ be added to the user’s collection.  The user can also like and/or comment on t
 Users will also have their own friends list, where they can add other users to this list or remove them from it.  
 Any users that are friends with each other will be able to view each other’s account profiles.
 ____
-
 ## User Stories
 ### Customize and manage an account profile
 Users have an account profile which will display basic personal information (username and bio), their friends list,
@@ -78,16 +39,15 @@ Users can sign up for an account by creating a username and password. The app wi
 to avoid repetition in username if the user creates a username that already exists. They could log in to or log out
 their account. A new account starts with an empty playlist collection. ***[Junyu Li]***
 
-### View and manage a playlist collection
-As a user, they want to be able to create, view, and manage the playlists they have created.  This can be done by
-viewing the collections section of the program, displaying all playlists or asking the user to add a new playlist.  
-In addition to creating a playlist within the playlist collection, they can add their preferred soundtracks or songs to
-the playlist they have created. ***[Ashleigh Wong]***
+### Creating and editing a playlist
+Users can search for tracks by inputting the track’s title or artist names. 
+Tracks can be added or removed from a playlist. ***[Alena Qin]***
 
-### Searching and adding songs to playlist
-Users will be able to search for their favourite songs by inputting the title of the song, as well as the name of the
-artist.  Once the selected song is found, the user will be able to add the song to their preferred playlist within
-collection of playlists. ***[Alena Qin]***
+### View and manage a playlist collection
+As a user, they want to be able to create, view, and manage the playlists they have created.  This can be done by 
+viewing the collections section of the program, displaying all playlists or asking the user to add a new playlist. 
+They will be able to keep their playlists private,  public -  allowing them to share playlists with their friends. 
+***[Ashleigh Wong]***
 
 ### View and manage friends list
 Users can view their friends list which is linked to their profile. Friends can be added and removed. Users can also
@@ -99,32 +59,29 @@ playlists to their own playlist collection. ***[Don Edirisinghe]***
 ----
 ## Entities
 - User
-  - username
+  - name
   - password
-  - bio
+  - info
   - playlistCollection
   - friendsList
 - Tracks
-  - name
-  - artist
-  - genre
+  - Name
+  - Artist
+  - Genre
 - Playlist
-  - name
-  - tracks
-  - likes
-  - comments
+  - Name
+  - Tracks
+  - Likes
+  - Comments
 ____
 ## Use Cases
-- Create Account
-  - Sign up
-- Customizing account
-  - Creating bio
-- Login user
-- Logout user
-- Create Playlist
-  - Edit Playlist
-  - Delete Playlist
-  - Open Playlist
+- Sign up
+- Login
+- Logout
+- Note
+- Change Password
+- Playlist Collection
+  - Add Playlist
 - Add songs
   - Search for songs
 - Create friend list
