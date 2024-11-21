@@ -39,6 +39,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     // Initialize components
     private JButton createPlaylistButton = new JButton("Create Playlist");
     private JButton deletePlaylistButton = new JButton("Delete Playlist");
+    private JButton backButton = new JButton("Back");
 
     // JList to show the names of the playlists
     private JList<String> playlistCollectionList = new JList<>(new DefaultListModel<>());
@@ -80,10 +81,19 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         buttons.setLayout(new FlowLayout());
         buttons.add(createPlaylistButton);
         buttons.add(deletePlaylistButton);
+        buttons.add(backButton);
 
         // Set up button actions
         createPlaylistButton.addActionListener(this);
         deletePlaylistButton.addActionListener(this);
+        backButton.addActionListener(this);
+
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                playlistCollectionController.switchToUserProfileView();
+            }
+        }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
