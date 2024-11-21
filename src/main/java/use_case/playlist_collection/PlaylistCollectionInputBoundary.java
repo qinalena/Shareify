@@ -17,4 +17,9 @@ public interface PlaylistCollectionInputBoundary {
      * @param playlist output data
      */
     void removePlaylist(String playlist);
+
+    /**
+     * Executes switch to UserProfile view use case.
+     */
+    void switchToUserProfileView();
 }

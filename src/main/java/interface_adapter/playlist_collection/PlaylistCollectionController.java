@@ -28,4 +28,11 @@ public class PlaylistCollectionController {
     public void removePlaylist(String playlistName) {
         playlistCollectionInteractor.removePlaylist(playlistName);
     }
+
+    /**
+     * Executes the "switch to UserProfile view" Use Case.
+     */
+    public void switchToUserProfileView() {
+        playlistCollectionInteractor.switchToUserProfileView();
+    }
 }

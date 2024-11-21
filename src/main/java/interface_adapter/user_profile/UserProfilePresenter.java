@@ -53,11 +53,13 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
         viewManagerModel.firePropertyChanged();
     }
 
+    @Override
     public void switchToPlaylistCollectionView() {
         viewManagerModel.setState(playlistCollectionViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
+    @Override
     public void switchToFriendsListView() {
         viewManagerModel.setState(friendsListViewModel.getViewName());
         viewManagerModel.firePropertyChanged();

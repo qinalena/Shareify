@@ -1,6 +1,7 @@
 package interface_adapter.playlist_collection;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.user_profile.UserProfileViewModel;
 import use_case.playlist_collection.PlaylistCollectionOutputBoundary;
 
 /**
@@ -10,6 +11,7 @@ public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoun
 
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
     private final ViewManagerModel viewManagerModel;
+    private final UserProfileViewModel userProfileViewModel = new UserProfileViewModel();
 
     public PlaylistCollectionPresenter(PlaylistCollectionViewModel playlistCollectionViewModel,
                                        ViewManagerModel viewManagerModel) {
@@ -47,5 +49,11 @@ public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoun
     public void prepareFailView(String error) {
         playlistCollectionViewModel.getState().setPlaylistError(error);
         playlistCollectionViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToUserProfileView() {
+        viewManagerModel.setState(userProfileViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

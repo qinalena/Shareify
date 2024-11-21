@@ -25,4 +25,9 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
     public void removePlaylist(String playlistName) {
         playlistCollectionPresenter.preparePlaylistRemovedView(playlistName);
     }
+
+    @Override
+    public void switchToUserProfileView() {
+        playlistCollectionPresenter.switchToUserProfileView();
+    }
 }

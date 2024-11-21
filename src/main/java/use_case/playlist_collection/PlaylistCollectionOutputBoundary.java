@@ -22,4 +22,9 @@ public interface PlaylistCollectionOutputBoundary {
      * @param error message indicating issue
      */
     void prepareFailView(String error);
+
+    /**
+     * Switches to UserProfileView - for back button in Playlist Collection View.
+     */
+    void switchToUserProfileView();
 }
