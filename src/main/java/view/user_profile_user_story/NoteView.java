@@ -1,4 +1,4 @@
-package view;
+package view.user_profile_user_story;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;

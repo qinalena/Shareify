@@ -1,4 +1,4 @@
-package view;
+package view.login_user_story;
 
 import javax.swing.*;
 

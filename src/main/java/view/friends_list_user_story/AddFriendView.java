@@ -1,4 +1,4 @@
-package view;
+package view.friends_list_user_story;
 
 import interface_adapter.add_friend.AddFriendController;
 import interface_adapter.add_friend.AddFriendViewModel;

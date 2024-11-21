@@ -1,15 +1,11 @@
-package view;
+package view.login_user_story;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
-import interface_adapter.signup.SignupState;
-import interface_adapter.welcome.WelcomeState;
-import interface_adapter.welcome.WelcomeViewModel;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
@@ -43,7 +39,6 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         this.loginViewModel = loginViewModel;
         this.loginViewModel.addPropertyChangeListener(this);
         this.viewManagerModel = viewManagerModel;
-
 
         // Title
         final JLabel title = new JLabel("Log in");

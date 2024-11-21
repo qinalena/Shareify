@@ -4,6 +4,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.friends_list.FriendsListViewModel;
 import interface_adapter.note.NoteViewModel;
 import use_case.user_profile.UserProfileOutputBoundary;
+import use_case.user_profile.UserProfileOutputData;
 
 /**
  * The presenter for our User Profile.
@@ -26,10 +27,12 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
     /**
      * Prepares the success view for the User Profile related Use Cases.
      *
-     * @param note the output data
+     * @param userProfileOutputData the output data
      */
     @Override
-    public void prepareSuccessView(String note) {
+    public void prepareSuccessView(UserProfileOutputData userProfileOutputData) {
+        // On success, switch to the UserProfile View.
+
         userProfileViewModel.getState().setError(null);
         userProfileViewModel.firePropertyChanged();
     }
@@ -50,7 +53,8 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
         viewManagerModel.setState(noteViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
-    
+
+    @Override
     public void switchToFriendsListView() {
         viewManagerModel.setState(friendsListViewModel.getViewName());
         viewManagerModel.firePropertyChanged();

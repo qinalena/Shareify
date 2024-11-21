@@ -18,9 +18,6 @@ public class NoteInteractor implements NoteInputBoundary {
         this.noteDataAccessInterface = noteDataAccessInterface;
         this.notePresenter = notePresenter;
 
-        // Example usage: Create a new user if needed
-//        User newUser = new User("new_user_name_1", "password123");
-//        executeCreateUser(newUser);
     }
 
     /**
@@ -59,23 +56,4 @@ public class NoteInteractor implements NoteInputBoundary {
         notePresenter.switchToUserProfileView();
     }
 
-    // Method to create a new user
-    public void executeCreateUser(User user) {
-        try {
-            DBNoteDataAccessObject.createUser(user);
-            notePresenter.prepareSuccessView("User created successfully");
-        } catch (DataAccessException ex) {
-            notePresenter.prepareFailView(ex.getMessage());
-        }
-    }
-
-    public void executeGetUserByUsername(String username) {
-        try {
-            // Try to get the user by username
-            String foundUsername = DBNoteDataAccessObject.getUserByUsername(username);
-            System.out.println("User found: " + foundUsername);
-        } catch (DataAccessException ex) {
-            System.err.println("Error: " + ex.getMessage());
-        }
-    }
 }

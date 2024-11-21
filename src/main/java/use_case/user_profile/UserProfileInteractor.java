@@ -1,24 +1,28 @@
 package use_case.user_profile;
 
+import data_access.LoggedInDataAccessObject;
 import entity.User;
-import use_case.note.NoteDataAccessInterface;
 
 /**
  * The interactor for our User Profile.
  */
 public class UserProfileInteractor implements UserProfileInputBoundary {
 
-    private final NoteDataAccessInterface noteDataAccessInterface;
+    private final LoggedInDataAccessObject loggedInDataAccessObject;
     private final UserProfileOutputBoundary userProfilePresenter;
     private final User user = new User("newUserName3", "password123");
 
-    public UserProfileInteractor(NoteDataAccessInterface noteDataAccessInterface, UserProfileOutputBoundary userProfilePresenter) {
-        this.noteDataAccessInterface = noteDataAccessInterface;
+    public UserProfileInteractor(LoggedInDataAccessObject loggedInDataAccessObject, UserProfileOutputBoundary userProfilePresenter) {
+        this.loggedInDataAccessObject = loggedInDataAccessObject;
         this.userProfilePresenter = userProfilePresenter;
+    }
 
-        // Example usage: Create a new user if needed
-//        User newUser = new User("new_user_name_1", "password123");
-//        executeCreateUser(newUser);
+    @Override
+    public void execute() {
+        final String username = loggedInDataAccessObject.getUsername();
+        final String password = loggedInDataAccessObject.getPassword();
+        final UserProfileOutputData userProfileOutputData = new UserProfileOutputData(username, false);
+        userProfilePresenter.prepareSuccessView(userProfileOutputData);
     }
 
     @Override
@@ -31,13 +35,4 @@ public class UserProfileInteractor implements UserProfileInputBoundary {
         userProfilePresenter.switchToFriendsListView();
     }
 
-    // Method to create a new user
-//    public void executeCreateUser(User user) {
-//        try {
-//            DBNoteDataAccessObject.createUser(user);
-//            userProfileOutputBoundary.prepareSuccessView("User created successfully");
-//        } catch (DataAccessException ex) {
-//            userProfileOutputBoundary.prepareFailView(ex.getMessage());
-//        }
-//    }
 }

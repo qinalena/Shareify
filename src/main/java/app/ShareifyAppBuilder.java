@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import data_access.DBNoteDataAccessObject;
 import data_access.DBUserDataAccessObject;
+import data_access.LoggedInDataAccessObject;
 import entity.UserFactory;
 import entity.UserFactoryInter;
 import interface_adapter.ViewManagerModel;
@@ -44,6 +45,12 @@ import use_case.user_profile.UserProfileInputBoundary;
 import use_case.user_profile.UserProfileInteractor;
 import use_case.user_profile.UserProfileOutputBoundary;
 import view.*;
+import view.friends_list_user_story.FriendsListView;
+import view.login_user_story.LoginView;
+import view.login_user_story.SignupView;
+import view.login_user_story.WelcomeView;
+import view.user_profile_user_story.NoteView;
+import view.user_profile_user_story.UserProfileView;
 
 
 /**
@@ -67,6 +74,7 @@ public class ShareifyAppBuilder {
     private SignupViewModel signupViewModel;
     private final UserFactoryInter userFactory = new UserFactory();
     private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
+    private final LoggedInDataAccessObject loggedInDataAccessObject = new LoggedInDataAccessObject();
 
     private LoginViewModel loginViewModel = new LoginViewModel();
     private LoginView loginView;
@@ -82,13 +90,11 @@ public class ShareifyAppBuilder {
     private FriendsListViewModel friendsListViewModel;
     private FriendsListView friendsListView;
     private FriendsListController friendsListController;
-    private FriendsListPresenter friendsListPresenter;
-    private FriendsListInputBoundary friendsListInputBoundary;
     private FriendsListOutputBoundary friendsListOutputBoundary;
     private FriendsListInteractor friendsListInteractor;
     private DBNoteDataAccessObject dbNoteDataAccessObject = new DBNoteDataAccessObject();
-    private interface_adapter.add_friend.AddFriendViewModel AddFriendViewModel = new interface_adapter.add_friend.AddFriendViewModel();
-    private AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(AddFriendViewModel);
+    private interface_adapter.add_friend.AddFriendViewModel addFriendViewModel = new interface_adapter.add_friend.AddFriendViewModel();
+    private AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel);
 
     // For refreshing the note before displaying the Note View
     private NoteInputBoundary noteInteractor;
@@ -108,7 +114,7 @@ public class ShareifyAppBuilder {
     }
 
     /**
-     * Creates the NoteView and underlying NoteViewModel.
+     * Adds the NoteView to the application.
      * @return this builder
      */
     public ShareifyAppBuilder addNoteView() {
@@ -119,7 +125,7 @@ public class ShareifyAppBuilder {
     }
 
     /**
-     * Creates the UserProfileView and underlying UserProfileViewModel.
+     * Adds the UserProfileView to the application.
      * @return this builder
      */
     public ShareifyAppBuilder addUserProfileView() {
@@ -137,8 +143,7 @@ public class ShareifyAppBuilder {
     }
 
     /**
-     * Creates the objects for the User Profile Use Case and connects the UserProfileView to its
-     * controller.
+     * Adds the UserProfile Use Case to the application.
      * <p>This method must be called after addUserProfileView!</p>
      * @return this builder
      * @throws RuntimeException if this method is called before addUserProfileView
@@ -147,7 +152,7 @@ public class ShareifyAppBuilder {
         final UserProfileOutputBoundary userProfileOutputBoundary =
                 new UserProfilePresenter(userProfileViewModel, noteViewModel, viewManagerModel);
         final UserProfileInputBoundary userProfileInteractor = new UserProfileInteractor(
-                noteDAO, userProfileOutputBoundary);
+                loggedInDataAccessObject, userProfileOutputBoundary);
 
         final UserProfileController userProfileController = new UserProfileController(userProfileInteractor);
         if (userProfileView == null) {
@@ -200,7 +205,7 @@ public class ShareifyAppBuilder {
      * Adds the Signup View to the application.
      * @return this builder
      */
-    public UserProfileAppBuilder addSignupView() {
+    public ShareifyAppBuilder addSignupView() {
         signupViewModel = new SignupViewModel();
         signupView = new SignupView(signupViewModel, viewManagerModel);
         cardPanel.add(signupView, signupView.getViewName());
@@ -211,7 +216,7 @@ public class ShareifyAppBuilder {
      * Adds the Signup Use Case to the application.
      * @return this builder
      */
-    public UserProfileAppBuilder addSignupUseCase() {
+    public ShareifyAppBuilder addSignupUseCase() {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(
                 signupViewModel, loginViewModel, viewManagerModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
@@ -226,12 +231,12 @@ public class ShareifyAppBuilder {
      * Adds the Login Use Case to the application.
      * @return this builder
      */
-    public UserProfileAppBuilder addLoginUseCase() {
+    public ShareifyAppBuilder addLoginUseCase() {
         userProfileViewModel = new UserProfileViewModel();
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 userProfileViewModel, loginViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject, loginOutputBoundary);
+                userDataAccessObject, loggedInDataAccessObject, loginOutputBoundary);
 
         final LoginController loginController = new LoginController(loginInteractor);
         loginView.setLoginController(loginController);
@@ -242,9 +247,9 @@ public class ShareifyAppBuilder {
      * Adds the Login View to the application.
      * @return this builder
      */
-    public UserProfileAppBuilder addLoginView() {
+    public ShareifyAppBuilder addLoginView() {
         loginViewModel = new LoginViewModel();
-        loginView = new LoginView(loginViewModel,viewManagerModel);
+        loginView = new LoginView(loginViewModel, viewManagerModel);
         cardPanel.add(loginView, loginView.getViewName());
         return this;
     }
@@ -253,16 +258,12 @@ public class ShareifyAppBuilder {
      * Adds the Welcome view to the application.
      * @return this builder
      */
-    public UserProfileAppBuilder addWelcomeView() {
+    public ShareifyAppBuilder addWelcomeView() {
         welcomeViewModel = new WelcomeViewModel();
-        welcomeView = new WelcomeView(welcomeViewModel,viewManagerModel);
+        welcomeView = new WelcomeView(welcomeViewModel, viewManagerModel);
         cardPanel.add(welcomeView, welcomeView.getViewName());
         return this;
     }
-
-
-
-
 
     /**
      * Builds the application.

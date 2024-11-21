@@ -1,4 +1,4 @@
-package view;
+package view.user_profile_user_story;
 
 import entity.User;
 import interface_adapter.user_profile.UserProfileController;
@@ -16,14 +16,14 @@ import java.beans.PropertyChangeListener;
  * The View for when the User had logged in, displaying their User Profile.
  */
 public class UserProfileView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final String viewName = "userProfile";
+    private final String viewName = "user profile";
 
-    private final UserProfileViewModel userViewModel;
+    private final UserProfileViewModel userProfileViewModel;
 
     // Hardcoded example user
     private final User user = new User("newUserName3", "password123");
 
-    private final JLabel username = new JLabel("Shareify - " + user.getName());
+    private JLabel username = new JLabel();
     private final JLabel note = new JLabel(user.getNote());
 
     private final JButton editProfileButton = new JButton("Edit Profile");
@@ -32,11 +32,14 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     private final JButton logoutButton = new JButton("Logout");
     private UserProfileController userProfileController;
 
-    public UserProfileView(UserProfileViewModel userViewModel) {
+    public UserProfileView(UserProfileViewModel userProfileViewModel) {
+
+        this.userProfileViewModel = userProfileViewModel;
+        this.userProfileViewModel.addPropertyChangeListener(this);
+
+        username.setText("Shareify - " + this.userProfileViewModel.getState().getUsername());
 
         username.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.userViewModel = userViewModel;
-        this.userViewModel.addPropertyChangeListener(this);
 
         final JPanel buttons = new JPanel();
         buttons.add(editProfileButton);
@@ -88,6 +91,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     }
 
     private void setFields(UserProfileState state) {
+        username.setText(state.getUsername());
     }
 
     public void setUserProfileController(UserProfileController controller) {

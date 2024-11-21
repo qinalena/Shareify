@@ -1,4 +1,4 @@
-package view;
+package view.login_user_story;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.welcome.WelcomeViewModel;
@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import javax.swing.border.Border;
 
 public class WelcomeView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "Welcome";

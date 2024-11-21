@@ -1,4 +1,4 @@
-package view;
+package view.login_user_story;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
