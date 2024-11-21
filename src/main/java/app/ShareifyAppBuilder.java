@@ -127,11 +127,15 @@ public class ShareifyAppBuilder {
     /**
      * Adds the UserProfileView to the application.
      * @return this builder
+     * @throws RuntimeException if this method is called before addLoginUseCase
      */
     public ShareifyAppBuilder addUserProfileView() {
-        userProfileViewModel = new UserProfileViewModel();
         userProfileView = new UserProfileView(userProfileViewModel);
         cardPanel.add(userProfileView, userProfileView.getViewName());
+
+        if (loginView == null) {
+            throw new RuntimeException("addLogInView must be called before addUserProfileView");
+        }
         return this;
     }
 

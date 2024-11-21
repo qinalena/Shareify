@@ -26,13 +26,14 @@ public class LoginPresenter implements LoginOutputBoundary {
     @Override
     public void prepareSuccessView(LoginOutputData loginOutputData) {
         // On success, switch to the UserProfile view.
-        this.viewManagerModel.setState(userProfileViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
 
         final UserProfileState userProfileState = userProfileViewModel.getState();
         userProfileState.setUsername(loginOutputData.getUsername());
         this.userProfileViewModel.setState(userProfileState);
         this.userProfileViewModel.firePropertyChanged();
+
+        this.viewManagerModel.setState(userProfileViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
     }
 
     @Override

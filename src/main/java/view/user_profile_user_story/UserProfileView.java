@@ -37,8 +37,6 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
         this.userProfileViewModel = userProfileViewModel;
         this.userProfileViewModel.addPropertyChangeListener(this);
 
-        username.setText("Shareify - " + this.userProfileViewModel.getState().getUsername());
-
         username.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JPanel buttons = new JPanel();
@@ -82,16 +80,18 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final UserProfileState state = (UserProfileState) evt.getNewValue();
-        setFields(state);
-        if (state.getError() != null) {
-            JOptionPane.showMessageDialog(this, state.getError(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        if (evt.getPropertyName().equals("state")) {
+            final UserProfileState state = (UserProfileState) evt.getNewValue();
+            setFields(state);
+            }
+//        if (state.getError() != null) {
+//            JOptionPane.showMessageDialog(this, state.getError(),
+//                    "Error", JOptionPane.ERROR_MESSAGE);
+//        }
     }
 
     private void setFields(UserProfileState state) {
-        username.setText(state.getUsername());
+        username.setText("Shareify - " + state.getUsername());
     }
 
     public void setUserProfileController(UserProfileController controller) {

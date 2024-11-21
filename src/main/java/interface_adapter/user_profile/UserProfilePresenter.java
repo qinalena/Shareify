@@ -33,8 +33,8 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
     public void prepareSuccessView(UserProfileOutputData userProfileOutputData) {
         // On success, switch to the UserProfile View.
 
-        userProfileViewModel.getState().setError(null);
-        userProfileViewModel.firePropertyChanged();
+//        userProfileViewModel.getState().setError(null);
+//        userProfileViewModel.firePropertyChanged();
     }
 
     /**
