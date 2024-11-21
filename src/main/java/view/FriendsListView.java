@@ -1,6 +1,7 @@
 package view;
 
 import data_access.DBNoteDataAccessObject;
+import entity.User;
 import interface_adapter.add_friend.AddFriendController;
 import interface_adapter.add_friend.AddFriendPresenter;
 import interface_adapter.add_friend.AddFriendViewModel;
@@ -10,6 +11,7 @@ import interface_adapter.friends_list.FriendsListState;
 import use_case.add_friend.AddFriendInputBoundary;
 import use_case.add_friend.AddFriendInteractor;
 import use_case.add_friend.AddFriendOutputBoundary;
+import use_case.note.DataAccessException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,6 +33,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     private AddFriendInputBoundary addFriendInputBoundary;
 
     // UI components
+    private final JLabel friendsListName = new JLabel("Friends List");
     private final JList<String> friendsList = new JList<>(new DefaultListModel<>());
     private final JButton addFriendButton = new JButton("Add Friend");
     private final JButton deleteFriendButton = new JButton("Delete Friend");
@@ -42,6 +45,8 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         this.dbNoteDataAccessObject = dbNoteDataAccessObject;
         this.addFriendOutputBoundary = addFriendOutputBoundary;
         this.viewModel.addPropertyChangeListener(this);
+        friendsListName.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(friendsListName);
 
         // Initialize AddFriendInputBoundary here after dependencies are set
         if (this.dbNoteDataAccessObject != null && this.addFriendOutputBoundary != null) {
@@ -72,6 +77,26 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         // Set up button actions
         addFriendButton.addActionListener(this);
         deleteFriendButton.addActionListener(this);
+
+        // Populate the friends list with the user's friends
+        try {
+            User user = new User("newUserName3", "password123");
+            System.out.println("We are calling getFriends!!!");
+            List<String> friends = dbNoteDataAccessObject.getFriends(user.getName());
+            System.out.println("These are your friends");
+            System.out.println(friends);
+            populateFriendsList(friends);
+        } catch (DataAccessException e) {
+            JOptionPane.showMessageDialog(this, "Error fetching friends: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void populateFriendsList(List<String> friends) {
+        DefaultListModel<String> listModel = (DefaultListModel<String>) friendsList.getModel();
+        listModel.clear();
+        for (String friend : friends) {
+            listModel.addElement(friend);
+        }
     }
 
     @Override
@@ -105,7 +130,16 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
             if (selectedIndices.length > 0) {
                 DefaultListModel<String> listModel = (DefaultListModel<String>) friendsList.getModel();
                 for (int i = selectedIndices.length - 1; i >= 0; i--) {
+                    String friendToRemove = listModel.get(selectedIndices[i]);
                     listModel.remove(selectedIndices[i]);
+
+                    // Call removeFriendinDB to remove the friend from the database
+                    try {
+                        User user = new User("your_username", "your_password");
+                        dbNoteDataAccessObject.removeFriendinDB(user, selectedIndices[i]);
+                    } catch (DataAccessException e) {
+                        JOptionPane.showMessageDialog(this, "Error removing friend from database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Please select a friend to delete.", "Error", JOptionPane.ERROR_MESSAGE);

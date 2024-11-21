@@ -1,5 +1,6 @@
 package view;
 
+import entity.User;
 import interface_adapter.add_friend.AddFriendController;
 import interface_adapter.add_friend.AddFriendViewModel;
 import interface_adapter.add_friend.AddFriendState;
@@ -54,6 +55,8 @@ public class AddFriendView extends JFrame implements PropertyChangeListener {
                     DefaultListModel<String> listModel = friendsListModel;
                     listModel.addElement(friendName);
                     addFriendViewModel.setNewFriend(friendName); // Store the new friend's username
+                    dbNoteDataAccessObject.addFriendinDB(new User("newUserName8", "password123"), foundUsername);
+
                     dispose(); // Close the dialog after successful addition
                 } else { // User does not exist
                     JOptionPane.showMessageDialog(this, "User does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
