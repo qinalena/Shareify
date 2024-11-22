@@ -1,6 +1,7 @@
 package view;
 
 import entity.User;
+import interface_adapter.ViewManagerModel;
 import interface_adapter.user_profile.UserProfileController;
 import interface_adapter.user_profile.UserProfileState;
 import interface_adapter.user_profile.UserProfileViewModel;
@@ -25,14 +26,17 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
 
     private final JLabel username = new JLabel("Shareify - " + user.getName());
     private final JLabel note = new JLabel();
+    private final JLabel playlist = new JLabel();
 
     private final JButton editProfile = new JButton("Edit Profile");
     private final JButton playlists = new JButton("Playlists");
     private final JButton friends = new JButton("Friends");
+
     private UserProfileController userProfileController;
+    private ViewManagerModel viewManagerModel;
 
     public UserProfileView(UserProfileViewModel userViewModel) {
-
+        this.viewManagerModel = viewManagerModel;
         username.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.userViewModel = userViewModel;
         this.userViewModel.addPropertyChangeListener(this);
@@ -42,13 +46,19 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
         buttons.add(playlists);
         buttons.add(friends);
 
-        editProfile.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        userProfileController.switchToNoteView();
+        editProfile.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                userProfileController.switchToNoteView();
 
-                    }
-                }
+            }
+        }
+        );
+
+        playlists.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                userProfileController.switchToPlaylistCollectionView();
+            }
+        }
         );
 
         friends.addActionListener(
