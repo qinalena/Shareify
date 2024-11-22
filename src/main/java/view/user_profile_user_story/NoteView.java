@@ -14,9 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import entity.User;
-import interface_adapter.note.NoteController;
-import interface_adapter.note.NoteState;
-import interface_adapter.note.NoteViewModel;
+import interface_adapter.user_profile_user_story.note.NoteController;
+import interface_adapter.user_profile_user_story.note.NoteState;
+import interface_adapter.user_profile_user_story.note.NoteViewModel;
 
 /**
  * The View for when the user is viewing a note in the program.

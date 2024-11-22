@@ -1,6 +1,6 @@
 package data_access;
 
-import use_case.user_profile.LoggedInDataAccessInterface;
+import use_case.user_profile_user_story.user_profile.LoggedInDataAccessInterface;
 
 /**
  * In-memory storage of the logged-in user's username and password.

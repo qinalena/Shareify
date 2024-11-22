@@ -1,7 +1,7 @@
 package view.login_user_story;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.welcome.WelcomeViewModel;
+import interface_adapter.login_user_story.welcome.WelcomeViewModel;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -29,7 +29,7 @@ public class WelcomeView extends JPanel implements ActionListener, PropertyChang
         this.setBorder(BorderFactory.createEmptyBorder(10, 100, 50, 100));
 
         // Add logo
-        ImageIcon logoIcon = new ImageIcon("src/main/java/view/Logo.png"); // Replace with your logo path
+        ImageIcon logoIcon = new ImageIcon("src/main/java/view/login_user_story/Logo.png"); // Replace with your logo path
         JLabel logoLabel = new JLabel(logoIcon);
         logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(logoLabel);

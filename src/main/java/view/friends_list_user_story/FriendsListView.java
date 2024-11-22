@@ -1,15 +1,15 @@
 package view.friends_list_user_story;
 
 import data_access.DBNoteDataAccessObject;
-import interface_adapter.add_friend.AddFriendController;
-import interface_adapter.add_friend.AddFriendPresenter;
-import interface_adapter.add_friend.AddFriendViewModel;
-import interface_adapter.friends_list.FriendsListController;
-import interface_adapter.friends_list.FriendsListViewModel;
-import interface_adapter.friends_list.FriendsListState;
-import use_case.add_friend.AddFriendInputBoundary;
-import use_case.add_friend.AddFriendInteractor;
-import use_case.add_friend.AddFriendOutputBoundary;
+import interface_adapter.friends_list_user_story.add_friend.AddFriendController;
+import interface_adapter.friends_list_user_story.add_friend.AddFriendPresenter;
+import interface_adapter.friends_list_user_story.add_friend.AddFriendViewModel;
+import interface_adapter.friends_list_user_story.friends_list.FriendsListController;
+import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
+import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
+import use_case.friends_list_user_story.add_friend.AddFriendInputBoundary;
+import use_case.friends_list_user_story.add_friend.AddFriendInteractor;
+import use_case.friends_list_user_story.add_friend.AddFriendOutputBoundary;
 
 import javax.swing.*;
 import java.awt.*;

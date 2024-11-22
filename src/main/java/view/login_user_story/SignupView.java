@@ -11,10 +11,10 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.signup.SignupController;
-import interface_adapter.signup.SignupState;
-import interface_adapter.signup.SignupViewModel;
-import use_case.note.DataAccessException;
+import interface_adapter.login_user_story.signup.SignupController;
+import interface_adapter.login_user_story.signup.SignupState;
+import interface_adapter.login_user_story.signup.SignupViewModel;
+import use_case.user_profile_user_story.note.DataAccessException;
 
 
 public class SignupView extends JPanel implements ActionListener, PropertyChangeListener {

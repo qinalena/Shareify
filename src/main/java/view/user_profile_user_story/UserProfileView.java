@@ -1,9 +1,9 @@
 package view.user_profile_user_story;
 
 import entity.User;
-import interface_adapter.user_profile.UserProfileController;
-import interface_adapter.user_profile.UserProfileState;
-import interface_adapter.user_profile.UserProfileViewModel;
+import interface_adapter.user_profile_user_story.user_profile.UserProfileController;
+import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
+import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +30,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     private final JButton playlistsButton = new JButton("Playlists");
     private final JButton friendsButton = new JButton("Friends");
     private final JButton logoutButton = new JButton("Logout");
+
     private UserProfileController userProfileController;
 
     public UserProfileView(UserProfileViewModel userProfileViewModel) {
@@ -45,13 +46,20 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
         buttons.add(friendsButton);
         buttons.add(logoutButton);
 
-        editProfileButton.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        userProfileController.switchToNoteView();
+        editProfileButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                userProfileController.switchToNoteView();
 
-                    }
-                }
+            }
+        }
+        );
+
+
+        playlistsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                userProfileController.switchToPlaylistCollectionView();
+            }
+        }
         );
 
         friendsButton.addActionListener(

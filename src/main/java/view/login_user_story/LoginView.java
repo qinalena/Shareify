@@ -1,9 +1,9 @@
 package view.login_user_story;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.login.LoginController;
-import interface_adapter.login.LoginState;
-import interface_adapter.login.LoginViewModel;
+import interface_adapter.login_user_story.login.LoginController;
+import interface_adapter.login_user_story.login.LoginState;
+import interface_adapter.login_user_story.login.LoginViewModel;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

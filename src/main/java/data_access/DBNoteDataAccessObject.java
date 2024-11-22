@@ -1,10 +1,7 @@
 package data_access;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import entity.User;
@@ -13,8 +10,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import use_case.note.DataAccessException;
-import use_case.note.NoteDataAccessInterface;
+import use_case.user_profile_user_story.note.DataAccessException;
+import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 /**
  * The DAO for accessing notes stored in the database.
@@ -58,12 +55,15 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
 
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 return loadNote(user);
-            } else if (responseBody.getInt(STATUS_CODE_LABEL) == CREDENTIAL_ERROR) {
+            }
+            else if (responseBody.getInt(STATUS_CODE_LABEL) == CREDENTIAL_ERROR) {
                 throw new DataAccessException("Message could not be found or password was incorrect");
-            } else {
+            }
+            else {
                 throw new DataAccessException("Database error: " + responseBody.getString(MESSAGE));
             }
-        } catch (IOException | JSONException ex) {
+        }
+        catch (IOException | JSONException ex) {
             throw new DataAccessException(ex.getMessage());
         }
     }
@@ -86,10 +86,12 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
                 final JSONObject data = userJSONObject.getJSONObject("info");
                 return data.getString("note");
-            } else {
+            }
+            else {
                 throw new DataAccessException(responseBody.getString(MESSAGE));
             }
-        } catch (IOException | JSONException ex) {
+        }
+        catch (IOException | JSONException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -127,11 +129,13 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
             // Handle the response status
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 // Success, user created!
-            } else {
+            }
+            else {
                 // Throw error if status is not 200 (success)
                 throw new DataAccessException(responseBody.getString(MESSAGE));
             }
-        } catch (IOException | JSONException ex) {
+        }
+        catch (IOException | JSONException ex) {
             throw new DataAccessException(ex.getMessage());
         }
     }
