@@ -16,7 +16,8 @@ public class FriendsListState {
     public String getMostRecentFriend() {
         if (!friends.isEmpty()) {
             return friends.get(friends.size() - 1);
-        } else {
+        }
+        else {
             return null;
         }
     }

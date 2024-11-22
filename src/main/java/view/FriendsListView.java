@@ -92,16 +92,6 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         addFriendButton.addActionListener(this);
         deleteFriendButton.addActionListener(this);
         viewFriendButton.addActionListener(this);
-
-//        // Populate the friends list with the user's friends
-//        try {
-//            User realUser = new User(username, password);
-//            User user = new User("newUserName7", "password123");
-//            List<String> friends = dbNoteDataAccessObject.getFriends(realUser.getName());
-//            populateFriendsList(friends);
-//        } catch (DataAccessException e) {
-//            JOptionPane.showMessageDialog(this, "Error fetching friends: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-//        }
     }
 
     private void populateFriendsList(List<String> friends) {
@@ -145,7 +135,6 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
             }
         }
         else if (evt.getSource() == viewFriendButton) {
-            System.out.println("you clicked view friend");
             friendsListController.switchToFriendProfileView();
         }
     }
@@ -164,9 +153,6 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         final FriendsListState state = (FriendsListState) evt.getNewValue();
         updateFriendsList(state);
         currentFriends = state.getFriends();
-        System.out.println("This are your friends in state " + currentFriends);
-        System.out.println("THIS IS YOUR USERNAME: " + state.getUsername());
-        System.out.println("THIS IS YOUR PASSWORD: " + state.getPassword());
         if (state.getUsername() != this.username) {
             this.username = state.getUsername();
             this.password = state.getPassword();
@@ -179,7 +165,6 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     }
 
     private void updateFriendsList(FriendsListState state) {
-        System.out.println("Most recent friend : " + state.getMostRecentFriend());
         listModel.addElement(state.getMostRecentFriend());
     }
 

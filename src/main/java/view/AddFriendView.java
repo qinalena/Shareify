@@ -40,7 +40,10 @@ public class AddFriendView extends JPanel implements PropertyChangeListener {
         add(saveButton);
 
         // Action listener to add friend to the list if they exist
-        saveButton.addActionListener(e -> addFriend());
+        saveButton.addActionListener(e -> {
+            addFriend();
+            friendNameField.setText("");
+        });
     }
 
     private void addFriend() {
@@ -73,8 +76,6 @@ public class AddFriendView extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final AddFriendState state = (AddFriendState) evt.getNewValue();
-        System.out.println("This is your username in AddFriendView: " + state.getUsername());
-        System.out.println(state.getPassword());
         this.username = state.getUsername();
         this.password = state.getPassword();
     }
