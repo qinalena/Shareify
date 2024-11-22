@@ -16,4 +16,18 @@ public class FriendsListController {
     public void deleteFriend(String friendName) {
         interactor.deleteFriend(friendName);
     }
+
+    /**
+     * Executes the "switch to NoteView" Use Case.
+     */
+    public void switchToNoteView() {
+        interactor.switchToNoteView();
+    }
+    public void switchToFriendsListView() {
+        interactor.switchToFriendsListView();
+    }
+
+    public void switchToFriendProfileView() {
+        interactor.switchToFriendProfileView();
+    }
 }

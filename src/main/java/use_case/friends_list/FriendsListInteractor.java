@@ -21,5 +21,20 @@ public class FriendsListInteractor implements FriendsListInputBoundary {
     public void deleteFriend(String friendName) {
         presenter.presentFriendDeleted(friendName);
     }
+
+    @Override
+    public void switchToNoteView() {
+        presenter.switchToNoteView();
+    }
+
+    @Override
+    public void switchToFriendsListView() {
+        presenter.switchToFriendsListView();
+    }
+
+    @Override
+    public void switchToFriendProfileView() {
+        presenter.switchToFriendProfileView();
+    }
 }
 

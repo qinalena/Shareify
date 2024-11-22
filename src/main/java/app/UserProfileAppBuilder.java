@@ -10,6 +10,8 @@ import entity.UserFactory;
 import entity.UserFactoryInter;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.add_friend.AddFriendPresenter;
+import interface_adapter.friend_profile.FriendProfileController;
+import interface_adapter.friend_profile.FriendProfilePresenter;
 import interface_adapter.friends_list.FriendsListViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
@@ -26,12 +28,16 @@ import interface_adapter.user_profile.UserProfileViewModel;
 import interface_adapter.friends_list.FriendsListController;
 import interface_adapter.friends_list.FriendsListPresenter;
 import interface_adapter.welcome.WelcomeViewModel;
+import interface_adapter.friend_profile.FriendProfileViewModel;
 import use_case.add_friend.AddFriendOutputBoundary;
+import use_case.friend_profile.FriendProfileInputBoundary;
+import use_case.friend_profile.FriendProfileOutputBoundary;
 import use_case.friends_list.FriendsListInputBoundary;
 import use_case.friends_list.FriendsListOutputBoundary;
 import use_case.friends_list.FriendsListInteractor;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
+import use_case.friend_profile.FriendProfileInteractor;
 import use_case.login.LoginOutputBoundary;
 import use_case.note.NoteDataAccessInterface;
 import use_case.note.NoteInputBoundary;
@@ -80,6 +86,7 @@ public class UserProfileAppBuilder {
     private NoteView noteView;
 
     private FriendsListViewModel friendsListViewModel;
+    private FriendProfileViewModel friendProfileViewModel;
     private FriendsListView friendsListView;
     private FriendsListController friendsListController;
     private FriendsListPresenter friendsListPresenter;
@@ -89,6 +96,9 @@ public class UserProfileAppBuilder {
     private DBNoteDataAccessObject dbNoteDataAccessObject = new DBNoteDataAccessObject();
     private interface_adapter.add_friend.AddFriendViewModel AddFriendViewModel = new interface_adapter.add_friend.AddFriendViewModel();
     private AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(AddFriendViewModel);
+    private FriendProfilePresenter friendProfilePresenter;
+    private FriendProfileInteractor friendProfileInteractor;
+    private FriendView friendProfileView;
 
     // For refreshing the note before displaying the Note View
     private NoteInputBoundary noteInteractor;
@@ -163,7 +173,7 @@ public class UserProfileAppBuilder {
         }
 
         // Instantiate the output boundary (presenter) and input boundary (interactor)
-        friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel);
+        friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel, viewManagerModel);
         friendsListInteractor = new FriendsListInteractor(friendsListOutputBoundary);
 
         // Create the controller and connect it to the interactor
@@ -172,6 +182,18 @@ public class UserProfileAppBuilder {
         // Link the controller to the view
         friendsListView.setFriendsListController(friendsListController);
 
+        return this;
+    }
+
+    public UserProfileAppBuilder addFriendProfileUseCase() {
+        final FriendProfileOutputBoundary friendProfileOutputBoundary = new FriendProfilePresenter(friendProfileViewModel, viewManagerModel, noteViewModel);
+        friendProfileInteractor = new FriendProfileInteractor(noteDAO, friendProfileOutputBoundary);
+
+        final FriendProfileController friendProfileController = new FriendProfileController(friendProfileInteractor);
+        if (friendProfileView == null) {
+            throw new RuntimeException("addFriendProfileView must be called before addFriendProfileUseCase");
+        }
+        friendProfileView.setFriendProfileController(friendProfileController);
         return this;
     }
 
@@ -259,9 +281,12 @@ public class UserProfileAppBuilder {
         return this;
     }
 
-
-
-
+    public UserProfileAppBuilder addFriendProfileView() {
+        friendProfileViewModel = new FriendProfileViewModel();
+        friendProfileView = new FriendView(friendProfileViewModel);
+        cardPanel.add(friendProfileView, friendProfileViewModel.getViewName());
+        return this;
+    }
 
     /**
      * Builds the application.

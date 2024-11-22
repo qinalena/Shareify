@@ -90,6 +90,8 @@ public class MainNoteApplication {
                 .addFriendsListView()
                 .addNoteUseCase()
                 .addFriendsListUseCase()
+                .addFriendProfileView()
+                .addFriendProfileUseCase()
                 .addUserProfileUseCase().build().setVisible(true);
     }
 }
