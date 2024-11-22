@@ -7,4 +7,6 @@ public interface FriendProfileInputBoundary {
     void switchToNoteView();
 
     void switchToFriendsListView();
+
+    void switchToPlaylistCollectionView();
 }

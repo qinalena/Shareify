@@ -46,7 +46,7 @@ public class FriendView extends JPanel implements ActionListener, PropertyChange
         viewPlaylists.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        friendProfileController.switchToNoteView();
+                        friendProfileController.switchToPlaylistCollectionView();
                     }
                 }
         );

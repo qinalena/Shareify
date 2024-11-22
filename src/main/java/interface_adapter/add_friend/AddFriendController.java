@@ -12,5 +12,9 @@ public class AddFriendController {
     public void addFriend(String friendName) {
         interactor.execute(friendName);
     }
+
+    public void switchToFriendsListView() {
+        interactor.switchToFriendsListView();
+    }
 }
 

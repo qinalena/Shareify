@@ -19,4 +19,9 @@ public class FriendProfileInteractor implements FriendProfileInputBoundary {
     public void switchToFriendsListView() {
         friendProfilePresenter.switchToFriendsListView();
     }
+
+    @Override
+    public void switchToPlaylistCollectionView() {
+        friendProfilePresenter.switchToPlaylistCollectionView();
+    }
 }

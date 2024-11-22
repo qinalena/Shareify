@@ -7,4 +7,6 @@ public interface FriendsListOutputBoundary {
     void switchToNoteView();
     void switchToFriendsListView();
     void switchToFriendProfileView();
+    void switchToPlaylistCollectionView();
+    void switchToAddFriendView();
 }

@@ -25,4 +25,7 @@ public class FriendProfileController {
     public void switchToFriendsListView() {
         friendProfileInteractor.switchToFriendsListView();
     }
+    public void switchToPlaylistCollectionView() {
+        friendProfileInteractor.switchToPlaylistCollectionView();
+    }
 }

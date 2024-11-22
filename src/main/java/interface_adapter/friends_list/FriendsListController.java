@@ -30,4 +30,12 @@ public class FriendsListController {
     public void switchToFriendProfileView() {
         interactor.switchToFriendProfileView();
     }
+
+    public void switchToPlaylistCollectionView() {
+        interactor.switchToPlaylistCollectionView();
+    }
+
+    public void switchToAddFriendView() {
+        interactor.switchToAddFriendView();
+    }
 }

@@ -21,4 +21,5 @@ public interface FriendProfileOutputBoundary {
 
     void switchToFriendsListView();
 
+    void switchToPlaylistCollectionView();
 }
