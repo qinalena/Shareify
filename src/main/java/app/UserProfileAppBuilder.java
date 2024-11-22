@@ -116,22 +116,16 @@ public class UserProfileAppBuilder {
     private AddPlaylistOutputBoundary addPlaylistOutputBoundary = new AddPlaylistPresenter(addPlaylistViewModel);
 
     private FriendProfileViewModel friendProfileViewModel;
+    private AddFriendViewModel addFriendViewModel = new AddFriendViewModel();
     private FriendsListView friendsListView;
     private FriendsListController friendsListController;
-    private FriendsListPresenter friendsListPresenter;
-    private FriendsListInputBoundary friendsListInputBoundary;
     private FriendsListOutputBoundary friendsListOutputBoundary;
     private FriendsListInteractor friendsListInteractor;
     private DBNoteDataAccessObject dbNoteDataAccessObject = new DBNoteDataAccessObject();
-    private interface_adapter.add_friend.AddFriendViewModel AddFriendViewModel = new interface_adapter.add_friend.AddFriendViewModel();
-    private AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(AddFriendViewModel, viewManagerModel, friendsListViewModel);
-    private FriendProfilePresenter friendProfilePresenter;
     private FriendProfileInteractor friendProfileInteractor;
     private AddFriendInteractor addFriendInteractor;
     private FriendView friendProfileView;
-    private interface_adapter.add_friend.AddFriendViewModel addFriendViewModel =
-            new interface_adapter.add_friend.AddFriendViewModel();
-//    private AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel);
+    private AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel, viewManagerModel, friendsListViewModel);
 
     // For refreshing the note before displaying the Note View
     private NoteInputBoundary noteInteractor;
@@ -381,7 +375,7 @@ public class UserProfileAppBuilder {
     }
 
     public UserProfileAppBuilder addAddFriendView() {
-        addFriendViewModel = new AddFriendViewModel();
+//        addFriendViewModel = new AddFriendViewModel();
         addFriendView = new AddFriendView(new DefaultListModel<>(), addFriendViewModel, friendsListController);
         cardPanel.add(addFriendView, addFriendViewModel.getViewName());
         return this;

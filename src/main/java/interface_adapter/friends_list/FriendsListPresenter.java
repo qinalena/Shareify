@@ -1,5 +1,6 @@
 package interface_adapter.friends_list;
 
+import interface_adapter.add_friend.AddFriendState;
 import interface_adapter.add_friend.AddFriendViewModel;
 import interface_adapter.friend_profile.FriendProfileViewModel;
 import interface_adapter.note.NoteViewModel;

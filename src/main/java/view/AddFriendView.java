@@ -20,30 +20,27 @@ public class AddFriendView extends JPanel implements PropertyChangeListener {
     private JButton saveButton;
     private FriendsListController friendsListcontroller;
     private DBNoteDataAccessObject dbNoteDataAccessObject = new DBNoteDataAccessObject();
+    private String username;
+    private String password;
 
     public AddFriendView(DefaultListModel<String> friendsListModel, AddFriendViewModel addFriendViewModel, FriendsListController friendsListcontroller) {
         this.friendsListModel = friendsListModel;
         this.addFriendViewModel = addFriendViewModel;
         this.friendsListcontroller = friendsListcontroller;
+        this.addFriendViewModel.addPropertyChangeListener(this);
 
-        // Set up UI components
-//        setTitle("Add Friend");
         setSize(300, 150);
         setLayout(new FlowLayout());
 
         friendNameField = new JTextField(20);
         saveButton = new JButton("Save");
 
-        add(new JLabel("Friend's Name:"));
+        add(new JLabel("Friend's Username:"));
         add(friendNameField);
         add(saveButton);
 
         // Action listener to add friend to the list if they exist
         saveButton.addActionListener(e -> addFriend());
-
-        addFriendViewModel.addPropertyChangeListener(this);
-
-//        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     private void addFriend() {
@@ -59,7 +56,7 @@ public class AddFriendView extends JPanel implements PropertyChangeListener {
                     listModel.addElement(friendName);
                     addFriendViewModel.setNewFriend(friendName);
                     friendsListcontroller.addFriend(friendName);
-                    dbNoteDataAccessObject.addFriendinDB(new User("newUserName7", "password123"), foundUsername);
+                    dbNoteDataAccessObject.addFriendinDB(new User(username, password), foundUsername);
                     // Update FriendsListView with this friend that was added follow AddPlaylistView
                     addFriendController.switchToFriendsListView();
                 } else {
@@ -75,15 +72,11 @@ public class AddFriendView extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        AddFriendState state = (AddFriendState) evt.getNewValue();
+        final AddFriendState state = (AddFriendState) evt.getNewValue();
         System.out.println("This is your username in AddFriendView: " + state.getUsername());
-        // Update the list of friends when the state changes
-        friendsListModel.clear();
-        for (String friend : state.getFriendsList()) {
-            friendsListModel.addElement(friend);
-        }
-        // Optionally, close the dialog after successful addition
-//        dispose();
+        System.out.println(state.getPassword());
+        this.username = state.getUsername();
+        this.password = state.getPassword();
     }
 
     public void setAddFriendController(AddFriendController controller) {

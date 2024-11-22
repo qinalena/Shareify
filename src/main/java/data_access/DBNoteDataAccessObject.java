@@ -236,7 +236,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
 
     // New method for updating user friends
     public void addFriendinDB(User user, String newName) throws DataAccessException {
-        user = new User("newUserName7", "password123");
+//        user = new User("newUserName7", "password123");
 
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -308,7 +308,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
     }
 
     public void removeFriendinDB(User user, int index) throws DataAccessException {
-        user = new User("newUserName7", "password123");
+//        user = new User("newUserName7", "password123");
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 

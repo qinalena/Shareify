@@ -93,15 +93,15 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         deleteFriendButton.addActionListener(this);
         viewFriendButton.addActionListener(this);
 
-        // Populate the friends list with the user's friends
-        try {
-            User realUser = new User(username, password);
-            User user = new User("newUserName7", "password123");
-            List<String> friends = dbNoteDataAccessObject.getFriends(user.getName());
-            populateFriendsList(friends);
-        } catch (DataAccessException e) {
-            JOptionPane.showMessageDialog(this, "Error fetching friends: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+//        // Populate the friends list with the user's friends
+//        try {
+//            User realUser = new User(username, password);
+//            User user = new User("newUserName7", "password123");
+//            List<String> friends = dbNoteDataAccessObject.getFriends(realUser.getName());
+//            populateFriendsList(friends);
+//        } catch (DataAccessException e) {
+//            JOptionPane.showMessageDialog(this, "Error fetching friends: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//        }
     }
 
     private void populateFriendsList(List<String> friends) {
@@ -111,11 +111,20 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         }
     }
 
+    private void populateFriendsListFromDatabase() {
+        try {
+            User realUser = new User(username, password);
+            List<String> friends = dbNoteDataAccessObject.getFriends(realUser.getName());
+            populateFriendsList(friends);
+        } catch (DataAccessException e) {
+            JOptionPane.showMessageDialog(this, "Error fetching friends: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource() == addFriendButton) {
             friendsListController.switchToAddFriendView();
-            // You can also call updateFriendsList here if needed
         }
         else if (evt.getSource() == deleteFriendButton) {
             int[] selectedIndices = friendsList.getSelectedIndices();
@@ -125,7 +134,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
 
                     // Call removeFriendinDB to remove the friend from the database
                     try {
-                        User user = new User("newUserName7", "password123");
+                        User user = new User(username, password);
                         dbNoteDataAccessObject.removeFriendinDB(user, selectedIndices[i]);
                     } catch (DataAccessException e) {
                         JOptionPane.showMessageDialog(this, "Error removing friend from database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -158,24 +167,19 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         System.out.println("This are your friends in state " + currentFriends);
         System.out.println("THIS IS YOUR USERNAME: " + state.getUsername());
         System.out.println("THIS IS YOUR PASSWORD: " + state.getPassword());
-        this.username = state.getUsername();
-        this.password = state.getPassword();
+        if (state.getUsername() != this.username) {
+            this.username = state.getUsername();
+            this.password = state.getPassword();
+            populateFriendsListFromDatabase();
+        }
+
         if (state.getError() != null) {
             JOptionPane.showMessageDialog(this, state.getError(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void updateFriendsList(FriendsListState state) {
-//        for (String friend : state.getFriends()) {
-//            if (!listModel.contains(friend)) {
-//                System.out.println("This is list model before adding " + listModel);
-//                listModel.addElement(friend);
-//                System.out.println("this is your list model after adding " + listModel);
-//            }
-//            else if (listModel.contains(friend) || currentFriends.contains(friend)) {
-//                JOptionPane.showMessageDialog(this, "You are already friends with them!", "Error", JOptionPane.ERROR_MESSAGE);
-//            }
-//        }
+        System.out.println("Most recent friend : " + state.getMostRecentFriend());
         listModel.addElement(state.getMostRecentFriend());
     }
 
