@@ -39,6 +39,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     // Initialize components
     private JButton createPlaylistButton = new JButton("Create Playlist");
     private JButton deletePlaylistButton = new JButton("Delete Playlist");
+    private JButton openPlaylistButton = new JButton("Open Playlist");
 
     // JList to show the names of the playlists
     private JList<String> playlistCollectionList = new JList<>(new DefaultListModel<>());
@@ -80,10 +81,18 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         buttons.setLayout(new FlowLayout());
         buttons.add(createPlaylistButton);
         buttons.add(deletePlaylistButton);
+        buttons.add(openPlaylistButton);
 
         // Set up button actions
         createPlaylistButton.addActionListener(this);
         deletePlaylistButton.addActionListener(this);
+
+//        openPlaylistButton.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent evt) {
+//                playlistCollectionController.switchToPlaylistView(playlistCollectionList.getSelectedIndex());
+//            }
+//        }
+//        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -160,13 +169,13 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
     /**
      * Updates JList playlist collection with the latest playlist data.
-     * @param playlistCollectionState
+     * @param playlistCollectionState playlist collection state
      */
     private void updatePlaylistCollection(PlaylistCollectionState playlistCollectionState) {
         final DefaultListModel<String> listModel = (DefaultListModel<String>) playlistCollectionList.getModel();
         listModel.clear();
 
-        for (String playlist : playlistCollectionState.getPlaylist()) {
+        for (String playlist : playlistCollectionState.getPlaylistList()) {
             listModel.addElement(playlist);
         }
     }

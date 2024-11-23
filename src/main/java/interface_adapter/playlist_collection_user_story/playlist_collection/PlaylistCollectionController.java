@@ -28,4 +28,11 @@ public class PlaylistCollectionController {
     public void removePlaylist(String playlistName) {
         playlistCollectionInteractor.removePlaylist(playlistName);
     }
+
+    /**
+     * Switches to selected Playlist View.
+     * @param playlistName name of playlist
+     */
+    public void switchToPlaylistView(String playlistName) {
+    }
 }
