@@ -1,11 +1,7 @@
 package data_access;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import entity.User;
@@ -14,8 +10,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import use_case.note.DataAccessException;
-import use_case.note.NoteDataAccessInterface;
+import use_case.user_profile_user_story.note.DataAccessException;
+import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 /**
  * The DAO for accessing notes stored in the database.
@@ -29,18 +25,14 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String MESSAGE = "message";
-    private final HashMap<String, ArrayList> info;
-
-    public DBNoteDataAccessObject() {
-        this.info = new HashMap<>();
-        this.info.put("playlists", new ArrayList());
-        this.info.put("Friends", new ArrayList());
-    }
 
     @Override
     public String saveNote(User user, String note) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
+
+        // Update user object's note
+        user.setNote(note);
 
         // POST METHOD to save note
         final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
@@ -63,12 +55,15 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
 
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 return loadNote(user);
-            } else if (responseBody.getInt(STATUS_CODE_LABEL) == CREDENTIAL_ERROR) {
+            }
+            else if (responseBody.getInt(STATUS_CODE_LABEL) == CREDENTIAL_ERROR) {
                 throw new DataAccessException("Message could not be found or password was incorrect");
-            } else {
+            }
+            else {
                 throw new DataAccessException("Database error: " + responseBody.getString(MESSAGE));
             }
-        } catch (IOException | JSONException ex) {
+        }
+        catch (IOException | JSONException ex) {
             throw new DataAccessException(ex.getMessage());
         }
     }
@@ -91,15 +86,17 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
                 final JSONObject data = userJSONObject.getJSONObject("info");
                 return data.getString("note");
-            } else {
+            }
+            else {
                 throw new DataAccessException(responseBody.getString(MESSAGE));
             }
-        } catch (IOException | JSONException ex) {
+        }
+        catch (IOException | JSONException ex) {
             throw new RuntimeException(ex);
         }
     }
 
-    public void createUser(User user) throws DataAccessException {
+    public static void createUser(User user) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
 
@@ -108,7 +105,14 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         final JSONObject requestBody = new JSONObject();
         requestBody.put(USERNAME, user.getName());
         requestBody.put(PASSWORD, user.getPassword());
-        requestBody.put("info", this.info);
+
+        final JSONObject userInfo = new JSONObject();
+        if (user.getInfo() != null && !user.getInfo().isEmpty()) {
+            for (String info : user.getInfo()) {
+                userInfo.append("info", info);
+            }
+        }
+        requestBody.put("info", userInfo);
 
         final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
         final Request request = new Request.Builder()
@@ -125,11 +129,13 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
             // Handle the response status
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 // Success, user created!
-            } else {
+            }
+            else {
                 // Throw error if status is not 200 (success)
                 throw new DataAccessException(responseBody.getString(MESSAGE));
             }
-        } catch (IOException | JSONException ex) {
+        }
+        catch (IOException | JSONException ex) {
             throw new DataAccessException(ex.getMessage());
         }
     }
@@ -158,7 +164,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
     }
 
     // New method for updating user info at any time
-    public void updateUserInfo(User user, String key, List newInfo) throws DataAccessException {
+    public void updateUserInfo(User user, String key, String newInfo) throws DataAccessException {
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
@@ -226,6 +232,5 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
             throw new DataAccessException("Error occurred while updating user info: " + ex.getMessage());
         }
     }
-
 
 }

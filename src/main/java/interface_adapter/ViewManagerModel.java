@@ -5,7 +5,6 @@ package interface_adapter;
  * is currently active. An initial state of "" is used.
  */
 public class ViewManagerModel extends ViewModel<String> {
-
     public ViewManagerModel() {
         super("view manager");
         this.setState("");

@@ -1,47 +1,49 @@
 package entity;
 
-import netscape.javascript.JSObject;
-import org.json.JSONObject;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The representation of a password-protected user for our program.
  */
-public class User {
+public class User implements UserInter {
 
     private final String name;
     private final String password;
-    private Map<String, Object> info;
+    private String note;
+    private List<String> info;
 
-    public User(String name, String password, JSONObject info) {
+    public User(String name, String password) {
         this.name = name;
         this.password = password;
-        this.info = info.toMap();
+        this.note = "Hi! I'm new to Shareify :)";
+        this.info = new ArrayList<>();
     }
 
-    // Getter for name
     public String getName() {
         return name;
     }
 
-    // Getter for password
     public String getPassword() {
         return password;
     }
 
-    // Getter for info
-    public Map<String, Object> getInfo() {
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String newNote) {
+        this.note = newNote;
+    }
+
+    public List<String> getInfo() {
         return info;
     }
 
     // Setter for info (if you want to allow setting it later)
-    public void setInfo(Map<String, Object > info) {
+    public void setInfo(List<String> info) {
         this.info = info;
     }
 

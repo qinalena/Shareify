@@ -3,9 +3,7 @@ package app;
 import data_access.DBNoteDataAccessObject;
 import entity.UserFactory;
 import spotify_api.SpotifyConnection;
-import use_case.note.NoteDataAccessInterface;
-
-import javax.swing.*;
+import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 /**
  * An application where we can view and add to a note stored by a user.
@@ -78,18 +76,19 @@ public class MainNoteApplication {
 //            System.err.println("Error creating user or saving note: " + ex.getMessage());
 //        }
 
-        final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
-        userProfileAppBuilder
+        final ShareifyAppBuilder shareifyAppBuilder = new ShareifyAppBuilder();
+        shareifyAppBuilder.addNoteDAO(noteDataAccess)
                 .addWelcomeView()
                 .addSignupView()
                 .addSignupUseCase()
                 .addLoginView()
                 .addLoginUseCase()
-                .addNoteDAO(noteDataAccess)
                 .addNoteView()
+                .addPlaylistCollectionView()
                 .addUserProfileView()
                 .addFriendsListView()
                 .addNoteUseCase()
+                .addPlaylistCollectionUseCase()
                 .addFriendsListUseCase()
                 .addUserProfileUseCase().build().setVisible(true);
     }
