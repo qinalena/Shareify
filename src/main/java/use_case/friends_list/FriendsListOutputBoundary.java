@@ -6,7 +6,7 @@ public interface FriendsListOutputBoundary {
     void presentError(String errorMessage);
     void switchToNoteView();
     void switchToFriendsListView();
-    void switchToFriendProfileView();
+    void switchToFriendProfileView(String selectedFriendName, String password);
     void switchToPlaylistCollectionView();
     void switchToAddFriendView();
 }

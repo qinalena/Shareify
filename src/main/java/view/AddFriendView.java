@@ -1,16 +1,16 @@
 package view;
 
-import entity.User;
-import interface_adapter.add_friend.AddFriendController;
-import interface_adapter.friends_list.FriendsListController;
-import interface_adapter.add_friend.AddFriendViewModel;
-import interface_adapter.add_friend.AddFriendState;
-import data_access.DBNoteDataAccessObject;
-
 import java.awt.*;
+import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import javax.swing.*;
+
+import data_access.DBNoteDataAccessObject;
+import entity.User;
+import interface_adapter.add_friend.AddFriendController;
+import interface_adapter.add_friend.AddFriendState;
+import interface_adapter.add_friend.AddFriendViewModel;
+import interface_adapter.friends_list.FriendsListController;
 
 public class AddFriendView extends JPanel implements PropertyChangeListener {
     private DefaultListModel<String> friendsListModel;

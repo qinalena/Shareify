@@ -5,7 +5,7 @@ public interface FriendsListInputBoundary {
     void deleteFriend(String friendName);
     void switchToNoteView();
     void switchToFriendsListView();
-    void switchToFriendProfileView();
+    void switchToFriendProfileView(String selectedFriendName, String password);
     void switchToPlaylistCollectionView();
     void switchToAddFriendView();
 }

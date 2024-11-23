@@ -115,7 +115,7 @@ public class UserProfileAppBuilder {
             new interface_adapter.add_playlist.AddPlaylistViewModel();
     private AddPlaylistOutputBoundary addPlaylistOutputBoundary = new AddPlaylistPresenter(addPlaylistViewModel);
 
-    private FriendProfileViewModel friendProfileViewModel;
+    private FriendProfileViewModel friendProfileViewModel = new FriendProfileViewModel();
     private AddFriendViewModel addFriendViewModel = new AddFriendViewModel();
     private FriendsListView friendsListView;
     private FriendsListController friendsListController;
@@ -223,7 +223,7 @@ public class UserProfileAppBuilder {
         }
 
         // Instantiate the output boundary (presenter) and input boundary (interactor)
-        friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel, viewManagerModel, addFriendViewModel);
+        friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel, viewManagerModel, addFriendViewModel, friendProfileViewModel);
         friendsListInteractor = new FriendsListInteractor(friendsListOutputBoundary);
 
         // Create the controller and connect it to the interactor
@@ -357,7 +357,7 @@ public class UserProfileAppBuilder {
     }
 
     public UserProfileAppBuilder addFriendProfileView() {
-        friendProfileViewModel = new FriendProfileViewModel();
+//        friendProfileViewModel = new FriendProfileViewModel();
         friendProfileView = new FriendView(friendProfileViewModel);
         cardPanel.add(friendProfileView, friendProfileViewModel.getViewName());
         return this;

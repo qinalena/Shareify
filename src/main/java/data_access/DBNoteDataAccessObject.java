@@ -433,4 +433,32 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
             throw new DataAccessException("Error occurred while retrieving friends: " + e.getMessage());
         }
     }
+
+    public String getPasswordByUserName(String username) throws DataAccessException {
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+        // URL to fetch the current user data
+        final Request request = new Request.Builder()
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
+                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .build();
+
+        try {
+            // Make the request and get the response
+            final Response response = client.newCall(request).execute();
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            // Check if the response was successful
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                // Get the 'user' data from the response
+                final JSONObject userJSONObject = responseBody.getJSONObject("user");
+                // Return the password
+                return userJSONObject.getString(PASSWORD);
+            } else {
+                throw new DataAccessException("Error retrieving user data: " + responseBody.getString(MESSAGE));
+            }
+        } catch (IOException | JSONException e) {
+            throw new DataAccessException("Error occurred while retrieving password: " + e.getMessage());
+        }
+    }
 }

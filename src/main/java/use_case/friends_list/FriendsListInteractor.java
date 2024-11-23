@@ -33,8 +33,8 @@ public class FriendsListInteractor implements FriendsListInputBoundary {
     }
 
     @Override
-    public void switchToFriendProfileView() {
-        presenter.switchToFriendProfileView();
+    public void switchToFriendProfileView(String selectedFriendName, String password) {
+        presenter.switchToFriendProfileView(selectedFriendName, password);
     }
 
     @Override

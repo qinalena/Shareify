@@ -19,11 +19,12 @@ public class FriendView extends JPanel implements ActionListener, PropertyChange
     private final String viewName = "friendProfile";
 
     private final FriendProfileViewModel friendViewModel;
-
+    private String username;
+    private String password;
     // Hardcoded example friend (replace with actual friend data)
-    private final User friend = new User("testFriend", "password123");
+    private final User friend = new User(username, password);
 
-    private final JLabel friendUsername = new JLabel("Shareify - " + friend.getName());
+    private final JLabel friendUsername = new JLabel();
     private final JLabel friendNote = new JLabel();
 
     private final JButton viewPlaylists = new JButton("View Playlists");
@@ -76,6 +77,9 @@ public class FriendView extends JPanel implements ActionListener, PropertyChange
 
     public void propertyChange(PropertyChangeEvent evt) {
         final FriendProfileState state = (FriendProfileState) evt.getNewValue();
+        System.out.println("Recieved username in FriendProfile view: " + state.getUsername());
+        this.username = state.getUsername();
+        this.password = state.getPassword();
         setFields(state);
         if (state.getError() != null) {
             JOptionPane.showMessageDialog(this, state.getError(),
@@ -92,5 +96,6 @@ public class FriendView extends JPanel implements ActionListener, PropertyChange
     }
 
     private void setFields(FriendProfileState state) {
+        friendUsername.setText("Sharefiy - " + state.getUsername() + "'s profile");
     }
 }

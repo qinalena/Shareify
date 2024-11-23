@@ -27,8 +27,8 @@ public class FriendsListController {
         interactor.switchToFriendsListView();
     }
 
-    public void switchToFriendProfileView() {
-        interactor.switchToFriendProfileView();
+    public void switchToFriendProfileView(String selectedFriendName, String password) {
+        interactor.switchToFriendProfileView(selectedFriendName, password);
     }
 
     public void switchToPlaylistCollectionView() {

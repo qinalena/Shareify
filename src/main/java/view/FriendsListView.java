@@ -32,6 +32,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     private AddFriendViewModel addFriendViewModel = new AddFriendViewModel();
     private AddFriendState addFriendState = addFriendViewModel.getState();
     private List<String> currentFriends = new ArrayList<>();
+    private String selectedFriend;
 
     // Global listModel variable
     private DefaultListModel<String> listModel;
@@ -115,8 +116,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource() == addFriendButton) {
             friendsListController.switchToAddFriendView();
-        }
-        else if (evt.getSource() == deleteFriendButton) {
+        } else if (evt.getSource() == deleteFriendButton) {
             int[] selectedIndices = friendsList.getSelectedIndices();
             if (selectedIndices.length > 0) {
                 for (int i = selectedIndices.length - 1; i >= 0; i--) {
@@ -133,9 +133,23 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
             } else {
                 JOptionPane.showMessageDialog(this, "Please select a friend to delete.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }
-        else if (evt.getSource() == viewFriendButton) {
-            friendsListController.switchToFriendProfileView();
+        } else if (evt.getSource() == viewFriendButton) {
+            int selectedIndex = friendsList.getSelectedIndex();
+            if (selectedIndex != -1) {
+                this.selectedFriend = friendsList.getSelectedValue();
+                System.out.println("The friend you selected to view: " + selectedFriend);
+
+                // GET THE SELECTED USER'S PASSWORD
+                try {
+                    String selectedFriendPw = dbNoteDataAccessObject.getPasswordByUserName(selectedFriend);
+                    System.out.println("This is the friend's password: " + selectedFriendPw);
+                    friendsListController.switchToFriendProfileView(selectedFriend, selectedFriendPw);
+                } catch (DataAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a friend to view.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 

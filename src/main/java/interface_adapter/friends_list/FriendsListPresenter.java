@@ -1,7 +1,7 @@
 package interface_adapter.friends_list;
 
-import interface_adapter.add_friend.AddFriendState;
 import interface_adapter.add_friend.AddFriendViewModel;
+import interface_adapter.friend_profile.FriendProfileState;
 import interface_adapter.friend_profile.FriendProfileViewModel;
 import interface_adapter.note.NoteViewModel;
 import interface_adapter.playlist_collection.PlaylistCollectionViewModel;
@@ -15,13 +15,14 @@ public class FriendsListPresenter implements FriendsListOutputBoundary {
     private final NoteViewModel noteViewModel = new NoteViewModel();
     private final FriendsListViewModel friendsListViewModel;
     private final AddFriendViewModel addFriendViewModel;
-    private final FriendProfileViewModel friendProfileViewModel = new FriendProfileViewModel();
+    private final FriendProfileViewModel friendProfileViewModel;
     private final PlaylistCollectionViewModel playlistCollectionViewModel = new PlaylistCollectionViewModel();
 
-    public FriendsListPresenter(FriendsListViewModel viewModel, ViewManagerModel viewManagerModel, AddFriendViewModel addFriendViewModel) {
+    public FriendsListPresenter(FriendsListViewModel viewModel, ViewManagerModel viewManagerModel, AddFriendViewModel addFriendViewModel, FriendProfileViewModel friendProfileViewModel) {
         this.friendsListViewModel = viewModel;
         this.viewManagerModel = viewManagerModel;
         this.addFriendViewModel = addFriendViewModel;
+        this.friendProfileViewModel = friendProfileViewModel;
     }
 
     @Override
@@ -55,9 +56,15 @@ public class FriendsListPresenter implements FriendsListOutputBoundary {
         viewManagerModel.firePropertyChanged();
     }
 
-    public void switchToFriendProfileView() {
+    public void switchToFriendProfileView(String selectedFriendName, String password) {
         viewManagerModel.setState(friendProfileViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+
+        final FriendProfileState friendProfileState = friendProfileViewModel.getState();
+        friendProfileState.setPassword(password);
+        friendProfileState.setUsername(selectedFriendName);
+        this.friendProfileViewModel.setState(friendProfileState);
+        this.friendProfileViewModel.firePropertyChanged();
     }
 
     @Override
