@@ -15,6 +15,8 @@ import interface_adapter.login_user_story.signup.*;
 import interface_adapter.login_user_story.welcome.*;
 import interface_adapter.playlist_collection_user_story.add_playlist.*;
 import interface_adapter.playlist_collection_user_story.playlist_collection.*;
+import interface_adapter.user_profile_user_story.logout.LogoutController;
+import interface_adapter.user_profile_user_story.logout.LogoutPresenter;
 import interface_adapter.user_profile_user_story.note.*;
 import interface_adapter.user_profile_user_story.user_profile.*;
 import use_case.friends_list_user_story.add_friend.*;
@@ -23,6 +25,9 @@ import use_case.login_user_story.login.*;
 import use_case.login_user_story.signup.*;
 import use_case.playlist_collection_user_story.add_playlist.*;
 import use_case.playlist_collection_user_story.playlist_collection.*;
+import use_case.user_profile_user_story.logout.LogoutInputBoundary;
+import use_case.user_profile_user_story.logout.LogoutInteractor;
+import use_case.user_profile_user_story.logout.LogoutOutputBoundary;
 import use_case.user_profile_user_story.note.*;
 import use_case.user_profile_user_story.user_profile.*;
 import view.ViewManager;
@@ -302,6 +307,22 @@ public class ShareifyAppBuilder {
         welcomeViewModel = new WelcomeViewModel();
         welcomeView = new WelcomeView(welcomeViewModel, viewManagerModel);
         cardPanel.add(welcomeView, welcomeView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Logout Use Case to the application.
+     * @return this builder
+     */
+    public ShareifyAppBuilder addLogoutUseCase() {
+        final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
+                userProfileViewModel, loginViewModel);
+
+        final LogoutInputBoundary logoutInteractor =
+                new LogoutInteractor(userDataAccessObject, logoutOutputBoundary);
+
+        final LogoutController logoutController = new LogoutController(logoutInteractor);
+        userProfileView.setLogoutController(logoutController);
         return this;
     }
 

@@ -1,6 +1,7 @@
 package view.user_profile_user_story;
 
 import entity.User;
+import interface_adapter.user_profile_user_story.logout.LogoutController;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileController;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
@@ -32,6 +33,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     private final JButton logoutButton = new JButton("Logout");
 
     private UserProfileController userProfileController;
+    private LogoutController logoutController;
 
     public UserProfileView(UserProfileViewModel userProfileViewModel) {
 
@@ -71,6 +73,16 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
                 }
         );
 
+        logoutButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        final UserProfileState currentState = userProfileViewModel.getState();
+
+                        logoutController.execute(currentState.getUsername());
+                    }
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(username);
@@ -104,6 +116,11 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
 
     public void setUserProfileController(UserProfileController controller) {
         this.userProfileController = controller;
+    }
+
+    public void setLogoutController(LogoutController logoutController) {
+        // TODO: save the logout controller in the instance variable.
+        this.logoutController = logoutController;
     }
 
     public String getViewName() {

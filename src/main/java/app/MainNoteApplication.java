@@ -89,6 +89,7 @@ public class MainNoteApplication {
                 .addNoteUseCase()
                 .addPlaylistCollectionUseCase()
                 .addFriendsListUseCase()
-                .addUserProfileUseCase().build().setVisible(true);
+                .addUserProfileUseCase()
+                .addLogoutUseCase().build().setVisible(true);
     }
 }
