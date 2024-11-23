@@ -4,11 +4,11 @@ package interface_adapter.login_user_story.login;
  * The state for the Login View Model.
  */
 public class LoginState {
-    private static String username = "";
+    private String username = "";
     private String loginError;
     private String password = "";
 
-    public static String getUsername() {
+    public String getUsername() {
         return username;
     }
 

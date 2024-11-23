@@ -4,16 +4,6 @@ import data_access.LoggedInDataAccessObject;
 import entity.User;
 import use_case.user_profile_user_story.user_profile.LoggedInDataAccessInterface;
 
-import com.opencsv.CSVWriter;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
-
 /**
  * The Login Interactor.
  */
@@ -54,22 +44,7 @@ public class LoginInteractor implements LoginInputBoundary {
 
                 final LoginOutputData loginOutputData = new LoginOutputData(user.getName(), false);
                 loginPresenter.prepareSuccessView(loginOutputData);
-
-                try {
-                    CreateUserCSV(username, password);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
             }
         }
-    }
-
-    public static void CreateUserCSV(String username, String password) throws IOException {
-        File file = new File("login.csv");
-        System.out.println(file.getAbsolutePath());
-        CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
-        String[] user = new String[]{username, password};
-        csvWriter.writeNext(user);
-        csvWriter.close();
     }
 }
