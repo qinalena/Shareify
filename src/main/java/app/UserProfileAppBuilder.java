@@ -106,7 +106,7 @@ public class UserProfileAppBuilder {
     private UserProfileViewModel userProfileViewModel;
     private UserProfileView userProfileView;
 
-    private FriendsListViewModel friendsListViewModel = new FriendsListViewModel();
+    private FriendsListViewModel friendsListViewModel;
 
     private NoteViewModel noteViewModel;
     private NoteView noteView;
@@ -125,8 +125,8 @@ public class UserProfileAppBuilder {
             new interface_adapter.add_playlist.AddPlaylistViewModel();
     private AddPlaylistOutputBoundary addPlaylistOutputBoundary = new AddPlaylistPresenter(addPlaylistViewModel);
 
-    private FriendProfileViewModel friendProfileViewModel = new FriendProfileViewModel();
-    private AddFriendViewModel addFriendViewModel = new AddFriendViewModel();
+    private FriendProfileViewModel friendProfileViewModel;
+    private AddFriendViewModel addFriendViewModel;
     private FriendsListView friendsListView;
     private FriendsListController friendsListController;
     private FriendsListOutputBoundary friendsListOutputBoundary;
@@ -135,8 +135,7 @@ public class UserProfileAppBuilder {
     private FriendProfileInteractor friendProfileInteractor;
     private AddFriendInteractor addFriendInteractor;
     private FriendView friendProfileView;
-    private AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel,
-            viewManagerModel, friendsListViewModel);
+    private AddFriendOutputBoundary addFriendOutputBoundary;
 
     // For refreshing the note before displaying the Note View
     private NoteInputBoundary noteInteractor;
@@ -171,7 +170,6 @@ public class UserProfileAppBuilder {
      * @return this builder
      */
     public UserProfileAppBuilder addUserProfileView() {
-//        userProfileViewModel = new UserProfileViewModel(); # Comment this out to inject username info
         userProfileView = new UserProfileView(userProfileViewModel);
         cardPanel.add(userProfileView, userProfileView.getViewName());
         return this;
@@ -195,8 +193,10 @@ public class UserProfileAppBuilder {
      * @return this builder
      */
     public UserProfileAppBuilder addFriendsListView() {
-//        friendsListViewModel = new FriendsListViewModel();
-        friendsListView = new FriendsListView(friendsListController, friendsListViewModel, dbNoteDataAccessObject, addFriendOutputBoundary);
+        addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel,
+                viewManagerModel, friendsListViewModel);
+        friendsListView = new FriendsListView(friendsListController, friendsListViewModel,
+                dbNoteDataAccessObject, addFriendOutputBoundary);
         cardPanel.add(friendsListView, friendsListView.getViewName());
         return this;
     }
@@ -232,7 +232,7 @@ public class UserProfileAppBuilder {
         if (friendsListView == null) {
             throw new RuntimeException("addFriendsListView must be called before addFriendsListUseCase");
         }
-
+        friendProfileViewModel = new FriendProfileViewModel();
         // Instantiate the output boundary (presenter) and input boundary (interactor)
         friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel, viewManagerModel, addFriendViewModel, friendProfileViewModel);
         friendsListInteractor = new FriendsListInteractor(friendsListOutputBoundary);
@@ -271,6 +271,10 @@ public class UserProfileAppBuilder {
         return this;
     }
 
+    /**
+     * Adds the friend profile use case to the application.
+     * @return this builder
+     */
     public UserProfileAppBuilder addFriendProfileUseCase() {
         final FriendProfileOutputBoundary friendProfileOutputBoundary = new FriendProfilePresenter(friendProfileViewModel, viewManagerModel, noteViewModel);
         friendProfileInteractor = new FriendProfileInteractor(noteDAO, friendProfileOutputBoundary);
@@ -335,6 +339,8 @@ public class UserProfileAppBuilder {
      */
     public UserProfileAppBuilder addLoginUseCase() {
         userProfileViewModel = new UserProfileViewModel();
+        friendsListViewModel = new FriendsListViewModel();
+        addFriendViewModel = new AddFriendViewModel();
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 userProfileViewModel, loginViewModel, friendsListViewModel, addFriendViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
@@ -367,13 +373,20 @@ public class UserProfileAppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Friend profile view to the application.
+     * @return this builder
+     */
     public UserProfileAppBuilder addFriendProfileView() {
-//        friendProfileViewModel = new FriendProfileViewModel();
         friendProfileView = new FriendView(friendProfileViewModel);
         cardPanel.add(friendProfileView, friendProfileViewModel.getViewName());
         return this;
     }
 
+    /**
+     * Adds the friend profile use case to the application.
+     * @return this builder
+     */
     public UserProfileAppBuilder addAddFriendUseCase() {
         final AddFriendOutputBoundary addFriendOutPutBoundary = new AddFriendPresenter(addFriendViewModel, viewManagerModel, friendsListViewModel);
         addFriendInteractor = new AddFriendInteractor(dbNoteDataAccessObject, addFriendOutPutBoundary, new ArrayList<>());
@@ -385,13 +398,20 @@ public class UserProfileAppBuilder {
         return this;
     }
 
+    /**
+     * Adds the add friend view to the application.
+     * @return this builder
+     */
     public UserProfileAppBuilder addAddFriendView() {
-//        addFriendViewModel = new AddFriendViewModel();
         addFriendView = new AddFriendView(new DefaultListModel<>(), addFriendViewModel, friendsListController);
         cardPanel.add(addFriendView, addFriendViewModel.getViewName());
         return this;
     }
 
+    /**
+     * Adds the friend profile playlists collection use case to the application.
+     * @return this builder
+     */
     public UserProfileAppBuilder addFriendProfilePlaylistUseCase() {
         // Instantiate the output boundary/presenter
         final FriendProfilePlaylistsOutputBoundary friendProfilePlaylistsOutputBoundary =
@@ -412,6 +432,10 @@ public class UserProfileAppBuilder {
         return this;
     }
 
+    /**
+     * Adds the friend profile playlist colection view to the application.
+     * @return this builder
+     */
     public UserProfileAppBuilder addFriendProfilePlaylistView() {
         friendProfilePlaylistsViewModel = new FriendProfilePlaylistsViewModel();
         friendProfilePlaylistsView = new FriendProfilePlaylistsView(friendProfilePlaylistsController,

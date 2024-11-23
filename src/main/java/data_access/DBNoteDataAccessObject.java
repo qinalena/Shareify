@@ -30,6 +30,14 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
     private static final String PASSWORD = "password";
     private static final String MESSAGE = "message";
 
+    /**
+     * Saves a note for the given user.
+     *
+     * @param user The user for whom the note is being saved.
+     * @param note The note to be saved.
+     * @return The saved note if the operation is successful.
+     * @throws DataAccessException If there is an error saving the note, such as invalid credentials or a database error.
+     */
     @Override
     public String saveNote(User user, String note) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
@@ -69,6 +77,13 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
+    /**
+     * Loads the note associated with the given user.
+     *
+     * @param user The user for whom the note is being loaded.
+     * @return The loaded note if the operation is successful.
+     * @throws DataAccessException If there is an error loading the note, such as invalid credentials or a database error.
+     */
     @Override
     public String loadNote(User user) throws DataAccessException {
         // Make an API call to get the user object.
@@ -97,6 +112,12 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
+    /**
+     * Creates a new user in the database.
+     *
+     * @param user The user to be created.
+     * @throws DataAccessException If there is an error creating the user, such as a database error or duplicate username.
+     */
     public static void createUser(User user) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -141,7 +162,13 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
-    // Method of checking if a user exists in our database
+    /**
+     * Checks if a user exists in the database by their username.
+     *
+     * @param username The username of the user to check.
+     * @return The username of the user if found, otherwise throws an exception.
+     * @throws DataAccessException If the user is not found or there is an error accessing the database.
+     */
     public static String getUserByUsername(String username) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
@@ -164,7 +191,14 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
-    // New method for updating user info at any time
+    /**
+     * Updates the user information in the database.
+     *
+     * @param user The user whose information is being updated.
+     * @param key The key of the information to be updated (e.g., "note", "friends", etc.).
+     * @param newInfo The new information to be updated.
+     * @throws DataAccessException If there is an error updating the user information, such as invalid credentials or a database error.
+     */
     public void updateUserInfo(User user, String key, String newInfo) throws DataAccessException {
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -234,9 +268,17 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
-    // New method for updating user friends
+    /**
+     * Adds a friend to the user's friend list in the database.
+     *
+     * @param user The user to whom the friend is being added.
+     * @param newName The name of the friend to be added.
+     * @throws DataAccessException If there is an error adding the friend, such as invalid credentials or a database error.
+     */
     public void addFriendinDB(User user, String newName) throws DataAccessException {
-//        user = new User("newUserName7", "password123");
+
+        // Dummy user
+        // user = new User("newUserName7", "password123");
 
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -307,8 +349,16 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
+    /**
+     * Removes a friend from the user's friend list in the database.
+     *
+     * @param user The user from whom the friend is being removed.
+     * @param index The index of the friend to be removed in the friend list.
+     * @throws DataAccessException If there is an error removing the friend, such as invalid credentials, a database error, or an invalid index.
+     */
     public void removeFriendinDB(User user, int index) throws DataAccessException {
-//        user = new User("newUserName7", "password123");
+        // Dummy user
+        // user = new User("newUserName7", "password123");
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
@@ -388,6 +438,13 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
+    /**
+     * Retrieves the list of friends associated with the given username.
+     *
+     * @param username The username of the user whose friends are being retrieved.
+     * @return A list of friends' names if the operation is successful.
+     * @throws DataAccessException If there is an error retrieving the friends, such as invalid credentials or a database error.
+     */
     public List<String> getFriends(String username) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
@@ -434,6 +491,13 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
+    /**
+     * Retrieves the password associated with the given username.
+     *
+     * @param username The username of the user whose password is being retrieved.
+     * @return The password of the user if found.
+     * @throws DataAccessException If the user is not found or there is an error accessing the database.
+     */
     public String getPasswordByUserName(String username) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 

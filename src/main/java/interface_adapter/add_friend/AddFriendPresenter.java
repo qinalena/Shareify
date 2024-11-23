@@ -6,6 +6,9 @@ import use_case.add_friend.AddFriendOutputBoundary;
 
 import java.util.List;
 
+/**
+ * Presenter for add friend use case.
+ */
 public class AddFriendPresenter implements AddFriendOutputBoundary {
     private final AddFriendViewModel addFriendViewModel;
     private final ViewManagerModel viewManagerModel;
@@ -17,6 +20,11 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
         this.friendsListViewModel = friendsListViewModel;
     }
 
+    /**
+     * Prepares the success view for add friend related Use Cases.
+     *
+     * @param updatedFriendsList the list of friends to be added to our friends list.
+     */
     @Override
     public void prepareSuccessView(List<String> updatedFriendsList) {
         // Directly set the updated list of friends in the state
@@ -27,6 +35,11 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
         addFriendViewModel.firePropertyChanged();
     }
 
+    /**
+     * Prepares the fail view for add friend related Use Cases.
+     *
+     * @param errorMessage the error message.
+     */
     @Override
     public void prepareFailView(String errorMessage) {
         // Set the error message in the state
@@ -36,6 +49,9 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
         addFriendViewModel.firePropertyChanged();
     }
 
+    /**
+     * Executes the switch back to friends list after adding the friend to the DB.
+     */
     @Override
     public void swtichToFriendsListView() {
         viewManagerModel.setState(friendsListViewModel.getViewName());

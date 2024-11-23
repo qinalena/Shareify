@@ -39,6 +39,14 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     private final JButton deleteFriendButton = new JButton("Delete Friend");
     private final JButton viewFriendButton = new JButton("View Friend");
 
+    /**
+     * Constructs a FriendsListView with the given controller, view model, data access object, and output boundary.
+     *
+     * @param controller The controller for the friends list.
+     * @param viewModel The view model for the friends list.
+     * @param dbNoteDataAccessObject The data access object for notes and user data.
+     * @param addFriendOutputBoundary The output boundary for adding friends.
+     */
     public FriendsListView(FriendsListController controller, FriendsListViewModel viewModel,
                            DBNoteDataAccessObject dbNoteDataAccessObject,
                            AddFriendOutputBoundary addFriendOutputBoundary) {
@@ -79,6 +87,11 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         viewFriendButton.addActionListener(this);
     }
 
+    /**
+     * Populates the friends list with the given list of friends.
+     *
+     * @param friends The list of friends to populate the JList with.
+     */
     private void populateFriendsList(List<String> friends) {
         listModel.clear();
         for (String friend : friends) {
@@ -86,6 +99,9 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         }
     }
 
+    /**
+     * Populates the friends list from the database.
+     */
     private void populateFriendsListFromDatabase() {
         try {
             final User realUser = new User(username, password);
@@ -98,6 +114,11 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         }
     }
 
+    /**
+     * Handles action events from the add, remove and view friend buttons.
+     *
+     * @param evt The action event.
+     */
     @Override
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource() == addFriendButton) {
@@ -146,6 +167,12 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         }
     }
 
+    /**
+     * Handles property change events from the FriendsListViewModel.
+     * Updates the friends list and handles any errors.
+     *
+     * @param evt The property change event.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         // React to changes in the view model (e.g., when the friends list or errors change)

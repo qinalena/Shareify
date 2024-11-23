@@ -15,6 +15,10 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The view for displaying the playlist collection of a friend's profile.
+ * This class extends JPanel and implements ActionListener and PropertyChangeListener to handle user interactions and updates from the FriendProfilePlaylistsViewModel.
+ */
 public class FriendProfilePlaylistsView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "friendProfilePlaylistCollection";
 
@@ -28,6 +32,13 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
     // JList to show the names of the playlists
     private JList<String> playlistCollectionList;
 
+    /**
+     * Constructs a FriendProfilePlaylistsView with the given controller, view model, and data access object.
+     *
+     * @param friendProfilePlaylistsController The controller for the friend's playlist collection.
+     * @param friendProfilePlaylistsViewModel The view model for the friend's playlist collection.
+     * @param dbUserDataAccessObject The data access object for user data.
+     */
     public FriendProfilePlaylistsView(FriendProfilePlaylistsController friendProfilePlaylistsController,
                                        FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel,
                                        DBUserDataAccessObject dbUserDataAccessObject) {
@@ -61,6 +72,12 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
         // No actions needed for a read-only view
     }
 
+    /**
+     * Handles property change events from the FriendProfilePlaylistsViewModel.
+     * Updates the playlist collection and handles any errors.
+     *
+     * @param e The property change event.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         final FriendProfilePlaylistsState state = (FriendProfilePlaylistsState) e.getNewValue();

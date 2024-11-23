@@ -12,6 +12,10 @@ import interface_adapter.add_friend.AddFriendState;
 import interface_adapter.add_friend.AddFriendViewModel;
 import interface_adapter.friends_list.FriendsListController;
 
+/**
+ * The view for adding a friend to the user's friend list.
+ * This class extends JPanel and implements PropertyChangeListener to handle updates from the AddFriendViewModel.
+ */
 public class AddFriendView extends JPanel implements PropertyChangeListener {
     private final DefaultListModel<String> friendsListModel;
     private final AddFriendViewModel addFriendViewModel;
@@ -23,6 +27,13 @@ public class AddFriendView extends JPanel implements PropertyChangeListener {
     private String username;
     private String password;
 
+    /**
+     * Constructs an AddFriendView with the given friends list model, add friend view model, and friends list controller.
+     *
+     * @param friendsListModel The model for the friends list.
+     * @param addFriendViewModel The view model for adding a friend.
+     * @param friendsListcontroller The controller for the friends list view.
+     */
     public AddFriendView(DefaultListModel<String> friendsListModel, AddFriendViewModel addFriendViewModel, FriendsListController friendsListcontroller) {
         this.friendsListModel = friendsListModel;
         this.addFriendViewModel = addFriendViewModel;
@@ -46,6 +57,9 @@ public class AddFriendView extends JPanel implements PropertyChangeListener {
         });
     }
 
+    /**
+     * Adds a friend to the friends list if the friend exists in the database.
+     */
     private void addFriend() {
         String friendName = friendNameField.getText();
         if (!friendName.isEmpty()) {
@@ -73,6 +87,12 @@ public class AddFriendView extends JPanel implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Handles property change events from the AddFriendViewModel.
+     * Updates the username and password based on the new state.
+     *
+     * @param evt The property change event.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final AddFriendState state = (AddFriendState) evt.getNewValue();
@@ -80,6 +100,11 @@ public class AddFriendView extends JPanel implements PropertyChangeListener {
         this.password = state.getPassword();
     }
 
+    /**
+     * Sets the AddFriendController for this view.
+     *
+     * @param controller The AddFriendController to set.
+     */
     public void setAddFriendController(AddFriendController controller) {
         this.addFriendController = controller;
     }
