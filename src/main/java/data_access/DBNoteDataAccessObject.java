@@ -163,7 +163,13 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
-    // New method for updating user info at any time
+    /**
+     * Updates user info at any time.
+     * @param user the user
+     * @param key ...
+     * @param newInfo changes made to the user's information
+     * @throws DataAccessException ...
+     */
     public void updateUserInfo(User user, String key, String newInfo) throws DataAccessException {
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -190,9 +196,10 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
 
                 // Check if the key exists in the 'info' JSON
                 if (data.has(key)) {
-                    String oldText = data.getString(key);
+                    final String oldText = data.getString(key);
                     data.put(key, oldText + newInfo);
-                } else {
+                }
+                else {
                     data.put(key, newInfo);
                 }
 
@@ -200,7 +207,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
                 System.out.println("After update - Info JSON file: " + data.toString(4));
 
                 // Create the updated request body
-                JSONObject updatedUser = new JSONObject();
+                final JSONObject updatedUser = new JSONObject();
                 updatedUser.put("username", username);
                 updatedUser.put("password", user.getPassword());
                 updatedUser.put("info", data);

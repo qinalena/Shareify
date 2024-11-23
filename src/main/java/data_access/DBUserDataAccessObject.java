@@ -45,6 +45,11 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         // No need to do anything to reinitialize a user list! The data is the cloud that may be miles away.
     }
 
+    /**
+     * Retrieves the inputted username.
+     * @param username the username to look up
+     * @return
+     */
     public User get(String username) {
         // Make an API call to get the user object.
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -73,7 +78,10 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         }
     }
 
-    // Sets the current logged-in username
+    /**
+     * Sets the current logged-in username.
+     * @param name output data
+     */
     @Override
     public void setCurrentUsername(String name) {
         currentUsername = name;
@@ -164,7 +172,12 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         }
     }
 
-
+    /**
+     * Adds playlist info to the user's database.
+     * @param user name of user
+     * @param playlistName name of playlist
+     * @throws DataAccessException ...
+     */
     public void addPlaylistToUser(User user, String playlistName) throws DataAccessException {
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder()

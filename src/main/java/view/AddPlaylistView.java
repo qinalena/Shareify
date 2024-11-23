@@ -5,6 +5,7 @@ import entity.UserFactoryInter;
 import interface_adapter.add_playlist.AddPlaylistController;
 import interface_adapter.add_playlist.AddPlaylistViewModel;
 import interface_adapter.add_playlist.AddPlaylistState;
+import use_case.note.DataAccessException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +25,7 @@ public class AddPlaylistView extends JFrame implements PropertyChangeListener {
     private JButton saveButton;
     private UserFactoryInter userFactory;
     private final DBUserDataAccessObject dbUserDataAccessObject = new DBUserDataAccessObject(userFactory);
+    private String UserFactoryInter;
 
     public AddPlaylistView(DefaultListModel<String> playlistListModel, AddPlaylistViewModel addPlaylistViewModel) {
         this.playlistModel = playlistListModel;
@@ -44,7 +46,14 @@ public class AddPlaylistView extends JFrame implements PropertyChangeListener {
         add(saveButton);
 
         // Action listener to add friend to the list
-        saveButton.addActionListener(e -> addPlaylist());
+        saveButton.addActionListener(evt -> {
+            try {
+                addPlaylist();
+            }
+            catch (DataAccessException playlistEvent) {
+                throw new RuntimeException(playlistEvent);
+            }
+        });
 
         // Add as listener
         addPlaylistViewModel.addPropertyChangeListener(this);
@@ -52,21 +61,29 @@ public class AddPlaylistView extends JFrame implements PropertyChangeListener {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
-    private void addPlaylist() {
+    private void addPlaylist() throws DataAccessException {
         // Sets name of playlist as inputted name by user
         final String playlistName = playlistNameField.getText();
-        if (!playlistModel.contains(playlistName)) {
-            playlistModel.addElement(playlistName);
-            addPlaylistViewModel.setNewPlaylist(playlistName);
-            dispose();
+        try {
+            if (!playlistModel.contains(playlistName)) {
+                playlistModel.addElement(playlistName);
+                addPlaylistViewModel.setNewPlaylist(playlistName);
+                // Should save to database under that user - there's a bug that username is null
+                dbUserDataAccessObject.addPlaylistToUser(
+                        dbUserDataAccessObject.get(UserFactoryInter), playlistName);
+                dispose();
+            }
+            else if (playlistModel.contains(playlistName)) {
+                JOptionPane.showMessageDialog(this, "Playlist name already exists!",
+                        "NameError", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Please enter a name.", "Empty Name Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
-        else if (playlistModel.contains(playlistName)) {
-            JOptionPane.showMessageDialog(this, "Playlist name already exists!",
-                    "NameError", JOptionPane.ERROR_MESSAGE);
-        }
-        else {
-            JOptionPane.showMessageDialog(this, "Please enter a name.", "Error",
-                JOptionPane.ERROR_MESSAGE);
+        catch (DataAccessException evt) {
+            JOptionPane.showMessageDialog(null, evt.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

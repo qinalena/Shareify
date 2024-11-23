@@ -14,6 +14,14 @@ public class PlaylistCollectionController {
     }
 
     /**
+     * Executes the User Profile related Use Cases.
+     */
+
+    public void execute() {
+
+    }
+
+    /**
      * Executes the Playlist Collection related Use Cases.
      * @param playlistName name of playlist
      */
