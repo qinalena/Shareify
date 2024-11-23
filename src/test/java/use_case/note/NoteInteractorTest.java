@@ -2,6 +2,9 @@ package use_case.note;
 
 import entity.User;
 import org.junit.Test;
+import use_case.user_profile_user_story.note.NoteDataAccessInterface;
+import use_case.user_profile_user_story.note.NoteInteractor;
+import use_case.user_profile_user_story.note.NoteOutputBoundary;
 
 import static org.junit.Assert.*;
 
@@ -34,6 +37,10 @@ public class NoteInteractorTest {
             @Override
             public void prepareFailView(String errorMessage) {
                 fail(errorMessage);
+            }
+
+            @Override
+            public void switchToUserProfileView() {
             }
         };
 

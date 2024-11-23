@@ -3,7 +3,7 @@ package app;
 import entity.User;
 import org.junit.Before;
 import org.junit.Test;
-import use_case.note.NoteDataAccessInterface;
+import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,7 +35,7 @@ public class MainNoteApplicationTest {
             }
         };
 
-        final UserProfileAppBuilder builder = new UserProfileAppBuilder();
+        final ShareifyAppBuilder builder = new ShareifyAppBuilder();
         app = builder.addNoteDAO(noteDataAccess)
                 .addNoteView()
                 .addNoteUseCase().build();

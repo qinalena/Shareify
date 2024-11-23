@@ -1,10 +1,7 @@
 package data_access;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import entity.User;
@@ -13,8 +10,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import use_case.note.DataAccessException;
-import use_case.note.NoteDataAccessInterface;
+import use_case.user_profile_user_story.note.DataAccessException;
+import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 /**
  * The DAO for accessing notes stored in the database.
@@ -33,6 +30,9 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
     public String saveNote(User user, String note) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
+
+        // Update user object's note
+        user.setNote(note);
 
         // POST METHOD to save note
         final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
