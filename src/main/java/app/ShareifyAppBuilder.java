@@ -129,6 +129,7 @@ public class ShareifyAppBuilder {
      * @throws RuntimeException if this method is called before addLoginUseCase
      */
     public ShareifyAppBuilder addUserProfileView() {
+        userProfileViewModel = new UserProfileViewModel();
         userProfileView = new UserProfileView(userProfileViewModel);
         cardPanel.add(userProfileView, userProfileView.getViewName());
 
@@ -308,7 +309,6 @@ public class ShareifyAppBuilder {
      * @return this builder
      */
     public ShareifyAppBuilder addLoginUseCase() {
-        userProfileViewModel = new UserProfileViewModel();
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 userProfileViewModel, loginViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(

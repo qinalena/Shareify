@@ -75,22 +75,23 @@ public class MainNoteApplication {
 //            System.err.println("Error creating user or saving note: " + ex.getMessage());
 //        }
 
+        // ADD ALL VIEWS FIRST BEFORE USE CASES!!!
         final ShareifyAppBuilder shareifyAppBuilder = new ShareifyAppBuilder();
         shareifyAppBuilder.addNoteDAO(noteDataAccess)
                 .addWelcomeView()
                 .addSignupView()
-                .addSignupUseCase()
                 .addLoginView()
-                .addLoginUseCase()
+                .addUserProfileView()
                 .addNoteView()
                 .addPlaylistCollectionView()
-                .addUserProfileView()
                 .addFriendsListView()
                 .addPlaylistView()
-                .addPlaylistUseCase()
+                .addSignupUseCase()
+                .addLoginUseCase()
+                .addUserProfileUseCase()
                 .addNoteUseCase()
                 .addPlaylistCollectionUseCase()
                 .addFriendsListUseCase()
-                .addUserProfileUseCase().build().setVisible(true);
+                .addPlaylistUseCase().build().setVisible(true);
     }
 }
