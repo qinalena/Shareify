@@ -4,6 +4,7 @@ package use_case.user_profile_user_story.user_profile;
  * The output boundary for the User Profile.
  */
 public interface UserProfileOutputBoundary {
+
     /**
      * Prepares the success view for the user profile related Use Cases.
      * @param userProfileOutputData the output data

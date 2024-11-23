@@ -86,6 +86,8 @@ public class MainNoteApplication {
                 .addPlaylistCollectionView()
                 .addUserProfileView()
                 .addFriendsListView()
+                .addPlaylistView()
+                .addPlaylistUseCase()
                 .addNoteUseCase()
                 .addPlaylistCollectionUseCase()
                 .addFriendsListUseCase()

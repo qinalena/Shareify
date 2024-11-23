@@ -15,6 +15,9 @@ import interface_adapter.login_user_story.signup.*;
 import interface_adapter.login_user_story.welcome.*;
 import interface_adapter.playlist_collection_user_story.add_playlist.*;
 import interface_adapter.playlist_collection_user_story.playlist_collection.*;
+import interface_adapter.playlist_user_story.PlaylistController;
+import interface_adapter.playlist_user_story.PlaylistPresenter;
+import interface_adapter.playlist_user_story.PlaylistViewModel;
 import interface_adapter.user_profile_user_story.note.*;
 import interface_adapter.user_profile_user_story.user_profile.*;
 import use_case.friends_list_user_story.add_friend.*;
@@ -23,12 +26,16 @@ import use_case.login_user_story.login.*;
 import use_case.login_user_story.signup.*;
 import use_case.playlist_collection_user_story.add_playlist.*;
 import use_case.playlist_collection_user_story.playlist_collection.*;
+import use_case.playlist_user_story.PlaylistInputBoundary;
+import use_case.playlist_user_story.PlaylistInteractor;
+import use_case.playlist_user_story.PlaylistOutputBoundary;
 import use_case.user_profile_user_story.note.*;
 import use_case.user_profile_user_story.user_profile.*;
 import view.ViewManager;
 import view.friends_list_user_story.*;
 import view.login_user_story.*;
 import view.playlist_collection_user_story.*;
+import view.playlist_user_story.PlaylistView;
 import view.user_profile_user_story.*;
 
 /**
@@ -40,6 +47,8 @@ public class ShareifyAppBuilder {
 
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
+
+    private NoteDataAccessInterface noteDAO;
 
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
@@ -57,13 +66,14 @@ public class ShareifyAppBuilder {
     private LoginViewModel loginViewModel = new LoginViewModel();
     private LoginView loginView;
 
-    private NoteDataAccessInterface noteDAO;
-
     private UserProfileViewModel userProfileViewModel;
     private UserProfileView userProfileView;
 
     private NoteViewModel noteViewModel;
     private NoteView noteView;
+
+    private PlaylistViewModel playlistViewModel;
+    private PlaylistView playlistView;
 
     private PlaylistCollectionViewModel playlistCollectionViewModel;
     private PlaylistCollectionView playlistCollectionView;
@@ -142,6 +152,17 @@ public class ShareifyAppBuilder {
     }
 
     /**
+     * Adds the Playlist View to the application.
+     * @return this builder
+     */
+    public ShareifyAppBuilder addPlaylistView() {
+        playlistViewModel = new PlaylistViewModel();
+        playlistView = new PlaylistView(playlistViewModel);
+        cardPanel.add(playlistView, playlistView.getViewName());
+        return this;
+    }
+
+    /**
      * Adds the Friends List View to the application.
      * @return this builder
      */
@@ -169,6 +190,21 @@ public class ShareifyAppBuilder {
             throw new RuntimeException("addUserProfileView must be called before addUserProfileUseCase");
         }
         userProfileView.setUserProfileController(userProfileController);
+        return this;
+    }
+
+    /**
+     * Adds the Playlist Use Case to the application.
+     * @return this builder
+     */
+    public ShareifyAppBuilder addPlaylistUseCase() {
+        final PlaylistOutputBoundary playlistOutputBoundary =
+                new PlaylistPresenter(playlistViewModel, playlistCollectionViewModel, viewManagerModel);
+        final PlaylistInputBoundary playlistInteractor = new PlaylistInteractor(userDataAccessObject, playlistOutputBoundary);
+
+        final PlaylistController playlistController = new PlaylistController(playlistInteractor);
+        playlistView.setPlaylistController(playlistController);
+
         return this;
     }
 

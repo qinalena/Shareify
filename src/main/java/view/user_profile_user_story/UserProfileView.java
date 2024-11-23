@@ -99,7 +99,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     }
 
     private void setFields(UserProfileState state) {
-        username.setText("Shareify - " + state.getUsername());
+        username.setText("Shareify - " + state.getCurrentUsername());
     }
 
     public void setUserProfileController(UserProfileController controller) {

@@ -22,21 +22,21 @@ public class UserProfileController {
     }
 
     /**
-     * Executes the "switch to NoteView" Use Case.
+     * Switches to Note View.
      */
     public void switchToNoteView() {
         userProfileInteractor.switchToNoteView();
     }
 
     /**
-     * Executes the "switch to PlaylistCollectionView" User Case.
+     * Switches to Playlist Collection View.
      */
     public void switchToPlaylistCollectionView() {
         userProfileInteractor.switchToPlaylistCollectionView();
     }
 
     /**
-     * Executes the "switch to FriendsListView" User Case.
+     * Switches to Friends List View.
      */
     public void switchToFriendsListView() {
         userProfileInteractor.switchToFriendsListView();
