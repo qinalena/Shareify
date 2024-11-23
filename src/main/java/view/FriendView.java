@@ -1,16 +1,16 @@
 package view;
 
-import entity.User;
+import java.awt.*;
+import javax.swing.*;
+
 import interface_adapter.friend_profile.FriendProfileController;
 import interface_adapter.friend_profile.FriendProfileState;
 import interface_adapter.friend_profile.FriendProfileViewModel;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * The View for when a friend's profile is opened, displaying their profile.
@@ -21,8 +21,6 @@ public class FriendView extends JPanel implements ActionListener, PropertyChange
     private final FriendProfileViewModel friendViewModel;
     private String username;
     private String password;
-    // Hardcoded example friend (replace with actual friend data)
-    private final User friend = new User(username, password);
 
     private final JLabel friendUsername = new JLabel();
     private final JLabel friendNote = new JLabel();
@@ -75,6 +73,11 @@ public class FriendView extends JPanel implements ActionListener, PropertyChange
         System.out.println("Click " + evt.getActionCommand());
     }
 
+    /**
+     * Updates when a new evt occurs.
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     public void propertyChange(PropertyChangeEvent evt) {
         final FriendProfileState state = (FriendProfileState) evt.getNewValue();
         System.out.println("Recieved username in FriendProfile view: " + state.getUsername());

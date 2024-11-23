@@ -16,6 +16,9 @@ import interface_adapter.add_friend.AddFriendViewModel;
 import interface_adapter.add_playlist.AddPlaylistPresenter;
 import interface_adapter.friend_profile.FriendProfileController;
 import interface_adapter.friend_profile.FriendProfilePresenter;
+import interface_adapter.friend_profile_playlists.FriendProfilePlaylistsController;
+import interface_adapter.friend_profile_playlists.FriendProfilePlaylistsPresenter;
+import interface_adapter.friend_profile_playlists.FriendProfilePlaylistsViewModel;
 import interface_adapter.friends_list.FriendsListViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
@@ -42,6 +45,8 @@ import use_case.add_friend.AddFriendOutputBoundary;
 import use_case.friend_profile.FriendProfileInputBoundary;
 import use_case.friend_profile.FriendProfileOutputBoundary;
 import use_case.add_playlist.AddPlaylistOutputBoundary;
+import use_case.friend_profile_playlists.FriendProfilePlaylistsInteractor;
+import use_case.friend_profile_playlists.FriendProfilePlaylistsOutputBoundary;
 import use_case.friends_list.FriendsListInputBoundary;
 import use_case.friends_list.FriendsListOutputBoundary;
 import use_case.friends_list.FriendsListInteractor;
@@ -107,6 +112,11 @@ public class UserProfileAppBuilder {
     private NoteView noteView;
     private AddFriendView addFriendView;
 
+    private FriendProfilePlaylistsView friendProfilePlaylistsView;
+    private FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel;
+    private FriendProfilePlaylistsInteractor friendProfilePlaylistsInteractor;
+    private FriendProfilePlaylistsController friendProfilePlaylistsController;
+
     private PlaylistCollectionViewModel playlistCollectionViewModel;
     private PlaylistCollectionView playlistCollectionView;
     private PlaylistCollectionController playlistCollectionController;
@@ -125,7 +135,8 @@ public class UserProfileAppBuilder {
     private FriendProfileInteractor friendProfileInteractor;
     private AddFriendInteractor addFriendInteractor;
     private FriendView friendProfileView;
-    private AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel, viewManagerModel, friendsListViewModel);
+    private AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel,
+            viewManagerModel, friendsListViewModel);
 
     // For refreshing the note before displaying the Note View
     private NoteInputBoundary noteInteractor;
@@ -378,6 +389,34 @@ public class UserProfileAppBuilder {
 //        addFriendViewModel = new AddFriendViewModel();
         addFriendView = new AddFriendView(new DefaultListModel<>(), addFriendViewModel, friendsListController);
         cardPanel.add(addFriendView, addFriendViewModel.getViewName());
+        return this;
+    }
+
+    public UserProfileAppBuilder addFriendProfilePlaylistUseCase() {
+        // Instantiate the output boundary/presenter
+        final FriendProfilePlaylistsOutputBoundary friendProfilePlaylistsOutputBoundary =
+                new FriendProfilePlaylistsPresenter(friendProfilePlaylistsViewModel, viewManagerModel);
+
+        // Instantiate the input boundary/interactor
+        friendProfilePlaylistsInteractor =
+                new FriendProfilePlaylistsInteractor(friendProfilePlaylistsOutputBoundary);
+
+        // Creating controller + connect to interactor
+        friendProfilePlaylistsController = new FriendProfilePlaylistsController(friendProfilePlaylistsInteractor);
+        if (friendProfilePlaylistsView == null) {
+            throw new RuntimeException("addPlaylistCollectionView must be called before addPlaylistCollectionUseCase");
+        }
+
+        // Link controller to the view
+        friendProfilePlaylistsView.setPlaylistCollectionController(friendProfilePlaylistsController);
+        return this;
+    }
+
+    public UserProfileAppBuilder addFriendProfilePlaylistView() {
+        friendProfilePlaylistsViewModel = new FriendProfilePlaylistsViewModel();
+        friendProfilePlaylistsView = new FriendProfilePlaylistsView(friendProfilePlaylistsController,
+                friendProfilePlaylistsViewModel, userDataAccessObject);
+        cardPanel.add(friendProfilePlaylistsView, friendProfilePlaylistsViewModel.getViewName());
         return this;
     }
 

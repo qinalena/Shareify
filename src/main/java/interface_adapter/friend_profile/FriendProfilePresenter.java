@@ -1,6 +1,7 @@
 package interface_adapter.friend_profile;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.friend_profile_playlists.FriendProfilePlaylistsViewModel;
 import interface_adapter.note.NoteViewModel;
 import interface_adapter.friends_list.FriendsListViewModel;
 import interface_adapter.playlist_collection.PlaylistCollectionViewModel;
@@ -12,6 +13,7 @@ public class FriendProfilePresenter implements FriendProfileOutputBoundary {
     private final NoteViewModel noteViewModel;
     private final FriendsListViewModel friendsListViewModel = new FriendsListViewModel();
     private final PlaylistCollectionViewModel playlistCollectionViewModel = new PlaylistCollectionViewModel();
+    private final FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel = new FriendProfilePlaylistsViewModel();
 
     public FriendProfilePresenter(FriendProfileViewModel friendProfileViewModel, ViewManagerModel viewManagerModel, NoteViewModel noteViewModel) {
         this.friendProfileViewModel = friendProfileViewModel;
@@ -45,7 +47,7 @@ public class FriendProfilePresenter implements FriendProfileOutputBoundary {
 
     @Override
     public void switchToPlaylistCollectionView() {
-        viewManagerModel.setState(playlistCollectionViewModel.getViewName());
+        viewManagerModel.setState(friendProfilePlaylistsViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

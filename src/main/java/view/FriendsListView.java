@@ -2,13 +2,9 @@ package view;
 
 import data_access.DBNoteDataAccessObject;
 import entity.User;
-import interface_adapter.add_friend.AddFriendState;
-import interface_adapter.add_friend.AddFriendViewModel;
 import interface_adapter.friends_list.FriendsListController;
 import interface_adapter.friends_list.FriendsListViewModel;
 import interface_adapter.friends_list.FriendsListState;
-import use_case.add_friend.AddFriendInputBoundary;
-import use_case.add_friend.AddFriendInteractor;
 import use_case.add_friend.AddFriendOutputBoundary;
 import use_case.note.DataAccessException;
 
@@ -18,9 +14,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The View for when a friend's list is opened for the logged-in user.
+ */
 public class FriendsListView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "friendsList";
     private final FriendsListViewModel viewModel;
@@ -29,16 +27,10 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     private DBNoteDataAccessObject dbNoteDataAccessObject;
     private String username;
     private String password;
-    private AddFriendViewModel addFriendViewModel = new AddFriendViewModel();
-    private AddFriendState addFriendState = addFriendViewModel.getState();
-    private List<String> currentFriends = new ArrayList<>();
     private String selectedFriend;
 
     // Global listModel variable
     private DefaultListModel<String> listModel;
-
-    // Moved initialization to the constructor to prevent premature calls with uninitialized dependencies
-    private AddFriendInputBoundary addFriendInputBoundary;
 
     // UI components
     private final JLabel friendsListName = new JLabel("Friends List");
@@ -48,7 +40,8 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     private final JButton viewFriendButton = new JButton("View Friend");
 
     public FriendsListView(FriendsListController controller, FriendsListViewModel viewModel,
-                           DBNoteDataAccessObject dbNoteDataAccessObject, AddFriendOutputBoundary addFriendOutputBoundary) {
+                           DBNoteDataAccessObject dbNoteDataAccessObject,
+                           AddFriendOutputBoundary addFriendOutputBoundary) {
         this.friendsListController = controller;
         this.viewModel = viewModel;
         this.dbNoteDataAccessObject = dbNoteDataAccessObject;
@@ -62,24 +55,15 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         listModel = new DefaultListModel<>();
         friendsList = new JList<>(listModel);
 
-        // Initialize AddFriendInputBoundary here after dependencies are set
-        if (this.dbNoteDataAccessObject != null && this.addFriendOutputBoundary != null) {
-            this.addFriendInputBoundary = new AddFriendInteractor(
-                    dbNoteDataAccessObject,
-                    addFriendOutputBoundary,
-                    friendsListModelToList()
-            );
-        }
-
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // Layout for the Friends List view
         friendsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         friendsList.setLayoutOrientation(JList.VERTICAL);
-        JScrollPane scrollPane = new JScrollPane(friendsList);
+        final JScrollPane scrollPane = new JScrollPane(friendsList);
 
         // Buttons for adding and deleting friends
-        JPanel buttonPanel = new JPanel();
+        final JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.add(addFriendButton);
         buttonPanel.add(deleteFriendButton);
@@ -104,11 +88,13 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
 
     private void populateFriendsListFromDatabase() {
         try {
-            User realUser = new User(username, password);
-            List<String> friends = dbNoteDataAccessObject.getFriends(realUser.getName());
+            final User realUser = new User(username, password);
+            final List<String> friends = dbNoteDataAccessObject.getFriends(realUser.getName());
             populateFriendsList(friends);
-        } catch (DataAccessException e) {
-            JOptionPane.showMessageDialog(this, "Error fetching friends: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        catch (DataAccessException error) {
+            JOptionPane.showMessageDialog(this, "Error fetching friends: " + error.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -116,49 +102,48 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource() == addFriendButton) {
             friendsListController.switchToAddFriendView();
-        } else if (evt.getSource() == deleteFriendButton) {
-            int[] selectedIndices = friendsList.getSelectedIndices();
+        }
+        else if (evt.getSource() == deleteFriendButton) {
+            final int[] selectedIndices = friendsList.getSelectedIndices();
             if (selectedIndices.length > 0) {
                 for (int i = selectedIndices.length - 1; i >= 0; i--) {
                     listModel.remove(selectedIndices[i]);
-
-                    // Call removeFriendinDB to remove the friend from the database
                     try {
-                        User user = new User(username, password);
+                        final User user = new User(username, password);
                         dbNoteDataAccessObject.removeFriendinDB(user, selectedIndices[i]);
-                    } catch (DataAccessException e) {
-                        JOptionPane.showMessageDialog(this, "Error removing friend from database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    catch (DataAccessException error) {
+                        JOptionPane.showMessageDialog(this, "Error removing friend from database:"
+                                + " " + error.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "Please select a friend to delete.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else if (evt.getSource() == viewFriendButton) {
-            int selectedIndex = friendsList.getSelectedIndex();
+            else {
+                JOptionPane.showMessageDialog(this, "Please select a friend to delete.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else if (evt.getSource() == viewFriendButton) {
+            final int selectedIndex = friendsList.getSelectedIndex();
             if (selectedIndex != -1) {
                 this.selectedFriend = friendsList.getSelectedValue();
                 System.out.println("The friend you selected to view: " + selectedFriend);
 
                 // GET THE SELECTED USER'S PASSWORD
                 try {
-                    String selectedFriendPw = dbNoteDataAccessObject.getPasswordByUserName(selectedFriend);
+                    final String selectedFriendPw = dbNoteDataAccessObject.getPasswordByUserName(selectedFriend);
                     System.out.println("This is the friend's password: " + selectedFriendPw);
                     friendsListController.switchToFriendProfileView(selectedFriend, selectedFriendPw);
-                } catch (DataAccessException e) {
-                    throw new RuntimeException(e);
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "Please select a friend to view.", "Error", JOptionPane.ERROR_MESSAGE);
+                catch (DataAccessException error) {
+                    throw new RuntimeException(error);
+                }
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Please select a friend to view.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }
-
-    private List<String> friendsListModelToList() {
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < listModel.size(); i++) {
-            list.add(listModel.get(i));
-        }
-        return list;
     }
 
     @Override
@@ -166,7 +151,6 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         // React to changes in the view model (e.g., when the friends list or errors change)
         final FriendsListState state = (FriendsListState) evt.getNewValue();
         updateFriendsList(state);
-        currentFriends = state.getFriends();
         if (state.getUsername() != this.username) {
             this.username = state.getUsername();
             this.password = state.getPassword();
@@ -188,29 +172,5 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
 
     public void setFriendsListController(FriendsListController controller) {
         this.friendsListController = controller;
-    }
-
-    public void setDbNoteDataAccessObject(DBNoteDataAccessObject dbNoteDataAccessObject) {
-        this.dbNoteDataAccessObject = dbNoteDataAccessObject;
-        // Reinitialize AddFriendInputBoundary if dependencies change
-        if (this.addFriendOutputBoundary != null) {
-            this.addFriendInputBoundary = new AddFriendInteractor(
-                    dbNoteDataAccessObject,
-                    addFriendOutputBoundary,
-                    friendsListModelToList()
-            );
-        }
-    }
-
-    public void setAddFriendOutputBoundary(AddFriendOutputBoundary addFriendOutputBoundary) {
-        this.addFriendOutputBoundary = addFriendOutputBoundary;
-        // Reinitialize AddFriendInputBoundary if dependencies change
-        if (this.dbNoteDataAccessObject != null) {
-            this.addFriendInputBoundary = new AddFriendInteractor(
-                    dbNoteDataAccessObject,
-                    addFriendOutputBoundary,
-                    friendsListModelToList()
-            );
-        }
     }
 }

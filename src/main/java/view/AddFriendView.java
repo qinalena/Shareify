@@ -13,10 +13,10 @@ import interface_adapter.add_friend.AddFriendViewModel;
 import interface_adapter.friends_list.FriendsListController;
 
 public class AddFriendView extends JPanel implements PropertyChangeListener {
-    private DefaultListModel<String> friendsListModel;
-    private AddFriendViewModel addFriendViewModel;
+    private final DefaultListModel<String> friendsListModel;
+    private final AddFriendViewModel addFriendViewModel;
     private AddFriendController addFriendController;
-    private JTextField friendNameField;
+    private final JTextField friendNameField;
     private JButton saveButton;
     private FriendsListController friendsListcontroller;
     private DBNoteDataAccessObject dbNoteDataAccessObject = new DBNoteDataAccessObject();
