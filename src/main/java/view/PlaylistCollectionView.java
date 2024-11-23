@@ -82,60 +82,26 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         buttons.add(createPlaylistButton);
         buttons.add(deletePlaylistButton);
 
-        // Set up button actions
-        createPlaylistButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PlaylistCollectionView.this.addPlaylistInputBoundary = new AddPlaylistInteractor(
-                        dbUserDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
-                );
-                // Create ViewModel
-                final AddPlaylistViewModel addPlaylistViewModel = new AddPlaylistViewModel();
-
-                // Create Presenter
-                final AddPlaylistPresenter addPlaylistPresenter = new AddPlaylistPresenter(addPlaylistViewModel);
-
-                // Create Controller
-                final AddPlaylistController addPlaylistController = new AddPlaylistController(addPlaylistInputBoundary);
-
-                // Create + configure AddPlaylistView
-                final AddPlaylistView addPlaylistView = new AddPlaylistView(
-                        (DefaultListModel<String>) playlistCollectionList.getModel(),
-                        addPlaylistViewModel
-                );
-                // Injects the controller
-                addPlaylistView.setAddPlaylistController(addPlaylistController);
-
-                // Displays the AddPlaylist window
-                addPlaylistView.setVisible(true);
+        createPlaylistButton.addActionListener(evt -> {
+            if (evt.getSource().equals(createPlaylistButton)) {
+                createPlaylistLogic();
             }
-        });
+        }
+        );
 
-        deletePlaylistButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                final int[] selectedIndices = playlistCollectionList.getSelectedIndices();
-                if (selectedIndices.length > 0) {
-                    final DefaultListModel<String> listModel = (
-                            DefaultListModel<String>) playlistCollectionList.getModel();
-                    for (int i = selectedIndices.length - 1; i >= 0; i--) {
-                        listModel.remove(selectedIndices[i]);
-                    }
-                }
-                else {
-                    JOptionPane.showMessageDialog(PlaylistCollectionView.this,
-                            "Please select a playlist to delete.", "Playlist Error",
-                            JOptionPane.ERROR_MESSAGE);
-                }
+        deletePlaylistButton.addActionListener(evt -> {
+            if (evt.getSource().equals(deletePlaylistButton)) {
+                deletePlaylistLogic();
             }
-        });
+        }
+        );
 
         backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent evt) {
                 playlistCollectionController.switchToUserProfileView();
             }
-        });
+        }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -147,6 +113,53 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         this.add(scrollPane);
     }
 
+    /**
+     * Logic for creating a playlist button.
+     */
+    private void createPlaylistLogic() {
+        this.addPlaylistInputBoundary = new AddPlaylistInteractor(
+                dbUserDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
+        );
+        // Create ViewModel
+        final AddPlaylistViewModel addPlaylistViewModel = new AddPlaylistViewModel();
+
+        // Create Presenter
+        final AddPlaylistPresenter addPlaylistPresenter = new AddPlaylistPresenter(addPlaylistViewModel);
+
+        // Create Controller
+        final AddPlaylistController addPlaylistController = new AddPlaylistController(addPlaylistInputBoundary);
+
+        // Create + configure AddPlaylistView
+        final AddPlaylistView addPlaylistView = new AddPlaylistView(
+                (DefaultListModel<String>) playlistCollectionList.getModel(),
+                addPlaylistViewModel
+        );
+        // Injects the controller
+        addPlaylistView.setAddPlaylistController(addPlaylistController);
+
+        // Displays the AddPlaylist window
+        addPlaylistView.setVisible(true);
+    }
+
+    /**
+     * Logic for deleting a playlist button.
+     */
+    private void deletePlaylistLogic() {
+        final int[] selectedIndices = playlistCollectionList.getSelectedIndices();
+        if (selectedIndices.length > 0) {
+            final DefaultListModel<String> listModel = (
+                    DefaultListModel<String>) playlistCollectionList.getModel();
+            for (int i = selectedIndices.length - 1; i >= 0; i--) {
+                listModel.remove(selectedIndices[i]);
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(PlaylistCollectionView.this,
+                    "Please select a playlist to delete.", "Playlist Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private List<String> playlistListModelToList() {
         final DefaultListModel<String> playlistListModel = (DefaultListModel<String>) playlistCollectionList.getModel();
         final List<String> playlistList = new ArrayList<>();
@@ -156,6 +169,10 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         return playlistList;
     }
 
+    /**
+     * React to a button click that results in evt.
+     * @param e the ActionEvent to react to
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("Click " + e.getActionCommand());
