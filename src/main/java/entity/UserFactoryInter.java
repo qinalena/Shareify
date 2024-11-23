@@ -6,5 +6,5 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface UserFactoryInter {
-    User createUser(String username, String password, JSONObject info);
+    User createUser(String username, String password);
 }
