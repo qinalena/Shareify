@@ -43,4 +43,11 @@ public class PlaylistCollectionController {
     public void switchToUserProfileView() {
         playlistCollectionInteractor.switchToUserProfileView();
     }
+
+    /**
+     * Executes the "switch to AddPlaylist view" use case.
+     */
+    public void switchToAddPlaylistView() {
+        playlistCollectionInteractor.switchToAddPlaylistView();
+    }
 }

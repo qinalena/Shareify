@@ -27,4 +27,9 @@ public interface PlaylistCollectionOutputBoundary {
      * Switches to UserProfileView - for back button in Playlist Collection View.
      */
     void switchToUserProfileView();
+
+    /**
+     * Switches to AddPlaylistView.
+     */
+    void switchToAddPlaylistView();
 }

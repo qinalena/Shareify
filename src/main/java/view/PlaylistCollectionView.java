@@ -1,6 +1,7 @@
 package view;
 
 import data_access.DBUserDataAccessObject;
+import entity.User;
 import interface_adapter.add_playlist.AddPlaylistController;
 import interface_adapter.add_playlist.AddPlaylistPresenter;
 import interface_adapter.add_playlist.AddPlaylistViewModel;
@@ -10,6 +11,7 @@ import interface_adapter.playlist_collection.PlaylistCollectionViewModel;
 import use_case.add_playlist.AddPlaylistInputBoundary;
 import use_case.add_playlist.AddPlaylistInteractor;
 import use_case.add_playlist.AddPlaylistOutputBoundary;
+import use_case.note.DataAccessException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,13 +45,15 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
     // JList to show the names of the playlists
     private JList<String> playlistCollectionList = new JList<>(new DefaultListModel<>());
+    private String username;
+    private String password;
 
     public PlaylistCollectionView(PlaylistCollectionController playlistCollectionController,
                                   PlaylistCollectionViewModel playlistCollectionViewModel,
                                   DBUserDataAccessObject dbUserDataAccessObject,
                                   AddPlaylistOutputBoundary addPlaylistOutputBoundary) {
 
-        PlaylistCollectionView.this.playlistCollectionController = playlistCollectionController;
+        this.playlistCollectionController = playlistCollectionController;
         this.playlistCollectionViewModel = playlistCollectionViewModel;
         this.dbUserDataAccessObject = dbUserDataAccessObject;
         this.addPlaylistOutputBoundary = addPlaylistOutputBoundary;
@@ -84,7 +88,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
         createPlaylistButton.addActionListener(evt -> {
             if (evt.getSource().equals(createPlaylistButton)) {
-                createPlaylistLogic();
+                playlistCollectionController.switchToAddPlaylistView();
             }
         }
         );
@@ -114,34 +118,6 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     }
 
     /**
-     * Logic for creating a playlist button.
-     */
-    private void createPlaylistLogic() {
-        this.addPlaylistInputBoundary = new AddPlaylistInteractor(
-                dbUserDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
-        );
-        // Create ViewModel
-        final AddPlaylistViewModel addPlaylistViewModel = new AddPlaylistViewModel();
-
-        // Create Presenter
-        final AddPlaylistPresenter addPlaylistPresenter = new AddPlaylistPresenter(addPlaylistViewModel);
-
-        // Create Controller
-        final AddPlaylistController addPlaylistController = new AddPlaylistController(addPlaylistInputBoundary);
-
-        // Create + configure AddPlaylistView
-        final AddPlaylistView addPlaylistView = new AddPlaylistView(
-                (DefaultListModel<String>) playlistCollectionList.getModel(),
-                addPlaylistViewModel
-        );
-        // Injects the controller
-        addPlaylistView.setAddPlaylistController(addPlaylistController);
-
-        // Displays the AddPlaylist window
-        addPlaylistView.setVisible(true);
-    }
-
-    /**
      * Logic for deleting a playlist button.
      */
     private void deletePlaylistLogic() {
@@ -167,6 +143,26 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
             playlistList.add(playlistListModel.get(i));
         }
         return playlistList;
+    }
+
+    private void populatePlaylistList(List<String> playlists) {
+        playlistListModelToList().clear();
+        for (String playlist : playlists) {
+            playlistListModelToList().add(playlist);
+        }
+    }
+
+    private void populatePlaylistListFromDB() {
+        try {
+            final User realUser = new User(username, password);
+            final List<String> playlists = dbUserDataAccessObject.getPlaylists(realUser.getName());
+            populatePlaylistList(playlists);
+        }
+        catch (DataAccessException error) {
+            JOptionPane.showMessageDialog(this,
+                    "Error getting playlists: " + error.getMessage(), "Error getting playlist",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**

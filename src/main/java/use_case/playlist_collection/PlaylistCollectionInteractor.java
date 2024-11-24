@@ -30,4 +30,9 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
     public void switchToUserProfileView() {
         playlistCollectionPresenter.switchToUserProfileView();
     }
+
+    @Override
+    public void switchToAddPlaylistView() {
+        playlistCollectionPresenter.switchToAddPlaylistView();
+    }
 }
