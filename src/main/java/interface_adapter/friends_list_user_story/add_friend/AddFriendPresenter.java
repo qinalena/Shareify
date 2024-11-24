@@ -2,8 +2,8 @@ package interface_adapter.friends_list_user_story.add_friend;
 
 import use_case.friends_list_user_story.add_friend.AddFriendOutputBoundary;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.friends_list.FriendsListViewModel;
-import use_case.add_friend.AddFriendOutputBoundary;
+import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
+import use_case.friends_list_user_story.add_friend.AddFriendOutputBoundary;
 
 import java.util.List;
 

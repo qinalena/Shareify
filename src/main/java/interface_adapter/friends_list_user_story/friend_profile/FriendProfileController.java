@@ -1,6 +1,6 @@
-package interface_adapter.friend_profile;
+package interface_adapter.friends_list_user_story.friend_profile;
 
-import use_case.friend_profile.FriendProfileInputBoundary;
+import use_case.friends_list_user_story.friend_profile.FriendProfileInputBoundary;
 
 public class FriendProfileController {
     private final FriendProfileInputBoundary friendProfileInteractor;
@@ -25,7 +25,7 @@ public class FriendProfileController {
     public void switchToFriendsListView() {
         friendProfileInteractor.switchToFriendsListView();
     }
-    public void switchToPlaylistCollectionView() {
-        friendProfileInteractor.switchToPlaylistCollectionView();
+    public void switchToPlaylistCollectionView(String username, String password) {
+        friendProfileInteractor.switchToPlaylistCollectionView(username, password);
     }
 }

@@ -1,4 +1,4 @@
-package use_case.friend_profile;
+package use_case.friends_list_user_story.friend_profile;
 
 public interface FriendProfileOutputBoundary {
 
@@ -21,5 +21,5 @@ public interface FriendProfileOutputBoundary {
 
     void switchToFriendsListView();
 
-    void switchToPlaylistCollectionView();
+    void switchToPlaylistCollectionView(String username, String password);
 }

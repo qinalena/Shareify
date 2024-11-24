@@ -1,8 +1,8 @@
 package use_case.friends_list_user_story.add_friend;
 
 import data_access.DBNoteDataAccessObject;
-import interface_adapter.add_friend.AddFriendPresenter;
-import use_case.add_friend.AddFriendOutputBoundary;
+import interface_adapter.friends_list_user_story.add_friend.AddFriendPresenter;
+import use_case.friends_list_user_story.add_friend.AddFriendOutputBoundary;
 import java.util.List;
 
 public class AddFriendInteractor implements AddFriendInputBoundary {

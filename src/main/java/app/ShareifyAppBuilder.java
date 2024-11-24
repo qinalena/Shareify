@@ -9,6 +9,12 @@ import data_access.*;
 import entity.UserFactory;
 import entity.UserFactoryInter;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.friends_list_user_story.friend_profile.FriendProfileController;
+import interface_adapter.friends_list_user_story.friend_profile.FriendProfilePresenter;
+import interface_adapter.friends_list_user_story.friend_profile.FriendProfileViewModel;
+import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsController;
+import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsPresenter;
+import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsViewModel;
 import interface_adapter.friends_list_user_story.add_friend.*;
 import interface_adapter.friends_list_user_story.friends_list.*;
 import interface_adapter.login_user_story.login.*;
@@ -18,6 +24,10 @@ import interface_adapter.playlist_collection_user_story.add_playlist.*;
 import interface_adapter.playlist_collection_user_story.playlist_collection.*;
 import interface_adapter.user_profile_user_story.note.*;
 import interface_adapter.user_profile_user_story.user_profile.*;
+import use_case.friends_list_user_story.friend_profile.FriendProfileInteractor;
+import use_case.friends_list_user_story.friend_profile.FriendProfileOutputBoundary;
+import use_case.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsInteractor;
+import use_case.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsOutputBoundary;
 import use_case.friends_list_user_story.add_friend.*;
 import use_case.friends_list_user_story.friends_list.*;
 import use_case.login_user_story.login.*;
@@ -26,8 +36,9 @@ import use_case.playlist_collection_user_story.add_playlist.*;
 import use_case.playlist_collection_user_story.playlist_collection.*;
 import use_case.user_profile_user_story.note.*;
 import use_case.user_profile_user_story.user_profile.*;
+import view.friends_list_user_story.FriendProfilePlaylistsView;
+import view.friends_list_user_story.FriendView;
 import view.ViewManager;
-import view.AddFriendView;
 import view.friends_list_user_story.*;
 import view.login_user_story.*;
 import view.playlist_collection_user_story.*;
@@ -235,9 +246,11 @@ public class ShareifyAppBuilder {
     /**
      * Adds the friend profile use case to the application.
      * @return this builder
+     * @throws RuntimeException for runtime exceptions
      */
-    public UserProfileAppBuilder addFriendProfileUseCase() {
-        final FriendProfileOutputBoundary friendProfileOutputBoundary = new FriendProfilePresenter(friendProfileViewModel, viewManagerModel, noteViewModel);
+    public ShareifyAppBuilder addFriendProfileUseCase() {
+        friendProfilePlaylistsViewModel = new FriendProfilePlaylistsViewModel();
+        final FriendProfileOutputBoundary friendProfileOutputBoundary = new FriendProfilePresenter(friendProfileViewModel, viewManagerModel, noteViewModel, friendProfilePlaylistsViewModel);
         friendProfileInteractor = new FriendProfileInteractor(noteDAO, friendProfileOutputBoundary);
 
         final FriendProfileController friendProfileController = new FriendProfileController(friendProfileInteractor);
@@ -339,7 +352,7 @@ public class ShareifyAppBuilder {
      * Adds the Friend profile view to the application.
      * @return this builder
      */
-    public UserProfileAppBuilder addFriendProfileView() {
+    public ShareifyAppBuilder addFriendProfileView() {
         friendProfileView = new FriendView(friendProfileViewModel);
         cardPanel.add(friendProfileView, friendProfileViewModel.getViewName());
         return this;
@@ -348,8 +361,9 @@ public class ShareifyAppBuilder {
     /**
      * Adds the friend profile use case to the application.
      * @return this builder
+     * @throws RuntimeException for idk
      */
-    public UserProfileAppBuilder addAddFriendUseCase() {
+    public ShareifyAppBuilder addAddFriendUseCase() {
         final AddFriendOutputBoundary addFriendOutPutBoundary = new AddFriendPresenter(addFriendViewModel, viewManagerModel, friendsListViewModel);
         addFriendInteractor = new AddFriendInteractor(dbNoteDataAccessObject, addFriendOutPutBoundary, new ArrayList<>());
         final AddFriendController addFriendController = new AddFriendController(addFriendInteractor);
@@ -364,7 +378,7 @@ public class ShareifyAppBuilder {
      * Adds the add friend view to the application.
      * @return this builder
      */
-    public UserProfileAppBuilder addAddFriendView() {
+    public ShareifyAppBuilder addAddFriendView() {
         addFriendView = new AddFriendView(new DefaultListModel<>(), addFriendViewModel, friendsListController);
         cardPanel.add(addFriendView, addFriendViewModel.getViewName());
         return this;
@@ -374,7 +388,7 @@ public class ShareifyAppBuilder {
      * Adds the friend profile playlists collection use case to the application.
      * @return this builder
      */
-    public UserProfileAppBuilder addFriendProfilePlaylistUseCase() {
+    public ShareifyAppBuilder addFriendProfilePlaylistUseCase() {
         // Instantiate the output boundary/presenter
         final FriendProfilePlaylistsOutputBoundary friendProfilePlaylistsOutputBoundary =
                 new FriendProfilePlaylistsPresenter(friendProfilePlaylistsViewModel, viewManagerModel);
@@ -398,8 +412,7 @@ public class ShareifyAppBuilder {
      * Adds the friend profile playlist colection view to the application.
      * @return this builder
      */
-    public UserProfileAppBuilder addFriendProfilePlaylistView() {
-        friendProfilePlaylistsViewModel = new FriendProfilePlaylistsViewModel();
+    public ShareifyAppBuilder addFriendProfilePlaylistView() {
         friendProfilePlaylistsView = new FriendProfilePlaylistsView(friendProfilePlaylistsController,
                 friendProfilePlaylistsViewModel, userDataAccessObject);
         cardPanel.add(friendProfilePlaylistsView, friendProfilePlaylistsViewModel.getViewName());

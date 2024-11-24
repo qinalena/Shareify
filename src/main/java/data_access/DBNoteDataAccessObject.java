@@ -15,9 +15,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import use_case.user_profile_user_story.note.DataAccessException;
 import use_case.user_profile_user_story.note.NoteDataAccessInterface;
-import use_case.note.DataAccessException;
-import use_case.note.NoteDataAccessInterface;
-import use_case.signup.SignupOutputBoundary;
 
 /**
  * The DAO for accessing notes stored in the database.

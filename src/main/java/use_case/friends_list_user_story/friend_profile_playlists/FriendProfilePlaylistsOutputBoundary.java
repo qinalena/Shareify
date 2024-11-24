@@ -1,4 +1,4 @@
-package use_case.friend_profile_playlists;
+package use_case.friends_list_user_story.friend_profile_playlists;
 
 public interface FriendProfilePlaylistsOutputBoundary {
 

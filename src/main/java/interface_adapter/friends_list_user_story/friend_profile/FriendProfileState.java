@@ -1,4 +1,4 @@
-package interface_adapter.friend_profile;
+package interface_adapter.friends_list_user_story.friend_profile;
 
 public class FriendProfileState {
     private String error;

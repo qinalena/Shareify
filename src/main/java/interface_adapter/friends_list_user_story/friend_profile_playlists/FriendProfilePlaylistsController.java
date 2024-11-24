@@ -1,6 +1,6 @@
-package interface_adapter.friend_profile_playlists;
+package interface_adapter.friends_list_user_story.friend_profile_playlists;
 
-import use_case.friend_profile_playlists.FriendProfilePlaylistsInputBoundary;
+import use_case.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsInputBoundary;
 
 public class FriendProfilePlaylistsController {
     private final FriendProfilePlaylistsInputBoundary friendProfilePlaylistsInteractor;

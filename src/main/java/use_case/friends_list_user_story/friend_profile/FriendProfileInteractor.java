@@ -1,7 +1,6 @@
-package use_case.friend_profile;
+package use_case.friends_list_user_story.friend_profile;
 
-import use_case.note.NoteDataAccessInterface;
-import use_case.user_profile.UserProfileInputBoundary;
+import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 public class FriendProfileInteractor implements FriendProfileInputBoundary {
     private NoteDataAccessInterface noteDataAccessInterface;
@@ -21,7 +20,7 @@ public class FriendProfileInteractor implements FriendProfileInputBoundary {
     }
 
     @Override
-    public void switchToPlaylistCollectionView() {
-        friendProfilePresenter.switchToPlaylistCollectionView();
+    public void switchToPlaylistCollectionView(String username, String password) {
+        friendProfilePresenter.switchToPlaylistCollectionView(username, password);
     }
 }

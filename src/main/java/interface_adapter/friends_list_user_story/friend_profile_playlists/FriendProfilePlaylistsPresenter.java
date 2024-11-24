@@ -1,7 +1,7 @@
-package interface_adapter.friend_profile_playlists;
+package interface_adapter.friends_list_user_story.friend_profile_playlists;
 
 import interface_adapter.ViewManagerModel;
-import use_case.friend_profile_playlists.FriendProfilePlaylistsOutputBoundary;
+import use_case.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsOutputBoundary;
 
 public class FriendProfilePlaylistsPresenter implements FriendProfilePlaylistsOutputBoundary {
     private final FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel;

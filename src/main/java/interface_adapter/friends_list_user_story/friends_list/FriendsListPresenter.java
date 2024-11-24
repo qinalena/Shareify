@@ -1,12 +1,11 @@
 package interface_adapter.friends_list_user_story.friends_list;
 
 import use_case.friends_list_user_story.friends_list.FriendsListOutputBoundary;
-import interface_adapter.add_friend.AddFriendViewModel;
-import interface_adapter.friend_profile.FriendProfileState;
-import interface_adapter.friend_profile.FriendProfileViewModel;
-import interface_adapter.note.NoteViewModel;
-import interface_adapter.playlist_collection.PlaylistCollectionViewModel;
-import use_case.friends_list.FriendsListOutputBoundary;
+import interface_adapter.friends_list_user_story.add_friend.AddFriendViewModel;
+import interface_adapter.friends_list_user_story.friend_profile.FriendProfileState;
+import interface_adapter.friends_list_user_story.friend_profile.FriendProfileViewModel;
+import interface_adapter.user_profile_user_story.note.NoteViewModel;
+import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
 import interface_adapter.ViewManagerModel;
 
 public class FriendsListPresenter implements FriendsListOutputBoundary {

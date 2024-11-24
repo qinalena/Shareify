@@ -1,11 +1,11 @@
-package view;
+package view.friends_list_user_story;
 
 import java.awt.*;
 import javax.swing.*;
 
-import interface_adapter.friend_profile.FriendProfileController;
-import interface_adapter.friend_profile.FriendProfileState;
-import interface_adapter.friend_profile.FriendProfileViewModel;
+import interface_adapter.friends_list_user_story.friend_profile.FriendProfileController;
+import interface_adapter.friends_list_user_story.friend_profile.FriendProfileState;
+import interface_adapter.friends_list_user_story.friend_profile.FriendProfileViewModel;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -45,7 +45,7 @@ public class FriendView extends JPanel implements ActionListener, PropertyChange
         viewPlaylists.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        friendProfileController.switchToPlaylistCollectionView();
+                        friendProfileController.switchToPlaylistCollectionView(username, password);
                     }
                 }
         );
