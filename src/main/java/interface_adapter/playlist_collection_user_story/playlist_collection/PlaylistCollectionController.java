@@ -2,6 +2,8 @@ package interface_adapter.playlist_collection_user_story.playlist_collection;
 
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionInputBoundary;
 
+import java.util.List;
+
 /**
  * Controller for our Playlist Collection related Use Cases.
  */
@@ -15,26 +17,16 @@ public class PlaylistCollectionController {
 
     /**
      * Executes the User Profile related Use Cases.
+     * @param playlist the playlist to be recorded
      */
 
-    public void execute() {
-
-    }
-
-    /**
-     * Executes the Playlist Collection related Use Cases.
-     * @param playlistName name of playlist
-     */
-    public void addPlaylist(String playlistName) {
-        playlistCollectionInteractor.addPlaylist(playlistName);
-    }
-
-    /**
-     * Executes the Playlist Collection related Use Cases.
-     * @param playlistName name of playlist
-     */
-    public void removePlaylist(String playlistName) {
-        playlistCollectionInteractor.removePlaylist(playlistName);
+    public void execute(String playlist) {
+        if (playlist != null) {
+            playlistCollectionInteractor.addPlaylist(playlist);
+        }
+        else {
+            playlistCollectionInteractor.removePlaylist(playlist);
+        }
     }
 
     /**
@@ -42,12 +34,5 @@ public class PlaylistCollectionController {
      */
     public void switchToUserProfileView() {
         playlistCollectionInteractor.switchToUserProfileView();
-    }
-
-    /**
-     * Executes the "switch to AddPlaylist view" use case.
-     */
-    public void switchToAddPlaylistView() {
-        playlistCollectionInteractor.switchToAddPlaylistView();
     }
 }

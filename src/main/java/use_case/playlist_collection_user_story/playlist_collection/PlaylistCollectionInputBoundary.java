@@ -22,9 +22,4 @@ public interface PlaylistCollectionInputBoundary {
      * Executes switch to UserProfile view use case.
      */
     void switchToUserProfileView();
-
-    /**
-     * Executes switch to AddPlaylist view user case.
-     */
-    void switchToAddPlaylistView();
 }

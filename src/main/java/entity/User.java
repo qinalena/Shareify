@@ -14,6 +14,7 @@ public class User implements UserInter {
     private final String password;
     private String note;
     private List<String> info;
+    private String playlist;
 
     public User(String name, String password) {
         this.name = name;
@@ -45,6 +46,14 @@ public class User implements UserInter {
     // Setter for info (if you want to allow setting it later)
     public void setInfo(List<String> info) {
         this.info = info;
+    }
+
+    public String getPlaylist() {
+        return playlist;
+    }
+
+    public void setPlaylist(String newPlaylist) {
+        this.playlist = newPlaylist;
     }
 
 }

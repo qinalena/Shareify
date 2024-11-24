@@ -1,6 +1,7 @@
 package view.playlist_collection_user_story;
 
 import data_access.DBUserDataAccessObject;
+import entity.User;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistController;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistPresenter;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
@@ -10,6 +11,7 @@ import interface_adapter.playlist_collection_user_story.playlist_collection.Play
 import use_case.playlist_collection_user_story.add_playlist.AddPlaylistInputBoundary;
 import use_case.playlist_collection_user_story.add_playlist.AddPlaylistInteractor;
 import use_case.playlist_collection_user_story.add_playlist.AddPlaylistOutputBoundary;
+import use_case.user_profile_user_story.note.DataAccessException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -84,12 +86,12 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         buttons.add(createPlaylistButton);
         buttons.add(deletePlaylistButton);
 
-        createPlaylistButton.addActionListener(evt -> {
-            if (evt.getSource().equals(createPlaylistButton)) {
-                playlistCollectionController.switchToAddPlaylistView();
-            }
-        }
-        );
+//        createPlaylistButton.addActionListener(evt -> {
+//            if (evt.getSource().equals(createPlaylistButton)) {
+//                playlistCollectionController.switchToAddPlaylistView();
+//            }
+//        }
+//        );
 
         deletePlaylistButton.addActionListener(evt -> {
             if (evt.getSource().equals(deletePlaylistButton)) {
