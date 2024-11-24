@@ -72,4 +72,9 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
         viewManagerModel.setState(friendsListViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
+
+    public void switchToChangePasswordView() {
+        viewManagerModel.setState("Change Password");
+        viewManagerModel.firePropertyChanged();
+    }
 }

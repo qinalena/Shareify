@@ -92,7 +92,9 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
 
         changePasswordButton.addActionListener(
                 new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {}
+                    public void actionPerformed(ActionEvent evt) {
+                        userProfileController.switchToChangePasswordView();
+                    }
                 }
         );
 

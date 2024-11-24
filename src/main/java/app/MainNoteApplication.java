@@ -91,6 +91,8 @@ public class MainNoteApplication {
                 .addNoteDAO(noteDataAccess)
                 .addNoteView()
                 .addNoteUseCase()
+                .addChangePasswordView()
+                .addChangePasswordUseCase()
                 .addLogoutUseCase().build().setVisible(true);
     }
 }

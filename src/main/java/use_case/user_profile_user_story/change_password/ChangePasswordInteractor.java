@@ -2,6 +2,7 @@ package use_case.user_profile_user_story.change_password;
 
 import entity.User;
 import entity.UserFactory;
+import entity.UserFactoryInter;
 
 /**
  * The Change Password Interactor.
@@ -9,11 +10,11 @@ import entity.UserFactory;
 public class ChangePasswordInteractor implements ChangePasswordInputBoundary {
     private final ChangePasswordUserDataAccessInterface userDataAccessObject;
     private final ChangePasswordOutputBoundary userPresenter;
-    private final UserFactory userFactory;
+    private final UserFactoryInter userFactory;
 
     public ChangePasswordInteractor(ChangePasswordUserDataAccessInterface changePasswordDataAccessInterface,
                                     ChangePasswordOutputBoundary changePasswordOutputBoundary,
-                                    UserFactory userFactory) {
+                                    UserFactoryInter userFactory) {
         this.userDataAccessObject = changePasswordDataAccessInterface;
         this.userPresenter = changePasswordOutputBoundary;
         this.userFactory = userFactory;
@@ -28,5 +29,9 @@ public class ChangePasswordInteractor implements ChangePasswordInputBoundary {
         final ChangePasswordOutputData changePasswordOutputData = new ChangePasswordOutputData(user.getName(),
                                                                                   false);
         userPresenter.prepareSuccessView(changePasswordOutputData);
+    }
+
+    public void switchToUserProfileView(){
+        userPresenter.switchToUserProfileView();
     }
 }

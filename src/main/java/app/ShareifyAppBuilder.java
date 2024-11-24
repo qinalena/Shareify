@@ -15,6 +15,8 @@ import interface_adapter.login_user_story.signup.*;
 import interface_adapter.login_user_story.welcome.*;
 import interface_adapter.playlist_collection_user_story.add_playlist.*;
 import interface_adapter.playlist_collection_user_story.playlist_collection.*;
+import interface_adapter.user_profile_user_story.change_password.ChangePasswordController;
+import interface_adapter.user_profile_user_story.change_password.ChangePasswordPresenter;
 import interface_adapter.user_profile_user_story.logout.LogoutController;
 import interface_adapter.user_profile_user_story.logout.LogoutPresenter;
 import interface_adapter.user_profile_user_story.note.*;
@@ -25,6 +27,10 @@ import use_case.login_user_story.login.*;
 import use_case.login_user_story.signup.*;
 import use_case.playlist_collection_user_story.add_playlist.*;
 import use_case.playlist_collection_user_story.playlist_collection.*;
+import use_case.user_profile_user_story.change_password.ChangePasswordInputBoundary;
+import use_case.user_profile_user_story.change_password.ChangePasswordInteractor;
+import use_case.user_profile_user_story.change_password.ChangePasswordOutputBoundary;
+import use_case.user_profile_user_story.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.user_profile_user_story.logout.LogoutInputBoundary;
 import use_case.user_profile_user_story.logout.LogoutInteractor;
 import use_case.user_profile_user_story.logout.LogoutOutputBoundary;
@@ -69,6 +75,8 @@ public class ShareifyAppBuilder {
 
     private NoteViewModel noteViewModel;
     private NoteView noteView;
+
+    private ChangePasswordView changePasswordView;
 
     private PlaylistCollectionViewModel playlistCollectionViewModel;
     private PlaylistCollectionView playlistCollectionView;
@@ -196,6 +204,25 @@ public class ShareifyAppBuilder {
             throw new RuntimeException("addNoteView must be called before addNoteUseCase");
         }
         noteView.setNoteController(noteController);
+        return this;
+    }
+
+    public ShareifyAppBuilder addChangePasswordView() {
+        changePasswordView = new ChangePasswordView(userProfileViewModel);
+        cardPanel.add(changePasswordView, changePasswordView.getViewName());
+        return this;
+    }
+
+    public ShareifyAppBuilder addChangePasswordUseCase(){
+        final ChangePasswordOutputBoundary changePasswordOutputBoundary =
+                new ChangePasswordPresenter(userProfileViewModel, viewManagerModel);
+
+        final ChangePasswordInputBoundary changePasswordInteractor =
+                new ChangePasswordInteractor((ChangePasswordUserDataAccessInterface) userDataAccessObject, changePasswordOutputBoundary, userFactory);
+
+        final ChangePasswordController changePasswordController =
+                new ChangePasswordController(changePasswordInteractor);
+        changePasswordView.setChangePasswordController(changePasswordController);
         return this;
     }
 

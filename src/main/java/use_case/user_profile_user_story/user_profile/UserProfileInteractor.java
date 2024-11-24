@@ -39,4 +39,8 @@ public class UserProfileInteractor implements UserProfileInputBoundary {
         userProfilePresenter.switchToFriendsListView();
     }
 
+    @Override
+    public void switchToChangePasswordView() {
+        userProfilePresenter.switchToChangePasswordView();
+    }
 }
