@@ -10,17 +10,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import entity.User;
-import entity.UserFactory;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import use_case.change_password.ChangePasswordUserDataAccessInterface;
-import use_case.login.LoginUserDataAccessInterface;
-import use_case.logout.LogoutUserDataAccessInterface;
-import use_case.note.DataAccessException;
-import use_case.signup.SignupUserDataAccessInterface;
+import use_case.user_profile_user_story.change_password.ChangePasswordUserDataAccessInterface;
+import use_case.login_user_story.login.LoginUserDataAccessInterface;
+import use_case.user_profile_user_story.logout.LogoutUserDataAccessInterface;
+import use_case.user_profile_user_story.note.DataAccessException;
+import use_case.login_user_story.signup.SignupUserDataAccessInterface;
 
 /**
  * The DAO for user data.

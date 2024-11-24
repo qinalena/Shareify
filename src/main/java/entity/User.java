@@ -12,25 +12,32 @@ public class User implements UserInter {
 
     private final String name;
     private final String password;
+    private String note;
     private List<String> info;
 
     public User(String name, String password) {
         this.name = name;
         this.password = password;
+        this.note = "Hi! I'm new to Shareify :)";
         this.info = new ArrayList<>();
     }
 
-    // Getter for name
     public String getName() {
         return name;
     }
 
-    // Getter for password
     public String getPassword() {
         return password;
     }
 
-    // Getter for info
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String newNote) {
+        this.note = newNote;
+    }
+
     public List<String> getInfo() {
         return info;
     }
