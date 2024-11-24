@@ -65,6 +65,7 @@ public class AddPlaylistView extends JPanel implements PropertyChangeListener {
         saveButton.addActionListener(evt -> {
             if (evt.getSource().equals(saveButton)) {
                 addPlaylist();
+                playlistNameField.setText("");
             }
         }
         );
