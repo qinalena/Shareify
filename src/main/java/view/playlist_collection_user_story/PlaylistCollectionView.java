@@ -29,9 +29,9 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
     private PlaylistCollectionController playlistCollectionController;
+
     private AddPlaylistOutputBoundary addPlaylistOutputBoundary;
     private DBUserDataAccessObject dbUserDataAccessObject;
-
     private AddPlaylistInputBoundary addPlaylistInputBoundary;
 
     private final JLabel playlistCollectionName = new JLabel("Shareify - Playlist Collection");
@@ -44,12 +44,10 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     // JList to show the names of the playlists
     private JList<String> playlistCollectionList = new JList<>(new DefaultListModel<>());
 
-    public PlaylistCollectionView(PlaylistCollectionController playlistCollectionController,
-                                  PlaylistCollectionViewModel playlistCollectionViewModel,
+    public PlaylistCollectionView(PlaylistCollectionViewModel playlistCollectionViewModel,
                                   DBUserDataAccessObject dbUserDataAccessObject,
                                   AddPlaylistOutputBoundary addPlaylistOutputBoundary) {
 
-        this.playlistCollectionController = playlistCollectionController;
         this.playlistCollectionViewModel = playlistCollectionViewModel;
         this.dbUserDataAccessObject = dbUserDataAccessObject;
         this.addPlaylistOutputBoundary = addPlaylistOutputBoundary;

@@ -146,7 +146,7 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addPlaylistCollectionView() {
         playlistCollectionViewModel = new PlaylistCollectionViewModel();
 
-        playlistCollectionView = new PlaylistCollectionView(playlistCollectionController, playlistCollectionViewModel,
+        playlistCollectionView = new PlaylistCollectionView(playlistCollectionViewModel,
                 userDataAccessObject, addPlaylistOutputBoundary);
         cardPanel.add(playlistCollectionView, playlistCollectionView.getViewName());
         return this;

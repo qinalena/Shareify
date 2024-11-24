@@ -15,8 +15,9 @@ public class PlaylistController {
 
     /**
      * Executes the remove track from playlist Use Case.
+     * @track the selected track
      */
-    public void removeTrack() {
+    public void removeTrack(String track) {
         playlistInteractor.removeTrack();
     }
 

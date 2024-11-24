@@ -34,5 +34,6 @@ public class PlaylistCollectionController {
      * @param playlistName name of playlist
      */
     public void switchToPlaylistView(String playlistName) {
+        playlistCollectionInteractor.switchToPlaylistView(playlistName);
     }
 }

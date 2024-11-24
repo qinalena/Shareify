@@ -5,14 +5,12 @@ import entity.Track;
 import interface_adapter.playlist_user_story.PlaylistController;
 import interface_adapter.playlist_user_story.PlaylistState;
 import interface_adapter.playlist_user_story.PlaylistViewModel;
-import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.List;
 
 /**
  * The View for when a playlist is clicked on in PlaylistCollection View.
@@ -27,6 +25,7 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
     private JLabel playlistTitle = new JLabel();
 
     private final JButton backButton = new JButton("Back");
+    private final JButton removeTrackButton = new JButton("Remove Track");
     private final JButton searchButton = new JButton("Search Tracks");
 
     private JList<String> tracks = new JList<>(new DefaultListModel<>());
@@ -39,11 +38,19 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
 
         final JPanel buttons = new JPanel();
         buttons.add(backButton);
+        buttons.add(removeTrackButton);
         buttons.add(searchButton);
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 playlistController.switchToPlaylistCollectionView();
+            }
+        }
+        );
+
+        removeTrackButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                playlistController.removeTrack(tracks.getSelectedValue());
             }
         }
         );
@@ -55,8 +62,8 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(playlistTitle);
-        this.add(buttons);
         this.add(scrollPane);
+        this.add(buttons);
 
     }
 
