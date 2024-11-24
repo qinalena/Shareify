@@ -82,10 +82,6 @@ public class MainNoteApplication {
                 .addSignupUseCase()
                 .addLoginView()
                 .addLoginUseCase()
-                .addPlaylistCollectionView()
-                .addFriendsListView()
-                .addPlaylistCollectionUseCase()
-                .addFriendsListUseCase()
                 .addUserProfileView()
                 .addUserProfileUseCase()
                 .addNoteDAO(noteDataAccess)
@@ -93,6 +89,19 @@ public class MainNoteApplication {
                 .addNoteUseCase()
                 .addChangePasswordView()
                 .addChangePasswordUseCase()
-                .addLogoutUseCase().build().setVisible(true);
+                .addLogoutUseCase()
+                .addPlaylistCollectionView()
+                .addFriendsListView()
+                .addPlaylistCollectionUseCase()
+                .addFriendsListUseCase()
+                .addFriendProfileView()
+                .addFriendProfileUseCase()
+                .addAddFriendView()
+                .addAddFriendUseCase()
+                .addFriendProfilePlaylistView()
+                .addFriendProfilePlaylistUseCase()
+                .addfriendProfileFriendsListView()
+                .addFriendProfileFriendsListUseCase()
+                .build().setVisible(true);
     }
 }

@@ -6,6 +6,8 @@ public class AddFriendState {
     private String successMessage;
     private String error;
     private List<String> friendsList;
+    private String username;
+    private String password;
 
     public String getSuccessMessage() {
         return successMessage;
@@ -29,6 +31,22 @@ public class AddFriendState {
 
     public void setFriendsList(List<String> friendsList) {
         this.friendsList = friendsList;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }
