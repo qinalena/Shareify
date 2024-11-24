@@ -78,8 +78,7 @@ public class FriendProfileFriendsListView extends JPanel implements ActionListen
             final List<String> friends = dbNoteDataAccessObject.getFriends(realUser.getName());
             populateFriendsList(friends);
         } catch (DataAccessException error) {
-            JOptionPane.showMessageDialog(this, "Error fetching friends: " + error.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "They have no friends");
         }
     }
 
