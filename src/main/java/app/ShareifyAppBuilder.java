@@ -206,7 +206,8 @@ public class ShareifyAppBuilder {
         }
         friendProfileViewModel = new FriendProfileViewModel();
         // Instantiate the output boundary (presenter) and input boundary (interactor)
-        friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel, viewManagerModel, addFriendViewModel, friendProfileViewModel);
+        friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel, viewManagerModel,
+                addFriendViewModel, friendProfileViewModel, userProfileViewModel);
         friendsListInteractor = new FriendsListInteractor(friendsListOutputBoundary);
 
         // Create the controller and connect it to the interactor

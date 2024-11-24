@@ -38,6 +38,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     private final JButton addFriendButton = new JButton("Add Friend");
     private final JButton deleteFriendButton = new JButton("Delete Friend");
     private final JButton viewFriendButton = new JButton("View Friend");
+    private final JButton backButton = new JButton("Back");
 
     /**
      * Constructs a FriendsListView with the given controller, view model, data access object, and output boundary.
@@ -76,6 +77,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         buttonPanel.add(addFriendButton);
         buttonPanel.add(deleteFriendButton);
         buttonPanel.add(viewFriendButton);
+        buttonPanel.add(backButton);
 
         // Add components to panel
         add(scrollPane);
@@ -85,6 +87,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         addFriendButton.addActionListener(this);
         deleteFriendButton.addActionListener(this);
         viewFriendButton.addActionListener(this);
+        backButton.addActionListener(this);
     }
 
     /**
@@ -164,6 +167,9 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
                 JOptionPane.showMessageDialog(this, "Please select a friend to view.",
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
+        }
+        else if (evt.getSource() == backButton) {
+            friendsListController.switchToUserProfileView();
         }
     }
 

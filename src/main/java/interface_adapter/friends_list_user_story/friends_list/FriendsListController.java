@@ -38,4 +38,8 @@ public class FriendsListController {
     public void switchToAddFriendView() {
         interactor.switchToAddFriendView();
     }
+
+    public void switchToUserProfileView() {
+        interactor.switchToUserProfileView();
+    }
 }

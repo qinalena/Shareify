@@ -8,5 +8,6 @@ public interface FriendsListInputBoundary {
     void switchToFriendProfileView(String selectedFriendName, String password);
     void switchToPlaylistCollectionView();
     void switchToAddFriendView();
+    void switchToUserProfileView();
 }
 

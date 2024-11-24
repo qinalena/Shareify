@@ -1,5 +1,6 @@
 package interface_adapter.friends_list_user_story.friends_list;
 
+import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
 import use_case.friends_list_user_story.friends_list.FriendsListOutputBoundary;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendViewModel;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileState;
@@ -16,13 +17,18 @@ public class FriendsListPresenter implements FriendsListOutputBoundary {
     private final FriendsListViewModel friendsListViewModel;
     private final AddFriendViewModel addFriendViewModel;
     private final FriendProfileViewModel friendProfileViewModel;
+    private final UserProfileViewModel userProfileViewModel;
     private final PlaylistCollectionViewModel playlistCollectionViewModel = new PlaylistCollectionViewModel();
 
-    public FriendsListPresenter(FriendsListViewModel viewModel, ViewManagerModel viewManagerModel, AddFriendViewModel addFriendViewModel, FriendProfileViewModel friendProfileViewModel) {
+    public FriendsListPresenter(FriendsListViewModel viewModel, ViewManagerModel viewManagerModel,
+                                AddFriendViewModel addFriendViewModel,
+                                FriendProfileViewModel friendProfileViewModel,
+                                UserProfileViewModel userProfileViewModel) {
         this.friendsListViewModel = viewModel;
         this.viewManagerModel = viewManagerModel;
         this.addFriendViewModel = addFriendViewModel;
         this.friendProfileViewModel = friendProfileViewModel;
+        this.userProfileViewModel = userProfileViewModel;
     }
 
     @Override
@@ -76,6 +82,12 @@ public class FriendsListPresenter implements FriendsListOutputBoundary {
     @Override
     public void switchToAddFriendView() {
         viewManagerModel.setState(addFriendViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToUserProfileView() {
+        viewManagerModel.setState(userProfileViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }
