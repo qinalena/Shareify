@@ -93,6 +93,7 @@ public class AddPlaylistView extends JPanel implements PropertyChangeListener {
                 if (!playlistModel.contains(playlistName)) {
                     // Add playlist to model
                     playlistModel.addElement(playlistName);
+                    addPlaylistViewModel.setNewPlaylist(playlistName);
                     // Notify controller
                     playlistCollectionController.addPlaylist(playlistName);
                     // Save to database
