@@ -1,7 +1,9 @@
 package interface_adapter.playlist_collection_user_story.playlist_collection;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.playlist_user_story.PlaylistViewModel;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputBoundary;
+import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputData;
 
 /**
  * The Presenter for Playlist Collection Use Case.
@@ -9,12 +11,14 @@ import use_case.playlist_collection_user_story.playlist_collection.PlaylistColle
 public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoundary {
 
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
+    private final PlaylistViewModel playlistViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public PlaylistCollectionPresenter(PlaylistCollectionViewModel playlistCollectionViewModel,
+    public PlaylistCollectionPresenter(PlaylistCollectionViewModel playlistCollectionViewModel, PlaylistViewModel playlistViewModel,
                                        ViewManagerModel viewManagerModel) {
 
         this.playlistCollectionViewModel = playlistCollectionViewModel;
+        this.playlistViewModel = playlistViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
@@ -47,5 +51,14 @@ public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoun
     public void prepareFailView(String error) {
         playlistCollectionViewModel.getState().setPlaylistError(error);
         playlistCollectionViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData, String playlistName) {
+        playlistViewModel.getState().setCurrentPlaylist(playlistCollectionOutputData.getPlaylist(playlistName));
+        playlistViewModel.firePropertyChanged();
+
+        viewManagerModel.setState(playlistViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

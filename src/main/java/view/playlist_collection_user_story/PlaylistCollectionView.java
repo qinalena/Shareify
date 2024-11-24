@@ -87,12 +87,12 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         createPlaylistButton.addActionListener(this);
         deletePlaylistButton.addActionListener(this);
 
-//        openPlaylistButton.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent evt) {
-//                playlistCollectionController.switchToPlaylistView(playlistCollectionList.getSelectedIndex());
-//            }
-//        }
-//        );
+        openPlaylistButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                playlistCollectionController.switchToPlaylistView(playlistCollectionList.getSelectedValue());
+            }
+        }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

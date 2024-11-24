@@ -1,16 +1,19 @@
 package interface_adapter.playlist_user_story;
 
-import java.util.List;
-
-import entity.Track;
+import entity.Playlist;
 
 /**
  * The State for a Playlist.
  */
 public class PlaylistState {
     private String currentUsername;
-    private String playlistName;
+    private Playlist currentPlaylist;
 
-    // Stores list of songs that user has added to playlist
-    private List<Track> tracks;
+    public void setCurrentPlaylist(Playlist currentPlaylist) {
+        this.currentPlaylist = currentPlaylist;
+    }
+
+    public Playlist getCurrentPlaylist() {
+        return currentPlaylist;
+    }
 }

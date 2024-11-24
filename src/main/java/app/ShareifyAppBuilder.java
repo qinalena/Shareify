@@ -240,11 +240,11 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addPlaylistCollectionUseCase() {
         // Instantiate the output boundary/presenter
         final PlaylistCollectionOutputBoundary playlistCollectionOutputBoundary =
-                new PlaylistCollectionPresenter(playlistCollectionViewModel, viewManagerModel);
+                new PlaylistCollectionPresenter(playlistCollectionViewModel, playlistViewModel, viewManagerModel);
 
         // Instantiate the input boundary/interactor
         playlistCollectionInteractor =
-                new PlaylistCollectionInteractor(playlistCollectionOutputBoundary);
+                new PlaylistCollectionInteractor(userDataAccessObject, playlistCollectionOutputBoundary);
 
         // Creating controller + connect to interactor
         playlistCollectionController = new PlaylistCollectionController(playlistCollectionInteractor);
