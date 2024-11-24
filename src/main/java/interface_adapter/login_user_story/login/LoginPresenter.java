@@ -1,6 +1,5 @@
 package interface_adapter.login_user_story.login;
 
-import entity.Playlist;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
@@ -43,21 +42,6 @@ public class LoginPresenter implements LoginOutputBoundary {
         this.userProfileViewModel.setState(userProfileState);
         this.userProfileViewModel.firePropertyChanged();
         this.viewManagerModel.setState(userProfileViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
-
-        final PlaylistCollectionState playlistCollectionState = playlistCollectionViewModel.getState();
-
-        playlistCollectionState.setUsername(loginOutputData.getUsername());
-        this.playlistCollectionViewModel.setState(playlistCollectionState);
-        this.playlistCollectionViewModel.firePropertyChanged();
-        this.viewManagerModel.setState(playlistCollectionViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
-
-        final AddPlaylistState addPlaylistState = addPlaylistViewModel.getState();
-        addPlaylistState.setUsername(loginOutputData.getUsername());
-        this.addPlaylistViewModel.setState(addPlaylistState);
-        this.addPlaylistViewModel.firePropertyChanged();
-        this.viewManagerModel.setState(addPlaylistViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 

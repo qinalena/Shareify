@@ -41,7 +41,6 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
     // JList to show the names of the playlists
     private JList<String> playlistCollectionList = new JList<>(new DefaultListModel<>());
-    private DefaultListModel<Object> playlistModel;
 
     public PlaylistCollectionView(PlaylistCollectionController playlistCollectionController,
                                   PlaylistCollectionViewModel playlistCollectionViewModel,
@@ -57,8 +56,9 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         // Setting label properties
         playlistCollectionName.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Initializing JList
-        playlistCollectionList = new JList<>(new DefaultListModel<>());
+        // Initializing DefaultListModel
+        listModel = new DefaultListModel<>();
+        playlistCollectionList.setModel(listModel);
 
         // Initialize AddPlaylistInputBoundary after dependencies are set
         playlistCollectionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -138,16 +138,10 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
      * @param playlists list of playlists to populate
      */
     private void populatePlaylistList(List<String> playlists) {
-        // Ensure playlistModel is initialized before calling any methods on it
-        if (listModel == null) {
-            listModel = new DefaultListModel<>();
-        }
         listModel.clear();
         for (String playlist : playlists) {
             listModel.addElement(playlist);
         }
-        // Ensure JList is updated with model
-        playlistCollectionList.setModel(listModel);
     }
 
     /**
@@ -196,12 +190,13 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
      * @param playlistCollectionState output data
      */
     private void updatePlaylistCollection(PlaylistCollectionState playlistCollectionState) {
+        // clear current list
         listModel.clear();
 
         for (String playlist : playlistCollectionState.getPlaylist()) {
+            // Add each playlist to the listModel
             listModel.addElement(playlist);
         }
-        playlistCollectionList.setModel(listModel);
     }
 
     public void setPlaylistCollectionController(PlaylistCollectionController playlistCollectionController) {

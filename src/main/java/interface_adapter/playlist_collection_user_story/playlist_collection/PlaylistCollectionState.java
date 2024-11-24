@@ -57,4 +57,17 @@ public class PlaylistCollectionState {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    /**
+     * Returns most recently added playlist.
+     * @return recent playlist
+     */
+    public String getMostRecentPlaylist() {
+        if (!playlists.isEmpty()) {
+            return playlists.get(playlists.size() - 1);
+        }
+        else {
+            return null;
+        }
+    }
 }

@@ -87,7 +87,7 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                 }
             }
             else {
-                throw new DataAccessException("Error retrieving user data: " + responseBody.getString(MESSAGE));
+                throw new DataAccessException("Error retrieving user data to add Playlist: " + responseBody.getString(MESSAGE));
             }
         }
         catch (IOException | JSONException ex) {
@@ -159,7 +159,7 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                 }
             }
             else {
-                throw new DataAccessException("Error retrieving user data: " + responseBody.getString(MESSAGE));
+                throw new DataAccessException("Error retrieving user data to remove the playlist: " + responseBody.getString(MESSAGE));
             }
         }
         catch (IOException | JSONException ex) {
@@ -169,11 +169,11 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
 
     // Method to retrieve list of playlists associated with the given username
     @Override
-    public List<String> getPlaylists(String playlistName) throws DataAccessException {
+    public List<String> getPlaylists(String username) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         final Request request = new Request.Builder()
-                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s"))
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
                 .addHeader("Content-Type", CONTENT_TYPE_JSON)
                 .build();
         try {

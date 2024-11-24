@@ -20,7 +20,7 @@ import view.login_user_story.LabelTextPanel;
  */
 public class AddPlaylistView extends JPanel implements PropertyChangeListener {
     // This is the list we update
-    private DefaultListModel<String> playlistModel;
+    private DefaultListModel<String> playlistCollectionModel;
 
     private String viewName = "add playlist";
 
@@ -38,14 +38,14 @@ public class AddPlaylistView extends JPanel implements PropertyChangeListener {
 
     /**
      * Constructs AddPlaylistView.
-     * @param playlistListModel model for playlist collection
+     * @param playlistCollectionModel model for playlist collection
      * @param addPlaylistViewModel view model for adding a playlist
      * @param playlistCollectionController controller for playlist collection
      */
-    public AddPlaylistView(DefaultListModel<String> playlistListModel, AddPlaylistViewModel addPlaylistViewModel,
+    public AddPlaylistView(DefaultListModel<String> playlistCollectionModel, AddPlaylistViewModel addPlaylistViewModel,
                            PlaylistCollectionController playlistCollectionController) {
 
-        this.playlistModel = playlistListModel;
+        this.playlistCollectionModel = playlistCollectionModel;
         this.addPlaylistViewModel = addPlaylistViewModel;
         this.playlistCollectionController = playlistCollectionController;
         this.addPlaylistViewModel.addPropertyChangeListener(this);
@@ -91,16 +91,17 @@ public class AddPlaylistView extends JPanel implements PropertyChangeListener {
         final String playlistName = playlistNameField.getText();
         if (!playlistName.isEmpty()) {
             try {
-                if (!playlistModel.contains(playlistName)) {
-                    // Add playlist to model
-                    playlistModel.addElement(playlistName);
+                if (!playlistCollectionModel.contains(playlistName)) {
+                    // Add playlist to the list
+                    final DefaultListModel<String> listModel = playlistCollectionModel;
+                    listModel.addElement(playlistName);
                     addPlaylistViewModel.setNewPlaylist(playlistName);
                     // Notify controller
                     playlistCollectionController.addPlaylist(playlistName);
                     // Save to database
                     dbPlaylistDataAccessObject.addPlaylist(new User(username, password), playlistName);
 
-                    this.addPlaylistController.switchToPlaylistCollectionView();
+                    addPlaylistController.switchToPlaylistCollectionView();
                 }
                 else {
                     JOptionPane.showMessageDialog(this, "Playlist already exist!",
