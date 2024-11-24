@@ -1,7 +1,7 @@
 package interface_adapter.playlist_collection_user_story.playlist_collection;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.playlist_user_story.PlaylistViewModel;
+import interface_adapter.playlist_user_story.playlist.PlaylistViewModel;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputBoundary;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputData;
 

@@ -1,6 +1,7 @@
-package interface_adapter.playlist_user_story;
+package interface_adapter.playlist_user_story.playlist;
 
-import use_case.playlist_user_story.PlaylistInputBoundary;
+import use_case.playlist_user_story.playlist.PlaylistInputBoundary;
+import use_case.playlist_user_story.playlist.PlaylistInputData;
 
 /**
  * Controller for our Playlist related Use Cases.
@@ -18,6 +19,7 @@ public class PlaylistController {
      * @track the selected track
      */
     public void removeTrack(String track) {
+        final PlaylistInputData playlistInputData = new PlaylistInputData();
         playlistInteractor.removeTrack();
     }
 

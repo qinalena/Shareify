@@ -1,4 +1,4 @@
-package interface_adapter.playlist_user_story;
+package interface_adapter.playlist_user_story.playlist;
 
 import interface_adapter.ViewModel;
 

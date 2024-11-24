@@ -1,4 +1,4 @@
-package use_case.playlist_user_story;
+package use_case.playlist_user_story.playlist;
 
 /**
  * The Input Boundary for our Playlist use cases.

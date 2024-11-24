@@ -2,9 +2,9 @@ package view.playlist_user_story;
 
 import entity.Playlist;
 import entity.Track;
-import interface_adapter.playlist_user_story.PlaylistController;
-import interface_adapter.playlist_user_story.PlaylistState;
-import interface_adapter.playlist_user_story.PlaylistViewModel;
+import interface_adapter.playlist_user_story.playlist.PlaylistController;
+import interface_adapter.playlist_user_story.playlist.PlaylistState;
+import interface_adapter.playlist_user_story.playlist.PlaylistViewModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

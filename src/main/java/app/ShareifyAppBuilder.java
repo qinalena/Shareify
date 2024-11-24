@@ -15,9 +15,8 @@ import interface_adapter.login_user_story.signup.*;
 import interface_adapter.login_user_story.welcome.*;
 import interface_adapter.playlist_collection_user_story.add_playlist.*;
 import interface_adapter.playlist_collection_user_story.playlist_collection.*;
-import interface_adapter.playlist_user_story.PlaylistController;
-import interface_adapter.playlist_user_story.PlaylistPresenter;
-import interface_adapter.playlist_user_story.PlaylistViewModel;
+import interface_adapter.playlist_user_story.playlist.*;
+import interface_adapter.playlist_user_story.search_track.*;
 import interface_adapter.user_profile_user_story.note.*;
 import interface_adapter.user_profile_user_story.user_profile.*;
 import use_case.friends_list_user_story.add_friend.*;
@@ -26,9 +25,9 @@ import use_case.login_user_story.login.*;
 import use_case.login_user_story.signup.*;
 import use_case.playlist_collection_user_story.add_playlist.*;
 import use_case.playlist_collection_user_story.playlist_collection.*;
-import use_case.playlist_user_story.PlaylistInputBoundary;
-import use_case.playlist_user_story.PlaylistInteractor;
-import use_case.playlist_user_story.PlaylistOutputBoundary;
+import use_case.playlist_user_story.playlist.PlaylistInputBoundary;
+import use_case.playlist_user_story.playlist.PlaylistInteractor;
+import use_case.playlist_user_story.playlist.PlaylistOutputBoundary;
 import use_case.user_profile_user_story.note.*;
 import use_case.user_profile_user_story.user_profile.*;
 import view.ViewManager;
@@ -36,6 +35,7 @@ import view.friends_list_user_story.*;
 import view.login_user_story.*;
 import view.playlist_collection_user_story.*;
 import view.playlist_user_story.PlaylistView;
+import view.playlist_user_story.SearchTrackView;
 import view.user_profile_user_story.*;
 
 /**
@@ -74,6 +74,9 @@ public class ShareifyAppBuilder {
 
     private PlaylistViewModel playlistViewModel;
     private PlaylistView playlistView;
+
+    private SearchTrackViewModel searchTrackViewModel;
+    private SearchTrackView searchTrackView;
 
     private PlaylistCollectionViewModel playlistCollectionViewModel;
     private PlaylistCollectionView playlistCollectionView;

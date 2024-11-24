@@ -1,8 +1,8 @@
-package interface_adapter.playlist_user_story;
+package interface_adapter.playlist_user_story.playlist;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
-import use_case.playlist_user_story.PlaylistOutputBoundary;
+import use_case.playlist_user_story.playlist.PlaylistOutputBoundary;
 
 /**
  * The presenter for a Playlist.
