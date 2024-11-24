@@ -13,6 +13,7 @@ import okhttp3.Response;
 import use_case.user_profile_user_story.note.DataAccessException;
 import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
+
 /**
  * The DAO for accessing notes stored in the database.
  */
@@ -232,5 +233,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
             throw new DataAccessException("Error occurred while updating user info: " + ex.getMessage());
         }
     }
+
+
 
 }

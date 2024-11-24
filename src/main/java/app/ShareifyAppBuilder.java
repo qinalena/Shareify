@@ -108,23 +108,12 @@ public class ShareifyAppBuilder {
     }
 
     /**
-     * Adds the NoteView to the application.
-     * @return this builder
-     */
-    public ShareifyAppBuilder addNoteView() {
-        noteViewModel = new NoteViewModel();
-        noteView = new NoteView(noteViewModel);
-        cardPanel.add(noteView, noteView.getViewName());
-        return this;
-    }
-
-    /**
      * Adds the UserProfileView to the application.
      * @return this builder
      * @throws RuntimeException if this method is called before addLoginUseCase
      */
     public ShareifyAppBuilder addUserProfileView() {
-        userProfileView = new UserProfileView(userProfileViewModel);
+        userProfileView = new UserProfileView(userProfileViewModel, userDataAccessObject, dbNoteDataAccessObject);
         cardPanel.add(userProfileView, userProfileView.getViewName());
 
         if (loginView == null) {
@@ -132,6 +121,7 @@ public class ShareifyAppBuilder {
         }
         return this;
     }
+
 
     /**
      * Adds the Playlist Collection View to the application.
@@ -164,6 +154,7 @@ public class ShareifyAppBuilder {
      * @throws RuntimeException if this method is called before addUserProfileView
      */
     public ShareifyAppBuilder addUserProfileUseCase() {
+        noteViewModel = new NoteViewModel();
         final UserProfileOutputBoundary userProfileOutputBoundary =
                 new UserProfilePresenter(userProfileViewModel, noteViewModel, viewManagerModel);
         final UserProfileInputBoundary userProfileInteractor = new UserProfileInteractor(
@@ -176,6 +167,38 @@ public class ShareifyAppBuilder {
         userProfileView.setUserProfileController(userProfileController);
         return this;
     }
+
+    /**
+     * Adds the NoteView to the application.
+     * @return this builder
+     */
+    public ShareifyAppBuilder addNoteView() {
+        noteView = new NoteView(noteViewModel,dbNoteDataAccessObject, userDataAccessObject);
+        cardPanel.add(noteView, noteView.getViewName());
+        return this;
+    }
+
+    /**
+     * Creates the objects for the Note Use Case and connects the NoteView to its
+     * controller.
+     * <p>This method must be called after addNoteView!</p>
+     * @return this builder
+     * @throws RuntimeException if this method is called before addNoteView
+     */
+    public ShareifyAppBuilder addNoteUseCase() {
+        final NoteOutputBoundary noteOutputBoundary = new NotePresenter(noteViewModel,
+                userProfileViewModel, viewManagerModel);
+        noteInteractor = new NoteInteractor(userDataAccessObject,
+                noteDAO, noteOutputBoundary);
+
+        final NoteController noteController = new NoteController(noteInteractor);
+        if (noteView == null) {
+            throw new RuntimeException("addNoteView must be called before addNoteUseCase");
+        }
+        noteView.setNoteController(noteController);
+        return this;
+    }
+
 
     /**
      * Adds the Friends List Use Case to the application.
@@ -225,26 +248,6 @@ public class ShareifyAppBuilder {
         return this;
     }
 
-    /**
-     * Creates the objects for the Note Use Case and connects the NoteView to its
-     * controller.
-     * <p>This method must be called after addNoteView!</p>
-     * @return this builder
-     * @throws RuntimeException if this method is called before addNoteView
-     */
-    public ShareifyAppBuilder addNoteUseCase() {
-        final NoteOutputBoundary noteOutputBoundary = new NotePresenter(noteViewModel,
-                userProfileViewModel, viewManagerModel);
-        noteInteractor = new NoteInteractor(
-                noteDAO, noteOutputBoundary);
-
-        final NoteController noteController = new NoteController(noteInteractor);
-        if (noteView == null) {
-            throw new RuntimeException("addNoteView must be called before addNoteUseCase");
-        }
-        noteView.setNoteController(noteController);
-        return this;
-    }
 
     /**
      * Adds the Signup View to the application.
@@ -341,8 +344,6 @@ public class ShareifyAppBuilder {
         viewManagerModel.setState(welcomeView.getViewName());
         viewManagerModel.firePropertyChanged();
 
-        // refresh so that the note will be visible when we start the program
-        noteInteractor.executeRefresh();
 
         return frame;
 

@@ -1,10 +1,14 @@
 package view.user_profile_user_story;
 
-import entity.User;
+import data_access.DBNoteDataAccessObject;
+import data_access.DBUserDataAccessObject;
+import interface_adapter.login_user_story.login.LoginState;
 import interface_adapter.user_profile_user_story.logout.LogoutController;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileController;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
+import org.json.JSONException;
+import use_case.user_profile_user_story.note.DataAccessException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,38 +24,41 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     private final String viewName = "user profile";
 
     private final UserProfileViewModel userProfileViewModel;
-
-    // Hardcoded example user
-    private final User user = new User("newUserName3", "password123");
+    private DBUserDataAccessObject dbUserDataAccessObject;
+    private DBNoteDataAccessObject dbNoteDataAccessObject;
 
     private JLabel username = new JLabel();
-    private final JLabel note = new JLabel(user.getNote());
+    private final JLabel note = new JLabel();
 
-    private final JButton editProfileButton = new JButton("Edit Profile");
+    private final JButton editBio = new JButton("Edit Bio");
     private final JButton playlistsButton = new JButton("Playlists");
     private final JButton friendsButton = new JButton("Friends");
     private final JButton logoutButton = new JButton("Logout");
+    private final JButton changePasswordButton = new JButton("Change Password");
 
     private UserProfileController userProfileController;
     private LogoutController logoutController;
 
-    public UserProfileView(UserProfileViewModel userProfileViewModel) {
+    public UserProfileView(UserProfileViewModel userProfileViewModel, DBUserDataAccessObject userDataAccessObject, DBNoteDataAccessObject dbNoteDataAccessObject) {
 
         this.userProfileViewModel = userProfileViewModel;
         this.userProfileViewModel.addPropertyChangeListener(this);
+        this.dbUserDataAccessObject = userDataAccessObject;
+        this.dbNoteDataAccessObject = dbNoteDataAccessObject;
 
         username.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+
         final JPanel buttons = new JPanel();
-        buttons.add(editProfileButton);
+        buttons.add(editBio);
         buttons.add(playlistsButton);
         buttons.add(friendsButton);
         buttons.add(logoutButton);
+        buttons.add(changePasswordButton);
 
-        editProfileButton.addActionListener(new ActionListener() {
+        editBio.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 userProfileController.switchToNoteView();
-
             }
         }
         );
@@ -83,12 +90,19 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
                 }
         );
 
+        changePasswordButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {}
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(username);
         this.add(note);
         this.add(buttons);
     }
+
 
     /**
      * React to a button click that results in evt.
@@ -102,16 +116,26 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
             final UserProfileState state = (UserProfileState) evt.getNewValue();
-            setFields(state);
+            try {
+                setFields(state);
+            } catch (DataAccessException e) {
+                throw new RuntimeException(e);
             }
+        }
 //        if (state.getError() != null) {
 //            JOptionPane.showMessageDialog(this, state.getError(),
 //                    "Error", JOptionPane.ERROR_MESSAGE);
 //        }
     }
 
-    private void setFields(UserProfileState state) {
+    private void setFields(UserProfileState state) throws DataAccessException {
         username.setText("Shareify - " + state.getUsername());
+        try{
+            note.setText("Bio: " + dbNoteDataAccessObject.loadNote(dbUserDataAccessObject.get(state.getUsername())));
+        } catch (RuntimeException e) {
+            note.setText("Bio: " + "Hi! I'm new to Shareify! :)");
+        }
+//        note.setText("Bio: " + dbUserDataAccessObject.get(state.getUsername()).getNote());
     }
 
     public void setUserProfileController(UserProfileController controller) {
@@ -126,5 +150,6 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     public String getViewName() {
         return viewName;
     }
+
 }
 

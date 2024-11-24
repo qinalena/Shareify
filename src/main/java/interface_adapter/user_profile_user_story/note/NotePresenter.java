@@ -45,6 +45,7 @@ public class NotePresenter implements NoteOutputBoundary {
 
     @Override
     public void switchToUserProfileView() {
+        userProfileViewModel.firePropertyChanged();
         viewManagerModel.setState(userProfileViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

@@ -76,20 +76,21 @@ public class MainNoteApplication {
 //        }
 
         final ShareifyAppBuilder shareifyAppBuilder = new ShareifyAppBuilder();
-        shareifyAppBuilder.addNoteDAO(noteDataAccess)
+        shareifyAppBuilder
                 .addWelcomeView()
                 .addSignupView()
                 .addSignupUseCase()
                 .addLoginView()
                 .addLoginUseCase()
-                .addNoteView()
                 .addPlaylistCollectionView()
-                .addUserProfileView()
                 .addFriendsListView()
-                .addNoteUseCase()
                 .addPlaylistCollectionUseCase()
                 .addFriendsListUseCase()
+                .addUserProfileView()
                 .addUserProfileUseCase()
+                .addNoteDAO(noteDataAccess)
+                .addNoteView()
+                .addNoteUseCase()
                 .addLogoutUseCase().build().setVisible(true);
     }
 }
