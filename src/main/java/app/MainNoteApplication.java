@@ -89,6 +89,14 @@ public class MainNoteApplication {
                 .addNoteUseCase()
                 .addPlaylistCollectionUseCase()
                 .addFriendsListUseCase()
+                .addFriendProfileView()
+                .addFriendProfileUseCase()
+                .addAddFriendView()
+                .addAddFriendUseCase()
+                .addFriendProfilePlaylistView()
+                .addFriendProfilePlaylistUseCase()
+                .addfriendProfileFriendsListView()
+                .addFriendProfileFriendsListUseCase()
                 .addUserProfileUseCase().build().setVisible(true);
     }
 }
