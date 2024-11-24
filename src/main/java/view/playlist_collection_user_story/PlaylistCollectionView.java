@@ -1,15 +1,10 @@
 package view.playlist_collection_user_story;
 
-import data_access.DBUserDataAccessObject;
+import data_access.DBPlaylistDataAccessObject;
 import entity.User;
-import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistController;
-import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistPresenter;
-import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionController;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
-import use_case.playlist_collection_user_story.add_playlist.AddPlaylistInputBoundary;
-import use_case.playlist_collection_user_story.add_playlist.AddPlaylistInteractor;
 import use_case.playlist_collection_user_story.add_playlist.AddPlaylistOutputBoundary;
 import use_case.user_profile_user_story.note.DataAccessException;
 
@@ -19,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,9 +26,11 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
     private PlaylistCollectionController playlistCollectionController;
     private AddPlaylistOutputBoundary addPlaylistOutputBoundary;
-    private DBUserDataAccessObject dbUserDataAccessObject;
+    private DBPlaylistDataAccessObject dbPlaylistDataAccessObject;
+    private String username;
+    private String password;
 
-    private AddPlaylistInputBoundary addPlaylistInputBoundary;
+    private DefaultListModel<String> listModel;
 
     private final JLabel playlistCollectionName = new JLabel("Shareify - Playlist Collection");
 
@@ -45,17 +41,16 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
     // JList to show the names of the playlists
     private JList<String> playlistCollectionList = new JList<>(new DefaultListModel<>());
-    private String username;
-    private String password;
+    private DefaultListModel<Object> playlistModel;
 
     public PlaylistCollectionView(PlaylistCollectionController playlistCollectionController,
                                   PlaylistCollectionViewModel playlistCollectionViewModel,
-                                  DBUserDataAccessObject dbUserDataAccessObject,
+                                  DBPlaylistDataAccessObject dbPlaylistDataAccessObject,
                                   AddPlaylistOutputBoundary addPlaylistOutputBoundary) {
 
         this.playlistCollectionController = playlistCollectionController;
         this.playlistCollectionViewModel = playlistCollectionViewModel;
-        this.dbUserDataAccessObject = dbUserDataAccessObject;
+        this.dbPlaylistDataAccessObject = dbPlaylistDataAccessObject;
         this.addPlaylistOutputBoundary = addPlaylistOutputBoundary;
         this.playlistCollectionViewModel.addPropertyChangeListener(this);
 
@@ -69,12 +64,6 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         playlistCollectionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         playlistCollectionList.setLayoutOrientation(JList.VERTICAL);
 
-        if (this.dbUserDataAccessObject != null && this.addPlaylistOutputBoundary != null) {
-            this.addPlaylistInputBoundary = new AddPlaylistInteractor(
-                    dbUserDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
-            );
-        }
-
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // Set up scroll pane
@@ -82,16 +71,17 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
         // Add buttons to frame
         final JPanel buttons = new JPanel();
+        buttons.setLayout(new FlowLayout());
         buttons.add(backButton);
         buttons.add(createPlaylistButton);
         buttons.add(deletePlaylistButton);
 
-//        createPlaylistButton.addActionListener(evt -> {
-//            if (evt.getSource().equals(createPlaylistButton)) {
-//                playlistCollectionController.switchToAddPlaylistView();
-//            }
-//        }
-//        );
+        createPlaylistButton.addActionListener(evt -> {
+            if (evt.getSource().equals(createPlaylistButton)) {
+                this.playlistCollectionController.switchToAddPlaylistView();
+            }
+        }
+        );
 
         deletePlaylistButton.addActionListener(evt -> {
             if (evt.getSource().equals(deletePlaylistButton)) {
@@ -100,9 +90,9 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         }
         );
 
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                playlistCollectionController.switchToUserProfileView();
+        backButton.addActionListener(evt -> {
+            if (evt.getSource().equals(backButton)) {
+                this.playlistCollectionController.switchToUserProfileView();
             }
         }
         );
@@ -123,10 +113,17 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     private void deletePlaylistLogic() {
         final int[] selectedIndices = playlistCollectionList.getSelectedIndices();
         if (selectedIndices.length > 0) {
-            final DefaultListModel<String> listModel = (
-                    DefaultListModel<String>) playlistCollectionList.getModel();
             for (int i = selectedIndices.length - 1; i >= 0; i--) {
                 listModel.remove(selectedIndices[i]);
+                try {
+                    final User user = new User(username, password);
+                    dbPlaylistDataAccessObject.removePlaylist(user, selectedIndices[i]);
+                }
+                catch (DataAccessException error) {
+                    JOptionPane.showMessageDialog(this,
+                            "Error in removing playlist from database: " + error.getMessage(),
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
         else {
@@ -136,26 +133,30 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         }
     }
 
-    private List<String> playlistListModelToList() {
-        final DefaultListModel<String> playlistListModel = (DefaultListModel<String>) playlistCollectionList.getModel();
-        final List<String> playlistList = new ArrayList<>();
-        for (int i = 0; i < playlistListModel.size(); i++) {
-            playlistList.add(playlistListModel.get(i));
-        }
-        return playlistList;
-    }
-
+    /**
+     * Populates playlist collection with given list of playlist.
+     * @param playlists list of playlists to populate
+     */
     private void populatePlaylistList(List<String> playlists) {
-        playlistListModelToList().clear();
-        for (String playlist : playlists) {
-            playlistListModelToList().add(playlist);
+        // Ensure playlistModel is initialized before calling any methods on it
+        if (listModel == null) {
+            listModel = new DefaultListModel<>();
         }
+        listModel.clear();
+        for (String playlist : playlists) {
+            listModel.addElement(playlist);
+        }
+        // Ensure JList is updated with model
+        playlistCollectionList.setModel(listModel);
     }
 
+    /**
+     * Populate playlist collection from database.
+     */
     private void populatePlaylistListFromDB() {
         try {
             final User realUser = new User(username, password);
-            final List<String> playlists = dbUserDataAccessObject.getPlaylists(realUser.getName());
+            final List<String> playlists = dbPlaylistDataAccessObject.getPlaylists(realUser.getName());
             populatePlaylistList(playlists);
         }
         catch (DataAccessException error) {
@@ -179,7 +180,12 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         final PlaylistCollectionState playlistCollectionState = (PlaylistCollectionState) e.getNewValue();
         updatePlaylistCollection(playlistCollectionState);
 
-        if (playlistCollectionState.getPlaylistError() != null) {
+        if (playlistCollectionState.getUsername() != this.username) {
+            this.username = playlistCollectionState.getUsername();
+            this.password = playlistCollectionState.getPassword();
+            populatePlaylistListFromDB();
+        }
+        else if (playlistCollectionState.getPlaylistError() != null) {
             JOptionPane.showMessageDialog(this, playlistCollectionState.getPlaylistError(),
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -190,12 +196,12 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
      * @param playlistCollectionState output data
      */
     private void updatePlaylistCollection(PlaylistCollectionState playlistCollectionState) {
-        final DefaultListModel<String> listModel = (DefaultListModel<String>) playlistCollectionList.getModel();
         listModel.clear();
 
         for (String playlist : playlistCollectionState.getPlaylist()) {
             listModel.addElement(playlist);
         }
+        playlistCollectionList.setModel(listModel);
     }
 
     public void setPlaylistCollectionController(PlaylistCollectionController playlistCollectionController) {
