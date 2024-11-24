@@ -20,4 +20,9 @@ public class FriendProfilePlaylistsInteractor implements FriendProfilePlaylistsI
     public void removePlaylist(String playlist) {
         friendProfilePlaylistsPresenter.preparePlaylistRemovedView(playlist);
     }
+
+    @Override
+    public void switchToFriendProfileView(String selectedFriendName, String password) {
+        friendProfilePlaylistsPresenter.switchToFriendProfileView(selectedFriendName, password);
+    }
 }

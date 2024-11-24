@@ -12,4 +12,6 @@ public interface FriendProfilePlaylistsInputBoundary {
      * @param playlist output data
      */
     void removePlaylist(String playlist);
+
+    void switchToFriendProfileView(String selectedFriendName, String password);
 }

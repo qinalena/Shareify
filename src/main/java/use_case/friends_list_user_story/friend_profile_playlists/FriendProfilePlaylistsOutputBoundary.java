@@ -7,4 +7,6 @@ public interface FriendProfilePlaylistsOutputBoundary {
     void preparePlaylistRemovedView(String playlistName);
 
     void prepareFailView(String error);
+
+    void switchToFriendProfileView(String selectedFriendName, String password);
 }

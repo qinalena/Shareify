@@ -1,6 +1,8 @@
 package interface_adapter.friends_list_user_story.friend_profile;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListState;
+import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListViewModel;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsState;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsViewModel;
 import interface_adapter.user_profile_user_story.note.NoteViewModel;
@@ -13,12 +15,17 @@ public class FriendProfilePresenter implements FriendProfileOutputBoundary {
     private final NoteViewModel noteViewModel;
     private final FriendsListViewModel friendsListViewModel = new FriendsListViewModel();
     private final FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel;
+    private final FriendProfileFriendsListViewModel friendProfileFriendsListViewModel;
 
-    public FriendProfilePresenter(FriendProfileViewModel friendProfileViewModel, ViewManagerModel viewManagerModel, NoteViewModel noteViewModel, FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel) {
+    public FriendProfilePresenter(FriendProfileViewModel friendProfileViewModel,
+                                  ViewManagerModel viewManagerModel, NoteViewModel noteViewModel,
+                                  FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel,
+                                  FriendProfileFriendsListViewModel friendProfileFriendsListViewModel) {
         this.friendProfileViewModel = friendProfileViewModel;
         this.viewManagerModel = viewManagerModel;
         this.noteViewModel = noteViewModel;
         this.friendProfilePlaylistsViewModel = friendProfilePlaylistsViewModel;
+        this.friendProfileFriendsListViewModel = friendProfileFriendsListViewModel;
     }
 
     @Override
@@ -40,9 +47,15 @@ public class FriendProfilePresenter implements FriendProfileOutputBoundary {
     }
 
     @Override
-    public void switchToFriendsListView() {
-        viewManagerModel.setState(friendsListViewModel.getViewName());
+    public void switchToFriendsListView(String username, String password) {
+        viewManagerModel.setState(friendProfileFriendsListViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+
+        final FriendProfileFriendsListState friendProfileFriendsListState = friendProfileFriendsListViewModel.getState();
+        friendProfileFriendsListState.setUsername(username);
+        friendProfileFriendsListState.setPassword(password);
+        this.friendProfileFriendsListViewModel.setState(friendProfileFriendsListState);
+        this.friendProfileFriendsListViewModel.firePropertyChanged();
     }
 
     @Override
@@ -55,5 +68,11 @@ public class FriendProfilePresenter implements FriendProfileOutputBoundary {
         friendProfilePlaylistsState.setPassword(password);
         this.friendProfilePlaylistsViewModel.setState(friendProfilePlaylistsState);
         this.friendProfilePlaylistsViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToAllFriendsView() {
+        viewManagerModel.setState(friendsListViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

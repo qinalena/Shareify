@@ -29,6 +29,9 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
 
     // JList to show the names of the playlists
     private JList<String> playlistCollectionList;
+    private final JButton backButton = new JButton("Back");
+    private String username;
+    private String password;
 
     /**
      * Constructs a FriendProfilePlaylistsView with the given controller, view model, and data access object.
@@ -63,11 +66,19 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
         // Adding components to the frame
         this.add(playlistCollectionName);
         this.add(scrollPane);
+
+        final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+        buttonPanel.add(backButton);
+        add(buttonPanel);
+        backButton.addActionListener(this);
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        // No actions needed for a read-only view
+    public void actionPerformed(ActionEvent evt) {
+        if (evt.getSource() == backButton) {
+            friendProfilePlaylistsController.switchToFriendProfileView(username, password);
+        }
     }
 
     /**
@@ -81,6 +92,8 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
         final FriendProfilePlaylistsState state = (FriendProfilePlaylistsState) e.getNewValue();
         updatePlaylistCollection(state);
         updateState(state);
+        this.username = state.getUsername();
+        this.password = state.getPassword();
         System.out.println("The username was recieved in friends playlist view " + state.getUsername());
 
         if (state.getPlaylistError() != null) {

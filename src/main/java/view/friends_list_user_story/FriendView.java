@@ -28,6 +28,7 @@ public class FriendView extends JPanel implements ActionListener, PropertyChange
     private final JButton viewPlaylists = new JButton("View Playlists");
     private final JButton viewFriends = new JButton("View Friends");
     private final JButton sendMessage = new JButton("Send Message");
+    private final JButton backButton = new JButton("Back");
 
     private FriendProfileController friendProfileController;
 
@@ -41,6 +42,7 @@ public class FriendView extends JPanel implements ActionListener, PropertyChange
         buttons.add(viewPlaylists);
         buttons.add(viewFriends);
         buttons.add(sendMessage);
+        buttons.add(backButton);
 
         viewPlaylists.addActionListener(
                 new ActionListener() {
@@ -53,7 +55,15 @@ public class FriendView extends JPanel implements ActionListener, PropertyChange
         viewFriends.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        friendProfileController.switchToFriendsListView();
+                        friendProfileController.switchToFriendsListView(username, password);
+                    }
+                }
+        );
+
+        backButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        friendProfileController.switchToAllFriendsView();
                     }
                 }
         );

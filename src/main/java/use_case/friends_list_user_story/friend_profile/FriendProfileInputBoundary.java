@@ -6,7 +6,9 @@ public interface FriendProfileInputBoundary {
      */
     void switchToNoteView();
 
-    void switchToFriendsListView();
+    void switchToFriendsListView(String username, String password);
 
     void switchToPlaylistCollectionView(String username, String password);
+
+    void switchToAllFriendsView();
 }

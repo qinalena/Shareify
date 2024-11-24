@@ -15,12 +15,18 @@ public class FriendProfileInteractor implements FriendProfileInputBoundary {
         friendProfilePresenter.switchToNoteView();
     }
 
-    public void switchToFriendsListView() {
-        friendProfilePresenter.switchToFriendsListView();
+    @Override
+    public void switchToFriendsListView(String username, String password) {
+        friendProfilePresenter.switchToFriendsListView(username, password);
     }
 
     @Override
     public void switchToPlaylistCollectionView(String username, String password) {
         friendProfilePresenter.switchToPlaylistCollectionView(username, password);
+    }
+
+    @Override
+    public void switchToAllFriendsView() {
+        friendProfilePresenter.switchToAllFriendsView();
     }
 }

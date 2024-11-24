@@ -16,4 +16,8 @@ public class FriendProfilePlaylistsController {
     public void removePlaylist(String playlistName) {
         friendProfilePlaylistsInteractor.removePlaylist(playlistName);
     }
+
+    public void switchToFriendProfileView(String selectedFriendName, String password) {
+        friendProfilePlaylistsInteractor.switchToFriendProfileView(selectedFriendName, password);
+    }
 }

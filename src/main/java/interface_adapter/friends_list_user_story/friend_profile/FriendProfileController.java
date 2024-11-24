@@ -22,10 +22,15 @@ public class FriendProfileController {
     public void switchToNoteView() {
         friendProfileInteractor.switchToNoteView();
     }
-    public void switchToFriendsListView() {
-        friendProfileInteractor.switchToFriendsListView();
+
+    public void switchToFriendsListView(String username, String password) {
+        friendProfileInteractor.switchToFriendsListView(username, password);
     }
     public void switchToPlaylistCollectionView(String username, String password) {
         friendProfileInteractor.switchToPlaylistCollectionView(username, password);
     }
+    public void switchToAllFriendsView() {
+        friendProfileInteractor.switchToAllFriendsView();
+    }
+
 }
