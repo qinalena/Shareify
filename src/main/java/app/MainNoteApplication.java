@@ -1,10 +1,8 @@
 package app;
 
-import data_access.DBCommentDataAccessObject;
+import data_access.DBNoteDataAccessObject;
 import spotify_api.SpotifyConnection;
-import use_case.note.NoteDataAccessInterface;
-
-import javax.swing.*;
+import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 /**
  * An application where we can view and add to a note stored by a user.
@@ -48,7 +46,7 @@ public class MainNoteApplication {
     public static void main(String[] args) {
 
         // create the data access and inject it into our builder!
-        final NoteDataAccessInterface noteDataAccess = new DBCommentDataAccessObject();
+        final NoteDataAccessInterface noteDataAccess = new DBNoteDataAccessObject();
 
         // Connect to Spotify API
         final SpotifyConnection spotifyConnection = new SpotifyConnection();
@@ -76,27 +74,21 @@ public class MainNoteApplication {
 //        } catch (DataAccessException ex) {
 //            System.err.println("Error creating user or saving note: " + ex.getMessage());
 //        }
-        final AppBuilder builder1 = new AppBuilder();
-        final JFrame application= builder1
-                .addLoginView()
+
+        final ShareifyAppBuilder shareifyAppBuilder = new ShareifyAppBuilder();
+        shareifyAppBuilder.addNoteDAO(noteDataAccess)
+                .addWelcomeView()
                 .addSignupView()
                 .addSignupUseCase()
+                .addLoginView()
                 .addLoginUseCase()
-                .addUserProfileView()
-                .addUserProfileUseCase()
-                .build();
-        application.pack();
-        application.setVisible(true);
-
-        final UserProfileAppBuilder userProfileAppBuilder = new UserProfileAppBuilder();
-        userProfileAppBuilder.addNoteDAO(noteDataAccess)
                 .addNoteView()
+                .addPlaylistCollectionView()
                 .addUserProfileView()
+                .addFriendsListView()
                 .addNoteUseCase()
-                .addUserProfileUseCase()
+                .addPlaylistCollectionUseCase()
+                .addFriendsListUseCase()
                 .addUserProfileUseCase().build().setVisible(true);
-
-        final CommentAppBuilder builder = new CommentAppBuilder();
-        builder.addCommentView().build().setVisible(true);
     }
 }
