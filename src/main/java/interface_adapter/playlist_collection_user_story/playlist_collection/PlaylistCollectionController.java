@@ -16,17 +16,19 @@ public class PlaylistCollectionController {
     }
 
     /**
-     * Executes the User Profile related Use Cases.
-     * @param playlist the playlist to be recorded
+     * Executes the adding playlist related Use Cases.
+     * @param playlistName the playlist to be recorded
      */
+    public void addPlaylist(String playlistName) {
+        playlistCollectionInteractor.addPlaylist(playlistName);
+    }
 
-    public void execute(String playlist) {
-        if (playlist != null) {
-            playlistCollectionInteractor.addPlaylist(playlist);
-        }
-        else {
-            playlistCollectionInteractor.removePlaylist(playlist);
-        }
+    /**
+     * Executes removing playlist related use cases.
+     * @param playlistName playlist to be removed
+     */
+    public void removePlaylist(String playlistName) {
+        playlistCollectionInteractor.removePlaylist(playlistName);
     }
 
     /**
@@ -34,5 +36,12 @@ public class PlaylistCollectionController {
      */
     public void switchToUserProfileView() {
         playlistCollectionInteractor.switchToUserProfileView();
+    }
+
+    /**
+     * Executes the "switch to AddPlaylist view" use case.
+     */
+    public void switchToAddPlaylistView() {
+        playlistCollectionInteractor.switchToAddPlaylistView();
     }
 }

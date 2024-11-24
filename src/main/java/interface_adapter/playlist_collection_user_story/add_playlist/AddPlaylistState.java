@@ -7,6 +7,8 @@ public class AddPlaylistState {
     private String successMessage;
     private String errorMessage;
     private List<String> playlists;
+    private String username;
+    private String password;
 
     public String getSuccessMessage() {
         return successMessage;
@@ -30,5 +32,21 @@ public class AddPlaylistState {
 
     public void setPlaylists(List<String> playlists) {
         this.playlists = playlists;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

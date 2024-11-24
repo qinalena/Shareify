@@ -2,6 +2,10 @@ package use_case.playlist_collection_user_story.add_playlist;
 
 import java.util.List;
 
+/**
+ * Output Boundary for addPlaylist.
+ */
+
 public interface AddPlaylistOutputBoundary {
 
     /**
@@ -15,4 +19,9 @@ public interface AddPlaylistOutputBoundary {
      * @param errorMessage error
      */
     void prepareFailureView(String errorMessage);
+
+    /**
+     * Switches to playlist collection view.
+     */
+    void switchToPlaylistCollectionView();
 }

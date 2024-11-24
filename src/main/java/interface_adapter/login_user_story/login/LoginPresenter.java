@@ -1,8 +1,13 @@
 package interface_adapter.login_user_story.login;
 
+import entity.Playlist;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
+import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistState;
+import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
+import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
+import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
 import use_case.login_user_story.login.LoginOutputBoundary;
 import use_case.login_user_story.login.LoginOutputData;
 
@@ -14,13 +19,18 @@ public class LoginPresenter implements LoginOutputBoundary {
     private final LoginViewModel loginViewModel;
     private final ViewManagerModel viewManagerModel;
     private final UserProfileViewModel userProfileViewModel;
+    private final PlaylistCollectionViewModel playlistCollectionViewModel;
+    private final AddPlaylistViewModel addPlaylistViewModel;
 
     public LoginPresenter(ViewManagerModel viewManagerModel,
                           UserProfileViewModel userProfileViewModel,
-                          LoginViewModel loginViewModel) {
+                          LoginViewModel loginViewModel, PlaylistCollectionViewModel playlistCollectionViewModel,
+                          AddPlaylistViewModel addPlaylistViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.userProfileViewModel = userProfileViewModel;
         this.loginViewModel = loginViewModel;
+        this.playlistCollectionViewModel = playlistCollectionViewModel;
+        this.addPlaylistViewModel = addPlaylistViewModel;
     }
 
     @Override
@@ -28,11 +38,26 @@ public class LoginPresenter implements LoginOutputBoundary {
         // On success, switch to the UserProfile view.
 
         final UserProfileState userProfileState = userProfileViewModel.getState();
+
         userProfileState.setUsername(loginOutputData.getUsername());
         this.userProfileViewModel.setState(userProfileState);
         this.userProfileViewModel.firePropertyChanged();
-
         this.viewManagerModel.setState(userProfileViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
+
+        final PlaylistCollectionState playlistCollectionState = playlistCollectionViewModel.getState();
+
+        playlistCollectionState.setUsername(loginOutputData.getUsername());
+        this.playlistCollectionViewModel.setState(playlistCollectionState);
+        this.playlistCollectionViewModel.firePropertyChanged();
+        this.viewManagerModel.setState(playlistCollectionViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
+
+        final AddPlaylistState addPlaylistState = addPlaylistViewModel.getState();
+        addPlaylistState.setUsername(loginOutputData.getUsername());
+        this.addPlaylistViewModel.setState(addPlaylistState);
+        this.addPlaylistViewModel.firePropertyChanged();
+        this.viewManagerModel.setState(addPlaylistViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 

@@ -5,7 +5,6 @@ import use_case.playlist_collection_user_story.playlist_collection.PlaylistColle
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputBoundary;
-import view.playlist_collection_user_story.PlaylistCollectionView;
 
 /**
  * The Presenter for Playlist Collection Use Case.
@@ -13,15 +12,17 @@ import view.playlist_collection_user_story.PlaylistCollectionView;
 public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoundary {
 
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
+    private final AddPlaylistViewModel addPlaylistViewModel;
     private final ViewManagerModel viewManagerModel;
-    private final UserProfileViewModel userProfileViewModel = new UserProfileViewModel();
-    private PlaylistCollectionView addPlaylistViewModel;
+    private final UserProfileViewModel userProfileViewModel;
 
-    public PlaylistCollectionPresenter(PlaylistCollectionViewModel playlistCollectionViewModel,
-                                       ViewManagerModel viewManagerModel) {
+    public PlaylistCollectionPresenter(PlaylistCollectionViewModel playlistCollectionViewModel, AddPlaylistViewModel addPlaylistViewModel,
+                                       ViewManagerModel viewManagerModel, UserProfileViewModel userProfileViewModel) {
 
         this.playlistCollectionViewModel = playlistCollectionViewModel;
+        this.addPlaylistViewModel = addPlaylistViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.userProfileViewModel = userProfileViewModel;
     }
 
     /**
@@ -30,7 +31,9 @@ public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoun
      */
     @Override
     public void preparePlaylistAddedView(String playlistName) {
-        playlistCollectionViewModel.getState().addPlaylist(playlistName);
+        final PlaylistCollectionState playlistCollectionState = playlistCollectionViewModel.getState();
+        playlistCollectionState.addPlaylist(playlistName);
+        playlistCollectionViewModel.setState(playlistCollectionState);
         playlistCollectionViewModel.firePropertyChanged();
     }
 

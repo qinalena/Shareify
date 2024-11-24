@@ -10,4 +10,9 @@ public interface AddPlaylistInputBoundary {
      * @param playlistName output data
      */
     void execute(String playlistName);
+
+    /**
+     * Switch to playlistCollection View.
+     */
+    void switchToPlaylistCollectionView();
 }

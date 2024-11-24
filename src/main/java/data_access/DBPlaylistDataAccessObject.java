@@ -1,5 +1,9 @@
 package data_access;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,13 +17,8 @@ import okhttp3.Response;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
 import use_case.user_profile_user_story.note.DataAccessException;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-
 /**
- * The DAO for user's playlist data.
+ * The DAO for accessing individual playlists stored in database.
  */
 public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
@@ -31,52 +30,9 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
     private static final String PASSWORD = "password";
     private static final String MESSAGE = "message";
 
-    private final int indentNumber = 4;
-
+    // Method to add playlist to the database
     @Override
-    public String addPlaylist(User user, String playlistName) throws DataAccessException {
-        final OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-
-        // Update user object's playlist
-        user.setPlaylist(playlistName);
-
-        // POST METHOD to save note
-        final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
-        final JSONObject requestBody = new JSONObject();
-        requestBody.put(USERNAME, user.getName());
-        requestBody.put(PASSWORD, user.getPassword());
-        final JSONObject addedPlaylist = new JSONObject();
-        addedPlaylist.put("playlist", playlistName);
-        requestBody.put("info", addedPlaylist);
-        final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
-        final Request request = new Request.Builder()
-                .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
-                .method("PUT", body)
-                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
-                .build();
-        try {
-            final Response response = client.newCall(request).execute();
-
-            final JSONObject responseBody = new JSONObject(response.body().string());
-
-            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
-                return loadPlaylist(user);
-            }
-            else if (responseBody.getInt(STATUS_CODE_LABEL) == CREDENTIAL_ERROR) {
-                throw new DataAccessException("Message could not be found or password was incorrect");
-            }
-            else {
-                throw new DataAccessException("Database error: " + responseBody.getString(MESSAGE));
-            }
-        }
-        catch (IOException | JSONException ex) {
-            throw new DataAccessException(ex.getMessage());
-        }
-    }
-
-    @Override
-    public String loadPlaylist(User user) throws DataAccessException {
+    public void addPlaylist(User user, String newPlaylist) throws DataAccessException {
         // Make API call to get User object
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder()
@@ -93,20 +49,54 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
                 final JSONObject data = userJSONObject.getJSONObject("info");
-                return data.getString("playlist");
 
+                // Check if key exists in the 'info' JSON
+                if (data.has("playlists")) {
+                    final JSONArray currentPlaylists = data.getJSONArray("playlists");
+                    data.put("playlists", currentPlaylists.put(newPlaylist));
+                }
+                else {
+                    final JSONArray playlists = new JSONArray();
+                    playlists.put(newPlaylist);
+                    data.put("playlists", playlists);
+                }
+
+                // Create updated request body
+                final JSONObject updatedUser = new JSONObject();
+                updatedUser.put("username", username);
+                updatedUser.put("password", user.getPassword());
+                updatedUser.put("info", data);
+
+                final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
+                final RequestBody body = RequestBody.create(mediaType, updatedUser.toString());
+                final Request updateRequest = new Request.Builder()
+                        .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
+                        .method("PUT", body)
+                        .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                        .build();
+
+                // Send update request
+                final Response updateResponse = client.newCall(updateRequest).execute();
+                final JSONObject updateResponseBody = new JSONObject(updateResponse.body().string());
+
+                if (updateResponseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                    System.out.println("User info updated successfully!");
+                }
+                else {
+                    throw new DataAccessException("User info update failed! " + updateResponseBody.getString(MESSAGE));
+                }
             }
             else {
-                throw new RuntimeException(responseBody.getString(MESSAGE));
+                throw new DataAccessException("Error retrieving user data: " + responseBody.getString(MESSAGE));
             }
         }
         catch (IOException | JSONException ex) {
-            throw new RuntimeException(ex);
+            throw new DataAccessException("Could not get user data " + ex.getMessage());
         }
     }
 
     @Override
-    public void removePlaylistinDB(User user, int index) throws DataAccessException {
+    public void removePlaylist(User user, int index) throws DataAccessException {
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -122,8 +112,6 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
                 final JSONObject data = userJSONObject.getJSONObject("info");
-                // Print current info to check state
-                System.out.println("Before update - info JSON file: " + data.toString(indentNumber));
 
                 // See if keys exists in 'info' JSON
                 if (data.has("playlists")) {
@@ -135,7 +123,7 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                     // Remove playlist from specified index
                     currentPlaylists.remove(index);
 
-                    // Update playlist array in db
+                    // Update the playlist array in the info
                     data.put("playlists", currentPlaylists);
                 }
                 else {
@@ -143,9 +131,6 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                     System.out.println("No playlists to remove");
                     return;
                 }
-
-                // Check updated info JSON
-                System.out.println("After update - info JSON file: " + data.toString(indentNumber) );
 
                 // Create updated request
                 final JSONObject updatedUser = new JSONObject();
@@ -182,6 +167,7 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
         }
     }
 
+    // Method to retrieve list of playlists associated with the given username
     @Override
     public List<String> getPlaylists(String playlistName) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
@@ -198,8 +184,6 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
                 final JSONObject data = userJSONObject.getJSONObject("info");
-                // Print current info to check state
-                System.out.println("Info JSON file: " + data.toString(indentNumber));
 
                 // See if keys exists in 'info' JSON
                 if (data.has("playlists")) {
