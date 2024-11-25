@@ -72,43 +72,6 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         }
     }
 
-    public static List<String> saveComment(String playlistName, String comment) throws DataAccessException {
-        final OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-
-        // POST METHOD to save note
-        final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
-        final JSONObject requestBody = new JSONObject();
-        requestBody.put(USERNAME, playlistName);
-        requestBody.put(PASSWORD, playlistName);
-        final JSONObject extra = new JSONObject();
-        final List<String> currentComments = loadComments(playlistName);
-        currentComments.add(comment);
-        extra.put("comments", currentComments);
-        requestBody.put("info", extra);
-        final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
-        final Request request = new Request.Builder()
-                .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
-                .method("PUT", body)
-                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
-                .build();
-        try {
-            final Response response = client.newCall(request).execute();
-
-            final JSONObject responseBody = new JSONObject(response.body().string());
-
-            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
-                return loadComments(playlistName);
-            } else if (responseBody.getInt(STATUS_CODE_LABEL) == CREDENTIAL_ERROR) {
-                throw new DataAccessException("Message could not be found or password was incorrect");
-            } else {
-                throw new DataAccessException("Database error: " + responseBody.getString(MESSAGE));
-            }
-        } catch (IOException | JSONException ex) {
-            throw new DataAccessException(ex.getMessage());
-        }
-    }
-
     @Override
     public String loadNote(User user) throws DataAccessException {
         // Make an API call to get the user object.
@@ -133,44 +96,6 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
             }
         }
         catch (IOException | JSONException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    // Access a user's playlist and load comments from that person's object in the database
-
-    /**
-     * Method to load the comments of a user's playlist.
-     * @param playlistName the name of the playlist we are loading the comments from
-     * @return an array containing the comments
-     * @throws DataAccessException exception
-     * @throws RuntimeException exception
-     */
-    public static List<String> loadComments(String playlistName) throws DataAccessException {
-        // Make an API call to get the user object.
-        final OkHttpClient client = new OkHttpClient().newBuilder().build();
-        final Request request = new Request.Builder()
-                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", playlistName))
-                .addHeader("Content-Type", CONTENT_TYPE_JSON)
-                .build();
-        try {
-            final Response response = client.newCall(request).execute();
-
-            final JSONObject responseBody = new JSONObject(response.body().string());
-
-            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
-                final JSONObject userJSONObject = responseBody.getJSONObject("user");
-                final JSONObject data = userJSONObject.getJSONObject("info");
-                final List<String> commentsList = new ArrayList<>();
-                final JSONArray jsonArray = data.getJSONArray("comments");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    commentsList.add(jsonArray.getString(i));
-                }
-                return commentsList;
-            } else {
-                throw new DataAccessException(responseBody.getString(MESSAGE));
-            }
-        } catch (IOException | JSONException ex) {
             throw new RuntimeException(ex);
         }
     }

@@ -1,6 +1,8 @@
 package data_access;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import entity.UserFactoryInter;
 import org.json.JSONArray;
@@ -26,6 +28,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         ChangePasswordUserDataAccessInterface,
         LogoutUserDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
+    private static final int CREDENTIAL_ERROR = 401;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_JSON = "application/json";
     private static final String STATUS_CODE_LABEL = "status_code";
@@ -225,6 +228,134 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         }
         catch (IOException | JSONException ex) {
             throw new DataAccessException("Error occurred while updating user info: " + ex.getMessage());
+        }
+    }
+
+    /**
+     * Method to load the comments of a user's playlist ***BY CREATING a "playlist user"***.
+     * @param playlistName the name of the playlist we are loading the comments from
+     * @param username the name of the user of the playlist
+     * @return an array containing the comments
+     * @throws DataAccessException exception
+     * @throws RuntimeException exception
+     */
+    public List<String> loadCommentsFromUser(String playlistName, String username) throws DataAccessException {
+        // Make an API call to get the user object.
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
+        final Request request = new Request.Builder()
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
+                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                final JSONObject userJSONObject = responseBody.getJSONObject("user");
+                final JSONObject data = userJSONObject.getJSONObject("info");
+                final List<String> commentsList = new ArrayList<>();
+                final String key = playlistName + "Comments";
+                // Check whether the comments exist, then load comments or return an empty arraylist
+                if (data.has(key)) {
+                    final JSONArray jsonArray = data.getJSONArray(key);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        commentsList.add(jsonArray.getString(i));
+                    }
+                }
+                // Return the comments
+                return commentsList;
+            }
+            else {
+                throw new DataAccessException(responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * Saves comments to the User's playlist comment section.
+     * @param playlistName name of playlist
+     * @param username username of playlist owner
+     * @param comment the comment we want to save
+     * @return a list of comments
+     * @throws DataAccessException exception
+     */
+    public List<String> saveCommentFromUser(String playlistName, String username, String comment) throws DataAccessException {
+        final OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        // Get previous info so nothing is overridden
+        final JSONObject info = getInfo(username);
+        // POST METHOD to save note
+        final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
+        final JSONObject requestBody = new JSONObject();
+        // Get the User object with username using Get Method.
+        final User thisPerson = get(username);
+        requestBody.put(USERNAME, thisPerson.getName());
+        requestBody.put(PASSWORD, thisPerson.getPassword());
+        // Add the comment to the existing comments
+        final List<String> currentComments = loadCommentsFromUser(playlistName, username);
+        currentComments.add(comment);
+        final String key = playlistName + "Comments";
+        // Add the previous info along with the updated comments back into the info JSONObject
+        info.put(key, currentComments);
+        requestBody.put("info", info);
+        final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
+        final Request request = new Request.Builder()
+                .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
+                .method("PUT", body)
+                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                return loadCommentsFromUser(playlistName, username);
+            }
+            else if (responseBody.getInt(STATUS_CODE_LABEL) == CREDENTIAL_ERROR) {
+                throw new DataAccessException("Message could not be found or password was incorrect");
+            }
+            else {
+                throw new DataAccessException("Database error: " + responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException ex) {
+            throw new DataAccessException(ex.getMessage());
+        }
+    }
+
+    /**
+     * Helper method to get the info JSONObject so we can add information to it (So previous info isn't deleted).
+     * @param username username of the person we want the info from
+     * @return the JSONObject containing all their data
+     * @throws DataAccessException exception
+     * @throws RuntimeException exception
+     */
+    public JSONObject getInfo(String username) throws DataAccessException {
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
+        final Request request = new Request.Builder()
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
+                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                final JSONObject userJSONObject = responseBody.getJSONObject("user");
+                return userJSONObject.getJSONObject("info");
+            }
+            else {
+                throw new DataAccessException(responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
