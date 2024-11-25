@@ -1,7 +1,9 @@
 package app;
 
 import data_access.DBNoteDataAccessObject;
+import data_access.DBPlaylistDataAccessObject;
 import spotify_api.SpotifyConnection;
+import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
 import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 /**
@@ -21,6 +23,8 @@ import use_case.user_profile_user_story.note.NoteDataAccessInterface;
  * switching between views depending on your project.
  */
 public class MainNoteApplication {
+
+
     /**
      * The main entry point of the application.
      * <p>
@@ -47,6 +51,7 @@ public class MainNoteApplication {
 
         // create the data access and inject it into our builder!
         final NoteDataAccessInterface noteDataAccess = new DBNoteDataAccessObject();
+        final PlaylistCollectionDataAccessInterface playlistCollectionDataAccess = new DBPlaylistDataAccessObject();
 
         // Connect to Spotify API
         final SpotifyConnection spotifyConnection = new SpotifyConnection();
@@ -78,28 +83,21 @@ public class MainNoteApplication {
         final ShareifyAppBuilder shareifyAppBuilder = new ShareifyAppBuilder();
         shareifyAppBuilder
                 .addNoteDAO(noteDataAccess)
+                .addPlaylistCollectionDAO(playlistCollectionDataAccess)
                 .addWelcomeView()
                 .addSignupView()
                 .addSignupUseCase()
                 .addLoginView()
                 .addLoginUseCase()
                 .addNoteView()
+                .addUserProfileView()
                 .addPlaylistCollectionView()
                 .addAddPlaylistView()
-                .addUserProfileView()
                 .addFriendsListView()
                 .addNoteUseCase()
                 .addPlaylistCollectionUseCase()
                 .addAddPlaylistUseCase()
                 .addFriendsListUseCase()
-                .addFriendProfileView()
-                .addFriendProfileUseCase()
-                .addAddFriendView()
-                .addAddFriendUseCase()
-                .addFriendProfilePlaylistView()
-                .addFriendProfilePlaylistUseCase()
-                .addfriendProfileFriendsListView()
-                .addFriendProfileFriendsListUseCase()
                 .addUserProfileUseCase().build().setVisible(true);
     }
 }

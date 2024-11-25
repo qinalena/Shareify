@@ -9,6 +9,4 @@ public interface AddFriendOutputBoundary {
 
     // Method for handling failure, taking an error message as an argument
     void prepareFailView(String errorMessage);
-
-    void swtichToFriendsListView();
 }

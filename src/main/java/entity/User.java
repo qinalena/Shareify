@@ -57,4 +57,12 @@ public class User implements UserInter {
         this.info = info;
     }
 
+    public void addPlaylist(String playlist) {
+        this.playlistCollection.add(playlist);
+    }
+
+    public void removePlaylist(String playlist) {
+        this.playlistCollection.remove(playlist);
+    }
+
 }

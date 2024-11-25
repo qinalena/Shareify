@@ -1,16 +1,14 @@
 package use_case.friends_list_user_story.add_friend;
 
 import data_access.DBNoteDataAccessObject;
-import interface_adapter.friends_list_user_story.add_friend.AddFriendPresenter;
-import use_case.friends_list_user_story.add_friend.AddFriendOutputBoundary;
+
 import java.util.List;
 
 public class AddFriendInteractor implements AddFriendInputBoundary {
 
     private final DBNoteDataAccessObject dbNoteDataAccessObject;
     private final AddFriendOutputBoundary outputBoundary;
-    private final List<String> friendsList;
-    private AddFriendOutputBoundary addFriendPresenter;
+    private final List<String> friendsList;  // The list of friends
 
     public AddFriendInteractor(DBNoteDataAccessObject dbNoteDataAccessObject,
                                AddFriendOutputBoundary outputBoundary,
@@ -20,7 +18,6 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
         }
         this.dbNoteDataAccessObject = dbNoteDataAccessObject;
         this.outputBoundary = outputBoundary;
-        this.addFriendPresenter = outputBoundary;
         this.friendsList = friendsList;  // Initialize the friends list
     }
 
@@ -41,7 +38,7 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
                 friendsList.add(friendName);
 
                 // Pass the updated friends list to the output boundary
-                outputBoundary.prepareSuccessView(friendsList);
+                outputBoundary.prepareSuccessView(friendsList);  // Updated friends list
             } else {
                 // If user doesn't exist, pass an error message
                 outputBoundary.prepareFailView("User does not exist.");
@@ -50,10 +47,5 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
             // Handle errors and pass a failure message
             outputBoundary.prepareFailView("Error adding friend.");
         }
-    }
-
-    @Override
-    public void switchToFriendsListView() {
-        addFriendPresenter.swtichToFriendsListView();
     }
 }

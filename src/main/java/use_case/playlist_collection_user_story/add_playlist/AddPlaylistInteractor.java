@@ -11,7 +11,7 @@ import use_case.playlist_collection_user_story.add_playlist.AddPlaylistOutputBou
  */
 public class AddPlaylistInteractor implements AddPlaylistInputBoundary {
 
-    private final DBPlaylistDataAccessObject dbPlaylistDataAccessObject;
+    private final DBPlaylistDataAccessObject playlistDataAccessObject;
     private final AddPlaylistOutputBoundary addPlaylistOutputBoundary;
     private final List<String> playlistList;
     private AddPlaylistOutputBoundary addPlaylistPresenter;
@@ -19,7 +19,10 @@ public class AddPlaylistInteractor implements AddPlaylistInputBoundary {
     public AddPlaylistInteractor(DBPlaylistDataAccessObject playlistDataAccessObject,
                                  AddPlaylistOutputBoundary addPlaylistOutputBoundary,
                                  List<String> playlistList) {
-        this.dbPlaylistDataAccessObject = playlistDataAccessObject;
+        if (addPlaylistOutputBoundary == null) {
+            throw new NullPointerException("Output boundary cannot be null!");
+        }
+        this.playlistDataAccessObject = playlistDataAccessObject;
         this.addPlaylistOutputBoundary = addPlaylistOutputBoundary;
         this.addPlaylistPresenter = addPlaylistOutputBoundary;
         this.playlistList = playlistList;
@@ -33,7 +36,7 @@ public class AddPlaylistInteractor implements AddPlaylistInputBoundary {
         }
         try {
             // Checks to see if playlist exists in the database
-            final String currentPlaylist = dbPlaylistDataAccessObject.getPlaylists(playlistName).toString();
+            final String currentPlaylist = playlistDataAccessObject.getPlaylists(playlistName).toString();
             // Add playlist to the playlist collection list
             if (currentPlaylist != null) {
                 // Add playlist to playlist collection

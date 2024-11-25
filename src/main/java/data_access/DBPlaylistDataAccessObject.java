@@ -30,36 +30,42 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
     private static final String PASSWORD = "password";
     private static final String MESSAGE = "message";
 
+    /**
+     * Updates the user information in the database.
+     *
+     * @param user The user whose information is being updated.
+     * @param key The key of the information to be updated (e.g., "note", "friends", etc.).
+     * @param newInfo The new information to be updated.
+     * @throws DataAccessException If there is an error updating the user information, such as invalid credentials or a database error.
+     */
+
     // Method to add playlist to the database
     @Override
     public void addPlaylist(User user, String newPlaylist) throws DataAccessException {
         // Make API call to get User object
         final String username = user.getName();
-        final OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
                 .addHeader("Content-Type", CONTENT_TYPE_JSON)
                 .build();
         try {
             final Response response = client.newCall(request).execute();
-
             final JSONObject responseBody = new JSONObject(response.body().string());
 
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
                 final JSONObject data = userJSONObject.getJSONObject("info");
 
-                // Check if key exists in the 'info' JSON
-                if (data.has("playlists")) {
-                    final JSONArray currentPlaylists = data.getJSONArray("playlists");
-                    data.put("playlists", currentPlaylists.put(newPlaylist));
+                // Check if key doesn't exists in the 'info' JSON
+                if (!data.has("playlists")) {
+                    data.put("playlists", new JSONArray());
                 }
-                else {
-                    final JSONArray playlists = new JSONArray();
-                    playlists.put(newPlaylist);
-                    data.put("playlists", playlists);
-                }
+                final JSONArray currentPlaylists = data.getJSONArray("playlists");
+                currentPlaylists.put(newPlaylist);
+
+                // Update new user data with new playlist collection
+                data.put("playlists", currentPlaylists);
 
                 // Create updated request body
                 final JSONObject updatedUser = new JSONObject();
@@ -80,10 +86,10 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                 final JSONObject updateResponseBody = new JSONObject(updateResponse.body().string());
 
                 if (updateResponseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
-                    System.out.println("User info updated successfully!");
+                    System.out.println("Playlist added successfully!");
                 }
                 else {
-                    throw new DataAccessException("User info update failed! " + updateResponseBody.getString(MESSAGE));
+                    throw new DataAccessException("Error updating user info! " + updateResponseBody.getString(MESSAGE));
                 }
             }
             else {
@@ -91,7 +97,7 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
             }
         }
         catch (IOException | JSONException ex) {
-            throw new DataAccessException("Could not get user data " + ex.getMessage());
+            throw new DataAccessException("Error occurred while adding playlist " + ex.getMessage());
         }
     }
 
@@ -152,10 +158,10 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
 
                 // Handle the response from the server after updating the user info
                 if (updateResponseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
-                    System.out.println("User info updated with new playlist successfully!");
+                    System.out.println("Playlist removed successfully!");
                 }
                 else {
-                    throw new DataAccessException("Error updating user info: " + updateResponseBody.getString(MESSAGE));
+                    throw new DataAccessException("No playlist found for user! " + updateResponseBody.getString(MESSAGE));
                 }
             }
             else {
@@ -178,7 +184,6 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                 .build();
         try {
             final Response response = client.newCall(request).execute();
-
             final JSONObject responseBody = new JSONObject(response.body().string());
 
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
