@@ -23,6 +23,7 @@ public class SearchSongPresenter implements SearchSongOutputBoundary {
 
     @Override
     public void searchSong(SearchSongOutputData searchSongOutputData) {
-
+        searchSongViewModel.getState().setCurrentSearchResults(searchSongOutputData.getSearchResults());
+        searchSongViewModel.firePropertyChanged();
     }
 }

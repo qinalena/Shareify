@@ -1,6 +1,8 @@
 package view.playlist_user_story;
 
+import entity.Song;
 import interface_adapter.playlist_user_story.search_song.SearchSongController;
+import interface_adapter.playlist_user_story.search_song.SearchSongState;
 import interface_adapter.playlist_user_story.search_song.SearchSongViewModel;
 
 import javax.swing.*;
@@ -27,7 +29,7 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
     private final JButton searchButton = new JButton("Search");
     private final JButton addTrackButton = new JButton("Add Track");
 
-    private JList<String> tracks = new JList<>(new DefaultListModel<>());
+    private JList<String> songs = new JList<>(new DefaultListModel<>());
 
     public SearchSongView(SearchSongViewModel searchSongViewModel) {
         this.searchSongViewModel = searchSongViewModel;
@@ -47,9 +49,9 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
         }
         );
 
-        tracks.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tracks.setLayoutOrientation(JList.VERTICAL);
-        final JScrollPane scrollPane = new JScrollPane(tracks);
+        songs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        songs.setLayoutOrientation(JList.VERTICAL);
+        final JScrollPane scrollPane = new JScrollPane(songs);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -70,7 +72,17 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        final SearchSongState state = (SearchSongState) evt.getNewValue();
+        setFields(state);
+    }
 
+    private void setFields(SearchSongState state) {
+        final DefaultListModel<String> listModel = (DefaultListModel<String>) songs.getModel();
+        listModel.clear();
+
+        for (Song song : state.getSearchResults()) {
+            listModel.addElement(song.getName() + " - " + song.artistsToString());
+        }
     }
 
     public void setSearchTrackController(SearchSongController searchTrackController) {

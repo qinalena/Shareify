@@ -18,4 +18,8 @@ public class SearchSongOutputData {
     public void addSong(Song song) {
         searchResults.add(song);
     }
+
+    public List<Song> getSearchResults() {
+        return searchResults;
+    }
 }
