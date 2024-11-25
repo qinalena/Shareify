@@ -5,10 +5,11 @@ package interface_adapter.user_profile_user_story.user_profile;
  */
 public class UserProfileState {
     private String username;
-    private String password;
 
     private String error;
     private String usernameError;
+    private String passwordError;
+    private String repeatPassword = "";
     private String repeatPasswordError;
 
     public void setUsername(String username) {
@@ -17,14 +18,7 @@ public class UserProfileState {
 
     public String getUsername() {
         return username;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setError(String errorMessage) {
@@ -35,5 +29,32 @@ public class UserProfileState {
         return error;
     }
 
+    public String getUsernameError() {
+        return usernameError;
+    }
+
+    public String getPasswordError() {
+        return passwordError;
+    }
+
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public String getRepeatPasswordError() {
+        return repeatPasswordError;
+    }
+
+    public void setPasswordError(String passwordError) {
+        this.passwordError = passwordError;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
+    }
+
+    public void setRepeatPasswordError(String repeatPasswordError) {
+        this.repeatPasswordError = repeatPasswordError;
+    }
 
 }

@@ -15,7 +15,7 @@ public interface NoteInputBoundary {
      * Executes the save note use case.
      * @param message the input data
      */
-    void executeSave(String message, String username);
+    void executeSave(String message);
 
     /**
      * Executes the switch to User Profile use case.

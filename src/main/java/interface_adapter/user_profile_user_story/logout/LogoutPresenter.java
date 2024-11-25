@@ -3,7 +3,6 @@ package interface_adapter.user_profile_user_story.logout;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.login_user_story.login.LoginState;
 import interface_adapter.login_user_story.login.LoginViewModel;
-import interface_adapter.login_user_story.welcome.WelcomeViewModel;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
 import use_case.user_profile_user_story.logout.LogoutOutputBoundary;
@@ -17,7 +16,6 @@ public class LogoutPresenter implements LogoutOutputBoundary {
     private UserProfileViewModel userProfileViewModel;
     private ViewManagerModel viewManagerModel;
     private LoginViewModel loginViewModel;
-    private WelcomeViewModel welcomeViewModel = new WelcomeViewModel();
 
     public LogoutPresenter(ViewManagerModel viewManagerModel,
                            UserProfileViewModel UserprofileViewModel,
@@ -41,7 +39,7 @@ public class LogoutPresenter implements LogoutOutputBoundary {
         loginViewModel.firePropertyChanged();
 
         // This code tells the View Manager to switch to the LoginView.
-        this.viewManagerModel.setState(welcomeViewModel.getViewName());
+        this.viewManagerModel.setState(loginViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 

@@ -10,6 +10,7 @@ public class UserProfileInteractor implements UserProfileInputBoundary {
 
     private final LoggedInDataAccessObject loggedInDataAccessObject;
     private final UserProfileOutputBoundary userProfilePresenter;
+    private final User user = new User("newUserName3", "password123");
 
     public UserProfileInteractor(LoggedInDataAccessObject loggedInDataAccessObject, UserProfileOutputBoundary userProfilePresenter) {
         this.loggedInDataAccessObject = loggedInDataAccessObject;
@@ -39,8 +40,4 @@ public class UserProfileInteractor implements UserProfileInputBoundary {
         userProfilePresenter.switchToFriendsListView();
     }
 
-    @Override
-    public void switchToChangePasswordView() {
-        userProfilePresenter.switchToChangePasswordView();
-    }
 }

@@ -11,5 +11,4 @@ public interface ChangePasswordInputBoundary {
      */
     void execute(ChangePasswordInputData changePasswordInputData);
 
-    void switchToUserProfileView();
 }

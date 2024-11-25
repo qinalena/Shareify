@@ -2,7 +2,6 @@ package interface_adapter.user_profile_user_story.user_profile;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
-import interface_adapter.user_profile_user_story.note.NoteState;
 import interface_adapter.user_profile_user_story.note.NoteViewModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
 import use_case.user_profile_user_story.user_profile.UserProfileOutputBoundary;
@@ -34,9 +33,10 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
      */
     @Override
     public void prepareSuccessView(UserProfileOutputData userProfileOutputData) {
+        // On success, switch to the UserProfile View.
 
-        userProfileViewModel.getState().setError(null);
-        userProfileViewModel.firePropertyChanged();
+//        userProfileViewModel.getState().setError(null);
+//        userProfileViewModel.firePropertyChanged();
     }
 
     /**
@@ -52,11 +52,6 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
 
     @Override
     public void switchToNoteView() {
-        final NoteState notestate = noteViewModel.getState();
-        notestate.setUsername(userProfileViewModel.getState().getUsername());
-        this.noteViewModel.setState(notestate);
-        this.noteViewModel.firePropertyChanged();
-
         viewManagerModel.setState(noteViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
@@ -70,11 +65,6 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
     @Override
     public void switchToFriendsListView() {
         viewManagerModel.setState(friendsListViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
-    }
-
-    public void switchToChangePasswordView() {
-        viewManagerModel.setState("Change Password");
         viewManagerModel.firePropertyChanged();
     }
 }

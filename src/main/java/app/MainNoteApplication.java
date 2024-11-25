@@ -23,6 +23,8 @@ import use_case.user_profile_user_story.note.NoteDataAccessInterface;
  * switching between views depending on your project.
  */
 public class MainNoteApplication {
+
+
     /**
      * The main entry point of the application.
      * <p>
@@ -80,34 +82,22 @@ public class MainNoteApplication {
 
         final ShareifyAppBuilder shareifyAppBuilder = new ShareifyAppBuilder();
         shareifyAppBuilder
+                .addNoteDAO(noteDataAccess)
+                .addPlaylistCollectionDAO(playlistCollectionDataAccess)
                 .addWelcomeView()
                 .addSignupView()
                 .addSignupUseCase()
                 .addLoginView()
                 .addLoginUseCase()
-                .addUserProfileView()
-                .addUserProfileUseCase()
-                .addNoteDAO(noteDataAccess)
-                .addPlaylistCollectionDAO(playlistCollectionDataAccess)
                 .addNoteView()
-                .addNoteUseCase()
-                .addChangePasswordView()
-                .addChangePasswordUseCase()
-                .addLogoutUseCase()
+                .addUserProfileView()
                 .addPlaylistCollectionView()
                 .addAddPlaylistView()
                 .addFriendsListView()
+                .addNoteUseCase()
                 .addPlaylistCollectionUseCase()
                 .addAddPlaylistUseCase()
                 .addFriendsListUseCase()
-                .addFriendProfileView()
-                .addFriendProfileUseCase()
-                .addAddFriendView()
-                .addAddFriendUseCase()
-                .addFriendProfilePlaylistView()
-                .addFriendProfilePlaylistUseCase()
-                .addfriendProfileFriendsListView()
-                .addFriendProfileFriendsListUseCase()
-                .build().setVisible(true);
+                .addUserProfileUseCase().build().setVisible(true);
     }
 }

@@ -1,7 +1,5 @@
 package interface_adapter;
 
-import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 

@@ -30,9 +30,4 @@ public interface UserProfileOutputBoundary {
      * Switches to Friends List View.
      */
     void switchToFriendsListView();
-
-    /**
-     * Switches to Change Password View.
-     */
-    void switchToChangePasswordView();
 }
