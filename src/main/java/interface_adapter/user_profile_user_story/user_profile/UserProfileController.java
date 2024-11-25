@@ -13,14 +13,6 @@ public class UserProfileController {
         this.userProfileInteractor = userProfileInteractor;
     }
 
-    // Update when needed
-    /**
-     * Executes the User Profile related Use Cases.
-     */
-    public void execute() {
-
-    }
-
     /**
      * Switches to Note View.
      */

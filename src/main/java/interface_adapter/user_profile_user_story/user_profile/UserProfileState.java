@@ -8,8 +8,6 @@ public class UserProfileState {
     private String password;
 
     private String error;
-    private String usernameError;
-    private String repeatPasswordError;
 
     public void setCurrentUsername(String currentUsername) {
         this.currentUsername = currentUsername;

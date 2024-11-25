@@ -36,8 +36,8 @@ public class LoginInteractor implements LoginInputBoundary {
                 final User user = userDataAccessObject.get(loginInputData.getUsername());
 
                 // Update LoggedInUserDataAccessObject with logged-in user's username and password
-                loggedInUserDataAccessObject.setUsername(user.getName());
-                loggedInUserDataAccessObject.setPassword(user.getPassword());
+                final User loggedInUser = new User(user.getName(), user.getPassword());
+                loggedInUserDataAccessObject.setLoggedInUser(loggedInUser);
 
                 // Unnecessary code? Username has not been changed.
                 userDataAccessObject.setCurrentUsername(user.getName());

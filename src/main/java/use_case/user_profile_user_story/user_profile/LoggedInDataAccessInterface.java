@@ -7,11 +7,15 @@ import entity.User;
  */
 public interface LoggedInDataAccessInterface {
 
-    void setUsername(String username);
+    /**
+     * Set the logged-in user of the program.
+     * @param user the logged-in user
+     */
+    void setLoggedInUser(User user);
 
-    String getUsername();
-
-    void setPassword(String password);
-
-    String getPassword();
+    /**
+     * Get the logged-in user of the program.
+     * @return the logged-in user
+     */
+    User getLoggedInUser();
 }

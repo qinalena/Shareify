@@ -1,28 +1,21 @@
 package data_access;
 
+import entity.User;
 import use_case.user_profile_user_story.user_profile.LoggedInDataAccessInterface;
 
 /**
- * In-memory storage of the logged-in user's username and password.
+ * In-memory storage of the logged-in user.
  * Allows us to remember what user we to search for in the DB.
  */
 public class LoggedInDataAccessObject implements LoggedInDataAccessInterface {
-    private String username;
-    private String password;
+    // User has a username and a password that can be accessed by getters!
+    private User loggedInUser;
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
+    public User getLoggedInUser() {
+        return loggedInUser;
     }
 }

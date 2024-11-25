@@ -34,7 +34,10 @@ public class SearchSongController {
      * @param selectedString the song that was selected in the list of search results
      */
     public void addSong(String selectedString) {
-        final SearchSongInputData searchSongInputData = new SearchSongInputData(selectedString);
-        searchTrackInteractor.addSong(searchSongInputData);
+        if (selectedString != null) {
+            final SearchSongInputData searchSongInputData = new SearchSongInputData(selectedString);
+            searchTrackInteractor.addSong(searchSongInputData);
+        }
+
     }
 }
