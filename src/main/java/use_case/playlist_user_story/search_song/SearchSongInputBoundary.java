@@ -10,4 +10,9 @@ public interface SearchSongInputBoundary {
      * @param query the text inputted by the user
      */
     void searchSong(String query);
+
+    /**
+     * Switches to Playlist View.
+     */
+    void switchToPlaylistView();
 }

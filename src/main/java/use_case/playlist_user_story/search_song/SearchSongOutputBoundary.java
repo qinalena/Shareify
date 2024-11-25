@@ -10,4 +10,9 @@ public interface SearchSongOutputBoundary {
      * @param searchSongOutputData the output data
      */
     void searchSong(SearchSongOutputData searchSongOutputData);
+
+    /**
+     * Switches to Playlist View.
+     */
+    void switchToPlaylistView();
 }

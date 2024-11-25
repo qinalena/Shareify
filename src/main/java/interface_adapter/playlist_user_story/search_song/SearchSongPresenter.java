@@ -26,4 +26,10 @@ public class SearchSongPresenter implements SearchSongOutputBoundary {
         searchSongViewModel.getState().setCurrentSearchResults(searchSongOutputData.getSearchResults());
         searchSongViewModel.firePropertyChanged();
     }
+
+    @Override
+    public void switchToPlaylistView() {
+        viewManagerModel.setState(playlistViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
 }

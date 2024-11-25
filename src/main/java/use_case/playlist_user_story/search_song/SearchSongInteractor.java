@@ -39,4 +39,9 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
         }
 
     }
+
+    @Override
+    public void switchToPlaylistView() {
+        searchTrackPresenter.switchToPlaylistView();
+    }
 }

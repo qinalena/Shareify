@@ -42,6 +42,13 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
         buttons.add(searchButton);
         buttons.add(addTrackButton);
 
+        backButton.addActionListener(new ActionListener() {
+           public void actionPerformed(ActionEvent evt) {
+               searchTrackController.switchToPlaylistView();
+           }
+        }
+        );
+
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 searchTrackController.searchSong(searchText.getText());

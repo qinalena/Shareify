@@ -20,4 +20,11 @@ public class SearchSongController {
     public void searchSong(String query) {
         searchTrackInteractor.searchSong(query);
     }
+
+    /**
+     * Switches to Playlist View.
+     */
+    public void switchToPlaylistView() {
+        searchTrackInteractor.switchToPlaylistView();
+    }
 }
