@@ -18,7 +18,6 @@ public class User {
     public User(String name, String password) {
         this.name = name;
         this.password = password;
-        this.note = "Hi! I'm new to Shareify :)";
         this.info = new ArrayList<>();
     }
 

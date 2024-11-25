@@ -49,7 +49,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         // No need to do anything to reinitialize a user list! The data is the cloud that may be miles away.
     }
 
-    public User get(String username) {
+    public User get(String username) throws RuntimeException {
         // Make an API call to get the user object.
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
         final Request request = new Request.Builder()

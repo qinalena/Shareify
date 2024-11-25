@@ -77,12 +77,14 @@ public class MainNoteApplication {
 
         // ADD ALL VIEWS FIRST BEFORE USE CASES!!!
         final ShareifyAppBuilder shareifyAppBuilder = new ShareifyAppBuilder();
-        shareifyAppBuilder.addNoteDAO(noteDataAccess)
+        shareifyAppBuilder
+                .addNoteDAO(noteDataAccess)
                 .addWelcomeView()
                 .addSignupView()
                 .addLoginView()
                 .addUserProfileView()
                 .addNoteView()
+                .addChangePasswordView()
                 .addPlaylistCollectionView()
                 .addFriendsListView()
                 .addPlaylistView()
@@ -95,6 +97,8 @@ public class MainNoteApplication {
                 .addLoginUseCase()
                 .addUserProfileUseCase()
                 .addNoteUseCase()
+                .addChangePasswordUseCase()
+                .addLogoutUseCase()
                 .addPlaylistCollectionUseCase()
                 .addFriendsListUseCase()
                 .addPlaylistUseCase()
@@ -102,7 +106,7 @@ public class MainNoteApplication {
                 .addFriendProfileUseCase()
                 .addAddFriendUseCase()
                 .addFriendProfilePlaylistUseCase()
-                .addFriendProfilePlaylistUseCase()
+                .addFriendProfileFriendsListUseCase()
                 .build().setVisible(true);
     }
 }

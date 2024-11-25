@@ -23,6 +23,9 @@ import interface_adapter.playlist_user_story.playlist.*;
 import interface_adapter.playlist_user_story.search_song.*;
 import interface_adapter.user_profile_user_story.note.*;
 import interface_adapter.user_profile_user_story.user_profile.*;
+import interface_adapter.user_profile_user_story.change_password.*;
+import interface_adapter.user_profile_user_story.logout.*;
+
 import spotify_api.SpotifyConnection;
 import use_case.friends_list_user_story.add_friend.*;
 import use_case.friends_list_user_story.friends_list.*;
@@ -37,6 +40,9 @@ import use_case.playlist_user_story.playlist.*;
 import use_case.playlist_user_story.search_song.*;
 import use_case.user_profile_user_story.note.*;
 import use_case.user_profile_user_story.user_profile.*;
+import use_case.user_profile_user_story.change_password.*;
+import use_case.user_profile_user_story.logout.*;
+
 import view.friends_list_user_story.*;
 import view.ViewManager;
 import view.friends_list_user_story.*;
@@ -76,6 +82,7 @@ public class ShareifyAppBuilder {
 
     private UserProfileViewModel userProfileViewModel;
     private UserProfileView userProfileView;
+    private ChangePasswordView changePasswordView;
 
     private FriendsListViewModel friendsListViewModel;
 
@@ -138,24 +145,13 @@ public class ShareifyAppBuilder {
     }
 
     /**
-     * Adds the NoteView to the application.
-     * @return this builder
-     */
-    public ShareifyAppBuilder addNoteView() {
-        noteViewModel = new NoteViewModel();
-        noteView = new NoteView(noteViewModel);
-        cardPanel.add(noteView, noteView.getViewName());
-        return this;
-    }
-
-    /**
      * Adds the UserProfileView to the application.
      * @return this builder
      * @throws RuntimeException if this method is called before addLoginUseCase
      */
     public ShareifyAppBuilder addUserProfileView() {
         userProfileViewModel = new UserProfileViewModel();
-        userProfileView = new UserProfileView(userProfileViewModel);
+        userProfileView = new UserProfileView(userProfileViewModel, userDataAccessObject, dbNoteDataAccessObject);
         cardPanel.add(userProfileView, userProfileView.getViewName());
 
         if (loginView == null) {
@@ -264,6 +260,57 @@ public class ShareifyAppBuilder {
     }
 
     /**
+     * Adds the NoteView to the application.
+     * @return this builder
+     */
+    public ShareifyAppBuilder addNoteView() {
+        noteViewModel = new NoteViewModel();
+        noteView = new NoteView(noteViewModel, dbNoteDataAccessObject, userDataAccessObject);
+        cardPanel.add(noteView, noteView.getViewName());
+        return this;
+    }
+
+    /**
+     * Creates the objects for the Note Use Case and connects the NoteView to its
+     * controller.
+     * <p>This method must be called after addNoteView!</p>
+     * @return this builder
+     * @throws RuntimeException if this method is called before addNoteView
+     */
+    public ShareifyAppBuilder addNoteUseCase() {
+        final NoteOutputBoundary noteOutputBoundary = new NotePresenter(noteViewModel,
+                userProfileViewModel, viewManagerModel);
+        noteInteractor = new NoteInteractor(userDataAccessObject,
+                noteDAO, noteOutputBoundary);
+
+        final NoteController noteController = new NoteController(noteInteractor);
+        if (noteView == null) {
+            throw new RuntimeException("addNoteView must be called before addNoteUseCase");
+        }
+        noteView.setNoteController(noteController);
+        return this;
+    }
+
+    public ShareifyAppBuilder addChangePasswordView() {
+        changePasswordView = new ChangePasswordView(userProfileViewModel);
+        cardPanel.add(changePasswordView, changePasswordView.getViewName());
+        return this;
+    }
+
+    public ShareifyAppBuilder addChangePasswordUseCase(){
+        final ChangePasswordOutputBoundary changePasswordOutputBoundary =
+                new ChangePasswordPresenter(userProfileViewModel, viewManagerModel);
+
+        final ChangePasswordInputBoundary changePasswordInteractor =
+                new ChangePasswordInteractor((ChangePasswordUserDataAccessInterface) userDataAccessObject, changePasswordOutputBoundary, userFactory);
+
+        final ChangePasswordController changePasswordController =
+                new ChangePasswordController(changePasswordInteractor);
+        changePasswordView.setChangePasswordController(changePasswordController);
+        return this;
+    }
+
+    /**
      * Adds the Friends List Use Case to the application.
      * @return this builder
      * @throws RuntimeException if this method is called before addFriendsListView
@@ -331,26 +378,6 @@ public class ShareifyAppBuilder {
         return this;
     }
 
-    /**
-     * Creates the objects for the Note Use Case and connects the NoteView to its
-     * controller.
-     * <p>This method must be called after addNoteView!</p>
-     * @return this builder
-     * @throws RuntimeException if this method is called before addNoteView
-     */
-    public ShareifyAppBuilder addNoteUseCase() {
-        final NoteOutputBoundary noteOutputBoundary = new NotePresenter(noteViewModel,
-                userProfileViewModel, viewManagerModel);
-        noteInteractor = new NoteInteractor(
-                noteDAO, noteOutputBoundary);
-
-        final NoteController noteController = new NoteController(noteInteractor);
-        if (noteView == null) {
-            throw new RuntimeException("addNoteView must be called before addNoteUseCase");
-        }
-        noteView.setNoteController(noteController);
-        return this;
-    }
 
     /**
      * Adds the Signup View to the application.
@@ -516,6 +543,22 @@ public class ShareifyAppBuilder {
     }
 
     /**
+     * Adds the Logout Use Case to the application.
+     * @return this builder
+     */
+    public ShareifyAppBuilder addLogoutUseCase() {
+        final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
+                userProfileViewModel, loginViewModel);
+
+        final LogoutInputBoundary logoutInteractor =
+                new LogoutInteractor(userDataAccessObject, logoutOutputBoundary);
+
+        final LogoutController logoutController = new LogoutController(logoutInteractor);
+        userProfileView.setLogoutController(logoutController);
+        return this;
+    }
+
+    /**
      * Builds the application.
      * @return the JFrame for the application
      */
@@ -529,9 +572,6 @@ public class ShareifyAppBuilder {
 
         viewManagerModel.setState(welcomeView.getViewName());
         viewManagerModel.firePropertyChanged();
-
-        // refresh so that the note will be visible when we start the program
-        noteInteractor.executeRefresh();
 
         return frame;
 

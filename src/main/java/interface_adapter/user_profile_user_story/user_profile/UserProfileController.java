@@ -41,4 +41,8 @@ public class UserProfileController {
     public void switchToFriendsListView() {
         userProfileInteractor.switchToFriendsListView();
     }
+
+    public void switchToChangePasswordView() {
+        userProfileInteractor.switchToChangePasswordView();
+    }
 }
