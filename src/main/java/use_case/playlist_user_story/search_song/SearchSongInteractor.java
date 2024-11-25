@@ -4,6 +4,7 @@ import entity.Song;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 import spotify_api.SpotifyConnectionInterface;
+import data_access.LoggedInDataAccessInterface;
 
 /**
  * The Interactor for SearchTrack.
@@ -12,11 +13,13 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
 
     private final SpotifyConnectionInterface spotifyDAO;
     private final SearchSongDataAccessInterface searchSongDAO;
+    private final LoggedInDataAccessInterface loggedInDAO;
     private final SearchSongOutputBoundary searchTrackPresenter;
 
-    public SearchSongInteractor(SpotifyConnectionInterface spotifyDAO, SearchSongDataAccessInterface searchSongDAO, SearchSongOutputBoundary searchTrackPresenter) {
+    public SearchSongInteractor(SpotifyConnectionInterface spotifyDAO, SearchSongDataAccessInterface searchSongDAO, LoggedInDataAccessInterface loggedInDAO, SearchSongOutputBoundary searchTrackPresenter) {
         this.spotifyDAO = spotifyDAO;
         this.searchSongDAO = searchSongDAO;
+        this.loggedInDAO = loggedInDAO;
         this.searchTrackPresenter = searchTrackPresenter;
     }
 

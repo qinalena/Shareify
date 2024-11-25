@@ -1,7 +1,6 @@
 package data_access;
 
 import entity.User;
-import use_case.user_profile_user_story.user_profile.LoggedInDataAccessInterface;
 
 /**
  * In-memory storage of the logged-in user.

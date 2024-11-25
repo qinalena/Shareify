@@ -1,4 +1,4 @@
-package use_case.user_profile_user_story.user_profile;
+package data_access;
 
 import entity.User;
 
