@@ -24,7 +24,7 @@ public interface PlaylistCollectionDataAccessInterface {
     /**
      * Creates a playlist for given user.
      *
-     * @param user        the user info associated with the playlist
+     * @param user the user info associated with the playlist
      * @param newPlaylist name of playlist
      * @throws DataAccessException if user's playlist can not be loaded for some reason
      */

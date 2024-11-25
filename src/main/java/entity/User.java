@@ -13,14 +13,11 @@ public class User implements UserInter {
     private final String name;
     private final String password;
     private String note;
-    private List<String> playlistCollection;
     private List<String> info;
 
     public User(String name, String password) {
         this.name = name;
         this.password = password;
-        this.note = "Hi! I'm new to Shareify :)";
-        this.playlistCollection = new ArrayList<>();
         this.info = new ArrayList<>();
     }
 
@@ -40,14 +37,6 @@ public class User implements UserInter {
         this.note = newNote;
     }
 
-    public List<String> getPlaylistCollection() {
-        return playlistCollection;
-    }
-
-    public void setPlaylistCollection(List<String> newPlaylistCollection) {
-        this.playlistCollection = newPlaylistCollection;
-    }
-
     public List<String> getInfo() {
         return info;
     }
@@ -55,14 +44,6 @@ public class User implements UserInter {
     // Setter for info (if you want to allow setting it later)
     public void setInfo(List<String> info) {
         this.info = info;
-    }
-
-    public void addPlaylist(String playlist) {
-        this.playlistCollection.add(playlist);
-    }
-
-    public void removePlaylist(String playlist) {
-        this.playlistCollection.remove(playlist);
     }
 
 }

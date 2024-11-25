@@ -24,4 +24,6 @@ public interface UserProfileInputBoundary {
      * Switches to Friends List view.
      */
     void switchToFriendsListView();
+
+    void switchToChangePasswordView();
 }

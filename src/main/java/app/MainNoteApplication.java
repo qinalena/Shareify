@@ -3,8 +3,8 @@ package app;
 import data_access.DBNoteDataAccessObject;
 import data_access.DBPlaylistDataAccessObject;
 import spotify_api.SpotifyConnection;
-import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
 import use_case.user_profile_user_story.note.NoteDataAccessInterface;
+import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
 
 /**
  * An application where we can view and add to a note stored by a user.
@@ -80,22 +80,33 @@ public class MainNoteApplication {
 
         final ShareifyAppBuilder shareifyAppBuilder = new ShareifyAppBuilder();
         shareifyAppBuilder
-                .addNoteDAO(noteDataAccess)
-                .addPlaylistCollectionDAO(playlistCollectionDataAccess)
                 .addWelcomeView()
                 .addSignupView()
                 .addSignupUseCase()
                 .addLoginView()
                 .addLoginUseCase()
-                .addNoteView()
                 .addUserProfileView()
+                .addUserProfileUseCase()
+                .addNoteDAO(noteDataAccess)
+                .addPlaylistCollectionDAO(playlistCollectionDataAccess)
+                .addNoteView()
+                .addNoteUseCase()
+                .addChangePasswordView()
+                .addChangePasswordUseCase()
+                .addLogoutUseCase()
                 .addPlaylistCollectionView()
                 .addAddPlaylistView()
                 .addFriendsListView()
-                .addNoteUseCase()
                 .addPlaylistCollectionUseCase()
                 .addAddPlaylistUseCase()
                 .addFriendsListUseCase()
-                .addUserProfileUseCase().build().setVisible(true);
+                .addFriendProfileView()
+                .addFriendProfileUseCase()
+                .addAddFriendView()
+                .addFriendProfilePlaylistView()
+                .addFriendProfilePlaylistUseCase()
+                .addfriendProfileFriendsListView()
+                .addFriendProfileFriendsListUseCase()
+                .build().setVisible(true);
     }
 }

@@ -25,7 +25,7 @@ public class AddPlaylistView extends JPanel implements PropertyChangeListener {
 
     private String viewName = "add playlist";
 
-    private AddPlaylistViewModel addPlaylistViewModel;
+    private AddPlaylistViewModel addPlaylistViewModel = new AddPlaylistViewModel();
     private AddPlaylistController addPlaylistController;
 
     private final int columnNum = 20;
@@ -117,7 +117,7 @@ public class AddPlaylistView extends JPanel implements PropertyChangeListener {
         }
         else {
             JOptionPane.showMessageDialog(this, "Please enter a name.", "Error",
-                JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 

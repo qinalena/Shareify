@@ -13,10 +13,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import data_access.DBNoteDataAccessObject;
+import data_access.DBUserDataAccessObject;
 import entity.User;
 import interface_adapter.user_profile_user_story.note.NoteController;
 import interface_adapter.user_profile_user_story.note.NoteState;
 import interface_adapter.user_profile_user_story.note.NoteViewModel;
+import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
+import use_case.user_profile_user_story.note.DataAccessException;
 
 /**
  * The View for when the user is viewing a note in the program.
@@ -25,22 +29,26 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
     private final String viewName = "note";
     private final NoteViewModel noteViewModel;
 
-    // Example user
-    private final User user = new User("newUserName3", "password123");
 
-    private final JLabel noteName = new JLabel("Shareify - " + user.getName());
+    private JLabel noteName = new JLabel();
     private final JTextArea noteInputField = new JTextArea();
 
     private final JButton backButton = new JButton("Back");
     private final JButton saveButton = new JButton("Save");
     private final JButton refreshButton = new JButton("Refresh");
     private NoteController noteController;
+    private DBNoteDataAccessObject dbNoteDataAccessObject;
+    private DBUserDataAccessObject dbUserDataAccessObject;
 
-    public NoteView(NoteViewModel noteViewModel) {
+    public NoteView(NoteViewModel noteViewModel,
+                    DBNoteDataAccessObject dbNoteDataAccessObject,
+                    DBUserDataAccessObject dbUserDataAccessObject) {
 
-        noteName.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.noteViewModel = noteViewModel;
         this.noteViewModel.addPropertyChangeListener(this);
+        this.dbNoteDataAccessObject = dbNoteDataAccessObject;
+        this.dbUserDataAccessObject = dbUserDataAccessObject;
+        noteName.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JPanel buttons = new JPanel();
         buttons.add(backButton);
@@ -50,7 +58,17 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
         saveButton.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(saveButton)) {
-                        noteController.execute(noteInputField.getText());
+                        noteController.execute(noteInputField.getText(), noteViewModel.getState().getUsername());
+
+                    }
+                }
+        );
+
+
+        backButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        noteController.switchToUserProfileView();
 
                     }
                 }
@@ -59,16 +77,7 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
         refreshButton.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(refreshButton)) {
-                        noteController.execute(null);
-
-                    }
-                }
-        );
-
-        backButton.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        noteController.switchToUserProfileView();
+                        noteController.execute(null, noteViewModel.getState().getUsername());
 
                     }
                 }
@@ -92,15 +101,24 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final NoteState state = (NoteState) evt.getNewValue();
-        setFields(state);
+        try {
+            setFields(state);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
         if (state.getError() != null) {
             JOptionPane.showMessageDialog(this, state.getError(),
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void setFields(NoteState state) {
-        noteInputField.setText(state.getNote());
+    private void setFields(NoteState state) throws DataAccessException {
+        noteName.setText("Shareify - " + state.getUsername());
+        try{
+            noteInputField.setText("Bio: " + dbNoteDataAccessObject.loadNote(dbUserDataAccessObject.get(state.getUsername())));
+        } catch (RuntimeException e) {
+            noteInputField.setText("Bio: " + "Hi! I'm new to Shareify! :)");
+        }
     }
 
     public void setNoteController(NoteController controller) {

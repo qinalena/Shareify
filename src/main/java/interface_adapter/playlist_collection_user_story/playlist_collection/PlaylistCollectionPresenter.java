@@ -10,10 +10,10 @@ import use_case.playlist_collection_user_story.playlist_collection.PlaylistColle
  */
 public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoundary {
 
-    private final PlaylistCollectionViewModel playlistCollectionViewModel;
-    private final AddPlaylistViewModel addPlaylistViewModel;
-    private final ViewManagerModel viewManagerModel;
-    private final UserProfileViewModel userProfileViewModel;
+    private PlaylistCollectionViewModel playlistCollectionViewModel;
+    private AddPlaylistViewModel addPlaylistViewModel;
+    private ViewManagerModel viewManagerModel;
+    private UserProfileViewModel userProfileViewModel;
 
     public PlaylistCollectionPresenter(PlaylistCollectionViewModel playlistCollectionViewModel,
                                        AddPlaylistViewModel addPlaylistViewModel,
