@@ -15,4 +15,10 @@ public interface SearchSongInputBoundary {
      * Switches to Playlist View.
      */
     void switchToPlaylistView();
+
+    /**
+     * Add selected song to playlist.
+     * @param selectedSong the song that was selected in the list of search results
+     */
+    void addSong(SearchSongInputData selectedSong);
 }

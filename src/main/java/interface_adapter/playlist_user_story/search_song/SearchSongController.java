@@ -1,6 +1,7 @@
 package interface_adapter.playlist_user_story.search_song;
 
 import use_case.playlist_user_story.search_song.SearchSongInputBoundary;
+import use_case.playlist_user_story.search_song.SearchSongInputData;
 
 /**
  * Controller for our Search Track related Use Cases.
@@ -26,5 +27,14 @@ public class SearchSongController {
      */
     public void switchToPlaylistView() {
         searchTrackInteractor.switchToPlaylistView();
+    }
+
+    /**
+     * Add selected song to playlist.
+     * @param selectedString the song that was selected in the list of search results
+     */
+    public void addSong(String selectedString) {
+        final SearchSongInputData searchSongInputData = new SearchSongInputData(selectedString);
+        searchTrackInteractor.addSong(searchSongInputData);
     }
 }

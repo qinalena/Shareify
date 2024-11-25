@@ -21,13 +21,13 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
 
     private SearchSongController searchTrackController;
 
-    private JLabel instructions = new JLabel("Search track by title");
+    private JLabel instructions = new JLabel("Search song by title or artist");
 
     private JTextField searchText = new JTextField();
 
     private final JButton backButton = new JButton("Back");
     private final JButton searchButton = new JButton("Search");
-    private final JButton addTrackButton = new JButton("Add Track");
+    private final JButton addSongButton = new JButton("Add Song");
 
     private JList<String> songs = new JList<>(new DefaultListModel<>());
 
@@ -40,7 +40,7 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
         final JPanel buttons = new JPanel();
         buttons.add(backButton);
         buttons.add(searchButton);
-        buttons.add(addTrackButton);
+        buttons.add(addSongButton);
 
         backButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent evt) {
@@ -52,6 +52,13 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 searchTrackController.searchSong(searchText.getText());
+            }
+        }
+        );
+
+        addSongButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                searchTrackController.addSong(songs.getSelectedValue());
             }
         }
         );
