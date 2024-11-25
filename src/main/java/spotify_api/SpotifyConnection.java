@@ -15,37 +15,11 @@ import use_case.playlist_user_story.search_song.SearchSongDataAccessInterface;
 /**
  * Class that implements SpotifyConnectionInterface.
  */
-public class SpotifyConnection implements SearchSongDataAccessInterface {
+public class SpotifyConnection implements SpotifyConnectionInterface {
     private final SpotifyAuthorization spotifyAuthorization = new SpotifyAuthorization();
     private final SpotifyApi spotifyApi = spotifyAuthorization.getSpotifyApi();
 
     public SpotifyConnection() {
-    }
-
-    @Override
-    public String getSongName(String songName) {
-        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(songName).market(CountryCode.NA).build();
-        try {
-            Track track = searchTracksRequest.execute().getItems()[0];
-            return track.getName();
-        }
-        catch (IOException | SpotifyWebApiException | ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public String getSongArtist(String songName) {
-        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(songName).market(CountryCode.NA).build();
-        try {
-            Track track = searchTracksRequest.execute().getItems()[0];
-            return track.getArtists()[0].getName();
-        }
-        catch (IOException | SpotifyWebApiException | ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override

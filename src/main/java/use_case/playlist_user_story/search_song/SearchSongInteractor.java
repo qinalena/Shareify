@@ -3,17 +3,20 @@ package use_case.playlist_user_story.search_song;
 import entity.Song;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Track;
+import spotify_api.SpotifyConnectionInterface;
 
 /**
  * The Interactor for SearchTrack.
  */
 public class SearchSongInteractor implements SearchSongInputBoundary {
 
-    private final SearchSongDataAccessInterface searchTrackDataAccessObject;
+    private final SpotifyConnectionInterface spotifyDAO;
+    private final SearchSongDataAccessInterface searchSongDataAccessObject;
     private final SearchSongOutputBoundary searchTrackPresenter;
 
-    public SearchSongInteractor(SearchSongDataAccessInterface searchTrackDataAccessObject, SearchSongOutputBoundary searchTrackPresenter) {
-        this.searchTrackDataAccessObject = searchTrackDataAccessObject;
+    public SearchSongInteractor(SpotifyConnectionInterface spotifyDAO, SearchSongDataAccessInterface searchSongDataAccessObject, SearchSongOutputBoundary searchTrackPresenter) {
+        this.spotifyDAO = spotifyDAO;
+        this.searchSongDataAccessObject = searchSongDataAccessObject;
         this.searchTrackPresenter = searchTrackPresenter;
     }
 
@@ -21,7 +24,7 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
     public void searchSong(String query) {
         if (query != null) {
             SearchSongOutputData searchSongOutputData = new SearchSongOutputData();
-            final Track[] searchResults = searchTrackDataAccessObject.searchTrack(query);
+            final Track[] searchResults = spotifyDAO.searchTrack(query);
 
             for (Track searchResult : searchResults) {
                 final ArtistSimplified[] artists = searchResult.getArtists();

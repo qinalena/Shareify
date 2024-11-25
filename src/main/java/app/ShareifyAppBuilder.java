@@ -27,6 +27,7 @@ import interface_adapter.user_profile_user_story.change_password.*;
 import interface_adapter.user_profile_user_story.logout.*;
 
 import spotify_api.SpotifyConnection;
+import spotify_api.SpotifyConnectionInterface;
 import use_case.friends_list_user_story.add_friend.*;
 import use_case.friends_list_user_story.friends_list.*;
 import use_case.friends_list_user_story.friend_profile.*;
@@ -62,7 +63,7 @@ public class ShareifyAppBuilder {
     private final CardLayout cardLayout = new CardLayout();
 
     private NoteDataAccessInterface noteDAO;
-    private SearchSongDataAccessInterface spotifyDAO = new SpotifyConnection();
+    private SpotifyConnectionInterface spotifyDAO;
 
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
@@ -141,6 +142,16 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addNoteDAO(NoteDataAccessInterface noteDataAccess) {
         noteDAO = noteDataAccess;
+        return this;
+    }
+
+    /**
+     * Sets the SpotifyDAO to be used in this application.
+     * @param spotifyConnection the DAO to use
+     * @return this builder
+     */
+    public ShareifyAppBuilder addSpotifyDAO(SpotifyConnectionInterface spotifyConnection) {
+        spotifyDAO = spotifyConnection;
         return this;
     }
 
@@ -251,7 +262,7 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addSearchTrackUseCase() {
         final SearchSongOutputBoundary searchSongOutputBoundary =
                 new SearchSongPresenter(searchSongViewModel, playlistViewModel, viewManagerModel);
-        final SearchSongInputBoundary searchTrackInteractor = new SearchSongInteractor(spotifyDAO, searchSongOutputBoundary);
+        final SearchSongInputBoundary searchTrackInteractor = new SearchSongInteractor(spotifyDAO, userDataAccessObject, searchSongOutputBoundary);
 
         final SearchSongController searchTrackController = new SearchSongController(searchTrackInteractor);
         searchSongView.setSearchTrackController(searchTrackController);
