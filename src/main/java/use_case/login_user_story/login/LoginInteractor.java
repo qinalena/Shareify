@@ -42,7 +42,7 @@ public class LoginInteractor implements LoginInputBoundary {
                 // Unnecessary code? Username has not been changed.
                 userDataAccessObject.setCurrentUsername(user.getName());
 
-                final LoginOutputData loginOutputData = new LoginOutputData(user.getName(), false);
+                final LoginOutputData loginOutputData = new LoginOutputData(user.getName(), user.getPassword(), false);
                 loginPresenter.prepareSuccessView(loginOutputData);
             }
         }

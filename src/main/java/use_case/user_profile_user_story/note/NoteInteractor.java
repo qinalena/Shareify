@@ -1,6 +1,9 @@
 package use_case.user_profile_user_story.note;
 
+import data_access.DBUserDataAccessObject;
 import entity.User;
+import interface_adapter.user_profile_user_story.note.NoteState;
+import interface_adapter.user_profile_user_story.note.NoteViewModel;
 
 /**
  * The "Use Case Interactor" for our two note-related use cases of refreshing
@@ -11,11 +14,13 @@ public class NoteInteractor implements NoteInputBoundary {
 
     private final NoteDataAccessInterface noteDataAccessInterface;
     private final NoteOutputBoundary notePresenter;
-    private final User user = new User("newUserName3", "password123");
+    private DBUserDataAccessObject dbUserDataAccessObject;
+    private User user;
 
-    public NoteInteractor(NoteDataAccessInterface noteDataAccessInterface, NoteOutputBoundary notePresenter) {
+    public NoteInteractor(DBUserDataAccessObject dbUserDataAccessObject, NoteDataAccessInterface noteDataAccessInterface, NoteOutputBoundary notePresenter) {
         this.noteDataAccessInterface = noteDataAccessInterface;
         this.notePresenter = notePresenter;
+        this.dbUserDataAccessObject = dbUserDataAccessObject;
 
     }
 
@@ -26,6 +31,7 @@ public class NoteInteractor implements NoteInputBoundary {
     @Override
     public void executeRefresh() {
         try {
+
             final String note = noteDataAccessInterface.loadNote(user);
             notePresenter.prepareSuccessView(note);
         }
@@ -40,9 +46,12 @@ public class NoteInteractor implements NoteInputBoundary {
      * @param note the input data
      */
     @Override
-    public void executeSave(String note) {
+    public void executeSave(String note, String username) {
         try {
-            final String updatedNote = noteDataAccessInterface.saveNote(user, note);
+            user = dbUserDataAccessObject.get(username);
+            String updatedNote = noteDataAccessInterface.saveNote(user, note);
+            user.setNote(updatedNote);
+            System.out.println(user.getNote());
             notePresenter.prepareSuccessView(updatedNote);
         }
         catch (DataAccessException ex) {
