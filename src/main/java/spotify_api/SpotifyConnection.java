@@ -54,7 +54,6 @@ public class SpotifyConnection implements SearchSongDataAccessInterface {
                 .market(CountryCode.NA).limit(10).offset(0).includeExternal("audio").build();
         try {
             final Paging<Track> trackPaging = searchTracksRequest.execute();
-            System.out.println(trackPaging.toString());
 
             return trackPaging.getItems();
         }
