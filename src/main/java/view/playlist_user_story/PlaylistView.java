@@ -1,7 +1,7 @@
 package view.playlist_user_story;
 
 import entity.Playlist;
-import entity.Track;
+import entity.Song;
 import interface_adapter.playlist_user_story.playlist.PlaylistController;
 import interface_adapter.playlist_user_story.playlist.PlaylistState;
 import interface_adapter.playlist_user_story.playlist.PlaylistViewModel;
@@ -55,6 +55,13 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
         }
         );
 
+        searchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                playlistController.switchToSearchTracksView();
+            }
+        }
+        );
+
         tracks.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tracks.setLayoutOrientation(JList.VERTICAL);
         final JScrollPane scrollPane = new JScrollPane(tracks);
@@ -90,8 +97,8 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
         final DefaultListModel<String> listModel = (DefaultListModel<String>) tracks.getModel();
         listModel.clear();
 
-        for (Track track : currentPlaylist.getTracks()) {
-            listModel.addElement(track.getName() + " - " + track.getArtist());
+        for (Song song : currentPlaylist.getTracks()) {
+            listModel.addElement(song.getName() + " - " + song.artistsToString());
         }
     }
 

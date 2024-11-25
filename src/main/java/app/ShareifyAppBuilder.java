@@ -16,9 +16,10 @@ import interface_adapter.login_user_story.welcome.*;
 import interface_adapter.playlist_collection_user_story.add_playlist.*;
 import interface_adapter.playlist_collection_user_story.playlist_collection.*;
 import interface_adapter.playlist_user_story.playlist.*;
-import interface_adapter.playlist_user_story.search_track.*;
+import interface_adapter.playlist_user_story.search_song.*;
 import interface_adapter.user_profile_user_story.note.*;
 import interface_adapter.user_profile_user_story.user_profile.*;
+import spotify_api.SpotifyConnection;
 import use_case.friends_list_user_story.add_friend.*;
 import use_case.friends_list_user_story.friends_list.*;
 import use_case.login_user_story.login.*;
@@ -28,6 +29,10 @@ import use_case.playlist_collection_user_story.playlist_collection.*;
 import use_case.playlist_user_story.playlist.PlaylistInputBoundary;
 import use_case.playlist_user_story.playlist.PlaylistInteractor;
 import use_case.playlist_user_story.playlist.PlaylistOutputBoundary;
+import use_case.playlist_user_story.search_song.SearchSongDataAccessInterface;
+import use_case.playlist_user_story.search_song.SearchSongInputBoundary;
+import use_case.playlist_user_story.search_song.SearchSongInteractor;
+import use_case.playlist_user_story.search_song.SearchSongOutputBoundary;
 import use_case.user_profile_user_story.note.*;
 import use_case.user_profile_user_story.user_profile.*;
 import view.ViewManager;
@@ -35,7 +40,7 @@ import view.friends_list_user_story.*;
 import view.login_user_story.*;
 import view.playlist_collection_user_story.*;
 import view.playlist_user_story.PlaylistView;
-import view.playlist_user_story.SearchTrackView;
+import view.playlist_user_story.SearchSongView;
 import view.user_profile_user_story.*;
 
 /**
@@ -49,6 +54,7 @@ public class ShareifyAppBuilder {
     private final CardLayout cardLayout = new CardLayout();
 
     private NoteDataAccessInterface noteDAO;
+    private SearchSongDataAccessInterface spotifyDAO = new SpotifyConnection();
 
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
@@ -75,8 +81,8 @@ public class ShareifyAppBuilder {
     private PlaylistViewModel playlistViewModel;
     private PlaylistView playlistView;
 
-    private SearchTrackViewModel searchTrackViewModel;
-    private SearchTrackView searchTrackView;
+    private SearchSongViewModel searchSongViewModel;
+    private SearchSongView searchSongView;
 
     private PlaylistCollectionViewModel playlistCollectionViewModel;
     private PlaylistCollectionView playlistCollectionView;
@@ -167,6 +173,17 @@ public class ShareifyAppBuilder {
     }
 
     /**
+     * Adds the Search Track View to the application.
+     * @return this builder
+     */
+    public ShareifyAppBuilder addSearchTrackView() {
+        searchSongViewModel = new SearchSongViewModel();
+        searchSongView = new SearchSongView(searchSongViewModel);
+        cardPanel.add(searchSongView, searchSongView.getViewName());
+        return this;
+    }
+
+    /**
      * Adds the Friends List View to the application.
      * @return this builder
      */
@@ -203,11 +220,26 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addPlaylistUseCase() {
         final PlaylistOutputBoundary playlistOutputBoundary =
-                new PlaylistPresenter(playlistViewModel, playlistCollectionViewModel, viewManagerModel);
+                new PlaylistPresenter(playlistViewModel, playlistCollectionViewModel, searchSongViewModel, viewManagerModel);
         final PlaylistInputBoundary playlistInteractor = new PlaylistInteractor(userDataAccessObject, playlistOutputBoundary);
 
         final PlaylistController playlistController = new PlaylistController(playlistInteractor);
         playlistView.setPlaylistController(playlistController);
+
+        return this;
+    }
+
+    /**
+     * Adds the Search Track Use Case to the application.
+     * @return this builder
+     */
+    public ShareifyAppBuilder addSearchTrackUseCase() {
+        final SearchSongOutputBoundary searchSongOutputBoundary =
+                new SearchSongPresenter(searchSongViewModel, playlistViewModel, viewManagerModel);
+        final SearchSongInputBoundary searchTrackInteractor = new SearchSongInteractor(spotifyDAO, searchSongOutputBoundary);
+
+        final SearchSongController searchTrackController = new SearchSongController(searchTrackInteractor);
+        searchSongView.setSearchTrackController(searchTrackController);
 
         return this;
     }

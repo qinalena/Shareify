@@ -1,11 +1,9 @@
 package use_case.playlist_collection_user_story.playlist_collection;
 
 import entity.Playlist;
-import entity.Track;
+import entity.Song;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * The "Use Case Interactor" for our playlist collection related use cases of creating
@@ -45,7 +43,7 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
             // Hard coded playlist collection example
             HashMap<String, Playlist> playlistCollectionTest = new HashMap<String, Playlist>();
             Playlist playlistTest = new Playlist("Playlist1");
-            playlistTest.addTrack(new Track("testid", "Starships", "Nicki Minaj"));
+            playlistTest.addTrack(new Song("Starships", new String[]{"Nicki Minaj"}));
             playlistCollectionTest.put(playlistTest.getName(), playlistTest);
 
             PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlistCollectionTest);

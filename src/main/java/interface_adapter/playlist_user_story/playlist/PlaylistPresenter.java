@@ -2,6 +2,7 @@ package interface_adapter.playlist_user_story.playlist;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
+import interface_adapter.playlist_user_story.search_song.SearchSongViewModel;
 import use_case.playlist_user_story.playlist.PlaylistOutputBoundary;
 
 /**
@@ -11,13 +12,15 @@ public class PlaylistPresenter implements PlaylistOutputBoundary {
 
     private final PlaylistViewModel playlistViewModel;
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
+    private final SearchSongViewModel searchSongViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public PlaylistPresenter(PlaylistViewModel playlistViewModel,
-                             PlaylistCollectionViewModel playlistCollectionViewModel,
+                             PlaylistCollectionViewModel playlistCollectionViewModel, SearchSongViewModel searchSongViewModel,
                              ViewManagerModel viewManagerModel) {
         this.playlistViewModel = playlistViewModel;
         this.playlistCollectionViewModel = playlistCollectionViewModel;
+        this.searchSongViewModel = searchSongViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
@@ -35,6 +38,8 @@ public class PlaylistPresenter implements PlaylistOutputBoundary {
 
     @Override
     public void switchToSearchTracksView() {
+        viewManagerModel.setState(searchSongViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
 
     }
 }

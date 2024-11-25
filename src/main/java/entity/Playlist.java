@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Playlist {
     private String name;
-    private List<Track> tracks = new ArrayList<>();
+    private List<Song> songs = new ArrayList<>();
 
     public Playlist(String name) {
         this.name = name;
@@ -18,15 +18,15 @@ public class Playlist {
         return name;
     }
 
-    public List<Track> getTracks() {
-        return tracks;
+    public List<Song> getTracks() {
+        return songs;
     }
 
     /**
      * Add a track to a playlist.
-     * @param track the track to be added.
+     * @param song the track to be added.
      */
-    public void addTrack(Track track) {
-        tracks.add(track);
+    public void addTrack(Song song) {
+        songs.add(song);
     }
 }
