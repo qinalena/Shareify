@@ -2,8 +2,6 @@ package interface_adapter.playlist_collection_user_story.playlist_collection;
 
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionInputBoundary;
 
-import java.util.List;
-
 /**
  * Controller for our Playlist Collection related Use Cases.
  */

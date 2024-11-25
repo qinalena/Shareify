@@ -1,5 +1,15 @@
 package view.playlist_collection_user_story;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.*;
+
+import java.util.List;
+
 import data_access.DBPlaylistDataAccessObject;
 import entity.User;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionController;
@@ -7,14 +17,6 @@ import interface_adapter.playlist_collection_user_story.playlist_collection.Play
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
 import use_case.playlist_collection_user_story.add_playlist.AddPlaylistOutputBoundary;
 import use_case.user_profile_user_story.note.DataAccessException;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
 
 /**
  * The View for when the user is viewing the playlist collection page in the program.

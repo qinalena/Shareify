@@ -3,8 +3,7 @@ package use_case.playlist_collection_user_story.add_playlist;
 import java.util.List;
 
 import data_access.DBPlaylistDataAccessObject;
-import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistPresenter;
-import use_case.playlist_collection_user_story.add_playlist.AddPlaylistOutputBoundary;
+import use_case.user_profile_user_story.note.DataAccessException;
 
 /**
  * The "Use Case Interactor" for our adding playlist related use cases.
@@ -49,8 +48,8 @@ public class AddPlaylistInteractor implements AddPlaylistInputBoundary {
                 addPlaylistOutputBoundary.prepareFailureView("Playlist already exists!");
             }
         }
-        catch (Exception e) {
-            addPlaylistOutputBoundary.prepareFailureView(e.getMessage());
+        catch (DataAccessException evt) {
+            addPlaylistOutputBoundary.prepareFailureView(evt.getMessage());
         }
     }
 

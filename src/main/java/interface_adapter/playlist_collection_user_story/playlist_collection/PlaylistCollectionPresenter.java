@@ -1,7 +1,6 @@
 package interface_adapter.playlist_collection_user_story.playlist_collection;
 
 import interface_adapter.ViewManagerModel;
-import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputBoundary;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputBoundary;
@@ -16,8 +15,10 @@ public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoun
     private final ViewManagerModel viewManagerModel;
     private final UserProfileViewModel userProfileViewModel;
 
-    public PlaylistCollectionPresenter(PlaylistCollectionViewModel playlistCollectionViewModel, AddPlaylistViewModel addPlaylistViewModel,
-                                       ViewManagerModel viewManagerModel, UserProfileViewModel userProfileViewModel) {
+    public PlaylistCollectionPresenter(PlaylistCollectionViewModel playlistCollectionViewModel,
+                                       AddPlaylistViewModel addPlaylistViewModel,
+                                       ViewManagerModel viewManagerModel,
+                                       UserProfileViewModel userProfileViewModel) {
 
         this.playlistCollectionViewModel = playlistCollectionViewModel;
         this.addPlaylistViewModel = addPlaylistViewModel;

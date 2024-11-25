@@ -23,8 +23,6 @@ import use_case.user_profile_user_story.note.NoteDataAccessInterface;
  * switching between views depending on your project.
  */
 public class MainNoteApplication {
-
-
     /**
      * The main entry point of the application.
      * <p>

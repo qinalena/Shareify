@@ -4,13 +4,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import javax.swing.*;
 
-import entity.User;
 import data_access.DBPlaylistDataAccessObject;
+import entity.User;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistController;
-import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistState;
+import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionController;
 import use_case.user_profile_user_story.note.DataAccessException;
 import view.login_user_story.LabelTextPanel;
@@ -27,7 +28,8 @@ public class AddPlaylistView extends JPanel implements PropertyChangeListener {
     private AddPlaylistViewModel addPlaylistViewModel;
     private AddPlaylistController addPlaylistController;
 
-    private JTextField playlistNameField = new JTextField(20);
+    private final int columnNum = 20;
+    private JTextField playlistNameField = new JTextField(columnNum);
 
     private final JButton saveButton = new JButton("Save");
     private final JButton cancelButton = new JButton("Cancel");

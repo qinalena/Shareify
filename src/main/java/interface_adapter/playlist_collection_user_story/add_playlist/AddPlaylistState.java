@@ -2,6 +2,9 @@ package interface_adapter.playlist_collection_user_story.add_playlist;
 
 import java.util.List;
 
+/**
+ * State for addPlaylist View Model.
+ */
 public class AddPlaylistState {
 
     private String successMessage;

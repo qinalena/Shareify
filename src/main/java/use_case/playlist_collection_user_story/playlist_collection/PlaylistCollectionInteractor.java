@@ -19,9 +19,10 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
     public void addPlaylist(String playlistName) {
         if (playlistName == null || playlistName.isEmpty()) {
             playlistCollectionPresenter.prepareFailView("Playlist name cannot be empty.");
-            return;
         }
-        playlistCollectionPresenter.preparePlaylistAddedView(playlistName);
+        else {
+            playlistCollectionPresenter.preparePlaylistAddedView(playlistName);
+        }
     }
 
     @Override
