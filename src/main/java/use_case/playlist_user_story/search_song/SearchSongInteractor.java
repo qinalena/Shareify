@@ -11,12 +11,12 @@ import spotify_api.SpotifyConnectionInterface;
 public class SearchSongInteractor implements SearchSongInputBoundary {
 
     private final SpotifyConnectionInterface spotifyDAO;
-    private final SearchSongDataAccessInterface searchSongDataAccessObject;
+    private final SearchSongDataAccessInterface searchSongDAO;
     private final SearchSongOutputBoundary searchTrackPresenter;
 
-    public SearchSongInteractor(SpotifyConnectionInterface spotifyDAO, SearchSongDataAccessInterface searchSongDataAccessObject, SearchSongOutputBoundary searchTrackPresenter) {
+    public SearchSongInteractor(SpotifyConnectionInterface spotifyDAO, SearchSongDataAccessInterface searchSongDAO, SearchSongOutputBoundary searchTrackPresenter) {
         this.spotifyDAO = spotifyDAO;
-        this.searchSongDataAccessObject = searchSongDataAccessObject;
+        this.searchSongDAO = searchSongDAO;
         this.searchTrackPresenter = searchTrackPresenter;
     }
 
