@@ -14,7 +14,7 @@ import se.michaelthelin.spotify.requests.authorization.client_credentials.Client
  */
 public class SpotifyAuthorization {
     private static final String CLIENT_ID = "c2cd5d9b2e994bfcae5dbea6d8df3c5b";
-    private static final String CLIENT_SECRET = "888ed62c53024f8abfd7d8fd49854e17";
+    private static final String CLIENT_SECRET = System.getenv("ShareifySecret");
 
     private final SpotifyApi spotifyApi = new SpotifyApi.Builder()
             .setClientId(CLIENT_ID)

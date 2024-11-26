@@ -2,7 +2,7 @@ package use_case.login_user_story.login;
 
 import data_access.LoggedInDataAccessObject;
 import entity.User;
-import data_access.LoggedInDataAccessInterface;
+import use_case.LoggedInDataAccessInterface;
 
 /**
  * The Login Interactor.
