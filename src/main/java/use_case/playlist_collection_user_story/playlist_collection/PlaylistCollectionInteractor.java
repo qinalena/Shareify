@@ -41,7 +41,8 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
         }
         else {
             // Hard coded playlist collection example
-            // Actual code should search the DB using the playlist name and then populate a playlist in PlaylistCollectionOutputData
+            // Actual code should search the DB using the playlist name and then
+            // populate a playlist in PlaylistCollectionOutputData (convert JSON string values into Song objects)
             Playlist playlistTest = new Playlist("Playlist1");
             playlistTest.addTrack(new Song("Starships", new String[]{"Nicki Minaj"}));
 

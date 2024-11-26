@@ -246,9 +246,4 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         return currentUsername;
     }
 
-    // Ashleigh needs to implement method akin to this.
-    @Override
-    public String loadPlaylistCollection(User user) throws DataAccessException {
-        return "";
-    }
 }
