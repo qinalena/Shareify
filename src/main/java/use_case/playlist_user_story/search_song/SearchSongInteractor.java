@@ -1,6 +1,7 @@
 package use_case.playlist_user_story.search_song;
 
 import entity.Song;
+import entity.User;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 import spotify_api.SpotifyConnectionInterface;
@@ -14,13 +15,13 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
     private final SpotifyConnectionInterface spotifyDAO;
     private final SearchSongDataAccessInterface searchSongDAO;
     private final LoggedInDataAccessInterface loggedInDAO;
-    private final SearchSongOutputBoundary searchTrackPresenter;
+    private final SearchSongOutputBoundary searchSongPresenter;
 
-    public SearchSongInteractor(SpotifyConnectionInterface spotifyDAO, SearchSongDataAccessInterface searchSongDAO, LoggedInDataAccessInterface loggedInDAO, SearchSongOutputBoundary searchTrackPresenter) {
+    public SearchSongInteractor(SpotifyConnectionInterface spotifyDAO, SearchSongDataAccessInterface searchSongDAO, LoggedInDataAccessInterface loggedInDAO, SearchSongOutputBoundary searchSongPresenter) {
         this.spotifyDAO = spotifyDAO;
         this.searchSongDAO = searchSongDAO;
         this.loggedInDAO = loggedInDAO;
-        this.searchTrackPresenter = searchTrackPresenter;
+        this.searchSongPresenter = searchSongPresenter;
     }
 
     @Override
@@ -41,18 +42,20 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
                 searchSongOutputData.addSong(song);
             }
 
-            searchTrackPresenter.searchSong(searchSongOutputData);
+            searchSongPresenter.searchSong(searchSongOutputData);
         }
 
     }
 
     @Override
     public void switchToPlaylistView() {
-        searchTrackPresenter.switchToPlaylistView();
+        searchSongPresenter.switchToPlaylistView();
     }
 
     @Override
     public void addSong(SearchSongInputData selectedSong) {
+        User currentUser = loggedInDAO.getLoggedInUser();
+        searchSongPresenter.addSong(selectedSong);
 
     }
 }

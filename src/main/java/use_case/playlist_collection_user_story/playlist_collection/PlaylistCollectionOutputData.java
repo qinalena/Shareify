@@ -9,18 +9,17 @@ import entity.Playlist;
  * The output data for Playlist Collection.
  */
 public class PlaylistCollectionOutputData {
-    private Map<String, Playlist> playlistCollection;
+    private Playlist playlist;
 
-    public PlaylistCollectionOutputData(Map<String, Playlist> playlistCollection) {
-        this.playlistCollection = playlistCollection;
+    public PlaylistCollectionOutputData(Playlist playlist) {
+        this.playlist = playlist;
     }
 
     /**
-     * Returns the playlist with the given playlist name.
-     * @param playlistName the name of the playlist
+     * Returns the playlist.
      * @return the playlist
      */
-    public Playlist getPlaylist(String playlistName) {
-        return playlistCollection.get(playlistName);
+    public Playlist getPlaylist() {
+        return this.playlist;
     }
 }

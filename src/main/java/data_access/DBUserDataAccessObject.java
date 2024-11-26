@@ -45,7 +45,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
 
     private final UserFactoryInter userFactory;
 
-
     public DBUserDataAccessObject(UserFactoryInter userFactory) {
         this.userFactory = userFactory;
         // No need to do anything to reinitialize a user list! The data is the cloud that may be miles away.
@@ -247,6 +246,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         return currentUsername;
     }
 
+    // Ashleigh needs to implement method akin to this.
     @Override
     public String loadPlaylistCollection(User user) throws DataAccessException {
         return "";

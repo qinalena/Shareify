@@ -2,6 +2,7 @@ package interface_adapter.playlist_user_story.search_song;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.playlist_user_story.playlist.PlaylistViewModel;
+import use_case.playlist_user_story.search_song.SearchSongInputData;
 import use_case.playlist_user_story.search_song.SearchSongOutputBoundary;
 import use_case.playlist_user_story.search_song.SearchSongOutputData;
 
@@ -31,5 +32,10 @@ public class SearchSongPresenter implements SearchSongOutputBoundary {
     public void switchToPlaylistView() {
         viewManagerModel.setState(playlistViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void addSong(SearchSongInputData selectedSong) {
+
     }
 }

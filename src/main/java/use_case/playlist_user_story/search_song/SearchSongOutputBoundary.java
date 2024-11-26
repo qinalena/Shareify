@@ -15,4 +15,10 @@ public interface SearchSongOutputBoundary {
      * Switches to Playlist View.
      */
     void switchToPlaylistView();
+
+    /**
+     * Executes the add song Use case.
+     * @param selectedSong the selected Song.
+     */
+    void addSong(SearchSongInputData selectedSong);
 }

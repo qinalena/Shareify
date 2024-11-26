@@ -41,12 +41,11 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
         }
         else {
             // Hard coded playlist collection example
-            HashMap<String, Playlist> playlistCollectionTest = new HashMap<String, Playlist>();
+            // Actual code should search the DB using the playlist name and then populate a playlist in PlaylistCollectionOutputData
             Playlist playlistTest = new Playlist("Playlist1");
             playlistTest.addTrack(new Song("Starships", new String[]{"Nicki Minaj"}));
-            playlistCollectionTest.put(playlistTest.getName(), playlistTest);
 
-            PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlistCollectionTest);
+            PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlistTest);
             playlistCollectionPresenter.switchToPlaylistView(playlistCollectionOutputData, playlistName);
         }
     }
