@@ -53,9 +53,13 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
     }
 
     @Override
-    public void addSong(SearchSongInputData selectedSong) {
+    public void addSong(SearchSongInputData SearchSongInputData) {
+        // Update playlist in DB with new song
+        // INCOMPLETE
         User currentUser = loggedInDAO.getLoggedInUser();
-        searchSongPresenter.addSong(selectedSong);
+
+        // Update Playlist View with new song
+        searchSongPresenter.addSong(SearchSongInputData.getSelectedSong());
 
     }
 }

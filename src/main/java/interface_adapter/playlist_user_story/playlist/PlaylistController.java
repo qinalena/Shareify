@@ -1,7 +1,6 @@
 package interface_adapter.playlist_user_story.playlist;
 
 import use_case.playlist_user_story.playlist.PlaylistInputBoundary;
-import use_case.playlist_user_story.playlist.PlaylistInputData;
 
 /**
  * Controller for our Playlist related Use Cases.
@@ -15,12 +14,12 @@ public class PlaylistController {
     }
 
     /**
-     * Executes the remove track from playlist Use Case.
-     * @track the selected track
+     * Executes the remove song from playlist Use Case.
+     * @param songIndex  the selected song
      */
-    public void removeTrack(String track) {
-        final PlaylistInputData playlistInputData = new PlaylistInputData();
-        playlistInteractor.removeTrack();
+    public void removeSong(int songIndex) {
+        // Need index of the song so we remember which song to delete if we have multiple songs that are the same
+        playlistInteractor.removeSong(songIndex);
     }
 
     /**

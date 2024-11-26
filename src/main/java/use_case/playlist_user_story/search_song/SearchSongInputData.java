@@ -17,4 +17,8 @@ public class SearchSongInputData {
         final Song song = new Song(name, artists);
         this.selectedSong = song;
     }
+
+    public Song getSelectedSong() {
+        return selectedSong;
+    }
 }

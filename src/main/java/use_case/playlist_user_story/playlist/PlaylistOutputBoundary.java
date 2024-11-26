@@ -8,7 +8,7 @@ public interface PlaylistOutputBoundary {
     /**
      * Executes the remove track from playlist Use Case.
      */
-    void removeTrack();
+    void removeSong(int songIndex);
 
     /**
      * Switches to Playlist Collection View.

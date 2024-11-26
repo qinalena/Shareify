@@ -8,7 +8,7 @@ public interface PlaylistInputBoundary {
     /**
      * Executes the remove track from playlist Use Case.
      */
-    void removeTrack();
+    void removeSong(int songIndex);
 
     /**
      * Switches to Search Tracks View.

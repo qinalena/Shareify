@@ -1,8 +1,8 @@
 package interface_adapter.playlist_user_story.search_song;
 
+import entity.Song;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.playlist_user_story.playlist.PlaylistViewModel;
-import use_case.playlist_user_story.search_song.SearchSongInputData;
 import use_case.playlist_user_story.search_song.SearchSongOutputBoundary;
 import use_case.playlist_user_story.search_song.SearchSongOutputData;
 
@@ -35,7 +35,8 @@ public class SearchSongPresenter implements SearchSongOutputBoundary {
     }
 
     @Override
-    public void addSong(SearchSongInputData selectedSong) {
-
+    public void addSong(Song song) {
+        playlistViewModel.getState().addSong(song);
+        playlistViewModel.firePropertyChanged();
     }
 }

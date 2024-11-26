@@ -28,7 +28,7 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
     private final JButton removeTrackButton = new JButton("Remove Track");
     private final JButton searchButton = new JButton("Search Tracks");
 
-    private JList<String> tracks = new JList<>(new DefaultListModel<>());
+    private JList<String> songs = new JList<>(new DefaultListModel<>());
 
     public PlaylistView(PlaylistViewModel playlistViewModel) {
         this.playlistViewModel = playlistViewModel;
@@ -50,7 +50,7 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
 
         removeTrackButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                playlistController.removeTrack(tracks.getSelectedValue());
+                playlistController.removeSong(songs.getSelectedIndex());
             }
         }
         );
@@ -62,9 +62,9 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
         }
         );
 
-        tracks.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tracks.setLayoutOrientation(JList.VERTICAL);
-        final JScrollPane scrollPane = new JScrollPane(tracks);
+        songs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        songs.setLayoutOrientation(JList.VERTICAL);
+        final JScrollPane scrollPane = new JScrollPane(songs);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -94,10 +94,10 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
         final Playlist currentPlaylist = state.getCurrentPlaylist();
         playlistTitle.setText(currentPlaylist.getName());
 
-        final DefaultListModel<String> listModel = (DefaultListModel<String>) tracks.getModel();
+        final DefaultListModel<String> listModel = (DefaultListModel<String>) songs.getModel();
         listModel.clear();
 
-        for (Song song : currentPlaylist.getTracks()) {
+        for (Song song : currentPlaylist.getSongs()) {
             listModel.addElement(song.getName() + " - " + song.artistsToString());
         }
     }

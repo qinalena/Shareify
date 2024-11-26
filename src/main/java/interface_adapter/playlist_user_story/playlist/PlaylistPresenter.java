@@ -25,7 +25,9 @@ public class PlaylistPresenter implements PlaylistOutputBoundary {
     }
 
     @Override
-    public void removeTrack() {
+    public void removeSong(int songIndex) {
+        playlistViewModel.getState().removeSong(songIndex);
+        playlistViewModel.firePropertyChanged();
 
     }
 

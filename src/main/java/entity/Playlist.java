@@ -18,15 +18,24 @@ public class Playlist {
         return name;
     }
 
-    public List<Song> getTracks() {
+    public List<Song> getSongs() {
         return songs;
     }
 
     /**
-     * Add a track to a playlist.
-     * @param song the track to be added.
+     * Add a song to a playlist.
+     * @param song the song to be added
      */
-    public void addTrack(Song song) {
+    public void addSong(Song song) {
         songs.add(song);
+    }
+
+    /**
+     * Remove a song from a playlist.
+     *
+     * @param songIndex the song to be removed
+     */
+    public void removeSong(int songIndex) {
+        songs.remove(songIndex);
     }
 }

@@ -3,8 +3,6 @@ package use_case.playlist_collection_user_story.playlist_collection;
 import entity.Playlist;
 import entity.Song;
 
-import java.util.HashMap;
-
 /**
  * The "Use Case Interactor" for our playlist collection related use cases of creating
  * a playlist.
@@ -44,7 +42,7 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
             // Actual code should search the DB using the playlist name and then
             // populate a playlist in PlaylistCollectionOutputData (convert JSON string values into Song objects)
             Playlist playlistTest = new Playlist("Playlist1");
-            playlistTest.addTrack(new Song("Starships", new String[]{"Nicki Minaj"}));
+            playlistTest.addSong(new Song("Starships", new String[]{"Nicki Minaj"}));
 
             PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlistTest);
             playlistCollectionPresenter.switchToPlaylistView(playlistCollectionOutputData, playlistName);
