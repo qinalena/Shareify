@@ -119,7 +119,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
                 listModel.remove(selectedIndices[i]);
                 try {
                     final User user = new User(username, password);
-                    dbPlaylistDataAccessObject.removePlaylist(user, selectedIndices[i]);
+                    dbPlaylistDataAccessObject.removePlaylistinDB(user, selectedIndices[i]);
                 }
                 catch (DataAccessException error) {
                     JOptionPane.showMessageDialog(this,

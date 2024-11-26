@@ -93,7 +93,9 @@ public class AddPlaylistView extends JPanel implements PropertyChangeListener {
         final String playlistName = playlistNameField.getText();
         if (!playlistName.isEmpty()) {
             try {
-                if (!playlistCollectionModel.contains(playlistName)) {
+                String playlistFound = dbPlaylistDataAccessObject.getPlaylists(playlistName).toString();
+
+                if (playlistFound != null && !playlistFound.isEmpty()) {
                     // Add playlist to the list
                     final DefaultListModel<String> listModel = playlistCollectionModel;
                     listModel.addElement(playlistName);
@@ -101,7 +103,7 @@ public class AddPlaylistView extends JPanel implements PropertyChangeListener {
                     // Notify controller
                     playlistCollectionController.addPlaylist(playlistName);
                     // Save to database
-                    dbPlaylistDataAccessObject.addPlaylist(new User(username, password), playlistName);
+                    dbPlaylistDataAccessObject.addPlaylistinDB(new User(username, password), playlistName);
 
                     addPlaylistController.switchToPlaylistCollectionView();
                 }
@@ -144,7 +146,7 @@ public class AddPlaylistView extends JPanel implements PropertyChangeListener {
         this.addPlaylistController = addPlaylistController;
     }
 
-    public String getViewName() {
-        return viewName;
-    }
+//    public String getViewName() {
+//        return viewName;
+//    }
 }

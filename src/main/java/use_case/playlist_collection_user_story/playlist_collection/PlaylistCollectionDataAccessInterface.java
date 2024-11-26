@@ -19,7 +19,7 @@ public interface PlaylistCollectionDataAccessInterface {
      * @param index index to determine where the selected playlist is
      * @throws DataAccessException if the user's playlist can not be loaded for any reason
      */
-    void removePlaylist(User user, int index) throws DataAccessException;
+    void removePlaylistinDB(User user, int index) throws DataAccessException;
 
     /**
      * Creates a playlist for given user.
@@ -28,7 +28,7 @@ public interface PlaylistCollectionDataAccessInterface {
      * @param newPlaylist name of playlist
      * @throws DataAccessException if user's playlist can not be loaded for some reason
      */
-    void addPlaylist(User user, String newPlaylist) throws DataAccessException;
+    void addPlaylistinDB(User user, String newPlaylist) throws DataAccessException;
 
     /**
      * Gets playlist from given user.
