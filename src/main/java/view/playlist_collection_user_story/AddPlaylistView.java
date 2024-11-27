@@ -22,8 +22,6 @@ public class AddPlaylistView extends JFrame implements PropertyChangeListener {
     private AddPlaylistController addPlaylistController;
     private JTextField playlistNameField;
     private JButton saveButton;
-    private UserFactoryInter userFactory;
-    private final DBUserDataAccessObject dbUserDataAccessObject = new DBUserDataAccessObject(userFactory);
 
     public AddPlaylistView(DefaultListModel<String> playlistListModel, AddPlaylistViewModel addPlaylistViewModel) {
         this.playlistModel = playlistListModel;
@@ -56,8 +54,8 @@ public class AddPlaylistView extends JFrame implements PropertyChangeListener {
         // Sets name of playlist as inputted name by user
         final String playlistName = playlistNameField.getText();
         if (!playlistModel.contains(playlistName)) {
+            addPlaylistController.addPlaylist(playlistName);
             playlistModel.addElement(playlistName);
-            addPlaylistViewModel.setNewPlaylist(playlistName);
             dispose();
         }
         else if (playlistModel.contains(playlistName)) {
