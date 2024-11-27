@@ -4,7 +4,6 @@ import interface_adapter.chat.ChatController;
 import interface_adapter.chat.ChatState;
 import interface_adapter.chat.ChatViewModel;
 import interface_adapter.comment.CommentController;
-import interface_adapter
 
 import javax.swing.*;
 import javax.swing.text.View;
