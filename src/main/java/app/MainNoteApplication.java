@@ -103,6 +103,7 @@ public class MainNoteApplication {
                 .addFriendProfileView()
                 .addFriendProfileUseCase()
                 .addAddFriendView()
+                .addAddFriendUseCase()
                 .addFriendProfilePlaylistView()
                 .addFriendProfilePlaylistUseCase()
                 .addfriendProfileFriendsListView()

@@ -192,9 +192,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
      * @param playlistCollectionState output data
      */
     private void updatePlaylistCollection(PlaylistCollectionState playlistCollectionState) {
-        // clear current list
-        listModel.clear();
-
+        // Adds all playlist that have been added to the view, including any newly created playlist
         for (String playlist : playlistCollectionState.getPlaylist()) {
             // Add each playlist to the listModel
             listModel.addElement(playlist);

@@ -358,26 +358,6 @@ public class ShareifyAppBuilder {
     }
 
     /**
-     * Adds the friend profile use case to the application.
-     * @return this builder
-     * @throws RuntimeException for runtime exceptions
-     */
-    public ShareifyAppBuilder addFriendProfileUseCase() {
-        friendProfilePlaylistsViewModel = new FriendProfilePlaylistsViewModel();
-        friendProfileFriendsListViewModel = new FriendProfileFriendsListViewModel();
-        final FriendProfileOutputBoundary friendProfileOutputBoundary = new FriendProfilePresenter(friendProfileViewModel, viewManagerModel, noteViewModel, friendProfilePlaylistsViewModel, friendProfileFriendsListViewModel);
-        friendProfileInteractor = new FriendProfileInteractor(noteDAO, friendProfileOutputBoundary);
-
-        final FriendProfileController friendProfileController = new FriendProfileController(friendProfileInteractor);
-        if (friendProfileView == null) {
-            throw new RuntimeException("addFriendProfileView must be called before addFriendProfileUseCase");
-        }
-        friendProfileView.setFriendProfileController(friendProfileController);
-        return this;
-    }
-
-
-    /**
      * Adds the Signup View to the application.
      * @return this builder
      */
@@ -453,6 +433,41 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addFriendProfileView() {
         friendProfileView = new FriendView(friendProfileViewModel);
         cardPanel.add(friendProfileView, friendProfileViewModel.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the friend profile use case to the application.
+     * @return this builder
+     * @throws RuntimeException for runtime exceptions
+     */
+    public ShareifyAppBuilder addFriendProfileUseCase() {
+        friendProfilePlaylistsViewModel = new FriendProfilePlaylistsViewModel();
+        friendProfileFriendsListViewModel = new FriendProfileFriendsListViewModel();
+        final FriendProfileOutputBoundary friendProfileOutputBoundary = new FriendProfilePresenter(friendProfileViewModel, viewManagerModel, noteViewModel, friendProfilePlaylistsViewModel, friendProfileFriendsListViewModel);
+        friendProfileInteractor = new FriendProfileInteractor(noteDAO, friendProfileOutputBoundary);
+
+        final FriendProfileController friendProfileController = new FriendProfileController(friendProfileInteractor);
+        if (friendProfileView == null) {
+            throw new RuntimeException("addFriendProfileView must be called before addFriendProfileUseCase");
+        }
+        friendProfileView.setFriendProfileController(friendProfileController);
+        return this;
+    }
+
+    /**
+     * Adds the friend profile use case to the application.
+     * @return this builder
+     * @throws RuntimeException for idk
+     */
+    public ShareifyAppBuilder addAddFriendUseCase() {
+        final AddFriendOutputBoundary addFriendOutPutBoundary = new AddFriendPresenter(addFriendViewModel, viewManagerModel, friendsListViewModel);
+        addFriendInteractor = new AddFriendInteractor(dbNoteDataAccessObject, addFriendOutPutBoundary, new ArrayList<>());
+        final AddFriendController addFriendController = new AddFriendController(addFriendInteractor);
+        if (addFriendView == null) {
+            throw new RuntimeException("addFriendProfileView must be called before addFriendProfileUseCase");
+        }
+        addFriendView.setAddFriendController(addFriendController);
         return this;
     }
 
