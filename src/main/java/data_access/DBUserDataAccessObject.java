@@ -2,6 +2,7 @@ package data_access;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import entity.UserFactoryInter;
@@ -15,6 +16,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import use_case.chat.ChatDataAccessInterface;
+import use_case.comment.CommentDataAccessInterface;
 import use_case.user_profile_user_story.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.login_user_story.login.LoginUserDataAccessInterface;
 import use_case.user_profile_user_story.logout.LogoutUserDataAccessInterface;
@@ -26,7 +29,7 @@ import use_case.login_user_story.signup.SignupUserDataAccessInterface;
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
-        LogoutUserDataAccessInterface {
+        LogoutUserDataAccessInterface, CommentDataAccessInterface, ChatDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final int CREDENTIAL_ERROR = 401;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -244,7 +247,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
      * Method to load the comments of a user's playlist ***BY CREATING a "playlist user"***.
      * @param playlistName the name of the playlist we are loading the comments from
      * @param username the name of the user of the playlist
-     * @return an array containing the comments
+     * @return a list containing the comments
      * @throws DataAccessException exception
      * @throws RuntimeException exception
      */
@@ -335,6 +338,122 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         catch (IOException | JSONException ex) {
             throw new DataAccessException(ex.getMessage());
         }
+    }
+
+    /**
+     * Method to load a chat between two users.
+     * @param sender the name of the user sending the message
+     * @param reciever the name of user recieving the message
+     * @return a list containing the chat messages
+     * @throws DataAccessException exception
+     * @throws RuntimeException exception
+     */
+    public List<String> loadChatBetweenUsers(String sender, String reciever) throws DataAccessException {
+        final String key = getChatKeyBetweenUsers(sender, reciever);
+        // Create the chat room if it doesn't exist
+        if (!existsByName(key)) {
+            final User chatRoom = new User(key, key);
+            createUser(chatRoom);
+        }
+        // Make an API call to get the user object.
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
+        final Request request = new Request.Builder()
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", key))
+                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                final JSONObject userJSONObject = responseBody.getJSONObject("user");
+                final JSONObject data = userJSONObject.getJSONObject("info");
+                final List<String> chatList = new ArrayList<>();
+                final String chatKey = "chat";
+                // Check whether the chat exist, then load chats or return an empty arraylist
+                if (data.has(chatKey)) {
+                    final JSONArray jsonArray = data.getJSONArray(chatKey);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        chatList.add(jsonArray.getString(i));
+                    }
+                }
+                // Return the comments
+                return chatList;
+            }
+            else {
+                throw new DataAccessException(responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * Saves comments to the User's playlist comment section.
+     * @param sender of message
+     * @param reciever of message
+     * @param chat chat we want to send
+     * @return a list of chats
+     * @throws DataAccessException exception
+     */
+    public List<String> saveChatBetweenUsers(String chat, String sender, String reciever) throws DataAccessException {
+        // get chatroom key
+        final String key = getChatKeyBetweenUsers(sender, reciever);
+        // API call
+        final OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        // POST METHOD to save note
+        final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
+        final JSONObject requestBody = new JSONObject();
+        final JSONObject extra = new JSONObject();
+        // Get the User object with username using Get Method.
+        requestBody.put(USERNAME, key);
+        requestBody.put(PASSWORD, key);
+        // Add the comment to the existing comments
+        final List<String> currentChat = loadChatBetweenUsers(sender, reciever);
+        currentChat.add(chat);
+        final String chatKey = "chat";
+        // Add the previous info along with the updated comments back into the info JSONObject
+        extra.put(chatKey, currentChat);
+        requestBody.put("info", extra);
+        final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
+        final Request request = new Request.Builder()
+                .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
+                .method("PUT", body)
+                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                return loadChatBetweenUsers(sender, reciever);
+            }
+            else if (responseBody.getInt(STATUS_CODE_LABEL) == CREDENTIAL_ERROR) {
+                throw new DataAccessException("Message could not be found or password was incorrect");
+            }
+            else {
+                throw new DataAccessException("Database error: " + responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException ex) {
+            throw new DataAccessException(ex.getMessage());
+        }
+    }
+
+    /**
+     * Helper method for chat use_case that generates the Chat DB user/username.
+     * @param sender the user sending the message
+     * @param reciever the user recieving the message
+     * @return a key that is the username and password of the chat DB user.
+     */
+    public String getChatKeyBetweenUsers(String sender, String reciever) {
+        final String[] forSorting = {sender, reciever};
+        Arrays.sort(forSorting);
+        return forSorting[0] + "CHATBETWEEN" + forSorting[1];
     }
 
     /**

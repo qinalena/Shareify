@@ -9,6 +9,9 @@ import data_access.*;
 import entity.UserFactory;
 import entity.UserFactoryInter;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.chat.ChatController;
+import interface_adapter.chat.ChatPresenter;
+import interface_adapter.chat.ChatViewModel;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileController;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfilePresenter;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileViewModel;
@@ -29,6 +32,9 @@ import interface_adapter.user_profile_user_story.logout.LogoutController;
 import interface_adapter.user_profile_user_story.logout.LogoutPresenter;
 import interface_adapter.user_profile_user_story.note.*;
 import interface_adapter.user_profile_user_story.user_profile.*;
+import use_case.chat.ChatInputBoundary;
+import use_case.chat.ChatInteractor;
+import use_case.chat.ChatOutputBoundary;
 import use_case.friends_list_user_story.friend_profile.FriendProfileInteractor;
 import use_case.friends_list_user_story.friend_profile.FriendProfileOutputBoundary;
 import use_case.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsInteractor;
@@ -50,6 +56,7 @@ import use_case.user_profile_user_story.logout.LogoutInteractor;
 import use_case.user_profile_user_story.logout.LogoutOutputBoundary;
 import use_case.user_profile_user_story.note.*;
 import use_case.user_profile_user_story.user_profile.*;
+import view.ChatView;
 import view.friends_list_user_story.FriendProfilePlaylistsView;
 import view.friends_list_user_story.FriendView;
 import view.ViewManager;
@@ -94,6 +101,9 @@ public class ShareifyAppBuilder {
     private NoteViewModel noteViewModel;
     private NoteView noteView;
     private AddFriendView addFriendView;
+
+    private ChatViewModel chatViewModel;
+    private ChatView chatView;
 
     private FriendProfilePlaylistsView friendProfilePlaylistsView;
     private FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel;
@@ -316,7 +326,8 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addFriendProfileUseCase() {
         friendProfilePlaylistsViewModel = new FriendProfilePlaylistsViewModel();
         friendProfileFriendsListViewModel = new FriendProfileFriendsListViewModel();
-        final FriendProfileOutputBoundary friendProfileOutputBoundary = new FriendProfilePresenter(friendProfileViewModel, viewManagerModel, noteViewModel, friendProfilePlaylistsViewModel, friendProfileFriendsListViewModel);
+//        chatViewModel = new ChatViewModel();
+        final FriendProfileOutputBoundary friendProfileOutputBoundary = new FriendProfilePresenter(friendProfileViewModel, viewManagerModel, noteViewModel, friendProfilePlaylistsViewModel, friendProfileFriendsListViewModel, chatViewModel);
         friendProfileInteractor = new FriendProfileInteractor(noteDAO, friendProfileOutputBoundary);
 
         final FriendProfileController friendProfileController = new FriendProfileController(friendProfileInteractor);
@@ -362,8 +373,9 @@ public class ShareifyAppBuilder {
         userProfileViewModel = new UserProfileViewModel();
         friendsListViewModel = new FriendsListViewModel();
         addFriendViewModel = new AddFriendViewModel();
+        chatViewModel = new ChatViewModel();
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                userProfileViewModel, loginViewModel, friendsListViewModel, addFriendViewModel);
+                userProfileViewModel, loginViewModel, friendsListViewModel, addFriendViewModel, chatViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loggedInDataAccessObject, loginOutputBoundary);
 
@@ -504,6 +516,31 @@ public class ShareifyAppBuilder {
         final LogoutController logoutController = new LogoutController(logoutInteractor);
         userProfileView.setLogoutController(logoutController);
         return this;
+    }
+
+    /**
+     * Adds the Chat View.
+     * @return this builder
+     */
+    public ShareifyAppBuilder addChatView() {
+//        chatViewModel = new ChatViewModel();
+        chatView = new ChatView(chatViewModel);
+        cardPanel.add(chatView, chatView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the chat Use Case.
+     * @return this builder.
+     */
+    public ShareifyAppBuilder addChatUseCase() {
+        final ChatOutputBoundary chatOutputBoundary = new ChatPresenter(chatViewModel);
+        final ChatInputBoundary chatInteractor = new ChatInteractor(userDataAccessObject, chatOutputBoundary);
+
+        final ChatController chatController = new ChatController(chatInteractor);
+        chatView.setChatController(chatController);
+        return this;
+
     }
 
     /**

@@ -18,9 +18,9 @@ ____
 This program is a social media platform that allows users to connect with
 others through their common interests in music.
 
-When the user opens the app, they will be prompted to either sign up for an account by creating a username and password
+When the user opens the app, they will be prompted to either sign up for an account by creating a friendUsername and password
 or log into their existing account.  Once logged in, the user will have access to their own account profile, where they
-can edit their username, and write a prompt for their bibliography/description section.  Their profile will display these
+can edit their friendUsername, and write a prompt for their bibliography/description section.  Their profile will display these
 features, as well as their friend list and playlist collection.
 
 Each user will have the ability to create their own playlist of soundtracks/songs.  Each playlist the user creates will
@@ -31,12 +31,12 @@ Any users that are friends with each other will be able to view each other’s a
 ____
 ## User Stories
 ### Customize and manage an account profile
-Users have an account profile which will display basic personal information (username and bio), their friends list,
+Users have an account profile which will display basic personal information (friendUsername and bio), their friends list,
 and their playlist collection. Users can write and edit a custom bio. ***[Team]***
 
 ### Signup / Login / Logout an account
-Users can sign up for an account by creating a username and password. The app will show the “This username is taken”
-to avoid repetition in username if the user creates a username that already exists. They could log in to or log out
+Users can sign up for an account by creating a friendUsername and password. The app will show the “This friendUsername is taken”
+to avoid repetition in friendUsername if the user creates a friendUsername that already exists. They could log in to or log out
 their account. A new account starts with an empty playlist collection. ***[Junyu Li]***
 
 ### Creating and editing a playlist
