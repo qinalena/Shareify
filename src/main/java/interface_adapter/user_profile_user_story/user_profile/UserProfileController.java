@@ -37,9 +37,11 @@ public class UserProfileController {
 
     /**
      * Executes the "switch to FriendsListView" User Case.
+     * @param password password of logged in user
+     * @param username username of logged in user
      */
-    public void switchToFriendsListView() {
-        userProfileInteractor.switchToFriendsListView();
+    public void switchToFriendsListView(String username, String password) {
+        userProfileInteractor.switchToFriendsListView(username, password);
     }
 
     public void switchToChangePasswordView() {

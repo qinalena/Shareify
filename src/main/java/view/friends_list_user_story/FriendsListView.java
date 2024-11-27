@@ -33,7 +33,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     private DefaultListModel<String> listModel;
 
     // UI components
-    private final JLabel friendsListName = new JLabel("Friends List");
+    private final JLabel friendsListName = new JLabel("Shareify - Friends List");
     private final JList<String> friendsList;
     private final JButton addFriendButton = new JButton("Add Friend");
     private final JButton deleteFriendButton = new JButton("Delete Friend");

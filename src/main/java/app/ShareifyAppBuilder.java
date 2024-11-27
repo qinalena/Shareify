@@ -196,7 +196,7 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addUserProfileUseCase() {
         noteViewModel = new NoteViewModel();
         final UserProfileOutputBoundary userProfileOutputBoundary =
-                new UserProfilePresenter(userProfileViewModel, noteViewModel, viewManagerModel);
+                new UserProfilePresenter(userProfileViewModel, noteViewModel, viewManagerModel, friendsListViewModel);
         final UserProfileInputBoundary userProfileInteractor = new UserProfileInteractor(
                 loggedInDataAccessObject, userProfileOutputBoundary);
 
@@ -213,7 +213,7 @@ public class ShareifyAppBuilder {
      * @return this builder
      */
     public ShareifyAppBuilder addNoteView() {
-        noteView = new NoteView(noteViewModel,dbNoteDataAccessObject, userDataAccessObject);
+        noteView = new NoteView(noteViewModel, dbNoteDataAccessObject, userDataAccessObject);
         cardPanel.add(noteView, noteView.getViewName());
         return this;
     }
@@ -471,7 +471,6 @@ public class ShareifyAppBuilder {
             throw new RuntimeException("addFriendsListView must be called before addFriendsListUseCase");
         }
 
-//        friendProfileFriendsListViewModel = new FriendProfileFriendsListViewModel();
         // Instantiate the output boundary (presenter) and input boundary (interactor)
         friendProfileFriendsListOutputBoundary = new FriendProfileFriendsListPresenter(friendProfileViewModel, viewManagerModel);
         friendProfileFriendsListInteractor = new FriendProfileFriendsListInteractor(friendProfileFriendsListOutputBoundary);

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
 import interface_adapter.user_profile_user_story.change_password.ChangePasswordController;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
