@@ -182,7 +182,7 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addPlaylistCollectionView() {
         addPlaylistOutputBoundary = new AddPlaylistPresenter(addPlaylistViewModel,
                 viewManagerModel, playlistCollectionViewModel);
-        playlistCollectionViewModel = new PlaylistCollectionViewModel();
+//        playlistCollectionViewModel = new PlaylistCollectionViewModel();
         playlistCollectionView = new PlaylistCollectionView(playlistCollectionController, playlistCollectionViewModel,
                 dbPlaylistDataAccessObject, addPlaylistOutputBoundary);
         cardPanel.add(playlistCollectionView, playlistCollectionView.getViewName());
@@ -195,7 +195,7 @@ public class ShareifyAppBuilder {
      * @throws RuntimeException if this method is called before addPlaylistCollectionView
      */
     public ShareifyAppBuilder addPlaylistCollectionUseCase() {
-        playlistCollectionViewModel = new PlaylistCollectionViewModel();
+//        playlistCollectionViewModel = new PlaylistCollectionViewModel();
         // Instantiate the output boundary/presenter
         playlistCollectionOutputBoundary =
                 new PlaylistCollectionPresenter(playlistCollectionViewModel, addPlaylistViewModel, viewManagerModel,
@@ -224,7 +224,7 @@ public class ShareifyAppBuilder {
         if (playlistCollectionController == null) {
             addPlaylistCollectionUseCase();
         }
-        addPlaylistViewModel = new AddPlaylistViewModel();
+//        addPlaylistViewModel = new AddPlaylistViewModel();
         addPlaylistView = new AddPlaylistView(new DefaultListModel<>(),
                 addPlaylistViewModel, playlistCollectionController);
         cardPanel.add(addPlaylistView, addPlaylistViewModel.getViewName());
@@ -411,6 +411,8 @@ public class ShareifyAppBuilder {
         userProfileViewModel = new UserProfileViewModel();
         friendsListViewModel = new FriendsListViewModel();
         addFriendViewModel = new AddFriendViewModel();
+        playlistCollectionViewModel = new PlaylistCollectionViewModel();
+        addPlaylistViewModel = new AddPlaylistViewModel();
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 userProfileViewModel, loginViewModel, friendsListViewModel, addFriendViewModel,
                 playlistCollectionViewModel, addPlaylistViewModel);
