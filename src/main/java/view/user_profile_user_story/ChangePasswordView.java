@@ -117,7 +117,7 @@ public class ChangePasswordView extends JPanel implements PropertyChangeListener
                         final UserProfileState currentState = userProfileViewModel.getState();
 
                         this.changePasswordController.execute(
-                                currentState.getUsername(),
+                                currentState.getCurrentUsername(),
                                 currentState.getPassword()
                         );
                     }
@@ -138,11 +138,11 @@ public class ChangePasswordView extends JPanel implements PropertyChangeListener
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
             final UserProfileState state = (UserProfileState) evt.getNewValue();
-            username.setText(state.getUsername());
+            username.setText(state.getCurrentUsername());
         }
         else if (evt.getPropertyName().equals("password")) {
             final UserProfileState state = (UserProfileState) evt.getNewValue();
-            JOptionPane.showMessageDialog(null, "password updated for " + state.getUsername());
+            JOptionPane.showMessageDialog(null, "password updated for " + state.getCurrentUsername());
         }
 
     }

@@ -1,5 +1,7 @@
 package spotify_api;
 
+import se.michaelthelin.spotify.model_objects.specification.Track;
+
 /**
  * Interface for connecting to Spotify API.
  */
@@ -7,43 +9,8 @@ public interface SpotifyConnectionInterface {
 
     /**
      *
-     * @param songName
-     * @return
+     * @param query
+     * @return search results
      */
-    String getSongName(String songName);
-
-    /**
-     *
-     * @param songName
-     * @return
-     */
-    String getSongArtist(String songName);
-
-    /**
-     *
-     * @param songName
-     * @return
-     */
-    String getSongAlbum(String songName);
-
-    /**
-     *
-     * @param songName
-     * @return
-     */
-    String getSongReleaseDate(String songName);
-
-    /**
-     *
-     * @param songName
-     * @return
-     */
-    String getSongTags(String songName);
-
-    /**
-     *
-     * @param songName
-     * @return
-     */
-    String getPreviewUrl(String songName);
+    Track[] searchTrack(String query);
 }

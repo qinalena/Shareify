@@ -17,9 +17,9 @@ public class LoginPresenter implements LoginOutputBoundary {
 
     private final LoginViewModel loginViewModel;
     private final ViewManagerModel viewManagerModel;
-    private final UserProfileViewModel UserProfileViewModel;
-    private final FriendsListViewModel FriendsListViewModel;
-    private final AddFriendViewModel AddFriendViewModel;
+    private final UserProfileViewModel userProfileViewModel;
+    private final FriendsListViewModel friendsListViewModel;
+    private final AddFriendViewModel addFriendViewModel;
 
     public LoginPresenter(ViewManagerModel viewManagerModel,
                           UserProfileViewModel userProfileViewModel,
@@ -27,34 +27,34 @@ public class LoginPresenter implements LoginOutputBoundary {
                           FriendsListViewModel friendsListViewModel,
                           AddFriendViewModel addFriendViewModel) {
         this.viewManagerModel = viewManagerModel;
-        this.UserProfileViewModel = userProfileViewModel;
+        this.userProfileViewModel = userProfileViewModel;
         this.loginViewModel = loginViewModel;
-        this.FriendsListViewModel = friendsListViewModel;
-        this.AddFriendViewModel = addFriendViewModel;
+        this.friendsListViewModel = friendsListViewModel;
+        this.addFriendViewModel = addFriendViewModel;
     }
 
     @Override
     public void prepareSuccessView(LoginOutputData response) {
         // On success, switch to the logged in view.
-        this.viewManagerModel.setState(UserProfileViewModel.getViewName());
+        this.viewManagerModel.setState(userProfileViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
 
-        final UserProfileState userProfileState = UserProfileViewModel.getState();
-        userProfileState.setUsername(response.getUsername());
-        this.UserProfileViewModel.setState(userProfileState);
-        this.UserProfileViewModel.firePropertyChanged();
+        final UserProfileState userProfileState = userProfileViewModel.getState();
+        userProfileState.setCurrentUsername(response.getUsername());
+        this.userProfileViewModel.setState(userProfileState);
+        this.userProfileViewModel.firePropertyChanged();
 
-        final FriendsListState friendsListState = FriendsListViewModel.getState();
+        final FriendsListState friendsListState = friendsListViewModel.getState();
         friendsListState.setPassword(response.getPassword());
         friendsListState.setUsername(response.getUsername());
-        this.FriendsListViewModel.setState(friendsListState);
-        this.FriendsListViewModel.firePropertyChanged();
+        this.friendsListViewModel.setState(friendsListState);
+        this.friendsListViewModel.firePropertyChanged();
 
-        final AddFriendState addFriendState = AddFriendViewModel.getState();
+        final AddFriendState addFriendState = addFriendViewModel.getState();
         addFriendState.setUsername(response.getUsername());
         addFriendState.setPassword(response.getPassword());
-        this.AddFriendViewModel.setState(addFriendState);
-        this.AddFriendViewModel.firePropertyChanged();
+        this.addFriendViewModel.setState(addFriendState);
+        this.addFriendViewModel.firePropertyChanged();
     }
 
     @Override

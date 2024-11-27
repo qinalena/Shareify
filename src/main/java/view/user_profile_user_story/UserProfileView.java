@@ -88,7 +88,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
                     public void actionPerformed(ActionEvent evt) {
                         final UserProfileState currentState = userProfileViewModel.getState();
 
-                        logoutController.execute(currentState.getUsername());
+                        logoutController.execute(currentState.getCurrentUsername());
                     }
                 }
         );
@@ -137,8 +137,9 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
         username.setText("Shareify - " + state.getUsername());
         this.statePassword = state.getPassword();
         this.stateUserName = state.getUsername();
+        username.setText("Shareify - " + state.getCurrentUsername());
         try{
-            note.setText("Bio: " + dbNoteDataAccessObject.loadNote(dbUserDataAccessObject.get(state.getUsername())));
+            note.setText("Bio: " + dbNoteDataAccessObject.loadNote(dbUserDataAccessObject.get(state.getCurrentUsername())));
         } catch (RuntimeException e) {
             note.setText("Bio: " + "Hi! I'm new to Shareify! :)");
         }

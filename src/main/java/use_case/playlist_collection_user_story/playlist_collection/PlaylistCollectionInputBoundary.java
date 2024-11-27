@@ -17,4 +17,10 @@ public interface PlaylistCollectionInputBoundary {
      * @param playlist output data
      */
     void removePlaylist(String playlist);
+
+    /**
+     * Switches to playlist view.
+     * @param playlistName the name of the selected playlist
+     */
+    void switchToPlaylistView(String playlistName);
 }
