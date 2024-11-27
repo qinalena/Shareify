@@ -65,7 +65,6 @@ public class ShareifyAppBuilder {
     private NoteDataAccessInterface noteDAO;
     private SpotifyConnectionInterface spotifyDAO;
     private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
-    private final LoggedInDataAccessObject loggedInDAO = new LoggedInDataAccessObject();
 
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
@@ -261,10 +260,10 @@ public class ShareifyAppBuilder {
         final SearchSongOutputBoundary searchSongOutputBoundary =
                 new SearchSongPresenter(searchSongViewModel, playlistViewModel, viewManagerModel);
         final SearchSongInputBoundary searchTrackInteractor =
-                new SearchSongInteractor(spotifyDAO, userDataAccessObject, loggedInDAO, searchSongOutputBoundary);
+                new SearchSongInteractor(spotifyDAO, userDataAccessObject, searchSongOutputBoundary);
 
         final SearchSongController searchTrackController = new SearchSongController(searchTrackInteractor);
-        searchSongView.setSearchTrackController(searchTrackController);
+        searchSongView.setSearchSongController(searchTrackController);
 
         return this;
     }
@@ -423,7 +422,7 @@ public class ShareifyAppBuilder {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 userProfileViewModel, loginViewModel, friendsListViewModel, addFriendViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject, loggedInDAO, loginOutputBoundary);
+                userDataAccessObject, loginOutputBoundary);
 
         final LoginController loginController = new LoginController(loginInteractor);
         loginView.setLoginController(loginController);

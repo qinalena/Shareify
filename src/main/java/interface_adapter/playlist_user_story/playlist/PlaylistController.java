@@ -1,5 +1,6 @@
 package interface_adapter.playlist_user_story.playlist;
 
+import entity.Playlist;
 import use_case.playlist_user_story.playlist.PlaylistInputBoundary;
 
 /**
@@ -30,10 +31,11 @@ public class PlaylistController {
     }
 
     /**
-     * Switches to Search Tracks View.
+     * Switches to Search Song View.
+     * @param currentPlaylist the opened Playlist, so we can remember what playlist we're adding songs to
      */
-    public void switchToSearchTracksView() {
-        playlistInteractor.switchToSearchTracksView();
+    public void switchToSearchTracksView(Playlist currentPlaylist) {
+        playlistInteractor.switchToSearchSongView(currentPlaylist);
     }
 
 }

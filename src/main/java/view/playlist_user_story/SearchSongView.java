@@ -21,7 +21,7 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
 
     private final SearchSongViewModel searchSongViewModel;
 
-    private SearchSongController searchTrackController;
+    private SearchSongController searchSongController;
 
     private JTextField searchInputField = new JTextField(15);
 
@@ -48,21 +48,22 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
 
         backButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent evt) {
-               searchTrackController.switchToPlaylistView();
+               searchSongController.switchToPlaylistView();
            }
         }
         );
 
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                searchTrackController.searchSong(searchInputField.getText());
+                searchSongController.searchSong(searchInputField.getText());
             }
         }
         );
 
         addSongButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                searchTrackController.addSong(songs.getSelectedValue());
+                searchSongController.addSong(searchSongViewModel.getState().getCurrentPlaylist(),
+                        songs.getSelectedValue());
             }
         }
         );
@@ -102,8 +103,8 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
         }
     }
 
-    public void setSearchTrackController(SearchSongController searchTrackController) {
-        this.searchTrackController = searchTrackController;
+    public void setSearchSongController(SearchSongController searchSongController) {
+        this.searchSongController = searchSongController;
     }
 
     public String getViewName() {

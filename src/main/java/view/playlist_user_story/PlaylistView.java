@@ -57,7 +57,7 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
 
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                playlistController.switchToSearchTracksView();
+                playlistController.switchToSearchTracksView(playlistViewModel.getState().getCurrentPlaylist());
             }
         }
         );

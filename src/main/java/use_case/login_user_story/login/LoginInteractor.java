@@ -1,22 +1,18 @@
 package use_case.login_user_story.login;
 
-import data_access.LoggedInDataAccessObject;
 import entity.User;
-import use_case.LoggedInDataAccessInterface;
 
 /**
  * The Login Interactor.
  */
 public class LoginInteractor implements LoginInputBoundary {
     private final LoginUserDataAccessInterface userDataAccessObject;
-    private final LoggedInDataAccessInterface loggedInUserDataAccessObject;
     private final LoginOutputBoundary loginPresenter;
 
     public LoginInteractor(LoginUserDataAccessInterface userDataAccessInterface,
-                           LoggedInDataAccessObject loggedInDataAccessObject, LoginOutputBoundary loginOutputBoundary) {
+                           LoginOutputBoundary loginOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
         this.loginPresenter = loginOutputBoundary;
-        this.loggedInUserDataAccessObject = loggedInDataAccessObject;
     }
 
     @Override
@@ -34,10 +30,6 @@ public class LoginInteractor implements LoginInputBoundary {
             else {
 
                 final User user = userDataAccessObject.getUser(loginInputData.getUsername());
-
-                // Update LoggedInUserDataAccessObject with logged-in user's username and password
-                final User loggedInUser = new User(user.getUsername(), user.getPassword());
-                loggedInUserDataAccessObject.setLoggedInUser(loggedInUser);
 
                 // Unnecessary code? Username has not been changed.
                 userDataAccessObject.setCurrentUser(user);

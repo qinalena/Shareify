@@ -1,5 +1,7 @@
 package use_case.playlist_user_story.playlist;
 
+import entity.Playlist;
+
 /**
  * The interactor for a playlist.
  */
@@ -27,8 +29,8 @@ public class PlaylistInteractor implements PlaylistInputBoundary {
     }
 
     @Override
-    public void switchToSearchTracksView() {
-        playlistPresenter.switchToSearchTracksView();
+    public void switchToSearchSongView(Playlist currentPlaylist) {
+        playlistPresenter.switchToSearchSongView(currentPlaylist);
 
     }
 }

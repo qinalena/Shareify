@@ -20,4 +20,12 @@ public class SearchSongState {
     public List<Song> getSearchResults() {
         return searchResults;
     }
+
+    public void setCurrentPlaylist(Playlist currentPlaylist) {
+        this.currentPlaylist = currentPlaylist;
+    }
+
+    public Playlist getCurrentPlaylist() {
+        return currentPlaylist;
+    }
 }

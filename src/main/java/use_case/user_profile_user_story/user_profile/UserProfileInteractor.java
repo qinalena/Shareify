@@ -1,6 +1,5 @@
 package use_case.user_profile_user_story.user_profile;
 
-import data_access.LoggedInDataAccessObject;
 import entity.Playlist;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
 

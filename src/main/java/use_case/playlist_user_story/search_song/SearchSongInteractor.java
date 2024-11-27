@@ -1,26 +1,25 @@
 package use_case.playlist_user_story.search_song;
 
 import entity.Song;
-import entity.User;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 import spotify_api.SpotifyConnectionInterface;
-import use_case.LoggedInDataAccessInterface;
+import use_case.DataAccessException;
+import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
 
 /**
- * The Interactor for SearchTrack.
+ * The Interactor for Search Song.
  */
 public class SearchSongInteractor implements SearchSongInputBoundary {
 
     private final SpotifyConnectionInterface spotifyDAO;
-    private final SearchSongDataAccessInterface searchSongDAO;
-    private final LoggedInDataAccessInterface loggedInDAO;
+    private final PlaylistCollectionDataAccessInterface playlistCollectionDAO;
     private final SearchSongOutputBoundary searchSongPresenter;
 
-    public SearchSongInteractor(SpotifyConnectionInterface spotifyDAO, SearchSongDataAccessInterface searchSongDAO, LoggedInDataAccessInterface loggedInDAO, SearchSongOutputBoundary searchSongPresenter) {
+    public SearchSongInteractor(SpotifyConnectionInterface spotifyDAO,
+                                PlaylistCollectionDataAccessInterface playlistCollectionDAO, SearchSongOutputBoundary searchSongPresenter) {
         this.spotifyDAO = spotifyDAO;
-        this.searchSongDAO = searchSongDAO;
-        this.loggedInDAO = loggedInDAO;
+        this.playlistCollectionDAO = playlistCollectionDAO;
         this.searchSongPresenter = searchSongPresenter;
     }
 
@@ -53,13 +52,17 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
     }
 
     @Override
-    public void addSong(SearchSongInputData SearchSongInputData) {
-        // Update playlist in DB with new song
-        // INCOMPLETE
-        User currentUser = loggedInDAO.getLoggedInUser();
+    public void addSong(SearchSongInputData searchSongInputData) {
+        // TODO: Update playlist in DB with new song
+        try {
+            playlistCollectionDAO.addSongToPlaylist(searchSongInputData.getCurrentPlaylist(),
+                    searchSongInputData.getSelectedSong());
 
-        // Update Playlist View with new song
-        searchSongPresenter.addSong(SearchSongInputData.getSelectedSong());
-
+            // Update Playlist View with new song
+            searchSongPresenter.addSong(searchSongInputData.getSelectedSong());
+        }
+        catch (DataAccessException exception) {
+            // Prepare some sort of failure message
+        }
     }
 }

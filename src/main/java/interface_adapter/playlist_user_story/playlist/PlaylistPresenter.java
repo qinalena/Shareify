@@ -1,5 +1,6 @@
 package interface_adapter.playlist_user_story.playlist;
 
+import entity.Playlist;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
 import interface_adapter.playlist_user_story.search_song.SearchSongViewModel;
@@ -39,7 +40,9 @@ public class PlaylistPresenter implements PlaylistOutputBoundary {
     }
 
     @Override
-    public void switchToSearchTracksView() {
+    public void switchToSearchSongView(Playlist currentPlaylist) {
+        searchSongViewModel.getState().setCurrentPlaylist(currentPlaylist);
+
         viewManagerModel.setState(searchSongViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
 
