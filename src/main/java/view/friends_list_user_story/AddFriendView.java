@@ -116,6 +116,10 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
         this.addFriendController = controller;
     }
 
+    public void setFriendsListcontroller(FriendsListController friendsListcontroller) {
+        this.friendsListcontroller = friendsListcontroller;
+    }
+
     @Override
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource() == back) {
