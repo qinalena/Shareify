@@ -39,6 +39,9 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     private UserProfileController userProfileController;
     private LogoutController logoutController;
 
+    private String stateUserName;
+    private String statePassword;
+
     public UserProfileView(UserProfileViewModel userProfileViewModel, DBUserDataAccessObject userDataAccessObject, DBNoteDataAccessObject dbNoteDataAccessObject) {
 
         this.userProfileViewModel = userProfileViewModel;
@@ -74,7 +77,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
         friendsButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        userProfileController.switchToFriendsListView();
+                        userProfileController.switchToFriendsListView(stateUserName, statePassword);
 
                     }
                 }
@@ -85,7 +88,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
                     public void actionPerformed(ActionEvent evt) {
                         final UserProfileState currentState = userProfileViewModel.getState();
 
-                        logoutController.execute(currentState.getUsername());
+                        logoutController.execute(currentState.getCurrentUsername());
                     }
                 }
         );
@@ -131,9 +134,12 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     }
 
     private void setFields(UserProfileState state) throws DataAccessException {
-        username.setText("Shareify - " + state.getUsername());
+        username.setText("Shareify - " + state.getCurrentUsername());
+        this.statePassword = state.getPassword();
+        this.stateUserName = state.getCurrentUsername();
+        username.setText("Shareify - " + state.getCurrentUsername());
         try{
-            note.setText("Bio: " + dbNoteDataAccessObject.loadNote(dbUserDataAccessObject.get(state.getUsername())));
+            note.setText("Bio: " + dbNoteDataAccessObject.loadNote(dbUserDataAccessObject.get(state.getCurrentUsername())));
         } catch (RuntimeException e) {
             note.setText("Bio: " + "Hi! I'm new to Shareify! :)");
         }

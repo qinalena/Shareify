@@ -12,8 +12,8 @@ public class PlaylistCollectionState {
     private String playlistError;
     private List<String> playlistList = new ArrayList<>();
 
-    public List<String> getPlaylist() {
-        return new ArrayList<>(playlistList);
+    public List<String> getPlaylistList() {
+        return playlistList;
     }
 
     public void addPlaylist(String playlist) {

@@ -46,61 +46,43 @@ public class MainNoteApplication {
     public static void main(String[] args) {
 
         // create the data access and inject it into our builder!
-        final NoteDataAccessInterface noteDataAccess = new DBNoteDataAccessObject();
+        final NoteDataAccessInterface noteDAO = new DBNoteDataAccessObject();
 
-        // Connect to Spotify API
-        final SpotifyConnection spotifyConnection = new SpotifyConnection();
+        // create Spotify data access and inject it into our builder!
+        final SpotifyConnection spotifyDAO = new SpotifyConnection();
 
-        // Example call using Spotify API
-        System.out.println(spotifyConnection.getSongArtist("Starships"));
-
-        // DON'T UNCOMMENT! This example user is already created in the database, so avoid recreating the same user.
-        // Create a new user
-//        User newUser = new User("newUserName3", "password123");
-//
-//        try {
-//            // Create the user in the data storage
-//            DBNoteDataAccessObject.createUser(newUser);
-//            System.out.println("User created successfully!");
-//
-//            // Add a default note for the new user
-//            String initialNote = "Username: " + newUser.getName();
-//            initialNote += "\nPassword: " + newUser.getPassword();
-//            initialNote += "\nFavourite artist: " + spotifyConnection.getSongArtist("Starships");
-//
-//            noteDataAccess.saveNote(newUser, initialNote);
-//            System.out.println("Note added successfully for user: " + newUser.getName());
-//
-//        } catch (DataAccessException ex) {
-//            System.err.println("Error creating user or saving note: " + ex.getMessage());
-//        }
-
+        // ADD ALL VIEWS FIRST BEFORE USE CASES!!!
         final ShareifyAppBuilder shareifyAppBuilder = new ShareifyAppBuilder();
         shareifyAppBuilder
+                .addNoteDAO(noteDAO)
+                .addSpotifyDAO(spotifyDAO)
                 .addWelcomeView()
                 .addSignupView()
-                .addSignupUseCase()
                 .addLoginView()
-                .addLoginUseCase()
                 .addUserProfileView()
-                .addUserProfileUseCase()
-                .addNoteDAO(noteDataAccess)
                 .addNoteView()
-                .addNoteUseCase()
                 .addChangePasswordView()
-                .addChangePasswordUseCase()
-                .addLogoutUseCase()
                 .addPlaylistCollectionView()
                 .addFriendsListView()
+                .addPlaylistView()
+                .addSearchTrackView()
+                .addFriendProfileView()
+                .addAddFriendView()
+                .addFriendProfilePlaylistView()
+                .addfriendProfileFriendsListView()
+                .addSignupUseCase()
+                .addLoginUseCase()
+                .addUserProfileUseCase()
+                .addNoteUseCase()
+                .addChangePasswordUseCase()
+                .addLogoutUseCase()
                 .addPlaylistCollectionUseCase()
                 .addFriendsListUseCase()
-                .addFriendProfileView()
+                .addPlaylistUseCase()
+                .addSearchTrackUseCase()
                 .addFriendProfileUseCase()
-                .addAddFriendView()
                 .addAddFriendUseCase()
-                .addFriendProfilePlaylistView()
                 .addFriendProfilePlaylistUseCase()
-                .addfriendProfileFriendsListView()
                 .addFriendProfileFriendsListUseCase()
                 .addChatView()
                 .addChatUseCase()

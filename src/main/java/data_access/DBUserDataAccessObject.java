@@ -16,6 +16,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
+import use_case.playlist_user_story.playlist.PlaylistDataAccessInterface;
+import use_case.playlist_user_story.search_song.SearchSongDataAccessInterface;
 import use_case.chat.ChatDataAccessInterface;
 import use_case.comment.CommentDataAccessInterface;
 import use_case.user_profile_user_story.change_password.ChangePasswordUserDataAccessInterface;
@@ -29,6 +32,8 @@ import use_case.login_user_story.signup.SignupUserDataAccessInterface;
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
+        LogoutUserDataAccessInterface, PlaylistCollectionDataAccessInterface,
+        PlaylistDataAccessInterface, SearchSongDataAccessInterface {
         LogoutUserDataAccessInterface, CommentDataAccessInterface, ChatDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final int CREDENTIAL_ERROR = 401;
@@ -44,7 +49,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
     private static String currentUsername;
 
     private final UserFactoryInter userFactory;
-
 
     public DBUserDataAccessObject(UserFactoryInter userFactory) {
         this.userFactory = userFactory;
@@ -490,4 +494,5 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
     public String getCurrentUsername() {
         return currentUsername;
     }
+
 }

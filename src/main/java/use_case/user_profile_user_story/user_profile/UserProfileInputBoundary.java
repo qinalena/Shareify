@@ -6,11 +6,6 @@ package use_case.user_profile_user_story.user_profile;
 public interface UserProfileInputBoundary {
 
     /**
-     * Executes the UserProfile use cases of displaying the logged-in user's username and note.
-     */
-    void execute();
-
-    /**
      * Switches to Note View.
      */
     void switchToNoteView();
@@ -23,7 +18,10 @@ public interface UserProfileInputBoundary {
     /**
      * Switches to Friends List view.
      */
-    void switchToFriendsListView();
+    void switchToFriendsListView(String username, String password);
 
+    /**
+     * Switches to Change Password View.
+     */
     void switchToChangePasswordView();
 }
