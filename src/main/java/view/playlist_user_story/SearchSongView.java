@@ -92,6 +92,9 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
     public void propertyChange(PropertyChangeEvent evt) {
         final SearchSongState state = (SearchSongState) evt.getNewValue();
         setFields(state);
+        if (state.getError() != null) {
+            JOptionPane.showMessageDialog(this, state.getError());
+        }
     }
 
     private void setFields(SearchSongState state) {

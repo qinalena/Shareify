@@ -63,6 +63,7 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
         }
         catch (DataAccessException exception) {
             // Prepare some sort of failure message
+            searchSongPresenter.prepareFailView(exception.getMessage());
         }
     }
 }
