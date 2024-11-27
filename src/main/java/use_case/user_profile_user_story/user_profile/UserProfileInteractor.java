@@ -28,14 +28,14 @@ public class UserProfileInteractor implements UserProfileInputBoundary {
         // Reformat into output data
         try {
             List<Playlist> playlistCollection = playlistCollectionDataAccessObject.getPlaylistCollection();
-            userProfilePresenter.switchToPlaylistCollectionView(playlistCollection);
+            userProfilePresenter.switchToPlaylistCollectionView();
         }
         catch (Exception e) {}
     }
 
     @Override
-    public void switchToFriendsListView() {
-        userProfilePresenter.switchToFriendsListView();
+    public void switchToFriendsListView(String username, String password) {
+        userProfilePresenter.switchToFriendsListView(username, password);
     }
 
     @Override

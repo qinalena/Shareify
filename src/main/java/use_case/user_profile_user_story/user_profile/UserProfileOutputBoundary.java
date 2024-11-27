@@ -1,9 +1,5 @@
 package use_case.user_profile_user_story.user_profile;
 
-import entity.Playlist;
-
-import java.util.List;
-
 /**
  * The output boundary for the User Profile.
  */
@@ -17,12 +13,12 @@ public interface UserProfileOutputBoundary {
     /**
      * Switches to Playlist Collection view.
      */
-    void switchToPlaylistCollectionView(List<Playlist> playlistCollection);
+    void switchToPlaylistCollectionView();
 
     /**
      * Switches to Friends List View.
      */
-    void switchToFriendsListView();
+    void switchToFriendsListView(String username, String password);
 
     /**
      * Switches to Change Password View.

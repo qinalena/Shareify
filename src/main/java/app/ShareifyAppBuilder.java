@@ -211,7 +211,7 @@ public class ShareifyAppBuilder {
         friendsListViewModel = new FriendsListViewModel();
         addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel,
                 viewManagerModel, friendsListViewModel);
-        friendsListView = new FriendsListView(friendsListController, friendsListViewModel, dbNoteDataAccessObject,
+        friendsListView = new FriendsListView(friendsListViewModel, dbNoteDataAccessObject,
                 addFriendOutputBoundary);
         cardPanel.add(friendsListView, friendsListView.getViewName());
         return this;
@@ -225,7 +225,7 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addUserProfileUseCase() {
         final UserProfileOutputBoundary userProfileOutputBoundary =
-                new UserProfilePresenter(userProfileViewModel, noteViewModel, playlistCollectionViewModel, viewManagerModel);
+                new UserProfilePresenter(userProfileViewModel, noteViewModel, playlistCollectionViewModel, friendsListViewModel, viewManagerModel);
         final UserProfileInputBoundary userProfileInteractor = new UserProfileInteractor(
                 userDataAccessObject, userProfileOutputBoundary);
 
@@ -328,7 +328,6 @@ public class ShareifyAppBuilder {
         if (friendsListView == null) {
             throw new RuntimeException("addFriendsListView must be called before addFriendsListUseCase");
         }
-        friendProfileViewModel = new FriendProfileViewModel();
         // Instantiate the output boundary (presenter) and input boundary (interactor)
         friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel, viewManagerModel,
                 addFriendViewModel, friendProfileViewModel, userProfileViewModel);
@@ -374,8 +373,8 @@ public class ShareifyAppBuilder {
      * @throws RuntimeException for runtime exceptions
      */
     public ShareifyAppBuilder addFriendProfileUseCase() {
-        friendProfilePlaylistsViewModel = new FriendProfilePlaylistsViewModel();
-        friendProfileFriendsListViewModel = new FriendProfileFriendsListViewModel();
+//        friendProfilePlaylistsViewModel = new FriendProfilePlaylistsViewModel();
+//        friendProfileFriendsListViewModel = new FriendProfileFriendsListViewModel();
         final FriendProfileOutputBoundary friendProfileOutputBoundary = new FriendProfilePresenter(friendProfileViewModel, viewManagerModel, noteViewModel, friendProfilePlaylistsViewModel, friendProfileFriendsListViewModel);
         friendProfileInteractor = new FriendProfileInteractor(noteDAO, friendProfileOutputBoundary);
 
@@ -475,6 +474,7 @@ public class ShareifyAppBuilder {
             throw new RuntimeException("addFriendProfileView must be called before addFriendProfileUseCase");
         }
         addFriendView.setAddFriendController(addFriendController);
+        addFriendView.setFriendsListcontroller(friendsListController);
         return this;
     }
 

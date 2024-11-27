@@ -6,6 +6,8 @@ import interface_adapter.friends_list_user_story.add_friend.AddFriendState;
 import data_access.DBNoteDataAccessObject;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
@@ -17,12 +19,13 @@ import interface_adapter.friends_list_user_story.friends_list.FriendsListControl
  * The view for adding a friend to the user's friend list.
  * This class extends JPanel and implements PropertyChangeListener to handle updates from the AddFriendViewModel.
  */
-public class AddFriendView extends JPanel implements PropertyChangeListener {
+public class AddFriendView extends JPanel implements ActionListener, PropertyChangeListener {
     private final DefaultListModel<String> friendsListModel;
     private final AddFriendViewModel addFriendViewModel;
     private AddFriendController addFriendController;
     private final JTextField friendNameField;
     private JButton saveButton;
+    private JButton back;
     private FriendsListController friendsListcontroller;
     private DBNoteDataAccessObject dbNoteDataAccessObject = new DBNoteDataAccessObject();
     private String username;
@@ -50,12 +53,15 @@ public class AddFriendView extends JPanel implements PropertyChangeListener {
         add(new JLabel("Friend's Username:"));
         add(friendNameField);
         add(saveButton);
+        back = new JButton("Back");
+        add(back);
 
         // Action listener to add friend to the list if they exist
         saveButton.addActionListener(e -> {
             addFriend();
             friendNameField.setText("");
         });
+        back.addActionListener(this);
     }
 
     /**
@@ -108,5 +114,16 @@ public class AddFriendView extends JPanel implements PropertyChangeListener {
      */
     public void setAddFriendController(AddFriendController controller) {
         this.addFriendController = controller;
+    }
+
+    public void setFriendsListcontroller(FriendsListController friendsListcontroller) {
+        this.friendsListcontroller = friendsListcontroller;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        if (evt.getSource() == back) {
+            addFriendController.switchToFriendsListView();
+        }
     }
 }
