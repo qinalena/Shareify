@@ -95,7 +95,7 @@ public class ShareifyAppBuilder {
     private SignupViewModel signupViewModel;
     private final UserFactoryInter userFactory = new UserFactory();
 
-    private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject();
+    private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
     private final LoggedInDataAccessObject loggedInDAO = new LoggedInDataAccessObject();
 
     private LoginViewModel loginViewModel = new LoginViewModel();
@@ -402,7 +402,7 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addFriendProfileUseCase() {
 //        friendProfilePlaylistsViewModel = new FriendProfilePlaylistsViewModel();
 //        friendProfileFriendsListViewModel = new FriendProfileFriendsListViewModel();
-        final FriendProfileOutputBoundary friendProfileOutputBoundary = new FriendProfilePresenter(friendProfileViewModel, viewManagerModel, noteViewModel, friendProfilePlaylistsViewModel, friendProfileFriendsListViewModel);
+        final FriendProfileOutputBoundary friendProfileOutputBoundary = new FriendProfilePresenter(friendProfileViewModel, viewManagerModel, noteViewModel, friendProfilePlaylistsViewModel, friendProfileFriendsListViewModel, chatViewModel);
         friendProfileInteractor = new FriendProfileInteractor(noteDAO, friendProfileOutputBoundary);
 
         final FriendProfileController friendProfileController = new FriendProfileController(friendProfileInteractor);

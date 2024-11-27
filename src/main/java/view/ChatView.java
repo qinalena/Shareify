@@ -48,7 +48,8 @@ public class ChatView extends JPanel implements PropertyChangeListener, ActionLi
                     if (evt.getSource().equals(messageButton)) {
                         final ChatState chatState = chatViewModel.getState();
                         chatController.execute(chatInputField
-                                .getText(), chatState.getUsername(), chatState.getFriendUsername());
+                                .getText() + " - [" + chatState.getUsername() + "]",
+                                chatState.getUsername(), chatState.getFriendUsername());
 
                     }
                 }
@@ -99,7 +100,7 @@ public class ChatView extends JPanel implements PropertyChangeListener, ActionLi
         else {
             messagesList.setListData(state.getChatMessages().toArray(new String[0]));
         }
-        chatSectionTitle.setText("Chat with" + state.getFriendUsername());
+        chatSectionTitle.setText("Chat with " + state.getFriendUsername());
     }
 
     public String getViewName() {

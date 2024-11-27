@@ -33,8 +33,8 @@ import use_case.login_user_story.signup.SignupUserDataAccessInterface;
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
         LogoutUserDataAccessInterface, PlaylistCollectionDataAccessInterface,
-        PlaylistDataAccessInterface, SearchSongDataAccessInterface {
-        LogoutUserDataAccessInterface, CommentDataAccessInterface, ChatDataAccessInterface {
+        PlaylistDataAccessInterface, SearchSongDataAccessInterface,
+    CommentDataAccessInterface, ChatDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final int CREDENTIAL_ERROR = 401;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
