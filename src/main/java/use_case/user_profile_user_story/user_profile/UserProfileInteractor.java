@@ -27,8 +27,8 @@ public class UserProfileInteractor implements UserProfileInputBoundary {
     }
 
     @Override
-    public void switchToFriendsListView() {
-        userProfilePresenter.switchToFriendsListView();
+    public void switchToFriendsListView(String username, String password) {
+        userProfilePresenter.switchToFriendsListView(username, password);
     }
 
     @Override
