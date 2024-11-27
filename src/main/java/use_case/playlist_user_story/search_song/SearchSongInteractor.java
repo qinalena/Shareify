@@ -26,12 +26,12 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
     @Override
     public void searchSong(String query) {
         if (query != null) {
-            SearchSongOutputData searchSongOutputData = new SearchSongOutputData();
+            final SearchSongOutputData searchSongOutputData = new SearchSongOutputData();
             final Track[] searchResults = spotifyDAO.searchTrack(query);
 
             for (Track searchResult : searchResults) {
                 final ArtistSimplified[] artists = searchResult.getArtists();
-                String[] artistNames = new String[artists.length];
+                final String[] artistNames = new String[artists.length];
 
                 for (int i = 0; i < artists.length; i++) {
                     artistNames[i] = artists[i].getName();
