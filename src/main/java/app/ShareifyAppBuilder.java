@@ -212,7 +212,7 @@ public class ShareifyAppBuilder {
         friendsListViewModel = new FriendsListViewModel();
         addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel,
                 viewManagerModel, friendsListViewModel);
-        friendsListView = new FriendsListView(friendsListController, friendsListViewModel, dbNoteDataAccessObject,
+        friendsListView = new FriendsListView(friendsListViewModel, dbNoteDataAccessObject,
                 addFriendOutputBoundary);
         cardPanel.add(friendsListView, friendsListView.getViewName());
         return this;
@@ -329,7 +329,6 @@ public class ShareifyAppBuilder {
         if (friendsListView == null) {
             throw new RuntimeException("addFriendsListView must be called before addFriendsListUseCase");
         }
-//        friendProfileViewModel = new FriendProfileViewModel();
         // Instantiate the output boundary (presenter) and input boundary (interactor)
         friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel, viewManagerModel,
                 addFriendViewModel, friendProfileViewModel, userProfileViewModel);
@@ -476,6 +475,7 @@ public class ShareifyAppBuilder {
             throw new RuntimeException("addFriendProfileView must be called before addFriendProfileUseCase");
         }
         addFriendView.setAddFriendController(addFriendController);
+        addFriendView.setFriendsListcontroller(friendsListController);
         return this;
     }
 

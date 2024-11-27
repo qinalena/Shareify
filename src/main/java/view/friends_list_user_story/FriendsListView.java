@@ -43,15 +43,13 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     /**
      * Constructs a FriendsListView with the given controller, view model, data access object, and output boundary.
      *
-     * @param controller The controller for the friends list.
      * @param viewModel The view model for the friends list.
      * @param dbNoteDataAccessObject The data access object for notes and user data.
      * @param addFriendOutputBoundary The output boundary for adding friends.
      */
-    public FriendsListView(FriendsListController controller, FriendsListViewModel viewModel,
+    public FriendsListView(FriendsListViewModel viewModel,
                            DBNoteDataAccessObject dbNoteDataAccessObject,
                            AddFriendOutputBoundary addFriendOutputBoundary) {
-        this.friendsListController = controller;
         this.viewModel = viewModel;
         this.dbNoteDataAccessObject = dbNoteDataAccessObject;
         this.addFriendOutputBoundary = addFriendOutputBoundary;
