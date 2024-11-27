@@ -134,9 +134,9 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     }
 
     private void setFields(UserProfileState state) throws DataAccessException {
-        username.setText("Shareify - " + state.getUsername());
+        username.setText("Shareify - " + state.getCurrentUsername());
         this.statePassword = state.getPassword();
-        this.stateUserName = state.getUsername();
+        this.stateUserName = state.getCurrentUsername();
         username.setText("Shareify - " + state.getCurrentUsername());
         try{
             note.setText("Bio: " + dbNoteDataAccessObject.loadNote(dbUserDataAccessObject.get(state.getCurrentUsername())));
