@@ -40,7 +40,7 @@ to avoid repetition in username if the user creates a username that already exis
 their account. A new account starts with an empty playlist collection. ***[Junyu Li]***
 
 ### Creating and editing a playlist
-Users can search for tracks by inputting the track’s title or artist names. 
+Users can search for tracks by inputting the song’s title or artist names. 
 Tracks can be added or removed from a playlist. ***[Alena Qin]***
 
 ### View and manage a playlist collection

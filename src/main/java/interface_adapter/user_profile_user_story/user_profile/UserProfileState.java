@@ -4,19 +4,17 @@ package interface_adapter.user_profile_user_story.user_profile;
  * The State for a User Profile.
  */
 public class UserProfileState {
-    private String username;
+    private String currentUsername;
     private String password;
 
     private String error;
-    private String usernameError;
-    private String repeatPasswordError;
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setCurrentUsername(String currentUsername) {
+        this.currentUsername = currentUsername;
     }
 
-    public String getUsername() {
-        return username;
+    public String getCurrentUsername() {
+        return currentUsername;
     }
 
     public void setPassword(String password) {
@@ -34,6 +32,5 @@ public class UserProfileState {
     public String getError() {
         return error;
     }
-
 
 }

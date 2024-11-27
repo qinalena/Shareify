@@ -6,7 +6,6 @@ import interface_adapter.user_profile_user_story.note.NoteState;
 import interface_adapter.user_profile_user_story.note.NoteViewModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
 import use_case.user_profile_user_story.user_profile.UserProfileOutputBoundary;
-import use_case.user_profile_user_story.user_profile.UserProfileOutputData;
 
 /**
  * The presenter for our User Profile.
@@ -27,33 +26,10 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
         this.viewManagerModel = viewManagerModel;
     }
 
-    /**
-     * Prepares the success view for the User Profile related Use Cases.
-     *
-     * @param userProfileOutputData the output data
-     */
-    @Override
-    public void prepareSuccessView(UserProfileOutputData userProfileOutputData) {
-
-        userProfileViewModel.getState().setError(null);
-        userProfileViewModel.firePropertyChanged();
-    }
-
-    /**
-     * Prepares the failure view for the User Profile related Use Cases.
-     *
-     * @param errorMessage the explanation of the failure
-     */
-    @Override
-    public void prepareFailView(String errorMessage) {
-        userProfileViewModel.getState().setError(errorMessage);
-        userProfileViewModel.firePropertyChanged();
-    }
-
     @Override
     public void switchToNoteView() {
         final NoteState notestate = noteViewModel.getState();
-        notestate.setUsername(userProfileViewModel.getState().getUsername());
+        notestate.setUsername(userProfileViewModel.getState().getCurrentUsername());
         this.noteViewModel.setState(notestate);
         this.noteViewModel.firePropertyChanged();
 
@@ -73,6 +49,7 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
         viewManagerModel.firePropertyChanged();
     }
 
+    @Override
     public void switchToChangePasswordView() {
         viewManagerModel.setState("Change Password");
         viewManagerModel.firePropertyChanged();

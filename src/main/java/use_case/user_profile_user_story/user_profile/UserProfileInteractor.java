@@ -17,14 +17,6 @@ public class UserProfileInteractor implements UserProfileInputBoundary {
     }
 
     @Override
-    public void execute() {
-        final String username = loggedInDataAccessObject.getUsername();
-        final String password = loggedInDataAccessObject.getPassword();
-        final UserProfileOutputData userProfileOutputData = new UserProfileOutputData(username, false);
-        userProfilePresenter.prepareSuccessView(userProfileOutputData);
-    }
-
-    @Override
     public void switchToNoteView() {
         userProfilePresenter.switchToNoteView();
     }

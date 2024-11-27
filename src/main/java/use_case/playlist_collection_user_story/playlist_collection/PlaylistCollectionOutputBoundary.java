@@ -7,7 +7,7 @@ public interface PlaylistCollectionOutputBoundary {
 
     /**
      * Prepares success view for playlist collection use cases.
-     * @param playlistName ouput data
+     * @param playlistName output data
      */
     void preparePlaylistAddedView(String playlistName);
 
@@ -22,4 +22,12 @@ public interface PlaylistCollectionOutputBoundary {
      * @param error message indicating issue
      */
     void prepareFailView(String error);
+
+    /**
+     * Switches to Playlist View.
+     *
+     * @param playlistCollectionOutputData output data
+     * @param playlistName
+     */
+    void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData, String playlistName);
 }

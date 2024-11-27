@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * The representation of a password-protected user for our program.
  */
-public class User implements UserInter {
+public class User {
 
     private final String name;
     private final String password;
