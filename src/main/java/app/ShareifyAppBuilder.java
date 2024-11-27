@@ -238,7 +238,7 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addAddPlaylistUseCase() {
         addPlaylistOutputBoundary = new AddPlaylistPresenter(addPlaylistViewModel,
                 viewManagerModel, playlistCollectionViewModel);
-        addPlaylistInteractor = new AddPlaylistInteractor(dbPlaylistDataAccessObject,
+        addPlaylistInteractor = new AddPlaylistInteractor(dbPlaylistDataAccessObject, userDataAccessObject,
                 addPlaylistOutputBoundary, new ArrayList<>());
 
         final AddPlaylistController addPlaylistController = new AddPlaylistController(addPlaylistInteractor);
@@ -412,7 +412,8 @@ public class ShareifyAppBuilder {
         friendsListViewModel = new FriendsListViewModel();
         addFriendViewModel = new AddFriendViewModel();
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                userProfileViewModel, loginViewModel, friendsListViewModel, addFriendViewModel);
+                userProfileViewModel, loginViewModel, friendsListViewModel, addFriendViewModel,
+                playlistCollectionViewModel, addPlaylistViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loggedInDataAccessObject, loginOutputBoundary);
 

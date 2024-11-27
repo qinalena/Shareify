@@ -1,10 +1,11 @@
 package interface_adapter.playlist_collection_user_story.add_playlist;
 
-import java.util.List;
-
 import interface_adapter.ViewManagerModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
+import org.json.JSONArray;
 import use_case.playlist_collection_user_story.add_playlist.AddPlaylistOutputBoundary;
+
+import java.util.List;
 
 /**
  * Presenter for add playlist use case.

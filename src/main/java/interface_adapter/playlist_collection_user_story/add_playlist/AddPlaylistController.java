@@ -1,12 +1,12 @@
 package interface_adapter.playlist_collection_user_story.add_playlist;
 
+import entity.User;
 import use_case.playlist_collection_user_story.add_playlist.AddPlaylistInputBoundary;
 
 /**
  * Controller for AddPlaylist related use cases.
  */
 public class AddPlaylistController {
-
     private final AddPlaylistInputBoundary addPlaylistInteractor;
 
     public AddPlaylistController(AddPlaylistInputBoundary addPlaylistInteractor) {
@@ -18,7 +18,10 @@ public class AddPlaylistController {
      * @param playlistName name of playlist
      */
     public void addPlaylist(String playlistName) {
-        addPlaylistInteractor.execute(playlistName);
+        if (playlistName == null || playlistName.isEmpty()) {
+            throw new IllegalArgumentException("playlistName cannot be null or empty");
+        }
+        addPlaylistInteractor.executeCreatePlaylist(playlistName);
     }
 
     /**

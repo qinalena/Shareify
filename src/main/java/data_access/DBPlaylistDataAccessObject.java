@@ -32,14 +32,15 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
     private static final String INFO = "info";
     private static final String USER = "user";
 
-    private static final String PLAYLISTKEY = "playlist";
+    private static final String PLAYLIST = "playlist";
 
     // Method to add playlist to the database
-    @Override
-    public void addPlaylistinDB(User user, String newPlaylist) throws DataAccessException {
+    public JSONObject addPlaylistinDB(User user, String newPlaylist) throws DataAccessException {
         // Make API call to get User object
         final String username = user.getName();
+
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
+
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
                 .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
@@ -59,16 +60,16 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                 System.out.println("Before update - Info JSON file: " + data.toString(4));
 
                 // Check if key exists in the 'info' JSON
-                if (data.has(PLAYLISTKEY)) {
+                if (data.has(PLAYLIST)) {
                     // add data to the Array if already exists
-                    final JSONArray currentPlaylist = data.getJSONArray(PLAYLISTKEY);
-                    data.put(PLAYLISTKEY, currentPlaylist.put(newPlaylist));
+                    final JSONArray currentPlaylist = data.getJSONArray(PLAYLIST);
+                    data.put(PLAYLIST, currentPlaylist.put(newPlaylist));
                 }
                 else {
                     // create a new array and add data if doesn't exist
                     final JSONArray playlists = new JSONArray();
                     playlists.put(newPlaylist);
-                    data.put(PLAYLISTKEY, playlists);
+                    data.put(PLAYLIST, playlists);
                 }
 
                 // Debug: Print the updated 'info' JSON
@@ -107,9 +108,10 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
         catch (IOException | JSONException ex) {
             throw new DataAccessException("Error occurred while adding playlist " + ex.getMessage());
         }
+        return null;
     }
 
-    @Override
+
     public void removePlaylistinDB(User user, int index) throws DataAccessException {
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -133,8 +135,8 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                 System.out.println("Before update - Info JSON file: " + data.toString(4));
 
                 // See if keys exists in 'info' JSON
-                if (data.has(PLAYLISTKEY)) {
-                    final JSONArray currentPlaylists = data.getJSONArray(PLAYLISTKEY);
+                if (data.has(PLAYLIST)) {
+                    final JSONArray currentPlaylists = data.getJSONArray(PLAYLIST);
                     // Check that index is valid
                     if (index < 0 || index >= currentPlaylists.length()) {
                         throw new DataAccessException("Invalid index!");
@@ -143,7 +145,7 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                     currentPlaylists.remove(index);
 
                     // Update the playlist array in the info
-                    data.put(PLAYLISTKEY, currentPlaylists);
+                    data.put(PLAYLIST, currentPlaylists);
                 }
                 else {
                     // Do nothing if no playlists
@@ -189,13 +191,17 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
     }
 
     // Method to retrieve list of playlists associated with the given username
-    @Override
     public List<String> getPlaylists(String username) throws DataAccessException {
+//        // Make API call to get User object
+//        final String username = user.getName();
+
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
+
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
                 .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
                 .build();
+
         try {
             final Response response = client.newCall(request).execute();
             final JSONObject responseBody = new JSONObject(response.body().string());
@@ -208,8 +214,8 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                 System.out.println("Info JSON file: " + data.toString(4));
 
                 // See if keys exists in 'info' JSON
-                if (data.has(PLAYLISTKEY)) {
-                    final JSONArray currentPlaylists = data.getJSONArray(PLAYLISTKEY);
+                if (data.has(PLAYLIST)) {
+                    final JSONArray currentPlaylists = data.getJSONArray(PLAYLIST);
                     final List<String> playlistList = new ArrayList<>();
 
                     // Convert JSONArray to List<String>

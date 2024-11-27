@@ -1,7 +1,12 @@
 package interface_adapter.login_user_story.login;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.ViewModel;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendState;
+import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistState;
+import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
+import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
+import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
@@ -20,17 +25,23 @@ public class LoginPresenter implements LoginOutputBoundary {
     private final UserProfileViewModel UserProfileViewModel;
     private final FriendsListViewModel FriendsListViewModel;
     private final AddFriendViewModel AddFriendViewModel;
+    private final PlaylistCollectionViewModel playlistCollectionViewModel;
+    private final AddPlaylistViewModel addPlaylistViewModel;
 
     public LoginPresenter(ViewManagerModel viewManagerModel,
                           UserProfileViewModel userProfileViewModel,
                           LoginViewModel loginViewModel,
                           FriendsListViewModel friendsListViewModel,
-                          AddFriendViewModel addFriendViewModel) {
+                          AddFriendViewModel addFriendViewModel,
+                          PlaylistCollectionViewModel playlistCollectionViewModel,
+                          AddPlaylistViewModel addPlaylistViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.UserProfileViewModel = userProfileViewModel;
         this.loginViewModel = loginViewModel;
         this.FriendsListViewModel = friendsListViewModel;
         this.AddFriendViewModel = addFriendViewModel;
+        this.playlistCollectionViewModel = playlistCollectionViewModel;
+        this.addPlaylistViewModel = addPlaylistViewModel;
     }
 
     @Override
@@ -55,6 +66,18 @@ public class LoginPresenter implements LoginOutputBoundary {
         addFriendState.setPassword(response.getPassword());
         this.AddFriendViewModel.setState(addFriendState);
         this.AddFriendViewModel.firePropertyChanged();
+
+        final PlaylistCollectionState playlistCollectionState = playlistCollectionViewModel.getState();
+        playlistCollectionState.setUsername(response.getUsername());
+        playlistCollectionState.setPassword(response.getPassword());
+        this.playlistCollectionViewModel.setState(playlistCollectionState);
+        this.playlistCollectionViewModel.firePropertyChanged();
+
+        final AddPlaylistState addPlaylistState = addPlaylistViewModel.getState();
+        addPlaylistState.setUsername(response.getUsername());
+        addPlaylistState.setPassword(response.getPassword());
+        this.addPlaylistViewModel.setState(addPlaylistState);
+        this.addPlaylistViewModel.firePropertyChanged();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package use_case.playlist_collection_user_story.add_playlist;
 
+import org.json.JSONArray;
+
 import java.util.List;
 
 /**
