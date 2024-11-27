@@ -3,6 +3,7 @@ package use_case.playlist_collection_user_story.add_playlist;
 import java.util.List;
 
 import data_access.DBUserDataAccessObject;
+import entity.User;
 
 /**
  * The "Use Case Interactor" for our adding playlist related use cases.
@@ -32,7 +33,7 @@ public class AddPlaylistInteractor implements AddPlaylistInputBoundary {
             return;
         }
         // Returns the current logged-in user's username
-        final String currentUser = dbUserDataAccessObject.getCurrentUsername();
+        final User currentUser = dbUserDataAccessObject.getCurrentUser();
         // Add playlist to the playlist collection list
         if (currentUser != null) {
             // Add playlist to user's profile

@@ -1,19 +1,15 @@
 package use_case.user_profile_user_story.logout;
 
+import entity.User;
+
 /**
  * DAO for the Logout Use Case.
  */
 public interface LogoutUserDataAccessInterface {
 
     /**
-     * Returns the username of the curren user of the application.
-     * @return the username of the current user
+     * Sets the user indicating who is the current user of the application.
+     * @param user the new current username
      */
-    String getCurrentUsername();
-
-    /**
-     * Sets the username indicating who is the current user of the application.
-     * @param username the new current username
-     */
-    void setCurrentUsername(String username);
+    void setCurrentUser(User user);
 }

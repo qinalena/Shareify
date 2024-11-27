@@ -2,13 +2,11 @@ package view.user_profile_user_story;
 
 import data_access.DBNoteDataAccessObject;
 import data_access.DBUserDataAccessObject;
-import interface_adapter.login_user_story.login.LoginState;
 import interface_adapter.user_profile_user_story.logout.LogoutController;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileController;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
-import org.json.JSONException;
-import use_case.user_profile_user_story.note.DataAccessException;
+import use_case.DataAccessException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -133,7 +131,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     private void setFields(UserProfileState state) throws DataAccessException {
         username.setText("Shareify - " + state.getCurrentUsername());
         try{
-            note.setText("Bio: " + dbNoteDataAccessObject.loadNote(dbUserDataAccessObject.get(state.getCurrentUsername())));
+            note.setText("Bio: " + dbNoteDataAccessObject.loadNote(dbUserDataAccessObject.getUser(state.getCurrentUsername())));
         } catch (RuntimeException e) {
             note.setText("Bio: " + "Hi! I'm new to Shareify! :)");
         }

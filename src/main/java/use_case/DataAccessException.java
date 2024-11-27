@@ -1,4 +1,4 @@
-package use_case.user_profile_user_story.note;
+package use_case;
 
 /**
  * Exception thrown when there is an error with accessing data.

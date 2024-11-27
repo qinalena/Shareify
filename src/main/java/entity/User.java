@@ -1,7 +1,5 @@
 package entity;
 
-import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,19 +8,19 @@ import java.util.List;
  */
 public class User {
 
-    private final String name;
+    private final String username;
     private final String password;
     private String note;
     private List<String> info;
 
-    public User(String name, String password) {
-        this.name = name;
+    public User(String username, String password) {
+        this.username = username;
         this.password = password;
         this.info = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {

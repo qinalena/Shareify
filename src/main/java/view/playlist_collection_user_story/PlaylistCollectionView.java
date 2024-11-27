@@ -1,6 +1,7 @@
 package view.playlist_collection_user_story;
 
 import data_access.DBUserDataAccessObject;
+import entity.Playlist;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistController;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistPresenter;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
@@ -173,8 +174,10 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         final DefaultListModel<String> listModel = (DefaultListModel<String>) playlistCollectionList.getModel();
         listModel.clear();
 
-        for (String playlist : playlistCollectionState.getPlaylistList()) {
-            listModel.addElement(playlist);
+//        for (String playlist : playlistCollectionState.getPlaylistList()) {
+//            listModel.addElement(playlist);
+        for (Playlist playlist : playlistCollectionState.getPlaylistCollection()) {
+            listModel.addElement(playlist.getName());
         }
     }
 

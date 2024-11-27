@@ -13,7 +13,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import use_case.user_profile_user_story.note.DataAccessException;
+import use_case.DataAccessException;
 import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 /**
@@ -48,7 +48,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         // POST METHOD to save note
         final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
         final JSONObject requestBody = new JSONObject();
-        requestBody.put(USERNAME, user.getName());
+        requestBody.put(USERNAME, user.getUsername());
         requestBody.put(PASSWORD, user.getPassword());
         final JSONObject extra = new JSONObject();
         extra.put("note", note);
@@ -89,7 +89,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
     @Override
     public String loadNote(User user) throws DataAccessException {
         // Make an API call to get the user object.
-        final String username = user.getName();
+        final String username = user.getUsername();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
@@ -127,7 +127,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         // POST method to create a new user (same as save method)
         final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
         final JSONObject requestBody = new JSONObject();
-        requestBody.put(USERNAME, user.getName());
+        requestBody.put(USERNAME, user.getUsername());
         requestBody.put(PASSWORD, user.getPassword());
 
         final JSONObject userInfo = new JSONObject();
@@ -202,7 +202,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
      * @throws DataAccessException If there is an error updating the user information, such as invalid credentials or a database error.
      */
     public void updateUserInfo(User user, String key, String newInfo) throws DataAccessException {
-        final String username = user.getName();
+        final String username = user.getUsername();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         // URL to fetch the current user data
@@ -282,7 +282,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
         // Dummy user
         // user = new User("newUserName7", "password123");
 
-        final String username = user.getName();
+        final String username = user.getUsername();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         // URL to fetch the current user data
@@ -361,7 +361,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
     public void removeFriendinDB(User user, int index) throws DataAccessException {
         // Dummy user
         // user = new User("newUserName7", "password123");
-        final String username = user.getName();
+        final String username = user.getUsername();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         // URL to fetch the current user data

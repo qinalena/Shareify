@@ -15,12 +15,10 @@ import javax.swing.JTextArea;
 
 import data_access.DBNoteDataAccessObject;
 import data_access.DBUserDataAccessObject;
-import entity.User;
 import interface_adapter.user_profile_user_story.note.NoteController;
 import interface_adapter.user_profile_user_story.note.NoteState;
 import interface_adapter.user_profile_user_story.note.NoteViewModel;
-import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
-import use_case.user_profile_user_story.note.DataAccessException;
+import use_case.DataAccessException;
 
 /**
  * The View for when the user is viewing a note in the program.
@@ -113,7 +111,7 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
     private void setFields(NoteState state) throws DataAccessException {
         noteName.setText("Shareify - " + state.getUsername());
         try{
-            noteInputField.setText("Bio: " + dbNoteDataAccessObject.loadNote(dbUserDataAccessObject.get(state.getUsername())));
+            noteInputField.setText("Bio: " + dbNoteDataAccessObject.loadNote(dbUserDataAccessObject.getUser(state.getUsername())));
         } catch (RuntimeException e) {
             noteInputField.setText("Bio: " + "Hi! I'm new to Shareify! :)");
         }

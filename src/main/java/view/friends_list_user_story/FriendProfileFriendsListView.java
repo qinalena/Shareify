@@ -5,7 +5,7 @@ import interface_adapter.friends_list_user_story.friend_profile_friends_list.Fri
 import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListController;
 import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListState;
 import entity.User;
-import use_case.user_profile_user_story.note.DataAccessException;
+import use_case.DataAccessException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -75,7 +75,7 @@ public class FriendProfileFriendsListView extends JPanel implements ActionListen
     private void populateFriendsListFromDatabase() {
         try {
             final User realUser = new User(username, password);
-            final List<String> friends = dbNoteDataAccessObject.getFriends(realUser.getName());
+            final List<String> friends = dbNoteDataAccessObject.getFriends(realUser.getUsername());
             populateFriendsList(friends);
         } catch (DataAccessException error) {
             JOptionPane.showMessageDialog(this, "They have no friends");

@@ -2,8 +2,7 @@ package use_case.user_profile_user_story.note;
 
 import data_access.DBUserDataAccessObject;
 import entity.User;
-import interface_adapter.user_profile_user_story.note.NoteState;
-import interface_adapter.user_profile_user_story.note.NoteViewModel;
+import use_case.DataAccessException;
 
 /**
  * The "Use Case Interactor" for our two note-related use cases of refreshing
@@ -48,7 +47,7 @@ public class NoteInteractor implements NoteInputBoundary {
     @Override
     public void executeSave(String note, String username) {
         try {
-            user = dbUserDataAccessObject.get(username);
+            user = dbUserDataAccessObject.getUser(username);
             String updatedNote = noteDataAccessInterface.saveNote(user, note);
             user.setNote(updatedNote);
             System.out.println(user.getNote());

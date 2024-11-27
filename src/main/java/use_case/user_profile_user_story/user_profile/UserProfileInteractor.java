@@ -1,18 +1,21 @@
 package use_case.user_profile_user_story.user_profile;
 
 import data_access.LoggedInDataAccessObject;
-import entity.User;
+import entity.Playlist;
+import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
+
+import java.util.List;
 
 /**
  * The interactor for our User Profile.
  */
 public class UserProfileInteractor implements UserProfileInputBoundary {
 
-    private final LoggedInDataAccessObject loggedInDataAccessObject;
+    private final PlaylistCollectionDataAccessInterface playlistCollectionDataAccessObject;
     private final UserProfileOutputBoundary userProfilePresenter;
 
-    public UserProfileInteractor(LoggedInDataAccessObject loggedInDataAccessObject, UserProfileOutputBoundary userProfilePresenter) {
-        this.loggedInDataAccessObject = loggedInDataAccessObject;
+    public UserProfileInteractor(PlaylistCollectionDataAccessInterface playlistCollectionDataAccessObject, UserProfileOutputBoundary userProfilePresenter) {
+        this.playlistCollectionDataAccessObject = playlistCollectionDataAccessObject;
         this.userProfilePresenter = userProfilePresenter;
     }
 
@@ -23,7 +26,12 @@ public class UserProfileInteractor implements UserProfileInputBoundary {
 
     @Override
     public void switchToPlaylistCollectionView() {
-        userProfilePresenter.switchToPlaylistCollectionView();
+        // Reformat into output data
+        try {
+            List<Playlist> playlistCollection = playlistCollectionDataAccessObject.getPlaylistCollection();
+            userProfilePresenter.switchToPlaylistCollectionView(playlistCollection);
+        }
+        catch (Exception e) {}
     }
 
     @Override

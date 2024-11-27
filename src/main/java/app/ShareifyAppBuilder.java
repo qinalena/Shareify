@@ -60,8 +60,12 @@ public class ShareifyAppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
 
+    private final UserFactoryInter userFactory = new UserFactory();
+
     private NoteDataAccessInterface noteDAO;
     private SpotifyConnectionInterface spotifyDAO;
+    private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
+    private final LoggedInDataAccessObject loggedInDAO = new LoggedInDataAccessObject();
 
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
@@ -71,10 +75,6 @@ public class ShareifyAppBuilder {
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
-    private final UserFactoryInter userFactory = new UserFactory();
-
-    private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
-    private final LoggedInDataAccessObject loggedInDAO = new LoggedInDataAccessObject();
 
     private LoginViewModel loginViewModel = new LoginViewModel();
     private LoginView loginView;
@@ -226,9 +226,9 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addUserProfileUseCase() {
         final UserProfileOutputBoundary userProfileOutputBoundary =
-                new UserProfilePresenter(userProfileViewModel, noteViewModel, viewManagerModel);
+                new UserProfilePresenter(userProfileViewModel, noteViewModel, playlistCollectionViewModel, viewManagerModel);
         final UserProfileInputBoundary userProfileInteractor = new UserProfileInteractor(
-                loggedInDAO, userProfileOutputBoundary);
+                userDataAccessObject, userProfileOutputBoundary);
 
         final UserProfileController userProfileController = new UserProfileController(userProfileInteractor);
         if (userProfileView == null) {

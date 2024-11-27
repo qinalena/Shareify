@@ -2,6 +2,9 @@ package use_case.playlist_collection_user_story.playlist_collection;
 
 import entity.Playlist;
 import entity.Song;
+import use_case.DataAccessException;
+
+import java.util.List;
 
 /**
  * The "Use Case Interactor" for our playlist collection related use cases of creating
@@ -24,7 +27,13 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
             playlistCollectionPresenter.prepareFailView("Playlist name cannot be empty.");
             return;
         }
-        playlistCollectionPresenter.preparePlaylistAddedView(playlistName);
+        try {
+            playlistCollectionDataAccessObject.addPlaylistToUser(playlistName);
+            playlistCollectionPresenter.preparePlaylistAddedView(playlistName);
+        }
+        catch (DataAccessException e) {
+            playlistCollectionPresenter.prepareFailView(e.getMessage());
+        }
     }
 
     @Override
@@ -38,14 +47,25 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
             playlistCollectionPresenter.prepareFailView("Must select a playlist.");
         }
         else {
-            // Hard coded playlist collection example
-            // Actual code should search the DB using the playlist name and then
-            // populate a playlist in PlaylistCollectionOutputData (convert JSON string values into Song objects)
-            Playlist playlistTest = new Playlist("Playlist1");
-            playlistTest.addSong(new Song("Starships", new String[]{"Nicki Minaj"}));
+            // Actual code getting Playlist Collection from the DB (PlaylistCollectionOutputData might be redundant; pass playlist directly to presenter)
+            try {
+                List<Playlist> playlistCollection = playlistCollectionDataAccessObject.getPlaylistCollection();
 
-            PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlistTest);
-            playlistCollectionPresenter.switchToPlaylistView(playlistCollectionOutputData, playlistName);
+                for (Playlist playlist : playlistCollection) {
+                    if (playlist.getName().equals(playlistName)) {
+                        PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlist);
+                        playlistCollectionPresenter.switchToPlaylistView(playlistCollectionOutputData, playlistName);
+                    }
+                }
+            }
+            catch (DataAccessException e) {}
+
+            // Hard coded playlist collection example
+//            Playlist playlistTest = new Playlist("Playlist1");
+//            playlistTest.addSong(new Song("Starships", new String[]{"Nicki Minaj"}));
+//
+//            PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlistTest);
+//            playlistCollectionPresenter.switchToPlaylistView(playlistCollectionOutputData, playlistName);
         }
     }
 }

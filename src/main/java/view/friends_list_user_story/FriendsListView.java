@@ -6,7 +6,7 @@ import interface_adapter.friends_list_user_story.friends_list.FriendsListViewMod
 import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
 import use_case.friends_list_user_story.add_friend.AddFriendOutputBoundary;
 import entity.User;
-import use_case.user_profile_user_story.note.DataAccessException;
+import use_case.DataAccessException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -108,7 +108,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     private void populateFriendsListFromDatabase() {
         try {
             final User realUser = new User(username, password);
-            final List<String> friends = dbNoteDataAccessObject.getFriends(realUser.getName());
+            final List<String> friends = dbNoteDataAccessObject.getFriends(realUser.getUsername());
             populateFriendsList(friends);
         }
         catch (DataAccessException error) {

@@ -3,7 +3,7 @@ package use_case.login_user_story.signup;
 import data_access.DBUserDataAccessObject;
 import entity.User;
 import entity.UserFactoryInter;
-import use_case.user_profile_user_story.note.DataAccessException;
+import use_case.DataAccessException;
 
 public class SignupInteractor implements SignupInputBoundary{
     private final DBUserDataAccessObject userDataAccessObject;
@@ -30,7 +30,7 @@ public class SignupInteractor implements SignupInputBoundary{
             final User user = userFactory.createUser(signupInputData.getUsername(), signupInputData.getPassword());
             userDataAccessObject.createUser(user);
 
-            final SignupOutputData signupOutputData = new SignupOutputData(user.getName(), false);
+            final SignupOutputData signupOutputData = new SignupOutputData(user.getUsername(), false);
             userPresenter.prepareSuccessView(signupOutputData);
         }
     }
