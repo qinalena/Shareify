@@ -262,7 +262,8 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addUserProfileUseCase() {
         final UserProfileOutputBoundary userProfileOutputBoundary =
-                new UserProfilePresenter(userProfileViewModel, noteViewModel, viewManagerModel, friendsListViewModel);
+                new UserProfilePresenter(userProfileViewModel, noteViewModel, viewManagerModel, friendsListViewModel,
+                        playlistCollectionViewModel);
         final UserProfileInputBoundary userProfileInteractor = new UserProfileInteractor(
                 loggedInDAO, userProfileOutputBoundary);
 

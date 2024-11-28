@@ -4,6 +4,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileState;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
+import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
 import interface_adapter.user_profile_user_story.note.NoteState;
 import interface_adapter.user_profile_user_story.note.NoteViewModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
@@ -18,16 +19,18 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
     private final NoteViewModel noteViewModel;
     private final ViewManagerModel viewManagerModel;
     private final FriendsListViewModel friendsListViewModel;
-    private final PlaylistCollectionViewModel playlistCollectionViewModel = new PlaylistCollectionViewModel();
+    private final PlaylistCollectionViewModel playlistCollectionViewModel;
 
     public UserProfilePresenter(UserProfileViewModel userProfileViewModel,
                                 NoteViewModel noteViewModel,
                                 ViewManagerModel viewManagerModel,
-                                FriendsListViewModel friendsListViewModel) {
+                                FriendsListViewModel friendsListViewModel,
+                                PlaylistCollectionViewModel playlistCollectionViewModel) {
         this.userProfileViewModel = userProfileViewModel;
         this.noteViewModel = noteViewModel;
         this.viewManagerModel = viewManagerModel;
         this.friendsListViewModel = friendsListViewModel;
+        this.playlistCollectionViewModel = playlistCollectionViewModel;
     }
 
     @Override
@@ -43,6 +46,11 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
 
     @Override
     public void switchToPlaylistCollectionView() {
+        final PlaylistCollectionState playlistCollectionState = playlistCollectionViewModel.getState();
+        playlistCollectionState.setPlaylists(playlistCollectionViewModel.getState().getPlaylist());
+        this.playlistCollectionViewModel.setState(playlistCollectionState);
+        this.playlistCollectionViewModel.firePropertyChanged();
+
         viewManagerModel.setState(playlistCollectionViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
