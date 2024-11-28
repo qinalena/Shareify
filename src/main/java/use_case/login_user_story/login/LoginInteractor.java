@@ -2,7 +2,6 @@ package use_case.login_user_story.login;
 
 import data_access.LoggedInDataAccessObject;
 import entity.User;
-import data_access.LoggedInDataAccessInterface;
 
 /**
  * The Login Interactor.
@@ -13,7 +12,7 @@ public class LoginInteractor implements LoginInputBoundary {
     private final LoginOutputBoundary loginPresenter;
 
     public LoginInteractor(LoginUserDataAccessInterface userDataAccessInterface,
-                           LoggedInDataAccessObject loggedInDataAccessObject, LoginOutputBoundary loginOutputBoundary) {
+                           LoggedInDataAccessInterface loggedInDataAccessObject, LoginOutputBoundary loginOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
         this.loginPresenter = loginOutputBoundary;
         this.loggedInUserDataAccessObject = loggedInDataAccessObject;

@@ -6,11 +6,11 @@ import entity.UserFactoryInter;
 import use_case.user_profile_user_story.note.DataAccessException;
 
 public class SignupInteractor implements SignupInputBoundary{
-    private final DBUserDataAccessObject userDataAccessObject;
+    private final SignupUserDataAccessInterface userDataAccessObject;
     private final SignupOutputBoundary userPresenter;
     private final UserFactoryInter userFactory;
 
-    public SignupInteractor(DBUserDataAccessObject signupDataAccessInterface,
+    public SignupInteractor(SignupUserDataAccessInterface signupDataAccessInterface,
                             SignupOutputBoundary signupOutputBoundary,
                             UserFactoryInter userFactory) {
         this.userDataAccessObject = signupDataAccessInterface;
@@ -19,7 +19,7 @@ public class SignupInteractor implements SignupInputBoundary{
     }
 
     @Override
-    public void execute(SignupInputData signupInputData) throws DataAccessException {
+    public void execute(SignupInputData signupInputData) {
         if (userDataAccessObject.existsByName(signupInputData.getUsername())) {
             userPresenter.prepareFailView("User already exists.");
         }
