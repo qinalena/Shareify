@@ -14,8 +14,12 @@ public class PlaylistCollectionState {
     private String username;
     private String password;
 
-    public List<String> getPlaylistList() {
+    public List<String> getPlaylist() {
         return playlists;
+    }
+
+    public void setPlaylists(List<String> playlists) {
+        this.playlists = playlists;
     }
 
     /**
@@ -58,16 +62,5 @@ public class PlaylistCollectionState {
         this.password = password;
     }
 
-    /**
-     * Returns most recently added playlist.
-     * @return recent playlist
-     */
-    public String getMostRecentPlaylist() {
-        if (!playlists.isEmpty()) {
-            return playlists.get(playlists.size() - 1);
-        }
-        else {
-            return null;
-        }
-    }
+
 }

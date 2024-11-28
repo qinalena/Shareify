@@ -55,6 +55,7 @@ public class AddPlaylistInteractor implements AddPlaylistInputBoundary {
 
                 System.out.println("updated playlist: " + playlistCollectionNames);
 
+                // Pass update to output boundary
                 addPlaylistOutputBoundary.prepareSuccessView(playlistCollectionNames);
             }
             else {

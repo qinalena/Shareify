@@ -12,9 +12,9 @@ public interface AddPlaylistOutputBoundary {
 
     /**
      * Prepares success view for taking a list of playlists.
-     * @param updatePlaylist output data
+     * @param updatedPlaylist output data
      */
-    void prepareSuccessView(List<String> updatePlaylist);
+    void prepareSuccessView(List<String> updatedPlaylist);
 
     /**
      * Prepares failure view.

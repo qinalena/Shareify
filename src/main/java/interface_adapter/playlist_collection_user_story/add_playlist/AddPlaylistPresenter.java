@@ -26,13 +26,14 @@ public class AddPlaylistPresenter implements AddPlaylistOutputBoundary {
 
     /**
      * Prepare success view for addPlaylist use cases.
-     * @param updatePlaylist output data
+     * @param updatedPlaylist output data
      */
     @Override
-    public void prepareSuccessView(List<String> updatePlaylist) {
+    public void prepareSuccessView(List<String> updatedPlaylist) {
         // Directly sets updated list of playlists in AddPlaylistState
         final AddPlaylistState addPlaylistState = new AddPlaylistState();
-        addPlaylistState.setPlaylists(updatePlaylist);
+        addPlaylistState.setPlaylists(updatedPlaylist);
+        System.out.println("updated playlist: " + updatedPlaylist);
         addPlaylistState.setErrorMessage(null);
 
         addPlaylistViewModel.setState(addPlaylistState);

@@ -108,7 +108,7 @@ public class AddPlaylistView extends JPanel implements PropertyChangeListener {
                     playlistCollectionController.addPlaylist(playlistName);
                     // Save to database
                     dbPlaylistDataAccessObject.addPlaylistinDB(new User(username, password), playlistName);
-
+                    // Update playlist collection view with newly added playlist
                     addPlaylistController.switchToPlaylistCollectionView();
                 }
                 else {
@@ -150,7 +150,7 @@ public class AddPlaylistView extends JPanel implements PropertyChangeListener {
         this.addPlaylistController = addPlaylistController;
     }
 
-//    public String getViewName() {
-//        return viewName;
-//    }
+    public String getViewName() {
+        return viewName;
+    }
 }

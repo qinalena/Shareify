@@ -15,6 +15,7 @@ import entity.User;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionController;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
+import use_case.playlist_collection_user_story.add_playlist.AddPlaylistInputBoundary;
 import use_case.playlist_collection_user_story.add_playlist.AddPlaylistOutputBoundary;
 import use_case.user_profile_user_story.note.DataAccessException;
 
@@ -103,9 +104,9 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         }
         );
 
-        openPlaylistButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                playlistCollectionController.switchToPlaylistView(playlistCollectionList.getSelectedValue());
+        openPlaylistButton.addActionListener(evt -> {
+            if (evt.getSource().equals(openPlaylistButton)) {
+                this.playlistCollectionController.switchToPlaylistView(playlistCollectionList.getSelectedValue());
             }
         }
         );

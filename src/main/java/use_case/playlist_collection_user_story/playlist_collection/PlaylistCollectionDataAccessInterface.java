@@ -15,9 +15,9 @@ public interface PlaylistCollectionDataAccessInterface {
     /**
      * Creates a playlist for given user.
      *
-     * @param user        the user info associated with the playlist
+     * @param user the user info associated with the playlist
      * @param newPlaylist name of playlist
-     * @return
+     * @return playlist object
      * @throws DataAccessException if user's playlist can not be loaded for some reason
      */
     JSONObject addPlaylistinDB(User user, String newPlaylist) throws DataAccessException;

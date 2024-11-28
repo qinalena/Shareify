@@ -29,8 +29,7 @@ import use_case.login_user_story.signup.SignupUserDataAccessInterface;
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
-        LogoutUserDataAccessInterface, PlaylistCollectionDataAccessInterface,
-        PlaylistDataAccessInterface, SearchSongDataAccessInterface {
+        LogoutUserDataAccessInterface, PlaylistDataAccessInterface, SearchSongDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_JSON = "application/json";
