@@ -312,7 +312,7 @@ public class ShareifyAppBuilder {
                 new ChangePasswordPresenter(userProfileViewModel, viewManagerModel);
 
         final ChangePasswordInputBoundary changePasswordInteractor =
-                new ChangePasswordInteractor((ChangePasswordUserDataAccessInterface) userDataAccessObject, changePasswordOutputBoundary, userFactory);
+                new ChangePasswordInteractor( userDataAccessObject, changePasswordOutputBoundary);
 
         final ChangePasswordController changePasswordController =
                 new ChangePasswordController(changePasswordInteractor);
