@@ -75,12 +75,10 @@ public class ShareifyAppBuilder {
 
     private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
     private final LoggedInDataAccessObject loggedInDAO = new LoggedInDataAccessObject();
-    private DBPlaylistDataAccessObject dbPlaylistDataAccessObject = new DBPlaylistDataAccessObject();
+    private final DBPlaylistDataAccessObject dbPlaylistDataAccessObject = new DBPlaylistDataAccessObject();
 
     private LoginViewModel loginViewModel = new LoginViewModel();
     private LoginView loginView;
-
-    private PlaylistCollectionDataAccessInterface playlistCollectionDAO;
 
     private UserProfileViewModel userProfileViewModel;
     private UserProfileView userProfileView;
@@ -145,17 +143,6 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addNoteDAO(NoteDataAccessInterface noteDataAccess) {
         noteDAO = noteDataAccess;
-        return this;
-    }
-
-    /**
-     * Sets PlaylistCollectionDAO to be used in app.
-     * @param playlistCollectionDataAccess the DAO to use
-     * @return this builder
-     */
-    public ShareifyAppBuilder addPlaylistCollectionDAO(
-            PlaylistCollectionDataAccessInterface playlistCollectionDataAccess) {
-        playlistCollectionDAO = playlistCollectionDataAccess;
         return this;
     }
 
@@ -289,7 +276,7 @@ public class ShareifyAppBuilder {
 
         // Instantiate the input boundary/interactor
         playlistCollectionInteractor =
-                new PlaylistCollectionInteractor(playlistCollectionDAO, playlistCollectionOutputBoundary);
+                new PlaylistCollectionInteractor(dbPlaylistDataAccessObject, playlistCollectionOutputBoundary);
 
         // Creating controller + connect to interactor
         playlistCollectionController = new PlaylistCollectionController(playlistCollectionInteractor);
