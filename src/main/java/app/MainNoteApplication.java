@@ -1,8 +1,10 @@
 package app;
 
 import data_access.DBNoteDataAccessObject;
+import data_access.DBPlaylistDataAccessObject;
 import spotify_api.SpotifyConnection;
 import use_case.user_profile_user_story.note.NoteDataAccessInterface;
+import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
 
 /**
  * An application where we can view and add to a note stored by a user.
@@ -47,6 +49,7 @@ public class MainNoteApplication {
 
         // create the data access and inject it into our builder!
         final NoteDataAccessInterface noteDAO = new DBNoteDataAccessObject();
+        final PlaylistCollectionDataAccessInterface playlistCollectionDataAccess = new DBPlaylistDataAccessObject();
 
         // create Spotify data access and inject it into our builder!
         final SpotifyConnection spotifyDAO = new SpotifyConnection();
@@ -63,6 +66,7 @@ public class MainNoteApplication {
                 .addNoteView()
                 .addChangePasswordView()
                 .addPlaylistCollectionView()
+                .addAddPlaylistView()
                 .addFriendsListView()
                 .addAddFriendView()
                 .addFriendProfileView()
@@ -77,6 +81,7 @@ public class MainNoteApplication {
                 .addChangePasswordUseCase()
                 .addLogoutUseCase()
                 .addPlaylistCollectionUseCase()
+                .addAddPlaylistUseCase()
                 .addFriendsListUseCase()
                 .addAddFriendUseCase()
                 .addPlaylistUseCase()

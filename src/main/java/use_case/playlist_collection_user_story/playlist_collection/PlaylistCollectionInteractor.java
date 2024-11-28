@@ -18,13 +18,18 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
         this.playlistCollectionPresenter = playlistCollectionPresenter;
     }
 
+    /**
+     * Execute add playlist use case.
+     */
     @Override
     public void addPlaylist(String playlistName) {
         if (playlistName == null || playlistName.isEmpty()) {
             playlistCollectionPresenter.prepareFailView("Playlist name cannot be empty.");
             return;
         }
-        playlistCollectionPresenter.preparePlaylistAddedView(playlistName);
+        else {
+            playlistCollectionPresenter.preparePlaylistAddedView(playlistName);
+        }
     }
 
     @Override
@@ -47,5 +52,15 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
             PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlistTest);
             playlistCollectionPresenter.switchToPlaylistView(playlistCollectionOutputData, playlistName);
         }
+    }
+
+    @Override
+    public void switchToUserProfileView() {
+        playlistCollectionPresenter.switchToUserProfileView();
+    }
+
+    @Override
+    public void switchToAddPlaylistView() {
+        playlistCollectionPresenter.switchToAddPlaylistView();
     }
 }
