@@ -4,6 +4,9 @@ public class FriendProfileFriendsListInteractor implements FriendProfileFriendsL
     private final FriendProfileFriendsListOutputBoundary presenter;
 
     public FriendProfileFriendsListInteractor(FriendProfileFriendsListOutputBoundary presenter) {
+        if (presenter == null) {
+            throw new NullPointerException("Presenter cannot be null");
+        }
         this.presenter = presenter;
     }
 

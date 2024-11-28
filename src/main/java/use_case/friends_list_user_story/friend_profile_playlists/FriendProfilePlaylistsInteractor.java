@@ -4,6 +4,9 @@ public class FriendProfilePlaylistsInteractor implements FriendProfilePlaylistsI
     private final FriendProfilePlaylistsOutputBoundary friendProfilePlaylistsPresenter;
 
     public FriendProfilePlaylistsInteractor(FriendProfilePlaylistsOutputBoundary friendProfilePlaylistsPresenter) {
+        if (friendProfilePlaylistsPresenter == null) {
+            throw new NullPointerException("Presenter cannot be null");
+        }
         this.friendProfilePlaylistsPresenter = friendProfilePlaylistsPresenter;
     }
 

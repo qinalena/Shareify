@@ -171,7 +171,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
      * @return The username of the user if found, otherwise throws an exception.
      * @throws DataAccessException If the user is not found or there is an error accessing the database.
      */
-    public static String getUserByUsername(String username) throws DataAccessException {
+    public String getUserByUsername(String username) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         final Request request = new Request.Builder()

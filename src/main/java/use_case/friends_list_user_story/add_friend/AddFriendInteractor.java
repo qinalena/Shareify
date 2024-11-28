@@ -26,11 +26,6 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
 
     @Override
     public void execute(String friendName) {
-        if (this.outputBoundary == null) {
-            // Handle the case where outputBoundary is null
-            System.err.println("Output boundary is null");
-            return;
-        }
 
         try {
             // Check if the user exists in the database
