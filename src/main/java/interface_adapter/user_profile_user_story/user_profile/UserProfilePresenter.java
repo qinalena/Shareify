@@ -31,7 +31,7 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
         this.userProfileViewModel = userProfileViewModel;
         this.noteViewModel = noteViewModel;
         this.playlistCollectionViewModel = playlistCollectionViewModel;
-        this.friendsListViewModel = friendsListViewModel
+        this.friendsListViewModel = friendsListViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
