@@ -143,7 +143,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
         } catch (RuntimeException e) {
             note.setText("Bio: " + "Hi! I'm new to Shareify! :)");
         }
-//        note.setText("Bio: " + dbUserDataAccessObject.get(state.getUsername()).getNote());
+//        note.setText("Bio: " + dbUserDataAccessObject.get(state.getFriendUsername()).getNote());
     }
 
     public void setUserProfileController(UserProfileController controller) {
