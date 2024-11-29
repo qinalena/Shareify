@@ -257,6 +257,11 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
     }
 
     @Override
+    public void removeSongFromPlaylist(Playlist playlist, Song song) throws DataAccessException {
+
+    }
+
+    @Override
     public List<Playlist> getPlaylistCollection() throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();

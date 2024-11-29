@@ -43,4 +43,9 @@ public class InMemoryDataAccessObject implements PlaylistCollectionDataAccessInt
         }
     }
 
+    @Override
+    public void removeSongFromPlaylist(Playlist playlist, Song song) throws DataAccessException {
+
+    }
+
 }
