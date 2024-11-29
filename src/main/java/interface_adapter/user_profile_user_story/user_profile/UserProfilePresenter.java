@@ -63,10 +63,10 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
         viewManagerModel.firePropertyChanged();
 
         // Debugging - verify username and password being set
-        System.out.println("switching to PlaylistCollectionView with username: " +
-                playlistCollectionState.getUsername() + ", password: " +
-                playlistCollectionState.getPassword() + "current playlist: " +
-                playlistCollectionState.getPlaylist());
+//        System.out.println("switching to PlaylistCollectionView with username: " +
+//                playlistCollectionState.getUsername() + ", password: " +
+//                playlistCollectionState.getPassword() + "current playlist: " +
+//                playlistCollectionState.getPlaylist());
     }
 
     @Override

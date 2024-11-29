@@ -55,7 +55,9 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         this.dbPlaylistDataAccessObject = dbPlaylistDataAccessObject;
         this.addPlaylistOutputBoundary = addPlaylistOutputBoundary;
         this.playlistCollectionViewModel.addPropertyChangeListener(this);
-        System.out.println("Property Change listener registered!");
+
+        // Debugging
+//        System.out.println("Property Change listener registered!");
 
         // Setting label properties
         playlistCollectionName.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -139,7 +141,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
             final List<String> playlists = dbPlaylistDataAccessObject.getPlaylists(realUser.getName());
 
             // Debugging
-            System.out.println("Fetching playlist from data base: " + playlists);
+//            System.out.println("Fetching playlist from data base: " + playlists);
 
             // Populate playlist collection in view
             populatePlaylistList(playlists);
@@ -190,7 +192,8 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     public void propertyChange(PropertyChangeEvent evt) {
         final PlaylistCollectionState playlistCollectionState = (PlaylistCollectionState) evt.getNewValue();
 
-        System.out.println("Property change trigger: " + evt.getNewValue());
+        // Debugging
+//        System.out.println("Property change trigger: " + evt.getNewValue());
 
         updatePlaylistCollection(playlistCollectionState);
 
