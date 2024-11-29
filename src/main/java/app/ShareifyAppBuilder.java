@@ -268,7 +268,6 @@ public class ShareifyAppBuilder {
      * @throws RuntimeException if this method is called before addPlaylistCollectionView
      */
     public ShareifyAppBuilder addPlaylistCollectionUseCase() {
-        playlistCollectionViewModel = new PlaylistCollectionViewModel();
         // Instantiate the output boundary/presenter
         playlistCollectionOutputBoundary =
                 new PlaylistCollectionPresenter(playlistCollectionViewModel, addPlaylistViewModel,

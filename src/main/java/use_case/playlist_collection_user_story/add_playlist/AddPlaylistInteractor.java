@@ -42,11 +42,6 @@ public class AddPlaylistInteractor implements AddPlaylistInputBoundary {
      */
     @Override
     public void executeCreatePlaylist(String playlistName) {
-        if (this.addPlaylistOutputBoundary == null) {
-            System.err.println("Output boundary cannot be null!");
-            return;
-        }
-
         try {
             if (!user.getInfo().contains(playlistName)) {
                 // Add playlist to playlist collection list
