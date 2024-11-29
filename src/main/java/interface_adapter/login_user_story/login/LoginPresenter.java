@@ -40,8 +40,7 @@ public class LoginPresenter implements LoginOutputBoundary {
                           FriendsListViewModel friendsListViewModel,
                           AddFriendViewModel addFriendViewModel,
                           PlaylistCollectionViewModel playlistCollectionViewModel,
-                          AddPlaylistViewModel addPlaylistViewModel) {
-                          AddFriendViewModel addFriendViewModel, ChatViewModel chatViewModel) {
+                          AddPlaylistViewModel addPlaylistViewModel, ChatViewModel chatViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.userProfileViewModel = userProfileViewModel;
         this.loginViewModel = loginViewModel;
