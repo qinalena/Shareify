@@ -1,6 +1,7 @@
 package use_case.login_user_story.login;
 
 import entity.User;
+import use_case.user_profile_user_story.note.DataAccessException;
 
 /**
  * DAO for the Login Use Case.
@@ -38,4 +39,6 @@ public interface LoginUserDataAccessInterface {
      * @param username the new current username; null to indicate that no one is currently logged into the application.
      */
     void setCurrentUsername(String username);
+
+    public String loadNote(User user) throws DataAccessException;
 }

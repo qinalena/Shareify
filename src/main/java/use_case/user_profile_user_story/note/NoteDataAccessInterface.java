@@ -27,4 +27,6 @@ public interface NoteDataAccessInterface {
      */
     String loadNote(User user) throws DataAccessException;
 
+    User get(String username);
+
 }

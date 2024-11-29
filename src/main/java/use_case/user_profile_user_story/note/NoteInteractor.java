@@ -14,30 +14,11 @@ public class NoteInteractor implements NoteInputBoundary {
 
     private final NoteDataAccessInterface noteDataAccessInterface;
     private final NoteOutputBoundary notePresenter;
-    private DBUserDataAccessObject dbUserDataAccessObject;
     private User user;
 
     public NoteInteractor(DBUserDataAccessObject dbUserDataAccessObject, NoteDataAccessInterface noteDataAccessInterface, NoteOutputBoundary notePresenter) {
         this.noteDataAccessInterface = noteDataAccessInterface;
         this.notePresenter = notePresenter;
-        this.dbUserDataAccessObject = dbUserDataAccessObject;
-
-    }
-
-    /**
-     * Executes the refresh note use case.
-     *
-     */
-    @Override
-    public void executeRefresh() {
-        try {
-
-            final String note = noteDataAccessInterface.loadNote(user);
-            notePresenter.prepareSuccessView(note);
-        }
-        catch (DataAccessException ex) {
-            notePresenter.prepareFailView(ex.getMessage());
-        }
     }
 
     /**
@@ -48,10 +29,9 @@ public class NoteInteractor implements NoteInputBoundary {
     @Override
     public void executeSave(String note, String username) {
         try {
-            user = dbUserDataAccessObject.get(username);
+            user = noteDataAccessInterface.get(username);
             String updatedNote = noteDataAccessInterface.saveNote(user, note);
             user.setNote(updatedNote);
-            System.out.println(user.getNote());
             notePresenter.prepareSuccessView(updatedNote);
         }
         catch (DataAccessException ex) {

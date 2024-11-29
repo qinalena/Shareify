@@ -1,6 +1,7 @@
 package app;
 
 import data_access.DBNoteDataAccessObject;
+import data_access.DBUserDataAccessObject;
 import spotify_api.SpotifyConnection;
 import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
@@ -46,7 +47,7 @@ public class MainNoteApplication {
     public static void main(String[] args) {
 
         // create the data access and inject it into our builder!
-        final NoteDataAccessInterface noteDAO = new DBNoteDataAccessObject();
+        final NoteDataAccessInterface noteDAO = new DBUserDataAccessObject();
 
         // create Spotify data access and inject it into our builder!
         final SpotifyConnection spotifyDAO = new SpotifyConnection();

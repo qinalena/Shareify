@@ -34,6 +34,7 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
     public void switchToNoteView() {
         final NoteState notestate = noteViewModel.getState();
         notestate.setUsername(userProfileViewModel.getState().getCurrentUsername());
+        noteViewModel.getState().setNote(userProfileViewModel.getState().getBio());
         this.noteViewModel.setState(notestate);
         this.noteViewModel.firePropertyChanged();
 

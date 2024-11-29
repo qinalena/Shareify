@@ -7,11 +7,6 @@ package use_case.user_profile_user_story.note;
 public interface NoteInputBoundary {
 
     /**
-     * Executes the refresh note use case.
-     */
-    void executeRefresh();
-
-    /**
      * Executes the save note use case.
      * @param message the input data
      */

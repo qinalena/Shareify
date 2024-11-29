@@ -19,15 +19,10 @@ public class NoteController {
      * @param note the note to be recorded
      */
     public void execute(String note, String username) {
-        if (note != null) {
-            final NoteInputData data = new NoteInputData(username);
-            noteInteractor.executeSave(note, username);
-        }
-        else {
-            noteInteractor.executeRefresh();
+        final NoteInputData data = new NoteInputData(username);
+        noteInteractor.executeSave(note, username);
         }
 
-        }
 
     /**
      * Executes the switch to User Profile view use case.

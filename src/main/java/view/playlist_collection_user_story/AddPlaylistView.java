@@ -23,7 +23,7 @@ public class AddPlaylistView extends JFrame implements PropertyChangeListener {
     private JTextField playlistNameField;
     private JButton saveButton;
     private UserFactoryInter userFactory;
-    private final DBUserDataAccessObject dbUserDataAccessObject = new DBUserDataAccessObject(userFactory);
+    private final DBUserDataAccessObject dbUserDataAccessObject = new DBUserDataAccessObject();
 
     public AddPlaylistView(DefaultListModel<String> playlistListModel, AddPlaylistViewModel addPlaylistViewModel) {
         this.playlistModel = playlistListModel;

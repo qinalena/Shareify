@@ -73,7 +73,7 @@ public class ShareifyAppBuilder {
     private SignupViewModel signupViewModel;
     private final UserFactoryInter userFactory = new UserFactory();
 
-    private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
+    private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject();
     private final LoggedInDataAccessObject loggedInDAO = new LoggedInDataAccessObject();
 
     private LoginViewModel loginViewModel = new LoginViewModel();
@@ -160,7 +160,7 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addUserProfileView() {
         userProfileViewModel = new UserProfileViewModel();
-        userProfileView = new UserProfileView(userProfileViewModel, userDataAccessObject, dbNoteDataAccessObject);
+        userProfileView = new UserProfileView(userProfileViewModel);
         cardPanel.add(userProfileView, userProfileView.getViewName());
 
         if (loginView == null) {
@@ -275,7 +275,7 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addNoteView() {
         noteViewModel = new NoteViewModel();
-        noteView = new NoteView(noteViewModel, dbNoteDataAccessObject, userDataAccessObject);
+        noteView = new NoteView(noteViewModel);
         cardPanel.add(noteView, noteView.getViewName());
         return this;
     }
