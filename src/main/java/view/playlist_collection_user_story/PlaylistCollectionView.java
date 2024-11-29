@@ -15,7 +15,6 @@ import entity.User;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionController;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
-import use_case.playlist_collection_user_story.add_playlist.AddPlaylistInputBoundary;
 import use_case.playlist_collection_user_story.add_playlist.AddPlaylistOutputBoundary;
 import use_case.user_profile_user_story.note.DataAccessException;
 
@@ -30,47 +29,44 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     private PlaylistCollectionController playlistCollectionController;
 
     private AddPlaylistOutputBoundary addPlaylistOutputBoundary;
-    private AddPlaylistInputBoundary addPlaylistInputBoundary;
     private DBPlaylistDataAccessObject dbPlaylistDataAccessObject;
     private String username;
     private String password;
 
+    // Global listModel Variable
     private DefaultListModel<String> listModel;
 
     private final JLabel playlistCollectionName = new JLabel("Shareify - Playlist Collection");
-
-    // Initialize components
-    private JButton backButton = new JButton("Back");
-    private JButton createPlaylistButton = new JButton("Create Playlist");
-    private JButton deletePlaylistButton = new JButton("Delete Playlist");
-    private JButton openPlaylistButton = new JButton("Open Playlist");
-
     // JList to show the names of the playlists
-    private JList<String> playlistCollectionList = new JList<>(new DefaultListModel<>());
+    private final JList<String> playlistCollectionList;
+    // Initialize components
+    private final JButton backButton = new JButton("Back");
+    private final JButton createPlaylistButton = new JButton("Create Playlist");
+    private final JButton deletePlaylistButton = new JButton("Delete Playlist");
+    private final JButton openPlaylistButton = new JButton("Open Playlist");
 
-    public PlaylistCollectionView(PlaylistCollectionController playlistCollectionController,
-                                  PlaylistCollectionViewModel playlistCollectionViewModel,
+
+
+    public PlaylistCollectionView(PlaylistCollectionViewModel playlistCollectionViewModel,
                                   DBPlaylistDataAccessObject dbPlaylistDataAccessObject,
                                   AddPlaylistOutputBoundary addPlaylistOutputBoundary) {
 
-        this.playlistCollectionController = playlistCollectionController;
         this.playlistCollectionViewModel = playlistCollectionViewModel;
         this.dbPlaylistDataAccessObject = dbPlaylistDataAccessObject;
         this.addPlaylistOutputBoundary = addPlaylistOutputBoundary;
         this.playlistCollectionViewModel.addPropertyChangeListener(this);
+        System.out.println("Property Change listener registered!");
 
         // Setting label properties
         playlistCollectionName.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Initializing DefaultListModel
         listModel = new DefaultListModel<>();
-        playlistCollectionList.setModel(listModel);
+        playlistCollectionList = new JList<>(listModel);
 
         // Initialize AddPlaylistInputBoundary after dependencies are set
         playlistCollectionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         playlistCollectionList.setLayoutOrientation(JList.VERTICAL);
-
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // Set up scroll pane
         final JScrollPane scrollPane = new JScrollPane(playlistCollectionList);
@@ -85,7 +81,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
         createPlaylistButton.addActionListener(evt -> {
             if (evt.getSource().equals(createPlaylistButton)) {
-                this.playlistCollectionController.switchToAddPlaylistView();
+                playlistCollectionController.switchToAddPlaylistView();
             }
         }
         );
@@ -99,14 +95,14 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
         backButton.addActionListener(evt -> {
             if (evt.getSource().equals(backButton)) {
-                this.playlistCollectionController.switchToUserProfileView();
+                playlistCollectionController.switchToUserProfileView();
             }
         }
         );
 
         openPlaylistButton.addActionListener(evt -> {
             if (evt.getSource().equals(openPlaylistButton)) {
-                this.playlistCollectionController.switchToPlaylistView(playlistCollectionList.getSelectedValue());
+                playlistCollectionController.switchToPlaylistView(playlistCollectionList.getSelectedValue());
             }
         }
         );
@@ -119,6 +115,19 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         this.add(buttons);
         // Add scroll panel to frame for list of playlists created
         this.add(scrollPane);
+    }
+
+    /**
+     * Populates playlist collection with given list of playlist.
+     * @param playlists list of playlists to populate
+     */
+    private void populatePlaylistList(List<String> playlists) {
+        // clear current list
+        listModel.clear();
+        // Add each component to the list
+        for (String playlist : playlists) {
+            listModel.addElement(playlist);
+        }
     }
 
     /**
@@ -140,21 +149,6 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
                     "Error getting playlists: " + error.getMessage(), "Error getting playlist",
                     JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    /**
-     * Populates playlist collection with given list of playlist.
-     * @param playlists list of playlists to populate
-     */
-    private void populatePlaylistList(List<String> playlists) {
-        // clear current list
-        listModel.clear();
-        for (String playlist : playlists) {
-            listModel.addElement(playlist);
-        }
-        // refresh UI
-        playlistCollectionList.revalidate();
-        playlistCollectionList.repaint();
     }
 
     /**
@@ -193,44 +187,30 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (e.getNewValue() instanceof PlaylistCollectionState) {
-            final PlaylistCollectionState playlistCollectionState = (PlaylistCollectionState) e.getNewValue();
+    public void propertyChange(PropertyChangeEvent evt) {
+        final PlaylistCollectionState playlistCollectionState = (PlaylistCollectionState) evt.getNewValue();
 
-            System.out.println("Propety change trigger: " + e.getNewValue());
+        System.out.println("Property change trigger: " + evt.getNewValue());
 
-            // updatePlaylistCollection(playlistCollectionState);
+        updatePlaylistCollection(playlistCollectionState);
 
-            // Check for changes in username
-            if (!playlistCollectionState.getUsername().equals(this.username)) {
-                this.username = playlistCollectionState.getUsername();
-                this.password = playlistCollectionState.getPassword();
-
-                // Fetch playlist from DB for updated username
-                System.out.println("Fetching playlist for: " + this.username);
-                populatePlaylistListFromDB();
-            }
-            else if (playlistCollectionState.getMostRecentPlaylist() != null) {
-                // Add most recent playlist to the view
-                System.out.println("Adding recent playlists: " + playlistCollectionState.getMostRecentPlaylist());
-                updatePlaylistCollection(playlistCollectionState);
-            }
-            else if (playlistCollectionState.getPlaylistError() != null) {
-                JOptionPane.showMessageDialog(this, playlistCollectionState.getPlaylistError(),
-                        "Error", JOptionPane.ERROR_MESSAGE);
-            }
+        if (!playlistCollectionState.getUsername().equals(this.username)) {
+            this.username = playlistCollectionState.getUsername();
+            this.password = playlistCollectionState.getPassword();
+            populatePlaylistListFromDB();
+        }
+        if (playlistCollectionState.getPlaylistError() != null) {
+            JOptionPane.showMessageDialog(this, playlistCollectionState.getPlaylistError(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     /**
      * Updates JList playlist collection with the latest playlist data.
-     * @param playlistCollectionState playlist collection state
      */
     private void updatePlaylistCollection(PlaylistCollectionState playlistCollectionState) {
-        // Add only most recent playlist to avoid redundant population
-        if (playlistCollectionState.getMostRecentPlaylist() != null) {
-            listModel.addElement(playlistCollectionState.getMostRecentPlaylist());
-        }
+        // add newly added list to listModel
+        listModel.addElement(playlistCollectionState.getMostRecentPlaylist());
     }
 
     public void setPlaylistCollectionController(PlaylistCollectionController playlistCollectionController) {

@@ -8,9 +8,8 @@ import java.util.List;
  */
 
 public class PlaylistCollectionState {
-
+    private final List<String> playlists = new ArrayList<>();
     private String playlistError;
-    private List<String> playlists = new ArrayList<>();
     private String username;
     private String password;
 
@@ -19,11 +18,24 @@ public class PlaylistCollectionState {
     }
 
     /**
+     * Returns most recently added playlist.
+     * @return recent playlist
+     */
+    public String getMostRecentPlaylist() {
+        if (!playlists.isEmpty()) {
+            return playlists.get(playlists.size() - 1);
+        }
+        else {
+            return null;
+        }
+    }
+
+    /**
      * Adds playlist to list of playlists.
      * @param playlist the playlist
      */
     public void addPlaylist(String playlist) {
-        this.playlists.add(playlist);
+        playlists.add(playlist);
     }
 
     /**
@@ -31,7 +43,7 @@ public class PlaylistCollectionState {
      * @param playlist the playlist
      */
     public void removePlaylist(String playlist) {
-        this.playlists.remove(playlist);
+        playlists.remove(playlist);
     }
 
     public String getPlaylistError() {
@@ -58,20 +70,5 @@ public class PlaylistCollectionState {
         this.password = password;
     }
 
-    /**
-     * Returns most recently added playlist.
-     * @return recent playlist
-     */
-    public String getMostRecentPlaylist() {
-        if (!playlists.isEmpty()) {
-            return playlists.get(playlists.size() - 1);
-        }
-        else {
-            return null;
-        }
-    }
 
-    public void setPlaylists(List<String> playlists) {
-        this.playlists = playlists;
-    }
 }

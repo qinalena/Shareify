@@ -49,10 +49,8 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
         // Fetch playlistCollectionState from ViewModel
         final PlaylistCollectionState playlistCollectionState = playlistCollectionViewModel.getState();
 
-        // Set username + password from UserProfileViewModel state
+        // Set username from UserProfileViewModel state
         playlistCollectionState.setUsername(userProfileViewModel.getState().getCurrentUsername());
-        playlistCollectionState.setPassword(userProfileViewModel.getState().getPassword());
-        playlistCollectionState.setPlaylists(playlistCollectionViewModel.getState().getPlaylist());
 
         // Update state in PlaylistCollectionViewModel
         this.playlistCollectionViewModel.setState(playlistCollectionState);

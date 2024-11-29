@@ -2,6 +2,7 @@ package view.playlist_collection_user_story;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -19,7 +20,7 @@ import view.login_user_story.LabelTextPanel;
 /**
  * The View for when the user is creating a playlist and naming it in the program.
  */
-public class AddPlaylistView extends JPanel implements PropertyChangeListener {
+public class AddPlaylistView extends JPanel implements ActionListener, PropertyChangeListener {
     // This is the list we update
     private DefaultListModel<String> playlistCollectionModel;
 
@@ -69,8 +70,6 @@ public class AddPlaylistView extends JPanel implements PropertyChangeListener {
                 addPlaylist();
                 // Clear text field after saving
                 playlistNameField.setText("");
-                // switch back to playlist collection view
-                this.addPlaylistController.switchToPlaylistCollectionView();
             }
         }
         );
@@ -150,7 +149,7 @@ public class AddPlaylistView extends JPanel implements PropertyChangeListener {
         this.addPlaylistController = addPlaylistController;
     }
 
-    public String getViewName() {
-        return viewName;
+    public void setPlaylistCollectionController(PlaylistCollectionController playlistCollectionController) {
+        this.playlistCollectionController = playlistCollectionController;
     }
 }

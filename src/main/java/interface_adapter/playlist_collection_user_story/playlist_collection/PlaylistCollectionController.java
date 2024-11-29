@@ -18,7 +18,7 @@ public class PlaylistCollectionController {
      * @param playlistName the playlist to be recorded
      */
     public void addPlaylist(String playlistName) {
-        playlistCollectionInteractor.addPlaylist(playlistName);
+        this.playlistCollectionInteractor.addPlaylist(playlistName);
     }
 
     /**

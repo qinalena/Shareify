@@ -21,7 +21,6 @@ import use_case.user_profile_user_story.note.DataAccessException;
  * The DAO for accessing individual playlists stored in database.
  */
 public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessInterface {
-    static final int CREDENTIAL_ERROR = 401;
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_JSON = "application/json";
@@ -35,7 +34,7 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
     private static final String PLAYLIST = "playlist";
 
     // Method to add playlist to the database
-    public JSONObject addPlaylistinDB(User user, String newPlaylist) throws DataAccessException {
+    public void addPlaylistinDB(User user, String newPlaylist) throws DataAccessException {
         // Make API call to get User object
         final String username = user.getName();
 
@@ -82,7 +81,7 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                 updatedUser.put(INFO, data);
 
                 final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
-                final RequestBody body = RequestBody.create(mediaType, updatedUser.toString());
+                final RequestBody body = RequestBody.create(updatedUser.toString(), mediaType);
                 final Request updateRequest = new Request.Builder()
                         .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
                         .method("PUT", body)
@@ -108,7 +107,6 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
         catch (IOException | JSONException ex) {
             throw new DataAccessException("Error occurred while adding playlist " + ex.getMessage());
         }
-        return null;
     }
 
 
@@ -216,7 +214,7 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                 // See if keys exists in 'info' JSON
                 if (data.has(PLAYLIST)) {
                     final JSONArray currentPlaylists = data.getJSONArray(PLAYLIST);
-                    final List<String> playlistList = new ArrayList<>();
+                    List<String> playlistList = new ArrayList<>();
 
                     // Convert JSONArray to List<String>
                     for (int i = 0; i < currentPlaylists.length(); i++) {

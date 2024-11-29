@@ -15,17 +15,13 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
         this.playlistCollectionPresenter = playlistCollectionPresenter;
     }
 
-    /**
-     * Execute add playlist use case.
-     */
     @Override
     public void addPlaylist(String playlistName) {
         if (playlistName == null || playlistName.isEmpty()) {
             playlistCollectionPresenter.prepareFailView("Playlist name cannot be empty.");
+            return;
         }
-        else {
-            playlistCollectionPresenter.preparePlaylistAddedView(playlistName);
-        }
+        playlistCollectionPresenter.preparePlaylistAddedView(playlistName);
     }
 
     @Override

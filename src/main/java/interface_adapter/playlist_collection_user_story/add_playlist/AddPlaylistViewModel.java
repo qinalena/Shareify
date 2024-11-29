@@ -6,7 +6,6 @@ import interface_adapter.ViewModel;
  * The View Model for the Playlist view.
  */
 public class AddPlaylistViewModel extends ViewModel<AddPlaylistState> {
-
     private String newPlaylist;
 
     public AddPlaylistViewModel() {

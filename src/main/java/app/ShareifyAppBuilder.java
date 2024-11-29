@@ -180,7 +180,7 @@ public class ShareifyAppBuilder {
         addPlaylistOutputBoundary = new AddPlaylistPresenter(addPlaylistViewModel,
                 viewManagerModel, playlistCollectionViewModel);
         playlistCollectionViewModel = new PlaylistCollectionViewModel();
-        playlistCollectionView = new PlaylistCollectionView(playlistCollectionController, playlistCollectionViewModel,
+        playlistCollectionView = new PlaylistCollectionView(playlistCollectionViewModel,
                 dbPlaylistDataAccessObject, addPlaylistOutputBoundary);
         cardPanel.add(playlistCollectionView, playlistCollectionView.getViewName());
         return this;
@@ -324,6 +324,7 @@ public class ShareifyAppBuilder {
             throw new RuntimeException("addPlaylistView must be called before addAddPlaylistUseCase");
         }
         addPlaylistView.setAddPlaylistController(addPlaylistController);
+        addPlaylistView.setPlaylistCollectionController(playlistCollectionController);
         return this;
     }
 
