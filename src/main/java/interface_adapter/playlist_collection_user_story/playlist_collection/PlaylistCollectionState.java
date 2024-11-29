@@ -18,19 +18,6 @@ public class PlaylistCollectionState {
     }
 
     /**
-     * Returns most recently added playlist.
-     * @return recent playlist
-     */
-    public String getMostRecentPlaylist() {
-        if (!playlists.isEmpty()) {
-            return playlists.get(playlists.size() - 1);
-        }
-        else {
-            return null;
-        }
-    }
-
-    /**
      * Adds playlist to list of playlists.
      * @param playlist the playlist
      */

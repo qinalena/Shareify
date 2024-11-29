@@ -4,11 +4,6 @@ import java.util.List;
 
 import data_access.DBPlaylistDataAccessObject;
 import data_access.DBUserDataAccessObject;
-import entity.User;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
-import use_case.user_profile_user_story.note.DataAccessException;
 
 /**
  * The "Use Case Interactor" for our adding playlist related use cases.
@@ -42,13 +37,18 @@ public class AddPlaylistInteractor implements AddPlaylistInputBoundary {
      */
     @Override
     public void executeCreatePlaylist(String playlistName) {
+        if (this.addPlaylistOutputBoundary == null) {
+            System.err.println("Outputboundary cannot be null!");
+            return;
+        }
+
         try {
             if (!user.getInfo().contains(playlistName)) {
                 // Add playlist to playlist collection list
                 playlistCollectionNames.add(playlistName);
 
                 // Debugging
-                System.out.println("updated playlist: " + playlistCollectionNames);
+//                System.out.println("updated playlist: " + playlistCollectionNames);
 
                 // Pass update to output boundary
                 addPlaylistOutputBoundary.prepareSuccessView(playlistCollectionNames);

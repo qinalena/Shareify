@@ -34,7 +34,7 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
     private static final String PLAYLIST = "playlist";
 
     // Method to add playlist to the database
-    public void addPlaylistinDB(User user, String newPlaylist) throws DataAccessException {
+    public JSONObject addPlaylistinDB(User user, String newPlaylist) throws DataAccessException {
         // Make API call to get User object
         final String username = user.getName();
 
@@ -107,6 +107,7 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
         catch (IOException | JSONException ex) {
             throw new DataAccessException("Error occurred while adding playlist " + ex.getMessage());
         }
+        return null;
     }
 
 

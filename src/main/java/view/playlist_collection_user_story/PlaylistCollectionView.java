@@ -37,20 +37,22 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     private DefaultListModel<String> listModel;
 
     private final JLabel playlistCollectionName = new JLabel("Shareify - Playlist Collection");
-    // JList to show the names of the playlists
-    private final JList<String> playlistCollectionList;
+
     // Initialize components
     private final JButton backButton = new JButton("Back");
     private final JButton createPlaylistButton = new JButton("Create Playlist");
     private final JButton deletePlaylistButton = new JButton("Delete Playlist");
     private final JButton openPlaylistButton = new JButton("Open Playlist");
 
+    // JList to show the names of the playlists
+    private final JList<String> playlistCollectionList = new JList<>(new DefaultListModel<>());
 
-
-    public PlaylistCollectionView(PlaylistCollectionViewModel playlistCollectionViewModel,
+    public PlaylistCollectionView(PlaylistCollectionController playlistCollectionController,
+                                  PlaylistCollectionViewModel playlistCollectionViewModel,
                                   DBPlaylistDataAccessObject dbPlaylistDataAccessObject,
                                   AddPlaylistOutputBoundary addPlaylistOutputBoundary) {
 
+        this.playlistCollectionController = playlistCollectionController;
         this.playlistCollectionViewModel = playlistCollectionViewModel;
         this.dbPlaylistDataAccessObject = dbPlaylistDataAccessObject;
         this.addPlaylistOutputBoundary = addPlaylistOutputBoundary;
@@ -64,11 +66,13 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
         // Initializing DefaultListModel
         listModel = new DefaultListModel<>();
-        playlistCollectionList = new JList<>(listModel);
+        playlistCollectionList.setModel(listModel);
 
         // Initialize AddPlaylistInputBoundary after dependencies are set
         playlistCollectionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         playlistCollectionList.setLayoutOrientation(JList.VERTICAL);
+
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // Set up scroll pane
         final JScrollPane scrollPane = new JScrollPane(playlistCollectionList);
@@ -83,7 +87,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
         createPlaylistButton.addActionListener(evt -> {
             if (evt.getSource().equals(createPlaylistButton)) {
-                playlistCollectionController.switchToAddPlaylistView();
+                this.playlistCollectionController.switchToAddPlaylistView();
             }
         }
         );
@@ -97,14 +101,14 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
         backButton.addActionListener(evt -> {
             if (evt.getSource().equals(backButton)) {
-                playlistCollectionController.switchToUserProfileView();
+                this.playlistCollectionController.switchToUserProfileView();
             }
         }
         );
 
         openPlaylistButton.addActionListener(evt -> {
             if (evt.getSource().equals(openPlaylistButton)) {
-                playlistCollectionController.switchToPlaylistView(playlistCollectionList.getSelectedValue());
+                this.playlistCollectionController.switchToPlaylistView(playlistCollectionList.getSelectedValue());
             }
         }
         );
@@ -212,8 +216,11 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
      * Updates JList playlist collection with the latest playlist data.
      */
     private void updatePlaylistCollection(PlaylistCollectionState playlistCollectionState) {
-        // add newly added list to listModel
-        listModel.addElement(playlistCollectionState.getMostRecentPlaylist());
+        // Adds all playlist that have been added to the view, including any newly created playlist
+        for (String playlist : playlistCollectionState.getPlaylist()) {
+            // Add each playlist to the listModel
+            listModel.addElement(playlist);
+        }
     }
 
     public void setPlaylistCollectionController(PlaylistCollectionController playlistCollectionController) {

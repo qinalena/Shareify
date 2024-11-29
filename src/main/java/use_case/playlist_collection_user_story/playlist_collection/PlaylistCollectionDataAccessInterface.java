@@ -3,6 +3,7 @@ package use_case.playlist_collection_user_story.playlist_collection;
 import java.util.List;
 
 import entity.User;
+import org.json.JSONObject;
 import use_case.user_profile_user_story.note.DataAccessException;
 
 /**
@@ -18,7 +19,7 @@ public interface PlaylistCollectionDataAccessInterface {
      * @param newPlaylist name of playlist
      * @throws DataAccessException if user's playlist can not be loaded for some reason
      */
-    void addPlaylistinDB(User user, String newPlaylist) throws DataAccessException;
+    JSONObject addPlaylistinDB(User user, String newPlaylist) throws DataAccessException;
 
     /**
      * Returns the playlist associated with the user. The password

@@ -149,7 +149,7 @@ public class AddPlaylistView extends JPanel implements ActionListener, PropertyC
         this.addPlaylistController = addPlaylistController;
     }
 
-    public void setPlaylistCollectionController(PlaylistCollectionController playlistCollectionController) {
-        this.playlistCollectionController = playlistCollectionController;
-    }
+//    public void setPlaylistCollectionController(PlaylistCollectionController playlistCollectionController) {
+//        this.playlistCollectionController = playlistCollectionController;
+//    }
 }

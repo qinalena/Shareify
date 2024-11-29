@@ -33,7 +33,6 @@ public class AddPlaylistPresenter implements AddPlaylistOutputBoundary {
         // Directly sets updated list of playlists in AddPlaylistState
         final AddPlaylistState addPlaylistState = new AddPlaylistState();
         addPlaylistState.setPlaylists(updatedPlaylist);
-        System.out.println("updated playlist: " + updatedPlaylist);
         addPlaylistState.setErrorMessage(null);
 
         addPlaylistViewModel.setState(addPlaylistState);
