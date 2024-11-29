@@ -46,13 +46,29 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
 
     @Override
     public void switchToPlaylistCollectionView() {
+        // Fetch playlistCollectionState from ViewModel
         final PlaylistCollectionState playlistCollectionState = playlistCollectionViewModel.getState();
+
+        // Set username + password from UserProfileViewModel state
+        playlistCollectionState.setUsername(userProfileViewModel.getState().getCurrentUsername());
+        playlistCollectionState.setPassword(userProfileViewModel.getState().getPassword());
         playlistCollectionState.setPlaylists(playlistCollectionViewModel.getState().getPlaylist());
+
+        // Update state in PlaylistCollectionViewModel
         this.playlistCollectionViewModel.setState(playlistCollectionState);
+
+        // Fire property change for PlaylistCollectionViewModel first to ensure it updates correctly
         this.playlistCollectionViewModel.firePropertyChanged();
 
+        // Switch view in the ViewManagerModel
         viewManagerModel.setState(playlistCollectionViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+
+        // Debugging - verify username and password being set
+        System.out.println("switching to PlaylistCollectionView with username: " +
+                playlistCollectionState.getUsername() + ", password: " +
+                playlistCollectionState.getPassword() + "current playlist: " +
+                playlistCollectionState.getPlaylist());
     }
 
     @Override

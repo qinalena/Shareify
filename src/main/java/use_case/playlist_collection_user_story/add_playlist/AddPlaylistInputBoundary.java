@@ -15,7 +15,4 @@ public interface AddPlaylistInputBoundary {
      * Switch to playlistCollection View.
      */
     void switchToPlaylistCollectionView();
-
-
-
 }

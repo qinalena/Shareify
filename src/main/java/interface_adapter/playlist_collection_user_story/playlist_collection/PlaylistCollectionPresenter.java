@@ -13,8 +13,8 @@ import use_case.playlist_collection_user_story.playlist_collection.PlaylistColle
 public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoundary {
 
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
-    private final PlaylistViewModel playlistViewModel;
     private final AddPlaylistViewModel addPlaylistViewModel;
+    private final PlaylistViewModel playlistViewModel;
     private final UserProfileViewModel userProfileViewModel;
     private final ViewManagerModel viewManagerModel;
 

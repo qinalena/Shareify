@@ -18,10 +18,6 @@ public class PlaylistCollectionState {
         return playlists;
     }
 
-    public void setPlaylists(List<String> playlists) {
-        this.playlists = playlists;
-    }
-
     /**
      * Adds playlist to list of playlists.
      * @param playlist the playlist
@@ -62,5 +58,20 @@ public class PlaylistCollectionState {
         this.password = password;
     }
 
+    /**
+     * Returns most recently added playlist.
+     * @return recent playlist
+     */
+    public String getMostRecentPlaylist() {
+        if (!playlists.isEmpty()) {
+            return playlists.get(playlists.size() - 1);
+        }
+        else {
+            return null;
+        }
+    }
 
+    public void setPlaylists(List<String> playlists) {
+        this.playlists = playlists;
+    }
 }

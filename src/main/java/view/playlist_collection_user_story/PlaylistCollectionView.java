@@ -122,6 +122,42 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     }
 
     /**
+     * Populate playlist collection from database.
+     */
+    private void populatePlaylistListFromDB() {
+        try {
+            final User realUser = new User(username, password);
+            final List<String> playlists = dbPlaylistDataAccessObject.getPlaylists(realUser.getName());
+
+            // Debugging
+            System.out.println("Fetching playlist from data base: " + playlists);
+
+            // Populate playlist collection in view
+            populatePlaylistList(playlists);
+        }
+        catch (DataAccessException error) {
+            JOptionPane.showMessageDialog(this,
+                    "Error getting playlists: " + error.getMessage(), "Error getting playlist",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Populates playlist collection with given list of playlist.
+     * @param playlists list of playlists to populate
+     */
+    private void populatePlaylistList(List<String> playlists) {
+        // clear current list
+        listModel.clear();
+        for (String playlist : playlists) {
+            listModel.addElement(playlist);
+        }
+        // refresh UI
+        playlistCollectionList.revalidate();
+        playlistCollectionList.repaint();
+    }
+
+    /**
      * Logic for deleting a playlist button.
      */
     private void deletePlaylistLogic() {
@@ -148,33 +184,6 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     }
 
     /**
-     * Populates playlist collection with given list of playlist.
-     * @param playlists list of playlists to populate
-     */
-    private void populatePlaylistList(List<String> playlists) {
-        listModel.clear();
-        for (String playlist : playlists) {
-            listModel.addElement(playlist);
-        }
-    }
-
-    /**
-     * Populate playlist collection from database.
-     */
-    private void populatePlaylistListFromDB() {
-        try {
-            final User realUser = new User(username, password);
-            final List<String> playlists = dbPlaylistDataAccessObject.getPlaylists(realUser.getName());
-            populatePlaylistList(playlists);
-        }
-        catch (DataAccessException error) {
-            JOptionPane.showMessageDialog(this,
-                    "Error getting playlists: " + error.getMessage(), "Error getting playlist",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
      * React to a button click that results in evt.
      * @param e the ActionEvent to react to
      */
@@ -185,17 +194,31 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
     @Override
     public void propertyChange(PropertyChangeEvent e) {
-        final PlaylistCollectionState playlistCollectionState = (PlaylistCollectionState) e.getNewValue();
-        updatePlaylistCollection(playlistCollectionState);
+        if (e.getNewValue() instanceof PlaylistCollectionState) {
+            final PlaylistCollectionState playlistCollectionState = (PlaylistCollectionState) e.getNewValue();
 
-        if (playlistCollectionState.getUsername() != this.username) {
-            this.username = playlistCollectionState.getUsername();
-            this.password = playlistCollectionState.getPassword();
-            populatePlaylistListFromDB();
-        }
-        else if (playlistCollectionState.getPlaylistError() != null) {
-            JOptionPane.showMessageDialog(this, playlistCollectionState.getPlaylistError(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Propety change trigger: " + e.getNewValue());
+
+            // updatePlaylistCollection(playlistCollectionState);
+
+            // Check for changes in username
+            if (!playlistCollectionState.getUsername().equals(this.username)) {
+                this.username = playlistCollectionState.getUsername();
+                this.password = playlistCollectionState.getPassword();
+
+                // Fetch playlist from DB for updated username
+                System.out.println("Fetching playlist for: " + this.username);
+                populatePlaylistListFromDB();
+            }
+            else if (playlistCollectionState.getMostRecentPlaylist() != null) {
+                // Add most recent playlist to the view
+                System.out.println("Adding recent playlists: " + playlistCollectionState.getMostRecentPlaylist());
+                updatePlaylistCollection(playlistCollectionState);
+            }
+            else if (playlistCollectionState.getPlaylistError() != null) {
+                JOptionPane.showMessageDialog(this, playlistCollectionState.getPlaylistError(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
@@ -204,10 +227,9 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
      * @param playlistCollectionState playlist collection state
      */
     private void updatePlaylistCollection(PlaylistCollectionState playlistCollectionState) {
-        // Adds all playlist that have been added to the view, including any newly created playlist
-        for (String playlist : playlistCollectionState.getPlaylist()) {
-            // Add each playlist to the listModel
-            listModel.addElement(playlist);
+        // Add only most recent playlist to avoid redundant population
+        if (playlistCollectionState.getMostRecentPlaylist() != null) {
+            listModel.addElement(playlistCollectionState.getMostRecentPlaylist());
         }
     }
 

@@ -9,12 +9,9 @@ import entity.Song;
  */
 
 public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoundary {
-    private final PlaylistCollectionDataAccessInterface playlistCollectionDataAccessObject;
     private final PlaylistCollectionOutputBoundary playlistCollectionPresenter;
 
-    public PlaylistCollectionInteractor(PlaylistCollectionDataAccessInterface playlistCollectionDataAccessObject,
-                                        PlaylistCollectionOutputBoundary playlistCollectionPresenter) {
-        this.playlistCollectionDataAccessObject = playlistCollectionDataAccessObject;
+    public PlaylistCollectionInteractor(PlaylistCollectionOutputBoundary playlistCollectionPresenter) {
         this.playlistCollectionPresenter = playlistCollectionPresenter;
     }
 
@@ -25,7 +22,6 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
     public void addPlaylist(String playlistName) {
         if (playlistName == null || playlistName.isEmpty()) {
             playlistCollectionPresenter.prepareFailView("Playlist name cannot be empty.");
-            return;
         }
         else {
             playlistCollectionPresenter.preparePlaylistAddedView(playlistName);

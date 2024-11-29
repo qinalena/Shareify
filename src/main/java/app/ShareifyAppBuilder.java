@@ -276,7 +276,7 @@ public class ShareifyAppBuilder {
 
         // Instantiate the input boundary/interactor
         playlistCollectionInteractor =
-                new PlaylistCollectionInteractor(dbPlaylistDataAccessObject, playlistCollectionOutputBoundary);
+                new PlaylistCollectionInteractor(playlistCollectionOutputBoundary);
 
         // Creating controller + connect to interactor
         playlistCollectionController = new PlaylistCollectionController(playlistCollectionInteractor);
