@@ -1,6 +1,8 @@
 package interface_adapter.login_user_story.login;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.chat.ChatState;
+import interface_adapter.chat.ChatViewModel;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendState;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistState;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
@@ -13,6 +15,7 @@ import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendViewModel;
 import use_case.login_user_story.login.LoginOutputBoundary;
 import use_case.login_user_story.login.LoginOutputData;
+import view.ChatView;
 
 /**
  * The Presenter for the Login Use Case.
@@ -21,6 +24,10 @@ public class LoginPresenter implements LoginOutputBoundary {
 
     private final LoginViewModel loginViewModel;
     private final ViewManagerModel viewManagerModel;
+    //    private final UserProfileViewModel UserProfileViewModel;
+    //    private final FriendsListViewModel FriendsListViewModel;
+    //    private final AddFriendViewModel AddFriendViewModel;
+    private final ChatViewModel chatViewModel;
     private final UserProfileViewModel userProfileViewModel;
     private final FriendsListViewModel friendsListViewModel;
     private final AddFriendViewModel addFriendViewModel;
@@ -34,9 +41,11 @@ public class LoginPresenter implements LoginOutputBoundary {
                           AddFriendViewModel addFriendViewModel,
                           PlaylistCollectionViewModel playlistCollectionViewModel,
                           AddPlaylistViewModel addPlaylistViewModel) {
+                          AddFriendViewModel addFriendViewModel, ChatViewModel chatViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.userProfileViewModel = userProfileViewModel;
         this.loginViewModel = loginViewModel;
+        this.chatViewModel = chatViewModel;
         this.friendsListViewModel = friendsListViewModel;
         this.addFriendViewModel = addFriendViewModel;
         this.playlistCollectionViewModel = playlistCollectionViewModel;
@@ -77,6 +86,12 @@ public class LoginPresenter implements LoginOutputBoundary {
         addPlaylistState.setPassword(response.getPassword());
         this.addPlaylistViewModel.setState(addPlaylistState);
         this.addPlaylistViewModel.firePropertyChanged();
+
+        final ChatState chatState = chatViewModel.getState();
+        chatState.setUsername(response.getUsername());
+        this.chatViewModel.setState(chatState);
+        this.chatViewModel.firePropertyChanged();
+
     }
 
     @Override

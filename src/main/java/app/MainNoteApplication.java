@@ -71,6 +71,7 @@ public class MainNoteApplication {
                 .addSearchTrackView()
                 .addFriendProfilePlaylistView()
                 .addfriendProfileFriendsListView()
+                .addChatView()
                 .addSignupUseCase()
                 .addLoginUseCase()
                 .addUserProfileUseCase()
@@ -86,6 +87,7 @@ public class MainNoteApplication {
                 .addFriendProfileUseCase()
                 .addFriendProfilePlaylistUseCase()
                 .addFriendProfileFriendsListUseCase()
+                .addChatUseCase()
                 .build().setVisible(true);
     }
 }

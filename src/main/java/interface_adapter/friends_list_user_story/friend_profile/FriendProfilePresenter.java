@@ -1,6 +1,8 @@
 package interface_adapter.friends_list_user_story.friend_profile;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.chat.ChatState;
+import interface_adapter.chat.ChatViewModel;
 import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListState;
 import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListViewModel;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsState;
@@ -16,16 +18,19 @@ public class FriendProfilePresenter implements FriendProfileOutputBoundary {
     private final FriendsListViewModel friendsListViewModel = new FriendsListViewModel();
     private final FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel;
     private final FriendProfileFriendsListViewModel friendProfileFriendsListViewModel;
+    private final ChatViewModel chatViewModel;
 
     public FriendProfilePresenter(FriendProfileViewModel friendProfileViewModel,
                                   ViewManagerModel viewManagerModel, NoteViewModel noteViewModel,
                                   FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel,
-                                  FriendProfileFriendsListViewModel friendProfileFriendsListViewModel) {
+                                  FriendProfileFriendsListViewModel friendProfileFriendsListViewModel,
+                                  ChatViewModel chatViewModel) {
         this.friendProfileViewModel = friendProfileViewModel;
         this.viewManagerModel = viewManagerModel;
         this.noteViewModel = noteViewModel;
         this.friendProfilePlaylistsViewModel = friendProfilePlaylistsViewModel;
         this.friendProfileFriendsListViewModel = friendProfileFriendsListViewModel;
+        this.chatViewModel = chatViewModel;
     }
 
     @Override
@@ -74,5 +79,16 @@ public class FriendProfilePresenter implements FriendProfileOutputBoundary {
     public void switchToAllFriendsView() {
         viewManagerModel.setState(friendsListViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToChatView(String friendUsername) {
+        viewManagerModel.setState(chatViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+
+        final ChatState chatState = chatViewModel.getState();
+        chatState.setFriendUsername(friendUsername);
+        this.chatViewModel.setState(chatState);
+        this.chatViewModel.firePropertyChanged();
     }
 }
