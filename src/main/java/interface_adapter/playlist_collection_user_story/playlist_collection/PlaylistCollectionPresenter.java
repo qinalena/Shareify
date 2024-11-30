@@ -14,7 +14,8 @@ public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoun
     private final PlaylistViewModel playlistViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public PlaylistCollectionPresenter(PlaylistCollectionViewModel playlistCollectionViewModel, PlaylistViewModel playlistViewModel,
+    public PlaylistCollectionPresenter(PlaylistCollectionViewModel playlistCollectionViewModel,
+                                       PlaylistViewModel playlistViewModel,
                                        ViewManagerModel viewManagerModel) {
 
         this.playlistCollectionViewModel = playlistCollectionViewModel;

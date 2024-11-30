@@ -1,6 +1,6 @@
 package use_case.chat;
 
-import use_case.user_profile_user_story.note.DataAccessException;
+import use_case.DataAccessException;
 
 import java.util.List;
 

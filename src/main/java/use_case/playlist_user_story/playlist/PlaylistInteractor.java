@@ -19,7 +19,6 @@ public class PlaylistInteractor implements PlaylistInputBoundary {
     @Override
     public void removeSong(int songIndex) {
         // TODO: Remove song from playlist in the DB
-
         playlistPresenter.removeSong(songIndex);
     }
 
