@@ -75,7 +75,8 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
             friendProfilePlaylistsController.switchToFriendProfileView(username, password);
         }
         else if (evt.getSource() == openPlaylist) {
-            friendProfilePlaylistsController.switchToPlaylistView(playlistCollectionList.getSelectedValue());
+            friendProfilePlaylistsController.switchToPlaylistView(playlistCollectionList.getSelectedValue(),
+                    username, password);
         }
     }
 
@@ -104,6 +105,7 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
         for (String playlist : playlistCollectionState.getPlaylist()) {
             listModel.addElement(playlist);
         }
+        listModel.addElement("test1");
     }
 
     public void setPlaylistCollectionController(FriendProfilePlaylistsController playlistCollectionController) {

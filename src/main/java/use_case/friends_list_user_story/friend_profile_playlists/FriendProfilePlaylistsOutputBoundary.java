@@ -18,5 +18,5 @@ public interface FriendProfilePlaylistsOutputBoundary {
      * @param playlistCollectionOutputData output data
      * @param playlistName
      */
-    void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData, String playlistName);
+    void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData, String playlistName, String username, String password);
 }

@@ -28,5 +28,5 @@ public interface FriendProfilePlaylistsInputBoundary {
      *
      * @param playlistName
      */
-    void switchToPlaylistView(String playlistName);
+    void switchToPlaylistView(String playlistName, String username, String password);
 }

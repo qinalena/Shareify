@@ -4,6 +4,8 @@ import entity.Playlist;
 
 public class FriendPlaylistState {
     private Playlist currentPlaylist;
+    private String friendUsername;
+    private String friendPassword;
 
     public void setCurrentPlaylist(Playlist currentPlaylist) {
         this.currentPlaylist = currentPlaylist;
@@ -11,5 +13,21 @@ public class FriendPlaylistState {
 
     public Playlist getCurrentPlaylist() {
         return currentPlaylist;
+    }
+
+    public String getFriendUsername() {
+        return friendUsername;
+    }
+
+    public void setFriendUsername(String friendUsername) {
+        this.friendUsername = friendUsername;
+    }
+
+    public String getFriendPassword() {
+        return friendPassword;
+    }
+
+    public void setFriendPassword(String friendPassword) {
+        this.friendPassword = friendPassword;
     }
 }

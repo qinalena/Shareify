@@ -2,7 +2,6 @@ package use_case.friends_list_user_story.friend_profile_playlists;
 
 import entity.Playlist;
 import entity.Song;
-import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsController;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsViewModel;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputData;
 
@@ -44,7 +43,7 @@ public class FriendProfilePlaylistsInteractor implements FriendProfilePlaylistsI
     }
 
     @Override
-    public void switchToPlaylistView(String playlistName) {
+    public void switchToPlaylistView(String playlistName, String username, String password) {
         if (playlistName == null) {
             friendProfilePlaylistsPresenter.prepareFailView("Must select a playlist.");
         }
@@ -56,7 +55,7 @@ public class FriendProfilePlaylistsInteractor implements FriendProfilePlaylistsI
             playlistTest.addSong(new Song("Starships", new String[]{"Nicki Minaj"}));
 
             PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlistTest);
-            friendProfilePlaylistsPresenter.switchToPlaylistView(playlistCollectionOutputData, playlistName);
+            friendProfilePlaylistsPresenter.switchToPlaylistView(playlistCollectionOutputData, playlistName, username, password);
         }
     }
 
