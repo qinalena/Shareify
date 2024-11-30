@@ -3,6 +3,7 @@ package interface_adapter.user_profile_user_story.note;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
 import use_case.user_profile_user_story.note.NoteOutputBoundary;
+import use_case.user_profile_user_story.note.NoteOutputData;
 
 /**
  * The presenter for our Note viewing and editing program.
@@ -19,13 +20,9 @@ public class NotePresenter implements NoteOutputBoundary {
         this.viewManagerModel = viewManagerModel;
     }
 
-    /**
-     * Prepares the success view for the Note related Use Cases.
-     *
-     * @param note the output data
-     */
     @Override
-    public void prepareSuccessView(String note) {
+    public void prepareSuccessView(NoteOutputData outputData) {
+        String note = outputData.getNote();
         noteViewModel.getState().setNote(note);
         noteViewModel.getState().setError(null);
         noteViewModel.firePropertyChanged();

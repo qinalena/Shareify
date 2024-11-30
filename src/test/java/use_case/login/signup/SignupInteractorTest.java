@@ -6,8 +6,10 @@ import entity.UserFactory;
 import interface_adapter.login_user_story.signup.SignupPresenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import use_case.login_user_story.login.LoginOutputData;
 import use_case.login_user_story.signup.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class SignupInteractorTest {
@@ -58,6 +60,16 @@ public class SignupInteractorTest {
     public void testSwitchToLoginView(){
         userSignupInteractor.switchToLoginView();
         verify(userPresenter, times(1)).switchToLoginView();
+    }
+
+    @Test
+    public void testGetUsername() {
+        String username = "NewUser";
+        SignupOutputData outputData = new SignupOutputData(username);
+
+        String actualUsername = outputData.getUsername();
+
+        assertEquals(username, actualUsername);
     }
 
 }

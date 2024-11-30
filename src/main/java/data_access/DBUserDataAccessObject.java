@@ -1,10 +1,7 @@
 package data_access;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import entity.UserFactoryInter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,7 +18,6 @@ import use_case.playlist_user_story.search_song.SearchSongDataAccessInterface;
 import use_case.user_profile_user_story.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.login_user_story.login.LoginUserDataAccessInterface;
 import use_case.user_profile_user_story.logout.LogoutUserDataAccessInterface;
-import use_case.user_profile_user_story.note.DataAccessException;
 import use_case.login_user_story.signup.SignupUserDataAccessInterface;
 import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 

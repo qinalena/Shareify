@@ -6,9 +6,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import use_case.login_user_story.signup.SignupInteractor;
 import use_case.login_user_story.signup.SignupOutputBoundary;
+import use_case.login_user_story.signup.SignupOutputData;
 import use_case.login_user_story.signup.SignupUserDataAccessInterface;
 import use_case.user_profile_user_story.change_password.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class ChangePasswordInteractorTest {
@@ -42,5 +44,15 @@ public class ChangePasswordInteractorTest {
     public void testswitchToUserProfileView(){
         changePasswordInteractor.switchToUserProfileView();
         verify(changePwdPresenter, times(1)).switchToUserProfileView();
+    }
+
+    @Test
+    public void testGetUsername() {
+        String username = "NewUser";
+        ChangePasswordOutputData outputData = new ChangePasswordOutputData(username);
+
+        String actualUsername = outputData.getUsername();
+
+        assertEquals(username, actualUsername);
     }
 }

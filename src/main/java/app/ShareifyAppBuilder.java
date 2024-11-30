@@ -290,8 +290,7 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addNoteUseCase() {
         final NoteOutputBoundary noteOutputBoundary = new NotePresenter(noteViewModel,
                 userProfileViewModel, viewManagerModel);
-        noteInteractor = new NoteInteractor(userDataAccessObject,
-                noteDAO, noteOutputBoundary);
+        noteInteractor = new NoteInteractor(noteDAO, noteOutputBoundary);
 
         final NoteController noteController = new NoteController(noteInteractor);
         if (noteView == null) {
@@ -558,7 +557,7 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addLogoutUseCase() {
         final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
-                userProfileViewModel, loginViewModel);
+                userProfileViewModel, loginViewModel, signupViewModel);
 
         final LogoutInputBoundary logoutInteractor =
                 new LogoutInteractor(userDataAccessObject, logoutOutputBoundary);

@@ -20,7 +20,7 @@ public class LogoutInteractor implements LogoutInputBoundary {
         final String username = logoutInputData.getUsername();
         userDataAccessObject.setCurrentUsername(null);
 
-        final LogoutOutputData logoutOutputData = new LogoutOutputData(username, false);
+        final LogoutOutputData logoutOutputData = new LogoutOutputData(username);
         logoutPresenter.prepareSuccessView(logoutOutputData);
     }
 }

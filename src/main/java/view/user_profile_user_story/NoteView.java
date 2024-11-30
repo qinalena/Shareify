@@ -13,14 +13,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import data_access.DBNoteDataAccessObject;
-import data_access.DBUserDataAccessObject;
-import entity.User;
 import interface_adapter.user_profile_user_story.note.NoteController;
 import interface_adapter.user_profile_user_story.note.NoteState;
 import interface_adapter.user_profile_user_story.note.NoteViewModel;
-import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
-import use_case.user_profile_user_story.note.DataAccessException;
 
 /**
  * The View for when the user is viewing a note in the program.

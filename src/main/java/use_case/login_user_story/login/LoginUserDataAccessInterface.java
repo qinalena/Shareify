@@ -1,7 +1,7 @@
 package use_case.login_user_story.login;
 
 import entity.User;
-import use_case.user_profile_user_story.note.DataAccessException;
+import data_access.DataAccessException;
 
 /**
  * DAO for the Login Use Case.

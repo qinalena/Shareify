@@ -19,8 +19,8 @@ public class NoteController {
      * @param note the note to be recorded
      */
     public void execute(String note, String username) {
-        final NoteInputData data = new NoteInputData(username);
-        noteInteractor.executeSave(note, username);
+        final NoteInputData data = new NoteInputData(username, note);
+        noteInteractor.executeSave(data);
         }
 
 

@@ -1,9 +1,7 @@
 package use_case.user_profile_user_story.note;
 
-import data_access.DBUserDataAccessObject;
+import data_access.DataAccessException;
 import entity.User;
-import interface_adapter.user_profile_user_story.note.NoteState;
-import interface_adapter.user_profile_user_story.note.NoteViewModel;
 
 /**
  * The "Use Case Interactor" for our two note-related use cases of refreshing
@@ -16,23 +14,22 @@ public class NoteInteractor implements NoteInputBoundary {
     private final NoteOutputBoundary notePresenter;
     private User user;
 
-    public NoteInteractor(DBUserDataAccessObject dbUserDataAccessObject, NoteDataAccessInterface noteDataAccessInterface, NoteOutputBoundary notePresenter) {
+    public NoteInteractor(NoteDataAccessInterface noteDataAccessInterface, NoteOutputBoundary notePresenter) {
         this.noteDataAccessInterface = noteDataAccessInterface;
         this.notePresenter = notePresenter;
     }
 
-    /**
-     * Executes the save note use case.
-     *
-     * @param note the input data
-     */
+
     @Override
-    public void executeSave(String note, String username) {
+    public void executeSave(NoteInputData noteInputData) {
         try {
+            String username = noteInputData.getUsername();
+            String note = noteInputData.getNote();
             user = noteDataAccessInterface.get(username);
             String updatedNote = noteDataAccessInterface.saveNote(user, note);
             user.setNote(updatedNote);
-            notePresenter.prepareSuccessView(updatedNote);
+            NoteOutputData outputData = new NoteOutputData(username, note);
+            notePresenter.prepareSuccessView(outputData);
         }
         catch (DataAccessException ex) {
             notePresenter.prepareFailView(ex.getMessage());

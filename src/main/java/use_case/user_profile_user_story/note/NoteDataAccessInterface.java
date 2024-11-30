@@ -1,5 +1,6 @@
 package use_case.user_profile_user_story.note;
 
+import data_access.DataAccessException;
 import entity.User;
 
 /**

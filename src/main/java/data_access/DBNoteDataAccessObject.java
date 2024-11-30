@@ -13,8 +13,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import use_case.user_profile_user_story.note.DataAccessException;
-import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 /**
  * The DAO for accessing notes stored in the database.

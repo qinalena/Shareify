@@ -1,8 +1,7 @@
 package use_case.login_user_story.login;
 
-import data_access.LoggedInDataAccessObject;
 import entity.User;
-import use_case.user_profile_user_story.note.DataAccessException;
+import data_access.DataAccessException;
 
 /**
  * The Login Interactor.

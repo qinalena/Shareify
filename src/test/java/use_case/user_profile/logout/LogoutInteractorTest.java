@@ -3,8 +3,10 @@ package use_case.user_profile.logout;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import use_case.login_user_story.signup.SignupOutputData;
+import use_case.user_profile_user_story.change_password.ChangePasswordOutputData;
 import use_case.user_profile_user_story.logout.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class LogoutInteractorTest {
@@ -33,5 +35,13 @@ public class LogoutInteractorTest {
         verify(logoutPresenter, times(1)).prepareSuccessView(any(LogoutOutputData.class));
     }
 
+    @Test
+    public void testGetUsername() {
+        String username = "NewUser";
+        LogoutOutputData outputData = new LogoutOutputData(username);
 
+        String actualUsername = outputData.getUsername();
+
+        assertEquals(username, actualUsername);
+    }
 }

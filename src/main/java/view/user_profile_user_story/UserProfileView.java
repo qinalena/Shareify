@@ -1,14 +1,10 @@
 package view.user_profile_user_story;
 
-import data_access.DBNoteDataAccessObject;
-import data_access.DBUserDataAccessObject;
-import interface_adapter.login_user_story.login.LoginState;
 import interface_adapter.user_profile_user_story.logout.LogoutController;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileController;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
-import org.json.JSONException;
-import use_case.user_profile_user_story.note.DataAccessException;
+import data_access.DataAccessException;
 
 import javax.swing.*;
 import java.awt.*;
