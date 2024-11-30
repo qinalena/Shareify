@@ -67,18 +67,19 @@ public class FriendsListInteractor implements FriendsListInputBoundary {
             friends = dbNoteDataAccessObject
                     .getFriends(username);
             presenter.prepareGetFriendsSuccessView(friends);
-        } catch (DataAccessException e) {
-            presenter.prepareFailView(e.getMessage());
         }
-
+        catch (DataAccessException ext) {
+            presenter.prepareFailView(ext.getMessage());
+        }
     }
 
     @Override
     public void executeRemoveFriendInDB(User user, int idx) {
         try {
             dbNoteDataAccessObject.removeFriendinDB(user, idx);
-        } catch (DataAccessException e) {
-            presenter.prepareFailView(e.getMessage());
+        }
+        catch (DataAccessException ext) {
+            presenter.prepareFailView(ext.getMessage());
         }
     }
 
@@ -87,8 +88,9 @@ public class FriendsListInteractor implements FriendsListInputBoundary {
         try {
             final String friendPassword = dbNoteDataAccessObject.getPasswordByUserName(username);
             presenter.prepareGetFriendPasswordbyUserNameSuccessView(friendPassword);
-        } catch (DataAccessException e) {
-            presenter.prepareFailView(e.getMessage());
+        }
+        catch (DataAccessException ext) {
+            presenter.prepareFailView(ext.getMessage());
         }
     }
 }
