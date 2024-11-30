@@ -8,13 +8,11 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 
-import data_access.DBPlaylistDataAccessObject;
 import entity.User;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistController;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistState;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionController;
-import use_case.user_profile_user_story.note.DataAccessException;
 import view.login_user_story.LabelTextPanel;
 
 /**
@@ -28,14 +26,15 @@ public class AddPlaylistView extends JPanel implements ActionListener, PropertyC
 
     private AddPlaylistViewModel addPlaylistViewModel = new AddPlaylistViewModel();
     private AddPlaylistController addPlaylistController;
+    private PlaylistCollectionController playlistCollectionController;
 
     private final int columnNum = 20;
     private JTextField playlistNameField = new JTextField(columnNum);
 
     private final JButton saveButton = new JButton("Save");
     private final JButton cancelButton = new JButton("Cancel");
-    private PlaylistCollectionController playlistCollectionController;
-    private final DBPlaylistDataAccessObject dbPlaylistDataAccessObject = new DBPlaylistDataAccessObject();
+
+
     private String username;
     private String password;
 
@@ -43,14 +42,11 @@ public class AddPlaylistView extends JPanel implements ActionListener, PropertyC
      * Constructs AddPlaylistView.
      * @param playlistCollectionModel model for playlist collection
      * @param addPlaylistViewModel view model for adding a playlist
-     * @param playlistCollectionController controller for playlist collection
      */
-    public AddPlaylistView(DefaultListModel<String> playlistCollectionModel, AddPlaylistViewModel addPlaylistViewModel,
-                           PlaylistCollectionController playlistCollectionController) {
+    public AddPlaylistView(DefaultListModel<String> playlistCollectionModel, AddPlaylistViewModel addPlaylistViewModel) {
 
         this.playlistCollectionModel = playlistCollectionModel;
         this.addPlaylistViewModel = addPlaylistViewModel;
-        this.playlistCollectionController = playlistCollectionController;
         this.addPlaylistViewModel.addPropertyChangeListener(this);
 
         // UI components
@@ -95,35 +91,17 @@ public class AddPlaylistView extends JPanel implements ActionListener, PropertyC
         // Sets name of playlist as inputted name by user
         final String playlistName = playlistNameField.getText();
         if (!playlistName.isEmpty()) {
-            try {
-                String playlistFound = dbPlaylistDataAccessObject.getPlaylists(username).toString();
+            // Construct User object from stored username and password
+            User user = new User(username, password);
 
-                if (playlistFound != null && !playlistFound.isEmpty()) {
-                    // Add playlist to the list
-                    final DefaultListModel<String> listModel = playlistCollectionModel;
-                    listModel.addElement(playlistName);
-                    addPlaylistViewModel.setNewPlaylist(playlistName);
-                    // Notify controller
-                    playlistCollectionController.addPlaylist(playlistName);
-                    // Save to database
-                    dbPlaylistDataAccessObject.addPlaylistinDB(new User(username, password), playlistName);
-                    // Update playlist collection view with newly added playlist
-                    addPlaylistController.switchToPlaylistCollectionView();
-                }
-                else {
-                    JOptionPane.showMessageDialog(this, "Playlist already exist!",
-                            "Error Playlist Exists", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-            catch (DataAccessException evt) {
-                JOptionPane.showMessageDialog(this, evt.getMessage(),
-                        "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            // Notify controller
+            playlistCollectionController.addPlaylist(user, playlistName);
         }
         else {
-            JOptionPane.showMessageDialog(this, "Please enter a name.", "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter a name.",
+                    "Error playlistName", JOptionPane.ERROR_MESSAGE);
         }
+        addPlaylistController.switchToPlaylistCollectionView();
     }
 
     /**
@@ -149,7 +127,7 @@ public class AddPlaylistView extends JPanel implements ActionListener, PropertyC
         this.addPlaylistController = addPlaylistController;
     }
 
-//    public void setPlaylistCollectionController(PlaylistCollectionController playlistCollectionController) {
-//        this.playlistCollectionController = playlistCollectionController;
-//    }
+    public void setPlaylistCollectionController(PlaylistCollectionController playlistCollectionController) {
+        this.playlistCollectionController = playlistCollectionController;
+    }
 }

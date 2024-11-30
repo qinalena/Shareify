@@ -15,7 +15,6 @@ import entity.User;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionController;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
-import use_case.playlist_collection_user_story.add_playlist.AddPlaylistOutputBoundary;
 import use_case.user_profile_user_story.note.DataAccessException;
 
 /**
@@ -28,7 +27,6 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
     private PlaylistCollectionController playlistCollectionController;
 
-    private AddPlaylistOutputBoundary addPlaylistOutputBoundary;
     private DBPlaylistDataAccessObject dbPlaylistDataAccessObject;
     private String username;
     private String password;
@@ -47,15 +45,11 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     // JList to show the names of the playlists
     private final JList<String> playlistCollectionList = new JList<>(new DefaultListModel<>());
 
-    public PlaylistCollectionView(PlaylistCollectionController playlistCollectionController,
-                                  PlaylistCollectionViewModel playlistCollectionViewModel,
-                                  DBPlaylistDataAccessObject dbPlaylistDataAccessObject,
-                                  AddPlaylistOutputBoundary addPlaylistOutputBoundary) {
+    public PlaylistCollectionView(PlaylistCollectionViewModel playlistCollectionViewModel,
+                                  DBPlaylistDataAccessObject dbPlaylistDataAccessObject) {
 
-        this.playlistCollectionController = playlistCollectionController;
         this.playlistCollectionViewModel = playlistCollectionViewModel;
         this.dbPlaylistDataAccessObject = dbPlaylistDataAccessObject;
-        this.addPlaylistOutputBoundary = addPlaylistOutputBoundary;
         this.playlistCollectionViewModel.addPropertyChangeListener(this);
 
         // Debugging
@@ -141,8 +135,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
      */
     private void populatePlaylistListFromDB() {
         try {
-            final User realUser = new User(username, password);
-            final List<String> playlists = dbPlaylistDataAccessObject.getPlaylists(realUser.getName());
+            final List<String> playlists = dbPlaylistDataAccessObject.getPlaylists(username);
 
             // Debugging
 //            System.out.println("Fetching playlist from data base: " + playlists);
@@ -161,25 +154,24 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
      * Logic for deleting a playlist button.
      */
     private void deletePlaylistLogic() {
-        final int[] selectedIndices = playlistCollectionList.getSelectedIndices();
-        if (selectedIndices.length > 0) {
-            for (int i = selectedIndices.length - 1; i >= 0; i--) {
-                listModel.remove(selectedIndices[i]);
-                try {
-                    final User user = new User(username, password);
-                    dbPlaylistDataAccessObject.removePlaylistinDB(user, selectedIndices[i]);
-                }
-                catch (DataAccessException error) {
-                    JOptionPane.showMessageDialog(this,
-                            "Error in removing playlist from database: " + error.getMessage(),
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                }
+        final String selectedPlaylist = playlistCollectionList.getSelectedValue();
+        if (selectedPlaylist != null) {
+            try {
+                dbPlaylistDataAccessObject.removePlaylistinDB(new User(username, password),
+                        selectedPlaylist);
+
+                // Remove playlist from the list model after successful deletion
+                listModel.removeElement(selectedPlaylist);
+                System.out.println("Deleted playlist: " + selectedPlaylist);
+            }
+            catch (DataAccessException error) {
+                JOptionPane.showMessageDialog(this, "Error in removing playlist from database: " + error.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
         else {
-            JOptionPane.showMessageDialog(PlaylistCollectionView.this,
-                    "Please select a playlist to delete.", "Playlist Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please selected a playlist to delete.",
+                    "Playlist error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

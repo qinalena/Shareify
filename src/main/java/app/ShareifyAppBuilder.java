@@ -205,8 +205,7 @@ public class ShareifyAppBuilder {
         addPlaylistOutputBoundary = new AddPlaylistPresenter(addPlaylistViewModel,
                 viewManagerModel, playlistCollectionViewModel);
         playlistCollectionViewModel = new PlaylistCollectionViewModel();
-        playlistCollectionView = new PlaylistCollectionView(playlistCollectionController,
-                playlistCollectionViewModel, dbPlaylistDataAccessObject, addPlaylistOutputBoundary);
+        playlistCollectionView = new PlaylistCollectionView(playlistCollectionViewModel, dbPlaylistDataAccessObject);
         cardPanel.add(playlistCollectionView, playlistCollectionView.getViewName());
         return this;
     }
@@ -245,7 +244,7 @@ public class ShareifyAppBuilder {
         }
         addPlaylistViewModel = new AddPlaylistViewModel();
         addPlaylistView = new AddPlaylistView(new DefaultListModel<>(),
-                addPlaylistViewModel, playlistCollectionController);
+                addPlaylistViewModel);
         cardPanel.add(addPlaylistView, addPlaylistViewModel.getViewName());
         return this;
     }
@@ -346,10 +345,13 @@ public class ShareifyAppBuilder {
                 addPlaylistOutputBoundary, new ArrayList<>());
 
         final AddPlaylistController addPlaylistController = new AddPlaylistController(addPlaylistInteractor);
+        final PlaylistCollectionController playlistCollectionController =
+                new PlaylistCollectionController(playlistCollectionInteractor);
         if (addPlaylistView == null) {
             throw new RuntimeException("addPlaylistView must be called before addAddPlaylistUseCase");
         }
         addPlaylistView.setAddPlaylistController(addPlaylistController);
+        addPlaylistView.setPlaylistCollectionController(playlistCollectionController);
         return this;
     }
 

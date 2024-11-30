@@ -2,6 +2,11 @@ package use_case.playlist_collection_user_story.playlist_collection;
 
 import entity.Playlist;
 import entity.Song;
+import entity.User;
+import data_access.DBPlaylistDataAccessObject;
+import use_case.user_profile_user_story.note.DataAccessException;
+
+import java.util.List;
 
 /**
  * The "Use Case Interactor" for our playlist collection related use cases of creating
@@ -10,24 +15,45 @@ import entity.Song;
 
 public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoundary {
     private final PlaylistCollectionOutputBoundary playlistCollectionPresenter;
+    private final DBPlaylistDataAccessObject dbPlaylistDataAccessObject;
 
     public PlaylistCollectionInteractor(PlaylistCollectionOutputBoundary playlistCollectionPresenter) {
         this.playlistCollectionPresenter = playlistCollectionPresenter;
+        this.dbPlaylistDataAccessObject = new DBPlaylistDataAccessObject();
     }
 
     @Override
-    public void addPlaylist(String playlistName) {
+    public void addPlaylist(User user, String playlistName) {
         if (playlistName == null || playlistName.isEmpty()) {
             playlistCollectionPresenter.prepareFailView("Playlist name cannot be empty.");
+            return;
         }
-        else {
+        try {
+            // Call DAO to add playlist to database
+            // individual playlist
+            dbPlaylistDataAccessObject.addPlaylistinDB(user, playlistName);
+
             playlistCollectionPresenter.preparePlaylistAddedView(playlistName);
         }
-
+        catch (DataAccessException e) {
+            playlistCollectionPresenter.prepareFailView("Failed to add playlist: " + e.getMessage());
+        }
     }
 
     @Override
-    public void removePlaylist(String playlistName) {
+    public void removePlaylist(User user, String playlistName) {
+        if (playlistName == null || playlistName.isEmpty()) {
+            playlistCollectionPresenter.prepareFailView("Playlist name cannot be empty.");
+            return;
+        }
+        try {
+            // Call to DAO to remove playlist from the database
+            dbPlaylistDataAccessObject.removePlaylistinDB(user, playlistName);
+            playlistCollectionPresenter.preparePlaylistRemovedView(playlistName);
+        }
+        catch (DataAccessException e) {
+            playlistCollectionPresenter.prepareFailView("Failed to remove playlist: " + e.getMessage());
+        }
         playlistCollectionPresenter.preparePlaylistRemovedView(playlistName);
     }
 

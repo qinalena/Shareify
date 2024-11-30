@@ -1,6 +1,7 @@
 package interface_adapter.playlist_collection_user_story.playlist_collection;
 
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionInputBoundary;
+import entity.User;
 
 /**
  * Controller for our Playlist Collection related Use Cases.
@@ -17,16 +18,16 @@ public class PlaylistCollectionController {
      * Executes the adding playlist related Use Cases.
      * @param playlistName the playlist to be recorded
      */
-    public void addPlaylist(String playlistName) {
-        this.playlistCollectionInteractor.addPlaylist(playlistName);
+    public void addPlaylist(User user, String playlistName) {
+        this.playlistCollectionInteractor.addPlaylist(user, playlistName);
     }
 
     /**
      * Executes removing playlist related use cases.
      * @param playlistName playlist to be removed
      */
-    public void removePlaylist(String playlistName) {
-        playlistCollectionInteractor.removePlaylist(playlistName);
+    public void removePlaylist(User user, String playlistName) {
+        playlistCollectionInteractor.removePlaylist(user, playlistName);
     }
 
     /**
