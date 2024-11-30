@@ -13,10 +13,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-/**
- * The view for displaying the playlist collection of a friend's profile.
- * This class extends JPanel and implements ActionListener and PropertyChangeListener to handle user interactions and updates from the FriendProfilePlaylistsViewModel.
- */
 public class FriendProfilePlaylistsView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "friendProfilePlaylistCollection";
 
@@ -30,19 +26,13 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
     // JList to show the names of the playlists
     private JList<String> playlistCollectionList;
     private final JButton backButton = new JButton("Back");
+    private final JButton openPlaylist = new JButton("Open Playlist");
     private String username;
     private String password;
 
-    /**
-     * Constructs a FriendProfilePlaylistsView with the given controller, view model, and data access object.
-     *
-     * @param friendProfilePlaylistsController The controller for the friend's playlist collection.
-     * @param friendProfilePlaylistsViewModel The view model for the friend's playlist collection.
-     * @param dbUserDataAccessObject The data access object for user data.
-     */
     public FriendProfilePlaylistsView(FriendProfilePlaylistsController friendProfilePlaylistsController,
-                                       FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel,
-                                       DBUserDataAccessObject dbUserDataAccessObject) {
+                                      FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel,
+                                      DBUserDataAccessObject dbUserDataAccessObject) {
 
         this.friendProfilePlaylistsController = friendProfilePlaylistsController;
         this.friendProfilePlaylistsViewModel = friendProfilePlaylistsViewModel;
@@ -51,6 +41,7 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
 
         // Setting label properties
         playlistCollectionName.setAlignmentX(Component.CENTER_ALIGNMENT);
+        playlistCollectionName.setText("Shareify - Friend's Playlist Collection"); // Default text
 
         // Initializing JList
         DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -70,7 +61,11 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
         final JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.add(backButton);
+        buttonPanel.add(openPlaylist);
         add(buttonPanel);
+
+        // Set up button actions
+        openPlaylist.addActionListener(this);
         backButton.addActionListener(this);
     }
 
@@ -79,14 +74,11 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
         if (evt.getSource() == backButton) {
             friendProfilePlaylistsController.switchToFriendProfileView(username, password);
         }
+        else if (evt.getSource() == openPlaylist) {
+            friendProfilePlaylistsController.switchToPlaylistView(playlistCollectionList.getSelectedValue());
+        }
     }
 
-    /**
-     * Handles property change events from the FriendProfilePlaylistsViewModel.
-     * Updates the playlist collection and handles any errors.
-     *
-     * @param e The property change event.
-     */
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         final FriendProfilePlaylistsState state = (FriendProfilePlaylistsState) e.getNewValue();
@@ -94,7 +86,6 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
         updateState(state);
         this.username = state.getUsername();
         this.password = state.getPassword();
-        System.out.println("The username was recieved in friends playlist view " + state.getUsername());
 
         if (state.getPlaylistError() != null) {
             JOptionPane.showMessageDialog(this, state.getPlaylistError(),
@@ -106,10 +97,6 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
         playlistCollectionName.setText("Shareify - " + state.getUsername() + "'s Playlist Collection");
     }
 
-    /**
-     * Updates JList playlist collection with the latest playlist data.
-     * @param playlistCollectionState is the state of the playlist collection
-     */
     private void updatePlaylistCollection(FriendProfilePlaylistsState playlistCollectionState) {
         final DefaultListModel<String> listModel = (DefaultListModel<String>) playlistCollectionList.getModel();
         listModel.clear();

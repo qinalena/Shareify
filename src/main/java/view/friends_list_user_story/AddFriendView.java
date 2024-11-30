@@ -20,28 +20,23 @@ import interface_adapter.friends_list_user_story.friends_list.FriendsListControl
  * This class extends JPanel and implements PropertyChangeListener to handle updates from the AddFriendViewModel.
  */
 public class AddFriendView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final DefaultListModel<String> friendsListModel;
+    private final DefaultListModel<String> friendsListModel = new DefaultListModel<>();
     private final AddFriendViewModel addFriendViewModel;
     private AddFriendController addFriendController;
     private final JTextField friendNameField;
     private JButton saveButton;
     private JButton back;
-    private FriendsListController friendsListcontroller;
-    private DBNoteDataAccessObject dbNoteDataAccessObject = new DBNoteDataAccessObject();
     private String username;
     private String password;
+    private String foundUsername;
 
     /**
      * Constructs an AddFriendView with the given friends list model, add friend view model, and friends list controller.
      *
-     * @param friendsListModel The model for the friends list.
      * @param addFriendViewModel The view model for adding a friend.
-     * @param friendsListcontroller The controller for the friends list view.
      */
-    public AddFriendView(DefaultListModel<String> friendsListModel, AddFriendViewModel addFriendViewModel, FriendsListController friendsListcontroller) {
-        this.friendsListModel = friendsListModel;
+    public AddFriendView(AddFriendViewModel addFriendViewModel) {
         this.addFriendViewModel = addFriendViewModel;
-        this.friendsListcontroller = friendsListcontroller;
         this.addFriendViewModel.addPropertyChangeListener(this);
 
         setSize(300, 150);
@@ -71,17 +66,14 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
         String friendName = friendNameField.getText();
         if (!friendName.isEmpty()) {
             try {
-                // Check if the user exists in the database
-                String foundUsername = dbNoteDataAccessObject.getUserByUsername(friendName);
+                addFriendController.executeGetUserByUsername(friendName);
 
                 if (foundUsername != null) {
                     // Add friend to the list
                     DefaultListModel<String> listModel = friendsListModel;
                     listModel.addElement(friendName);
-                    addFriendViewModel.setNewFriend(friendName);
-                    friendsListcontroller.addFriend(friendName);
-                    dbNoteDataAccessObject.addFriendinDB(new User(username, password), foundUsername);
-                    // Update FriendsListView with this friend that was added follow AddPlaylistView
+                    addFriendController.addFriend(friendName);
+                    addFriendController.executeAddFriendinDB(new User(username, password), friendName);
                     addFriendController.switchToFriendsListView();
                 } else {
                     JOptionPane.showMessageDialog(this, "User does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -103,8 +95,16 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final AddFriendState state = (AddFriendState) evt.getNewValue();
-        this.username = state.getUsername();
-        this.password = state.getPassword();
+        if (state.getUsername() != null) {
+            this.username = state.getUsername();
+            this.password = state.getPassword();
+        }
+        this.foundUsername = state.getDbUsername();
+
+//        if (state.getError() != null) {
+//            JOptionPane.showMessageDialog(this, state.getError(), "Error", JOptionPane.ERROR_MESSAGE);
+//        }
+        // Already covered by the interactor
     }
 
     /**
@@ -114,10 +114,6 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
      */
     public void setAddFriendController(AddFriendController controller) {
         this.addFriendController = controller;
-    }
-
-    public void setFriendsListcontroller(FriendsListController friendsListcontroller) {
-        this.friendsListcontroller = friendsListcontroller;
     }
 
     @Override

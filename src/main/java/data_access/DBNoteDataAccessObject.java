@@ -173,7 +173,7 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
      */
     public String getUserByUsername(String username) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
-
+        System.out.println("before database call username: " + username);
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
                 .addHeader("Content-Type", CONTENT_TYPE_JSON)

@@ -8,6 +8,7 @@ public class AddFriendState {
     private List<String> friendsList;
     private String username;
     private String password;
+    private String dbUsername;
 
     public String getSuccessMessage() {
         return successMessage;
@@ -49,5 +50,12 @@ public class AddFriendState {
         this.password = password;
     }
 
+    public String getDbUsername() {
+        return dbUsername;
+    }
+
+    public void setDbUsername(String dbUsername) {
+        this.dbUsername = dbUsername;
+    }
 }
 

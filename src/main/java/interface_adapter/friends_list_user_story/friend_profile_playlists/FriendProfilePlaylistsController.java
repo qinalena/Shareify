@@ -20,4 +20,8 @@ public class FriendProfilePlaylistsController {
     public void switchToFriendProfileView(String selectedFriendName, String password) {
         friendProfilePlaylistsInteractor.switchToFriendProfileView(selectedFriendName, password);
     }
+
+    public void switchToPlaylistView(String playlistName) {
+        friendProfilePlaylistsInteractor.switchToPlaylistView(playlistName);
+    }
 }

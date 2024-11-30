@@ -1,11 +1,19 @@
 package use_case.friends_list_user_story.friends_list;
 
 
+import data_access.DBNoteDataAccessObject;
+import entity.User;
+import use_case.user_profile_user_story.note.DataAccessException;
+
+import java.util.List;
+
 public class FriendsListInteractor implements FriendsListInputBoundary {
     private final FriendsListOutputBoundary presenter;
+    private DBNoteDataAccessObject dbNoteDataAccessObject;
 
-    public FriendsListInteractor(FriendsListOutputBoundary presenter) {
+    public FriendsListInteractor(FriendsListOutputBoundary presenter, DBNoteDataAccessObject dbNoteDataAccessObject) {
         this.presenter = presenter;
+        this.dbNoteDataAccessObject = dbNoteDataAccessObject;
     }
 
     @Override
@@ -50,6 +58,38 @@ public class FriendsListInteractor implements FriendsListInputBoundary {
     @Override
     public void switchToUserProfileView() {
         presenter.switchToUserProfileView();
+    }
+
+    @Override
+    public void executeGetFriends(String username) {
+        final List<String> friends;
+        try {
+            friends = dbNoteDataAccessObject
+                    .getFriends(username);
+            presenter.prepareGetFriendsSuccessView(friends);
+        } catch (DataAccessException e) {
+            presenter.prepareFailView(e.getMessage());
+        }
+
+    }
+
+    @Override
+    public void executeRemoveFriendInDB(User user, int idx) {
+        try {
+            dbNoteDataAccessObject.removeFriendinDB(user, idx);
+        } catch (DataAccessException e) {
+            presenter.prepareFailView(e.getMessage());
+        }
+    }
+
+    @Override
+    public void executeGetPasswordByUserName(String username) {
+        try {
+            final String friendPassword = dbNoteDataAccessObject.getPasswordByUserName(username);
+            presenter.prepareGetFriendPasswordbyUserNameSuccessView(friendPassword);
+        } catch (DataAccessException e) {
+            presenter.prepareFailView(e.getMessage());
+        }
     }
 }
 
