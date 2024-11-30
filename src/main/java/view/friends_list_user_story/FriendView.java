@@ -68,6 +68,16 @@ public class FriendView extends JPanel implements ActionListener, PropertyChange
                 }
         );
 
+        sendMessage.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        friendProfileController.switchToChatView(username);
+                    }
+                }
+        );
+
+
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(friendUsername);
