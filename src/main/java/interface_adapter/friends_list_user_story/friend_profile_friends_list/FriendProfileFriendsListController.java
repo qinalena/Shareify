@@ -13,4 +13,8 @@ public class FriendProfileFriendsListController {
         interactor.switchToFriendProfileView(selectedFriendName, password);
     }
 
+    public void executeGetFriends(String username) {
+        interactor.executeGetFriends(username);
+    }
+
 }
