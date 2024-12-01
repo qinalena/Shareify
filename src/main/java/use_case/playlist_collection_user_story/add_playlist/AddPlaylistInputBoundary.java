@@ -6,8 +6,13 @@ package use_case.playlist_collection_user_story.add_playlist;
 
 public interface AddPlaylistInputBoundary {
     /**
-     * Executes Playlist related use cases.
+     * Executes add Playlist related use cases.
      * @param playlistName output data
      */
-    void execute(String playlistName);
+    void executeCreatePlaylist(String playlistName);
+
+    /**
+     * Switch to playlistCollection View.
+     */
+    void switchToPlaylistCollectionView();
 }

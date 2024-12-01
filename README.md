@@ -6,7 +6,7 @@
 - ### Junyu Li (Jasjas7777)
   - User Stories: Signup/Login/Logout an account
 - ### Don Prathap C. Edirisinghe (DonPrathap)
-  - User Stories: Interact with playlists in a friend's playlist collection
+  - User Stories: Interact with friend through chat feature
 - ### Aseef Ali Hasan (aseef2289)
   - User Stories: View and manage friends list
 - ### Ashleigh Wong (Ash-uwu)
@@ -53,9 +53,9 @@ They will be able to keep their playlists private,  public -  allowing them to s
 Users can view their friends list which is linked to their profile. Friends can be added and removed. Users can also
 view their friends’ account profiles. ***[Aseef Ali Hasan]***
 
-### Interact with playlists in a friend's playlist collection
-Users can like and comment on playlists in their friends’ playlist collections. They can also add their friends’
-playlists to their own playlist collection. ***[Don Edirisinghe]***
+### Interact with friends through chat feature
+Users can message their friends by viewing a friend from the User's friend list, click the button 'send message', and 
+input text to message them. [placeholder user story - Don, you can change it to be more specific] ***[Don Edirisinghe]***
 ----
 ## Entities
 - User
@@ -71,8 +71,6 @@ playlists to their own playlist collection. ***[Don Edirisinghe]***
 - Playlist
   - Name
   - Tracks
-  - Likes
-  - Comments
 ____
 ## Use Cases
 - Sign up
@@ -86,8 +84,7 @@ ____
   - Search for songs
 - Create friend list
   - Add friends
-- Like playlist
-- Comment playlist
+- Message friend
 ____
 ## API
 - Spotify Web API: https://developer.spotify.com/documentation/web-api/reference/get-an-album

@@ -107,6 +107,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         try {
             final User realUser = new User(username, password);
             final List<String> friends = dbNoteDataAccessObject.getFriends(realUser.getName());
+
             populateFriendsList(friends);
         }
         catch (DataAccessException error) {
@@ -181,6 +182,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     public void propertyChange(PropertyChangeEvent evt) {
         // React to changes in the view model (e.g., when the friends list or errors change)
         final FriendsListState state = (FriendsListState) evt.getNewValue();
+
         updateFriendsList(state);
         if (state.getUsername() != this.username) {
             this.username = state.getUsername();
