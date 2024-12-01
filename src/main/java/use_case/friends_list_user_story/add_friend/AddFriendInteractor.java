@@ -2,8 +2,6 @@ package use_case.friends_list_user_story.add_friend;
 
 import data_access.DBFriendDataAccessObject;
 import entity.User;
-import interface_adapter.friends_list_user_story.add_friend.AddFriendPresenter;
-import use_case.friends_list_user_story.add_friend.AddFriendOutputBoundary;
 import data_access.DataAccessException;
 
 import java.util.ArrayList;
@@ -11,17 +9,17 @@ import java.util.List;
 
 public class AddFriendInteractor implements AddFriendInputBoundary {
 
-    private final DBFriendDataAccessObject dbNoteDataAccessObject;
+    private final AddFriendDataAccessInterface addFriendDataAccessInterface;
     private final AddFriendOutputBoundary outputBoundary;
     private final List<String> friendsList = new ArrayList<>();
     private AddFriendOutputBoundary addFriendPresenter;
 
-    public AddFriendInteractor(DBFriendDataAccessObject dbNoteDataAccessObject,
+    public AddFriendInteractor(AddFriendDataAccessInterface addFriendDataAccessInterface,
                                AddFriendOutputBoundary outputBoundary) {
         if (outputBoundary == null) {
             throw new NullPointerException("Output boundary cannot be null");
         }
-        this.dbNoteDataAccessObject = dbNoteDataAccessObject;
+        this.addFriendDataAccessInterface = addFriendDataAccessInterface;
         this.outputBoundary = outputBoundary;
         this.addFriendPresenter = outputBoundary;
     }
@@ -43,7 +41,7 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
     @Override
     public void executeGetUserByUserName(String userName) {
         try {
-            final String username = dbNoteDataAccessObject.getUserByUsername(userName);
+            final String username = addFriendDataAccessInterface.getUserByUsername(userName);
             outputBoundary.prepareGetUserByUserNameSuccessView(username);
         } catch (DataAccessException e) {
             outputBoundary.prepareFailView(e.getMessage());
@@ -53,7 +51,7 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
     @Override
     public void executeAddFriendInDB(User user, String friendName) {
         try {
-            dbNoteDataAccessObject.addFriendinDB(user, friendName);
+            addFriendDataAccessInterface.addFriendinDB(user, friendName);
         } catch (DataAccessException e) {
             outputBoundary.prepareFailView(e.getMessage());
         }

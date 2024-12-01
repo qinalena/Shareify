@@ -9,25 +9,12 @@ import java.util.List;
 
 public class FriendsListInteractor implements FriendsListInputBoundary {
     private final FriendsListOutputBoundary presenter;
-    private DBFriendDataAccessObject dbNoteDataAccessObject;
+    private FriendsListDataAccessInterface friendsListDataAccessInterface;
 
-    public FriendsListInteractor(FriendsListOutputBoundary presenter, DBFriendDataAccessObject dbNoteDataAccessObject) {
+    public FriendsListInteractor(FriendsListOutputBoundary presenter,
+                                 FriendsListDataAccessInterface friendsListDataAccessInterface) {
         this.presenter = presenter;
-        this.dbNoteDataAccessObject = dbNoteDataAccessObject;
-    }
-
-    @Override
-    public void addFriend(String friendName) {
-        if (friendName == null || friendName.isEmpty()) {
-            presenter.presentError("Friend name cannot be empty.");
-            return;
-        }
-        presenter.presentFriendAdded(friendName);
-    }
-
-    @Override
-    public void deleteFriend(String friendName) {
-        presenter.presentFriendDeleted(friendName);
+        this.friendsListDataAccessInterface = friendsListDataAccessInterface;
     }
 
     @Override
@@ -64,7 +51,7 @@ public class FriendsListInteractor implements FriendsListInputBoundary {
     public void executeGetFriends(String username) {
         final List<String> friends;
         try {
-            friends = dbNoteDataAccessObject
+            friends = friendsListDataAccessInterface
                     .getFriends(username);
             presenter.prepareGetFriendsSuccessView(friends);
         }
@@ -76,7 +63,7 @@ public class FriendsListInteractor implements FriendsListInputBoundary {
     @Override
     public void executeRemoveFriendInDB(User user, int idx) {
         try {
-            dbNoteDataAccessObject.removeFriendinDB(user, idx);
+            friendsListDataAccessInterface.removeFriendinDB(user, idx);
         }
         catch (DataAccessException ext) {
             presenter.prepareFailView(ext.getMessage());
@@ -86,7 +73,7 @@ public class FriendsListInteractor implements FriendsListInputBoundary {
     @Override
     public void executeGetPasswordByUserName(String username) {
         try {
-            final String friendPassword = dbNoteDataAccessObject.getPasswordByUserName(username);
+            final String friendPassword = friendsListDataAccessInterface.getPasswordByUserName(username);
             presenter.prepareGetFriendPasswordbyUserNameSuccessView(friendPassword);
         }
         catch (DataAccessException ext) {

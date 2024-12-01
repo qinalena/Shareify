@@ -13,11 +13,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import use_case.friends_list_user_story.add_friend.AddFriendDataAccessInterface;
+import use_case.friends_list_user_story.friends_list.FriendsListDataAccessInterface;
 
 /**
  * The DAO for accessing notes stored in the database.
  */
-public class DBFriendDataAccessObject {
+public class DBFriendDataAccessObject implements FriendsListDataAccessInterface, AddFriendDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final int CREDENTIAL_ERROR = 401;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";

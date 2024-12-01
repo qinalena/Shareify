@@ -1,465 +1,134 @@
-//package use_case.friends_list_user_story.friends_list;
-//
-//import org.junit.Test;
-//
-//import static org.junit.Assert.*;
-//
-//public class FriendsListInteractorTest {
-//
-//    @Test
-//    public void testAddFriendValidName() {
-//        // Arrange
-//        FriendsListOutputBoundary presenter = new FriendsListOutputBoundary() {
-//            @Override
-//            public void presentError(String errorMessage) {
-//                fail("Error should not be presented");
-//            }
-//
-//            @Override
-//            public void presentFriendAdded(String friendName) {
-//                assertEquals("ValidFriendName", friendName);
-//            }
-//
-//            @Override
-//            public void presentFriendDeleted(String friendName) {
-//
-//            }
-//
-//            @Override
-//            public void switchToNoteView() {}
-//
-//            @Override
-//            public void switchToFriendsListView() {}
-//
-//            @Override
-//            public void switchToFriendProfileView(String selectedFriendName, String password) {}
-//
-//            @Override
-//            public void switchToPlaylistCollectionView() {}
-//
-//            @Override
-//            public void switchToAddFriendView() {}
-//
-//            @Override
-//            public void switchToUserProfileView() {}
-//        };
-//
-//        FriendsListInteractor friendsListInteractor = new FriendsListInteractor(presenter);
-//
-//        // Act
-//        friendsListInteractor.addFriend("ValidFriendName");
-//
-//        // Assert
-//        // The assertion is done within the presenter's presentFriendAdded method.
-//    }
-//
-//    @Test
-//    public void testAddFriendEmptyName() {
-//        // Arrange
-//        FriendsListOutputBoundary presenter = new FriendsListOutputBoundary() {
-//            @Override
-//            public void presentError(String errorMessage) {
-//                assertEquals("Friend name cannot be empty.", errorMessage);
-//            }
-//
-//            @Override
-//            public void presentFriendAdded(String friendName) {
-//                fail("Friend should not be added");
-//            }
-//
-//            @Override
-//            public void presentFriendDeleted(String friendName) {
-//
-//            }
-//
-//            @Override
-//            public void switchToNoteView() {}
-//
-//            @Override
-//            public void switchToFriendsListView() {}
-//
-//            @Override
-//            public void switchToFriendProfileView(String selectedFriendName, String password) {}
-//
-//            @Override
-//            public void switchToPlaylistCollectionView() {}
-//
-//            @Override
-//            public void switchToAddFriendView() {}
-//
-//            @Override
-//            public void switchToUserProfileView() {}
-//        };
-//
-//        FriendsListInteractor friendsListInteractor = new FriendsListInteractor(presenter);
-//
-//        // Act
-//        friendsListInteractor.addFriend("");
-//
-//        // Assert
-//        // The assertion is done within the presenter's presentError method.
-//    }
-//
-//    @Test
-//    public void testAddFriendNullName() {
-//        // Arrange
-//        FriendsListOutputBoundary presenter = new FriendsListOutputBoundary() {
-//            @Override
-//            public void presentError(String errorMessage) {
-//                assertEquals("Friend name cannot be empty.", errorMessage);
-//            }
-//
-//            @Override
-//            public void presentFriendAdded(String friendName) {
-//                fail("Friend should not be added");
-//            }
-//
-//            @Override
-//            public void presentFriendDeleted(String friendName) {
-//
-//            }
-//
-//            @Override
-//            public void switchToNoteView() {}
-//
-//            @Override
-//            public void switchToFriendsListView() {}
-//
-//            @Override
-//            public void switchToFriendProfileView(String selectedFriendName, String password) {}
-//
-//            @Override
-//            public void switchToPlaylistCollectionView() {}
-//
-//            @Override
-//            public void switchToAddFriendView() {}
-//
-//            @Override
-//            public void switchToUserProfileView() {}
-//        };
-//
-//        FriendsListInteractor friendsListInteractor = new FriendsListInteractor(presenter);
-//
-//        // Act
-//        friendsListInteractor.addFriend(null);
-//
-//        // Assert
-//        // The assertion is done within the presenter's presentError method.
-//    }
-//
-//    @Test
-//    public void testDeleteFriend() {
-//        // Arrange
-//        FriendsListOutputBoundary presenter = new FriendsListOutputBoundary() {
-//            @Override
-//            public void presentError(String errorMessage) {
-//                fail("Error should not be presented");
-//            }
-//
-//            @Override
-//            public void presentFriendAdded(String friendName) {}
-//
-//            @Override
-//            public void presentFriendDeleted(String friendName) {
-//                assertEquals("FriendToDelete", friendName);
-//            }
-//
-//            @Override
-//            public void switchToNoteView() {}
-//
-//            @Override
-//            public void switchToFriendsListView() {}
-//
-//            @Override
-//            public void switchToFriendProfileView(String selectedFriendName, String password) {}
-//
-//            @Override
-//            public void switchToPlaylistCollectionView() {}
-//
-//            @Override
-//            public void switchToAddFriendView() {}
-//
-//            @Override
-//            public void switchToUserProfileView() {}
-//        };
-//
-//        FriendsListInteractor friendsListInteractor = new FriendsListInteractor(presenter);
-//
-//        // Act
-//        friendsListInteractor.deleteFriend("FriendToDelete");
-//
-//        // Assert
-//        // The assertion is done within the presenter's presentFriendDeleted method.
-//    }
-//
-//    @Test
-//    public void testSwitchToNoteView() {
-//        // Arrange
-//        FriendsListOutputBoundary presenter = new FriendsListOutputBoundary() {
-//            @Override
-//            public void presentError(String errorMessage) {
-//                fail("Error should not be presented");
-//            }
-//
-//            @Override
-//            public void presentFriendAdded(String friendName) {}
-//
-//            @Override
-//            public void presentFriendDeleted(String friendName) {}
-//
-//            @Override
-//            public void switchToNoteView() {
-//                assertTrue(true); // This will pass if switchToNoteView is called.
-//            }
-//
-//            @Override
-//            public void switchToFriendsListView() {}
-//
-//            @Override
-//            public void switchToFriendProfileView(String selectedFriendName, String password) {}
-//
-//            @Override
-//            public void switchToPlaylistCollectionView() {}
-//
-//            @Override
-//            public void switchToAddFriendView() {}
-//
-//            @Override
-//            public void switchToUserProfileView() {}
-//        };
-//
-//        FriendsListInteractor friendsListInteractor = new FriendsListInteractor(presenter);
-//
-//        // Act
-//        friendsListInteractor.switchToNoteView();
-//
-//        // Assert
-//        // The assertion is done within the presenter's switchToNoteView method.
-//    }
-//
-//    @Test
-//    public void testSwitchToFriendsListView() {
-//        // Arrange
-//        FriendsListOutputBoundary presenter = new FriendsListOutputBoundary() {
-//            @Override
-//            public void presentError(String errorMessage) {
-//                fail("Error should not be presented");
-//            }
-//
-//            @Override
-//            public void presentFriendAdded(String friendName) {}
-//
-//            @Override
-//            public void presentFriendDeleted(String friendName) {}
-//
-//            @Override
-//            public void switchToNoteView() {}
-//
-//            @Override
-//            public void switchToFriendsListView() {
-//                assertTrue(true); // This will pass if switchToFriendsListView is called.
-//            }
-//
-//            @Override
-//            public void switchToFriendProfileView(String selectedFriendName, String password) {}
-//
-//            @Override
-//            public void switchToPlaylistCollectionView() {}
-//
-//            @Override
-//            public void switchToAddFriendView() {}
-//
-//            @Override
-//            public void switchToUserProfileView() {}
-//        };
-//
-//        FriendsListInteractor friendsListInteractor = new FriendsListInteractor(presenter);
-//
-//        // Act
-//        friendsListInteractor.switchToFriendsListView();
-//
-//        // Assert
-//        // The assertion is done within the presenter's switchToFriendsListView method.
-//    }
-//
-//    @Test
-//    public void testSwitchToFriendProfileView() {
-//        // Arrange
-//        FriendsListOutputBoundary presenter = new FriendsListOutputBoundary() {
-//            @Override
-//            public void presentError(String errorMessage) {
-//                fail("Error should not be presented");
-//            }
-//
-//            @Override
-//            public void presentFriendAdded(String friendName) {}
-//
-//            @Override
-//            public void presentFriendDeleted(String friendName) {}
-//
-//            @Override
-//            public void switchToNoteView() {}
-//
-//            @Override
-//            public void switchToFriendsListView() {}
-//
-//            @Override
-//            public void switchToFriendProfileView(String selectedFriendName, String password) {
-//                assertEquals("SelectedFriend", selectedFriendName);
-//                assertEquals("Password", password);
-//            }
-//
-//            @Override
-//            public void switchToPlaylistCollectionView() {}
-//
-//            @Override
-//            public void switchToAddFriendView() {}
-//
-//            @Override
-//            public void switchToUserProfileView() {}
-//        };
-//
-//        FriendsListInteractor friendsListInteractor = new FriendsListInteractor(presenter);
-//
-//        // Act
-//        friendsListInteractor.switchToFriendProfileView("SelectedFriend", "Password");
-//
-//        // Assert
-//        // The assertion is done within the presenter's switchToFriendProfileView method.
-//    }
-//
-//    @Test
-//    public void testSwitchToPlaylistCollectionView() {
-//        // Arrange
-//        FriendsListOutputBoundary presenter = new FriendsListOutputBoundary() {
-//            @Override
-//            public void presentError(String errorMessage) {
-//                fail("Error should not be presented");
-//            }
-//
-//            @Override
-//            public void presentFriendAdded(String friendName) {}
-//
-//            @Override
-//            public void presentFriendDeleted(String friendName) {}
-//
-//            @Override
-//            public void switchToNoteView() {}
-//
-//            @Override
-//            public void switchToFriendsListView() {}
-//
-//            @Override
-//            public void switchToFriendProfileView(String selectedFriendName, String password) {}
-//
-//            @Override
-//            public void switchToPlaylistCollectionView() {
-//                assertTrue(true); // This will pass if switchToPlaylistCollectionView is called.
-//            }
-//
-//            @Override
-//            public void switchToAddFriendView() {}
-//
-//            @Override
-//            public void switchToUserProfileView() {}
-//        };
-//
-//        FriendsListInteractor friendsListInteractor = new FriendsListInteractor(presenter);
-//
-//        // Act
-//        friendsListInteractor.switchToPlaylistCollectionView();
-//
-//        // Assert
-//        // The assertion is done within the presenter's switchToPlaylistCollectionView method.
-//    }
-//
-//    @Test
-//    public void testSwitchToAddFriendView() {
-//        // Arrange
-//        FriendsListOutputBoundary presenter = new FriendsListOutputBoundary() {
-//            @Override
-//            public void presentError(String errorMessage) {
-//                fail("Error should not be presented");
-//            }
-//
-//            @Override
-//            public void presentFriendAdded(String friendName) {}
-//
-//            @Override
-//            public void presentFriendDeleted(String friendName) {}
-//
-//            @Override
-//            public void switchToNoteView() {}
-//
-//            @Override
-//            public void switchToFriendsListView() {}
-//
-//            @Override
-//            public void switchToFriendProfileView(String selectedFriendName, String password) {}
-//
-//            @Override
-//            public void switchToPlaylistCollectionView() {}
-//
-//            @Override
-//            public void switchToAddFriendView() {
-//                assertTrue(true); // This will pass if switchToAddFriendView is called.
-//            }
-//
-//            @Override
-//            public void switchToUserProfileView() {}
-//        };
-//
-//        FriendsListInteractor friendsListInteractor = new FriendsListInteractor(presenter);
-//
-//        // Act
-//        friendsListInteractor.switchToAddFriendView();
-//
-//        // Assert
-//        // The assertion is done within the presenter's switchToAddFriendView method.
-//    }
-//
-//    @Test
-//    public void testSwitchToUserProfileView() {
-//        // Arrange
-//        FriendsListOutputBoundary presenter = new FriendsListOutputBoundary() {
-//            @Override
-//            public void presentError(String errorMessage) {
-//                fail("Error should not be presented");
-//            }
-//
-//            @Override
-//            public void presentFriendAdded(String friendName) {}
-//
-//            @Override
-//            public void presentFriendDeleted(String friendName) {}
-//
-//            @Override
-//            public void switchToNoteView() {}
-//
-//            @Override
-//            public void switchToFriendsListView() {}
-//
-//            @Override
-//            public void switchToFriendProfileView(String selectedFriendName, String password) {}
-//
-//            @Override
-//            public void switchToPlaylistCollectionView() {}
-//
-//            @Override
-//            public void switchToAddFriendView() {}
-//
-//            @Override
-//            public void switchToUserProfileView() {
-//                assertTrue(true); // This will pass if switchToUserProfileView is called.
-//            }
-//        };
-//
-//        FriendsListInteractor friendsListInteractor = new FriendsListInteractor(presenter);
-//
-//        // Act
-//        friendsListInteractor.switchToUserProfileView();
-//
-//        // Assert
-//        // The assertion is done within the presenter's switchToUserProfileView method.
-//    }
-//}
+package use_case.friends_list_user_story.friends_list;
+
+import data_access.DataAccessException;
+import entity.User;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.MockitoAnnotations;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.Mockito.*;
+
+public class FriendsListInteractorTest {
+
+    private FriendsListInteractor friendsListInteractor;
+    private FriendsListOutputBoundary presenter;
+    private FriendsListDataAccessInterface friendsListDataAccessInterface;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        presenter = mock(FriendsListOutputBoundary.class);
+        friendsListDataAccessInterface = mock(FriendsListDataAccessInterface.class);
+        friendsListInteractor = new FriendsListInteractor(presenter, friendsListDataAccessInterface);
+    }
+
+    @Test
+    public void testSwitchToNoteView() {
+        friendsListInteractor.switchToNoteView();
+        verify(presenter, times(1)).switchToNoteView();
+    }
+
+    @Test
+    public void testSwitchToFriendsListView() {
+        friendsListInteractor.switchToFriendsListView();
+        verify(presenter, times(1)).switchToFriendsListView();
+    }
+
+    @Test
+    public void testSwitchToFriendProfileView() {
+        String friendName = "JohnDoe";
+        String password = "secretPassword";
+
+        friendsListInteractor.switchToFriendProfileView(friendName, password);
+
+        verify(presenter, times(1)).switchToFriendProfileView(friendName, password);
+    }
+
+    @Test
+    public void testSwitchToPlaylistCollectionView() {
+        friendsListInteractor.switchToPlaylistCollectionView();
+        verify(presenter, times(1)).switchToPlaylistCollectionView();
+    }
+
+    @Test
+    public void testSwitchToAddFriendView() {
+        friendsListInteractor.switchToAddFriendView();
+        verify(presenter, times(1)).switchToAddFriendView();
+    }
+
+    @Test
+    public void testSwitchToUserProfileView() {
+        friendsListInteractor.switchToUserProfileView();
+        verify(presenter, times(1)).switchToUserProfileView();
+    }
+
+    @Test
+    public void testExecuteGetFriendsSuccess() throws DataAccessException {
+        String username = "TestUser";
+        List<String> mockFriendsList = Arrays.asList("Friend1", "Friend2");
+        when(friendsListDataAccessInterface.getFriends(username)).thenReturn(mockFriendsList);
+
+        friendsListInteractor.executeGetFriends(username);
+
+        verify(presenter, times(1)).prepareGetFriendsSuccessView(mockFriendsList);
+    }
+
+    @Test
+    public void testExecuteGetFriendsFailure() throws DataAccessException {
+        String username = "TestUser";
+        when(friendsListDataAccessInterface.getFriends(username))
+                .thenThrow(new DataAccessException("Failed to retrieve friends"));
+
+        friendsListInteractor.executeGetFriends(username);
+
+        verify(presenter, times(1)).prepareFailView("Failed to retrieve friends");
+    }
+
+    @Test
+    public void testExecuteRemoveFriendInDBSuccess() throws DataAccessException {
+        User mockUser = new User("username", "password");
+        int index = 0;
+
+        friendsListInteractor.executeRemoveFriendInDB(mockUser, index);
+
+        verify(friendsListDataAccessInterface, times(1)).removeFriendinDB(mockUser, index);
+    }
+
+    @Test
+    public void testExecuteRemoveFriendInDBFailure() throws DataAccessException {
+        User mockUser = new User("username", "password");
+        int index = 0;
+        doThrow(new DataAccessException("Failed to remove friend"))
+                .when(friendsListDataAccessInterface).removeFriendinDB(mockUser, index);
+
+        friendsListInteractor.executeRemoveFriendInDB(mockUser, index);
+
+        verify(presenter, times(1)).prepareFailView("Failed to remove friend");
+    }
+
+    @Test
+    public void testExecuteGetPasswordByUserNameSuccess() throws DataAccessException {
+        String username = "TestUser";
+        String password = "password";
+        when(friendsListDataAccessInterface.getPasswordByUserName(username)).thenReturn(password);
+
+        friendsListInteractor.executeGetPasswordByUserName(username);
+
+        verify(presenter, times(1)).prepareGetFriendPasswordbyUserNameSuccessView(password);
+    }
+
+    @Test
+    public void testExecuteGetPasswordByUserNameFailure() throws DataAccessException {
+        String username = "TestUser";
+        when(friendsListDataAccessInterface.getPasswordByUserName(username))
+                .thenThrow(new DataAccessException("Error message"));
+
+        friendsListInteractor.executeGetPasswordByUserName(username);
+
+        verify(presenter, times(1)).prepareFailView("Error message");
+    }
+
+}

@@ -10,14 +10,6 @@ public class FriendsListController {
         this.interactor = interactor;
     }
 
-    public void addFriend(String friendName) {
-        interactor.addFriend(friendName);
-    }
-
-    public void deleteFriend(String friendName) {
-        interactor.deleteFriend(friendName);
-    }
-
     /**
      * Executes the "switch to NoteView" Use Case.
      */
