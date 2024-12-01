@@ -19,9 +19,10 @@ public class PlaylistInteractor implements PlaylistInputBoundary {
     }
 
     @Override
-    public void removeSong(Playlist playlist, int songIndex) {
-        // TODO: Remove song from playlist in the DB
+    public void removeSong(String currentPlaylistName, int songIndex) {
         try {
+            final Playlist playlist = new Playlist(currentPlaylistName);
+
             playlistDataAccessObject.removeSongFromPlaylist(playlist, songIndex);
             playlistPresenter.removeSong(songIndex);
         }
@@ -37,8 +38,8 @@ public class PlaylistInteractor implements PlaylistInputBoundary {
     }
 
     @Override
-    public void switchToSearchSongView(Playlist currentPlaylist) {
-        playlistPresenter.switchToSearchSongView(currentPlaylist);
+    public void switchToSearchSongView(String currentPlaylistName) {
+        playlistPresenter.switchToSearchSongView(currentPlaylistName);
 
     }
 }

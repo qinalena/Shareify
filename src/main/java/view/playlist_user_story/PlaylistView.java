@@ -50,7 +50,7 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
 
         removeSongButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                playlistController.removeSong(playlistViewModel.getState().getCurrentPlaylist(),
+                playlistController.removeSong(playlistViewModel.getState().getCurrentPlaylistName(),
                         songs.getSelectedIndex());
             }
         }
@@ -58,7 +58,7 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
 
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                playlistController.switchToSearchTracksView(playlistViewModel.getState().getCurrentPlaylist());
+                playlistController.switchToSearchSongView(playlistViewModel.getState().getCurrentPlaylistName());
             }
         }
         );
@@ -92,14 +92,14 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
     }
 
     private void setFields(PlaylistState state) {
-        final Playlist currentPlaylist = state.getCurrentPlaylist();
-        playlistTitle.setText(currentPlaylist.getName());
+        final String currentPlaylistName = state.getCurrentPlaylistName();
+        playlistTitle.setText(currentPlaylistName);
 
         final DefaultListModel<String> listModel = (DefaultListModel<String>) songs.getModel();
         listModel.clear();
 
-        for (Song song : currentPlaylist.getSongs()) {
-            listModel.addElement(song.getName() + " - " + song.artistsToString());
+        for (String song : state.getSongs()) {
+            listModel.addElement(song);
         }
     }
 

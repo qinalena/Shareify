@@ -1,6 +1,8 @@
 package use_case.playlist_user_story.search_song;
 
-import se.michaelthelin.spotify.model_objects.specification.Track;
+import entity.Song;
+
+import java.util.List;
 
 /**
  * Interface for connecting to Spotify API.
@@ -8,9 +10,9 @@ import se.michaelthelin.spotify.model_objects.specification.Track;
 public interface SpotifyConnectionInterface {
 
     /**
-     *
-     * @param query
+     * Returns the search results in a list of Songs.
+     * @param query the search query
      * @return search results
      */
-    Track[] searchTrack(String query);
+    List<Song> searchTrack(String query);
 }

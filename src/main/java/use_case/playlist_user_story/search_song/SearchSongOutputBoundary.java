@@ -1,6 +1,5 @@
 package use_case.playlist_user_story.search_song;
-
-import entity.Song;
+import java.util.List;
 
 /**
  * The output boundary for Search Track.
@@ -9,9 +8,10 @@ public interface SearchSongOutputBoundary {
 
     /**
      * Executes the search song Use Case.
-     * @param searchSongOutputData the output data
+     *
+     * @param displaySearchResults the output data
      */
-    void searchSong(SearchSongOutputData searchSongOutputData);
+    void searchSong(List<String> displaySearchResults);
 
     /**
      * Switches to Playlist View.
@@ -22,7 +22,7 @@ public interface SearchSongOutputBoundary {
      * Executes the add song Use case.
      * @param selectedSong the selected Song.
      */
-    void addSong(Song selectedSong);
+    void addSong(String selectedSong);
 
     /**
      * Failure view for data access exceptions.

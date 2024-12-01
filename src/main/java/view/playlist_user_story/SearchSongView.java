@@ -62,7 +62,7 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
 
         addSongButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                searchSongController.addSong(searchSongViewModel.getState().getCurrentPlaylist(),
+                searchSongController.addSong(searchSongViewModel.getState().getCurrentPlaylistName(),
                         songs.getSelectedValue());
             }
         }
@@ -101,8 +101,8 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
         final DefaultListModel<String> listModel = (DefaultListModel<String>) songs.getModel();
         listModel.clear();
 
-        for (Song song : state.getSearchResults()) {
-            listModel.addElement(song.getName() + " - " + song.artistsToString());
+        for (String song : state.getSearchResults()) {
+            listModel.addElement(song);
         }
     }
 

@@ -27,10 +27,15 @@ public class Song {
      * @return string of artists
      */
     public String artistsToString() {
-        StringJoiner joiner = new StringJoiner(", ");
+        final StringJoiner joiner = new StringJoiner(", ");
         for (String artist : artists) {
             joiner.add(artist);
         }
         return joiner.toString();
+    }
+
+    @Override
+    public String toString() {
+        return name + " - " + artistsToString();
     }
 }

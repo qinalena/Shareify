@@ -3,27 +3,39 @@ package interface_adapter.playlist_user_story.playlist;
 import entity.Playlist;
 import entity.Song;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The State for a Playlist.
  */
 public class PlaylistState {
-    private Playlist currentPlaylist;
+    private String currentPlaylistName;
+    private List<String> songs = new ArrayList<>();
     private String error;
 
-    public void setCurrentPlaylist(Playlist currentPlaylist) {
-        this.currentPlaylist = currentPlaylist;
+    public void setCurrentPlaylistName(String currentPlaylistName) {
+        this.currentPlaylistName = currentPlaylistName;
     }
 
-    public Playlist getCurrentPlaylist() {
-        return currentPlaylist;
+    public String getCurrentPlaylistName() {
+        return currentPlaylistName;
+    }
+
+    public void setSongs(List<String> songs) {
+        this.songs = songs;
+    }
+
+    public List<String> getSongs() {
+        return songs;
     }
 
     /**
      * Adds the selected song to the current playlist.
      * @param song the selected song
      */
-    public void addSong(Song song) {
-        currentPlaylist.addSong(song);
+    public void addSong(String song) {
+        songs.add(song);
     }
 
     /**
@@ -31,7 +43,7 @@ public class PlaylistState {
      * @param songIndex the selected song index
      */
     public void removeSong(int songIndex) {
-        currentPlaylist.removeSong(songIndex);
+        songs.remove(songIndex);
     }
 
     public void setError(String error) {
@@ -41,4 +53,5 @@ public class PlaylistState {
     public String getError() {
         return error;
     }
+
 }
