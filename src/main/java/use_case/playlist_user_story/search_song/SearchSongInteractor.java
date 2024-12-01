@@ -3,7 +3,6 @@ package use_case.playlist_user_story.search_song;
 import entity.Song;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Track;
-import spotify_api.SpotifyConnectionInterface;
 import data_access.DataAccessException;
 import use_case.playlist_user_story.playlist.PlaylistDataAccessInterface;
 

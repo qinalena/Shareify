@@ -42,7 +42,7 @@ import use_case.friends_list_user_story.friend_profile_friends_list.FriendProfil
 import interface_adapter.user_profile_user_story.change_password.*;
 import interface_adapter.user_profile_user_story.logout.*;
 
-import spotify_api.SpotifyConnectionInterface;
+import use_case.playlist_user_story.search_song.SpotifyConnectionInterface;
 import use_case.friends_list_user_story.add_friend.*;
 import use_case.friends_list_user_story.friends_list.*;
 import use_case.login_user_story.login.*;

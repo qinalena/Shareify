@@ -10,7 +10,7 @@ import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.data.search.simplified.SearchTracksRequest;
-import use_case.playlist_user_story.search_song.SearchSongDataAccessInterface;
+import use_case.playlist_user_story.search_song.SpotifyConnectionInterface;
 
 /**
  * Class that implements SpotifyConnectionInterface.
