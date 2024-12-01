@@ -3,9 +3,7 @@ package use_case.playlist_collection_user_story.playlist_collection;
 import entity.Playlist;
 import entity.User;
 import data_access.DataAccessException;
-import use_case.playlist_user_story.playlist.PlaylistDataAccessInterface;
-
-import java.util.List;
+import use_case.playlist_user_story.PlaylistDataAccessInterface;
 
 /**
  * The "Use Case Interactor" for our playlist collection related use cases of creating

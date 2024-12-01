@@ -17,8 +17,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import use_case.playlist_user_story.playlist.PlaylistDataAccessInterface;
-import use_case.playlist_user_story.search_song.SearchSongDataAccessInterface;
+import use_case.playlist_user_story.PlaylistDataAccessInterface;
 import use_case.chat.ChatDataAccessInterface;
 import use_case.comment.CommentDataAccessInterface;
 import use_case.user_profile_user_story.change_password.ChangePasswordUserDataAccessInterface;
@@ -32,7 +31,7 @@ import use_case.user_profile_user_story.note.NoteDataAccessInterface;
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface, LogoutUserDataAccessInterface, PlaylistDataAccessInterface,
-        SearchSongDataAccessInterface, CommentDataAccessInterface, ChatDataAccessInterface, NoteDataAccessInterface {
+        CommentDataAccessInterface, ChatDataAccessInterface, NoteDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final int CREDENTIAL_ERROR = 401;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";

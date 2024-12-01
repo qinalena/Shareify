@@ -24,7 +24,7 @@ public class SpotifyConnection implements SpotifyConnectionInterface {
 
     @Override
     public Track[] searchTrack(String query) {
-        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(query)
+        final SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(query)
                 .market(CountryCode.NA).limit(10).offset(0).includeExternal("audio").build();
         try {
             final Paging<Track> trackPaging = searchTracksRequest.execute();
@@ -34,7 +34,7 @@ public class SpotifyConnection implements SpotifyConnectionInterface {
         catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());
         }
-        return null;
+        return new Track[0];
     }
 
 }

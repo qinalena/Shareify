@@ -24,7 +24,8 @@ public class SpotifyAuthorization {
     private final ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials().build();
 
     /**
-     * Create instance of spotify access.
+     * Executes a Client Credentials request and saves the access token to spotifyApi.
+     * spotifyApi can then be used to make calls to the Spotify API.
      */
     public SpotifyAuthorization() {
         setClientCredentials();
@@ -33,10 +34,7 @@ public class SpotifyAuthorization {
     private void setClientCredentials() {
         try {
             final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
-
-            // Set access token for further "spotifyApi" object usage
             spotifyApi.setAccessToken(clientCredentials.getAccessToken());
-
             System.out.println("Expires in: " + clientCredentials.getExpiresIn());
         }
         catch (IOException | SpotifyWebApiException | ParseException exception) {

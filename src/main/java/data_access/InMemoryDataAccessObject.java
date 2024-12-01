@@ -3,9 +3,8 @@ package data_access;
 import entity.Playlist;
 import entity.Song;
 import entity.User;
-import data_access.DataAccessException;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
-import use_case.playlist_user_story.playlist.PlaylistDataAccessInterface;
+import use_case.playlist_user_story.PlaylistDataAccessInterface;
 
 import java.util.ArrayList;
 import java.util.List;

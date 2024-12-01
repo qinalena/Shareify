@@ -25,8 +25,8 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
     private JLabel playlistTitle = new JLabel();
 
     private final JButton backButton = new JButton("Back");
-    private final JButton removeTrackButton = new JButton("Remove Track");
-    private final JButton searchButton = new JButton("Search Tracks");
+    private final JButton removeSongButton = new JButton("Remove Song");
+    private final JButton searchButton = new JButton("Search Song");
 
     private JList<String> songs = new JList<>(new DefaultListModel<>());
 
@@ -38,7 +38,7 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
 
         final JPanel buttons = new JPanel();
         buttons.add(backButton);
-        buttons.add(removeTrackButton);
+        buttons.add(removeSongButton);
         buttons.add(searchButton);
 
         backButton.addActionListener(new ActionListener() {
@@ -48,7 +48,7 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
         }
         );
 
-        removeTrackButton.addActionListener(new ActionListener() {
+        removeSongButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 playlistController.removeSong(playlistViewModel.getState().getCurrentPlaylist(),
                         songs.getSelectedIndex());
