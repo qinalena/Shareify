@@ -2,7 +2,10 @@ package data_access;
 
 import entity.Playlist;
 import entity.Song;
+import entity.User;
+import org.json.JSONArray;
 import use_case.DataAccessException;
+import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
 import use_case.playlist_user_story.playlist.PlaylistDataAccessInterface;
 
 import java.util.ArrayList;
@@ -11,7 +14,7 @@ import java.util.List;
 /**
  * In-memory DAO for writing tests.
  */
-public class InMemoryDataAccessObject implements PlaylistDataAccessInterface {
+public class InMemoryDataAccessObject implements PlaylistDataAccessInterface, PlaylistCollectionDataAccessInterface {
     private final List<Playlist> playlistCollection = new ArrayList<>();
 
     @Override
@@ -43,4 +46,17 @@ public class InMemoryDataAccessObject implements PlaylistDataAccessInterface {
 
     }
 
+    @Override
+    public void addPlaylistinDB(User user, String newPlaylist) throws DataAccessException {
+    }
+
+    @Override
+    public void removePlaylistinDB(User user, String playlistName) throws DataAccessException {
+
+    }
+
+    @Override
+    public List<String> getPlaylists(String username) throws DataAccessException {
+        return List.of();
+    }
 }
