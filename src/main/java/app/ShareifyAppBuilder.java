@@ -21,9 +21,6 @@ import interface_adapter.friends_list_user_story.friend_profile_playlists.Friend
 import interface_adapter.friends_list_user_story.friend_profile_friends_list.*;
 import interface_adapter.friends_list_user_story.add_friend.*;
 import interface_adapter.friends_list_user_story.friends_list.*;
-import interface_adapter.friends_list_user_story.friend_profile.*;
-import interface_adapter.friends_list_user_story.friend_profile_playlists.*;
-import interface_adapter.friends_list_user_story.friend_profile_friends_list.*;
 import interface_adapter.login_user_story.login.*;
 import interface_adapter.login_user_story.signup.*;
 import interface_adapter.login_user_story.welcome.*;
@@ -48,9 +45,6 @@ import interface_adapter.user_profile_user_story.logout.*;
 import spotify_api.SpotifyConnectionInterface;
 import use_case.friends_list_user_story.add_friend.*;
 import use_case.friends_list_user_story.friends_list.*;
-import use_case.friends_list_user_story.friend_profile.*;
-import use_case.friends_list_user_story.friend_profile_playlists.*;
-import use_case.friends_list_user_story.friend_profile_friends_list.*;
 import use_case.login_user_story.login.*;
 import use_case.login_user_story.signup.*;
 import use_case.playlist_collection_user_story.add_playlist.*;
@@ -379,7 +373,7 @@ public class ShareifyAppBuilder {
 
         // Instantiate the input boundary/interactor
         playlistCollectionInteractor =
-                new PlaylistCollectionInteractor(userDataAccessObject, playlistCollectionOutputBoundary);
+                new PlaylistCollectionInteractor(userDataAccessObject, userDataAccessObject, playlistCollectionOutputBoundary);
 
         // Creating controller + connect to interactor
         playlistCollectionController = new PlaylistCollectionController(playlistCollectionInteractor);

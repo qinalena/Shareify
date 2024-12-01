@@ -1,8 +1,8 @@
 package use_case.playlist_collection_user_story.playlist_collection;
 
 import entity.Playlist;
-import entity.Song;
 import use_case.DataAccessException;
+import use_case.playlist_user_story.playlist.PlaylistDataAccessInterface;
 
 import java.util.List;
 
@@ -13,11 +13,13 @@ import java.util.List;
 
 public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoundary {
     private final PlaylistCollectionDataAccessInterface playlistCollectionDataAccessObject;
+    private final PlaylistDataAccessInterface playlistDataAccessObject;
     private final PlaylistCollectionOutputBoundary playlistCollectionPresenter;
 
     public PlaylistCollectionInteractor(PlaylistCollectionDataAccessInterface playlistCollectionDataAccessObject,
-                                        PlaylistCollectionOutputBoundary playlistCollectionPresenter) {
+                                        PlaylistDataAccessInterface playlistDataAccessObject, PlaylistCollectionOutputBoundary playlistCollectionPresenter) {
         this.playlistCollectionDataAccessObject = playlistCollectionDataAccessObject;
+        this.playlistDataAccessObject = playlistDataAccessObject;
         this.playlistCollectionPresenter = playlistCollectionPresenter;
     }
 
@@ -49,16 +51,13 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
         else {
             // Actual code getting Playlist Collection from the DB (PlaylistCollectionOutputData might be redundant; pass playlist directly to presenter)
             try {
-                List<Playlist> playlistCollection = playlistCollectionDataAccessObject.getPlaylistCollection();
-
-                for (Playlist playlist : playlistCollection) {
-                    if (playlist.getName().equals(playlistName)) {
-                        PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlist);
-                        playlistCollectionPresenter.switchToPlaylistView(playlistCollectionOutputData, playlistName);
-                    }
-                }
+                final Playlist playlist = playlistDataAccessObject.getPlaylist(playlistName);
+                final PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlist);
+                playlistCollectionPresenter.switchToPlaylistView(playlistCollectionOutputData);
             }
-            catch (DataAccessException exception) {}
+            catch (DataAccessException exception) {
+                playlistCollectionPresenter.prepareFailView(exception.getMessage());
+            }
 
             // Hard coded playlist collection example
 //            Playlist playlistTest = new Playlist(playlistName);

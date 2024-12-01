@@ -280,28 +280,24 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
                     if (playlist.get("name").equals(playlistName)) {
                         final Playlist playlistObject = new Playlist(playlistName);
 
-                        if (playlist.has("songs")) {
-                            final JSONArray songs = playlist.getJSONArray("songs");
-                            for (int j = 0; j < songs.length(); j++) {
-                                final JSONObject song = songs.getJSONObject(j);
+                        final JSONArray songs = playlist.getJSONArray("songs");
+                        for (int j = 0; j < songs.length(); j++) {
+                            final JSONObject song = songs.getJSONObject(j);
 
-                                final JSONArray artists = song.getJSONArray("artists");
-                                final String[] artistArray = new String[artists.length()];
-                                for (int k = 0; k < artists.length(); k++) {
-                                    artistArray[k] = artists.getString(k);
-                                }
-
-                                final Song songObject = new Song(song.getString("name"), artistArray);
-                                playlistObject.addSong(songObject);
+                            final JSONArray artists = song.getJSONArray("artists");
+                            final String[] artistArray = new String[artists.length()];
+                            for (int k = 0; k < artists.length(); k++) {
+                                artistArray[k] = artists.getString(k);
                             }
 
+                            final Song songObject = new Song(song.getString("name"), artistArray);
+                            playlistObject.addSong(songObject);
                         }
                         return playlistObject;
                     }
 
                 }
             }
-
             else {
                 throw new DataAccessException(responseBody.getString(MESSAGE));
             }
@@ -332,36 +328,114 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
                 final JSONArray playlistCollection = data.getJSONArray("playlist collection");
 
                 for (int i = 0; i < playlistCollection.length(); i++) {
-                    final JSONObject playlist = playlistCollection.getJSONObject(i);
-                    if (playlist.get("name").equals(playlistName)) {
-                        final Playlist playlistObject = new Playlist(playlistName);
+                    final JSONObject jsonPlaylist = playlistCollection.getJSONObject(i);
+                    if (jsonPlaylist.get("name").equals(playlist.getName())) {
 
-                        if (playlist.has("songs")) {
-                            final JSONArray songs = playlist.getJSONArray("songs");
-                            for (int j = 0; j < songs.length(); j++) {
-                                final JSONObject song = songs.getJSONObject(j);
+                        final JSONArray jsonSongs = jsonPlaylist.getJSONArray("songs");
 
-                                final JSONArray artists = song.getJSONArray("artists");
-                                final String[] artistArray = new String[artists.length()];
-                                for (int k = 0; k < artists.length(); k++) {
-                                    artistArray[k] = artists.getString(k);
-                                }
+                        final JSONObject jsonSong = new JSONObject();
+                        jsonSong.put("name", song.getName());
+                        jsonSong.put("artists", song.getArtists());
 
-                                final Song songObject = new Song(song.getString("name"), artistArray);
-                                playlistObject.addSong(songObject);
-                            }
-
-                        }
-                        return playlistObject;
+                        jsonSongs.put(jsonSong);
                     }
+                }
+                // Create updated request
+                final JSONObject updatedUser = new JSONObject();
+                updatedUser.put(USERNAME, currentUser.getUsername());
+                updatedUser.put(PASSWORD, currentUser.getPassword());
+                updatedUser.put("info", data);
 
+                final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
+                final RequestBody body = RequestBody.create(updatedUser.toString(), mediaType);
+                final Request updateRequest = new Request.Builder()
+                        .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
+                        .method("PUT", body)
+                        .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                        .build();
+
+                // Send the update request
+                final Response updateResponse = client.newCall(updateRequest).execute();
+                final JSONObject updateResponseBody = new JSONObject(updateResponse.body().string());
+
+                // Handle the response from the server after updating the user info
+                if (updateResponseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                    System.out.println("Song added to playlist successfully!");
+                }
+                else {
+                    throw new DataAccessException("Error updating user info: " + updateResponseBody.getString(MESSAGE));
                 }
             }
+            else {
+                throw new DataAccessException("Error retrieving user data: " + responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException ex) {
+            throw new DataAccessException("Error occurred while updating user info: " + ex.getMessage());
+        }
     }
 
     @Override
-    public void removeSongFromPlaylist(Playlist playlist, Song song) throws DataAccessException {
+    public void removeSongFromPlaylist(Playlist playlist, int songIndex) throws DataAccessException {
+        final OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
 
+        final Request request = new Request.Builder()
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", currentUser.getUsername()))
+                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                final JSONObject userJSONObject = responseBody.getJSONObject("user");
+                final JSONObject data = userJSONObject.getJSONObject("info");
+                final JSONArray playlistCollection = data.getJSONArray("playlist collection");
+
+                for (int i = 0; i < playlistCollection.length(); i++) {
+                    final JSONObject jsonPlaylist = playlistCollection.getJSONObject(i);
+                    if (jsonPlaylist.get("name").equals(playlist.getName())) {
+
+                        final JSONArray jsonSongs = jsonPlaylist.getJSONArray("songs");
+                        jsonSongs.remove(songIndex);
+
+                    }
+                }
+                // Create updated request
+                final JSONObject updatedUser = new JSONObject();
+                updatedUser.put(USERNAME, currentUser.getUsername());
+                updatedUser.put(PASSWORD, currentUser.getPassword());
+                updatedUser.put("info", data);
+
+                final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
+                final RequestBody body = RequestBody.create(updatedUser.toString(), mediaType);
+                final Request updateRequest = new Request.Builder()
+                        .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
+                        .method("PUT", body)
+                        .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                        .build();
+
+                // Send the update request
+                final Response updateResponse = client.newCall(updateRequest).execute();
+                final JSONObject updateResponseBody = new JSONObject(updateResponse.body().string());
+
+                // Handle the response from the server after updating the user info
+                if (updateResponseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                    System.out.println("Song removed from playlist successfully!");
+                }
+                else {
+                    throw new DataAccessException("Error updating user info: " + updateResponseBody.getString(MESSAGE));
+                }
+            }
+            else {
+                throw new DataAccessException("Error retrieving user data: " + responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException ex) {
+            throw new DataAccessException("Error occurred while updating user info: " + ex.getMessage());
+        }
     }
 
     @Override

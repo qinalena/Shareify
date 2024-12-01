@@ -27,7 +27,6 @@ public interface PlaylistCollectionOutputBoundary {
      * Switches to Playlist View.
      *
      * @param playlistCollectionOutputData output data
-     * @param playlistName
      */
-    void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData, String playlistName);
+    void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData);
 }
