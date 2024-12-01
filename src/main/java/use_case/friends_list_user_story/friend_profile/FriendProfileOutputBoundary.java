@@ -24,4 +24,6 @@ public interface FriendProfileOutputBoundary {
     void switchToPlaylistCollectionView(String username, String password);
 
     void switchToAllFriendsView();
+
+    void switchToChatView(String friendUsername);
 }

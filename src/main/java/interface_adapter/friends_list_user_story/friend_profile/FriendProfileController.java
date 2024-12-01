@@ -29,6 +29,9 @@ public class FriendProfileController {
     public void switchToPlaylistCollectionView(String username, String password) {
         friendProfileInteractor.switchToPlaylistCollectionView(username, password);
     }
+    public void switchToChatView(String friendUsername) {
+        friendProfileInteractor.switchToChatView(friendUsername);
+    }
     public void switchToAllFriendsView() {
         friendProfileInteractor.switchToAllFriendsView();
     }
