@@ -65,6 +65,15 @@ public class ChatView extends JPanel implements PropertyChangeListener, ActionLi
                 }
         );
 
+        backButton.addActionListener(
+                evt -> {
+                    if (evt.getSource().equals(backButton)) {
+                        chatController.switchToFriendView();
+
+                    }
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(chatSectionTitle);

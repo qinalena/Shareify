@@ -3,6 +3,8 @@ package interface_adapter.login_user_story.login;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.chat.ChatState;
 import interface_adapter.chat.ChatViewModel;
+import interface_adapter.comment.CommentState;
+import interface_adapter.comment.CommentViewModel;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendState;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistState;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
@@ -28,6 +30,7 @@ public class LoginPresenter implements LoginOutputBoundary {
     //    private final FriendsListViewModel FriendsListViewModel;
     //    private final AddFriendViewModel AddFriendViewModel;
     private final ChatViewModel chatViewModel;
+    private final CommentViewModel commentViewModel;
     private final UserProfileViewModel userProfileViewModel;
     private final FriendsListViewModel friendsListViewModel;
     private final AddFriendViewModel addFriendViewModel;
@@ -40,7 +43,8 @@ public class LoginPresenter implements LoginOutputBoundary {
                           FriendsListViewModel friendsListViewModel,
                           AddFriendViewModel addFriendViewModel,
                           PlaylistCollectionViewModel playlistCollectionViewModel,
-                          AddPlaylistViewModel addPlaylistViewModel, ChatViewModel chatViewModel) {
+                          AddPlaylistViewModel addPlaylistViewModel, ChatViewModel chatViewModel,
+                          CommentViewModel commentViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.userProfileViewModel = userProfileViewModel;
         this.loginViewModel = loginViewModel;
@@ -49,6 +53,7 @@ public class LoginPresenter implements LoginOutputBoundary {
         this.addFriendViewModel = addFriendViewModel;
         this.playlistCollectionViewModel = playlistCollectionViewModel;
         this.addPlaylistViewModel = addPlaylistViewModel;
+        this.commentViewModel = commentViewModel;
     }
 
     @Override
@@ -94,6 +99,11 @@ public class LoginPresenter implements LoginOutputBoundary {
         chatState.setUsername(response.getUsername());
         this.chatViewModel.setState(chatState);
         this.chatViewModel.firePropertyChanged();
+
+        final CommentState commentState = commentViewModel.getState();
+        commentState.setUsername(response.getUsername());
+        this.commentViewModel.setState(commentState);
+        this.commentViewModel.firePropertyChanged();
 
     }
 

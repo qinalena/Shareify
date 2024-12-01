@@ -12,6 +12,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.chat.ChatController;
 import interface_adapter.chat.ChatPresenter;
 import interface_adapter.chat.ChatViewModel;
+import interface_adapter.comment.CommentViewModel;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileController;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfilePresenter;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileViewModel;
@@ -54,6 +55,7 @@ import use_case.playlist_user_story.search_song.*;
 import use_case.user_profile_user_story.note.*;
 import use_case.user_profile_user_story.user_profile.*;
 import view.ChatView;
+import view.CommentView;
 import view.friends_list_user_story.FriendProfilePlaylistsView;
 import view.friends_list_user_story.FriendView;
 import use_case.user_profile_user_story.change_password.*;
@@ -107,6 +109,9 @@ public class ShareifyAppBuilder {
 
     private ChatViewModel chatViewModel;
     private ChatView chatView;
+
+    private CommentViewModel commentViewModel;
+    private CommentView commentView;
 
     private FriendProfilePlaylistsView friendProfilePlaylistsView;
     private FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel;
@@ -477,7 +482,7 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 userProfileViewModel, loginViewModel, friendsListViewModel, addFriendViewModel,
-                playlistCollectionViewModel, addPlaylistViewModel, chatViewModel);
+                playlistCollectionViewModel, addPlaylistViewModel, chatViewModel, commentViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary);
 
@@ -641,7 +646,8 @@ public class ShareifyAppBuilder {
      * @return this builder.
      */
     public ShareifyAppBuilder addChatUseCase() {
-        final ChatOutputBoundary chatOutputBoundary = new ChatPresenter(chatViewModel);
+        final ChatOutputBoundary chatOutputBoundary = new ChatPresenter(chatViewModel,
+                viewManagerModel, friendProfileViewModel);
         final ChatInputBoundary chatInteractor = new ChatInteractor(userDataAccessObject, chatOutputBoundary);
 
         final ChatController chatController = new ChatController(chatInteractor);
