@@ -1,28 +1,40 @@
 package use_case.playlist_collection_user_story.playlist_collection;
 
-import entity.Playlist;
-import use_case.DataAccessException;
-
 import java.util.List;
+
+import entity.User;
+import org.json.JSONArray;
+import use_case.DataAccessException;
 
 /**
  * Interface for the PlaylistCollectionDAO. It consists of methods for
  * loading the playlists.
  */
+
 public interface PlaylistCollectionDataAccessInterface {
+    /**
+     * Creates a playlist for given user.
+     *
+     * @param user        the user info associated with the playlist
+     * @param newPlaylist name of playlist
+     * @throws DataAccessException if user's playlist can not be loaded for some reason
+     */
+    JSONArray addPlaylistinDB(User user, String newPlaylist) throws DataAccessException;
 
     /**
-     * Returns the Playlist Collection of a user.
-     * @return list of Playlists; empty list if a user has no playlists
-     * @throws DataAccessException if cannot get user's playlist collection for any reason
+     * Returns the playlist associated with the user. The password
+     * is not checked, so anyone can read the information.
+     * @param user the user information associated with the playlist
+     * @param playlistName keys - playlist names
+     * @throws DataAccessException if the user's playlist can not be loaded for any reason
      */
-    List<Playlist> getPlaylistCollection() throws DataAccessException;
+    void removePlaylistinDB(User user, String playlistName) throws DataAccessException;
 
     /**
-     * Add newly created playlist to user's Playlist Collection.
-     * @param playlistName the name of the newly created playlist
-     * @throws DataAccessException if cannot get user's Playlist Collection for any reason
+     * Gets playlist from given user.
+     * @param username user info associated with playlist
+     * @return playlist
+     * @throws DataAccessException if playlist cannot be found
      */
-    void addPlaylistToUser(String playlistName) throws DataAccessException;
-
+    List<String> getPlaylists(String username) throws DataAccessException;
 }

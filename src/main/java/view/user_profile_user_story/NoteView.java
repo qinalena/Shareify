@@ -38,7 +38,9 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
     private DBNoteDataAccessObject dbNoteDataAccessObject;
     private DBUserDataAccessObject dbUserDataAccessObject;
 
-    public NoteView(NoteViewModel noteViewModel, DBNoteDataAccessObject dbNoteDataAccessObject, DBUserDataAccessObject dbUserDataAccessObject) {
+    public NoteView(NoteViewModel noteViewModel,
+                    DBNoteDataAccessObject dbNoteDataAccessObject,
+                    DBUserDataAccessObject dbUserDataAccessObject) {
 
         this.noteViewModel = noteViewModel;
         this.noteViewModel.addPropertyChangeListener(this);

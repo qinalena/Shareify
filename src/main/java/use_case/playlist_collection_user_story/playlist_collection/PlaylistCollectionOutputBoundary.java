@@ -29,4 +29,14 @@ public interface PlaylistCollectionOutputBoundary {
      * @param playlistCollectionOutputData output data
      */
     void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData);
+
+    /**
+     * Switches to UserProfileView - for back button in Playlist Collection View.
+     */
+    void switchToUserProfileView();
+
+    /**
+     * Switches to AddPlaylistView.
+     */
+    void switchToAddPlaylistView();
 }

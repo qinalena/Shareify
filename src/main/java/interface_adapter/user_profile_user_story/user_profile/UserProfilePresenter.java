@@ -5,12 +5,11 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileState;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
+import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
 import interface_adapter.user_profile_user_story.note.NoteState;
 import interface_adapter.user_profile_user_story.note.NoteViewModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
 import use_case.user_profile_user_story.user_profile.UserProfileOutputBoundary;
-
-import java.util.List;
 
 /**
  * The presenter for our User Profile.
@@ -48,15 +47,28 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
 
     @Override
     public void switchToPlaylistCollectionView() {
+        // Fetch playlistCollectionState from ViewModel
+        final PlaylistCollectionState playlistCollectionState = playlistCollectionViewModel.getState();
+
+        // Set username from UserProfileViewModel state
+        playlistCollectionState.setUsername(userProfileViewModel.getState().getCurrentUsername());
+
+        // Update state in PlaylistCollectionViewModel
+        this.playlistCollectionViewModel.setState(playlistCollectionState);
+
+        // Fire property change for PlaylistCollectionViewModel first to ensure it updates correctly
+        this.playlistCollectionViewModel.firePropertyChanged();
+
+        // Switch view in the ViewManagerModel
         viewManagerModel.setState(playlistCollectionViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
-//        public void switchToPlaylistCollectionView(List<Playlist> playlistCollection) {
-//            for (Playlist playlist : playlistCollection) {
-//                playlistCollectionViewModel.getState().addPlaylistToPlaylistCollection(playlist);
-//            }
-//            playlistCollectionViewModel.firePropertyChanged();
 
-        }
+        // Debugging - verify username and password being set
+//        System.out.println("switching to PlaylistCollectionView with username: " +
+//                playlistCollectionState.getUsername() + ", password: " +
+//                playlistCollectionState.getPassword() + "current playlist: " +
+//                playlistCollectionState.getPlaylist());
+    }
 
     @Override
     public void switchToFriendsListView(String username, String password) {

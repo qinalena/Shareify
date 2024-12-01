@@ -2,8 +2,10 @@ package interface_adapter.playlist_collection_user_story.add_playlist;
 
 import interface_adapter.ViewModel;
 
+/**
+ * The View Model for the Playlist view.
+ */
 public class AddPlaylistViewModel extends ViewModel<AddPlaylistState> {
-
     private String newPlaylist;
 
     public AddPlaylistViewModel() {
