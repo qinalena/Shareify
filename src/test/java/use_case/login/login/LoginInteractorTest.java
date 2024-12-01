@@ -1,6 +1,5 @@
 package use_case.login.login;
 
-import data_access.LoggedInDataAccessObject;
 import entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,16 +13,14 @@ import static org.mockito.Mockito.*;
 public class LoginInteractorTest {
     private LoginInteractor loginInteractor;
     private LoginUserDataAccessInterface userDataAccess;
-    private LoggedInDataAccessInterface loggedInDataAccess;
     private LoginOutputBoundary loginPresenter;
     private User user;
 
     @BeforeEach
     public void setUp() {
         userDataAccess = mock(LoginUserDataAccessInterface.class);
-        loggedInDataAccess = new LoggedInDataAccessObject();
         loginPresenter = mock(LoginOutputBoundary.class);
-        loginInteractor = new LoginInteractor(userDataAccess, loggedInDataAccess,loginPresenter);
+        loginInteractor = new LoginInteractor(userDataAccess,loginPresenter);
         user = new User("NewUser","123");
 
 
@@ -33,11 +30,11 @@ public class LoginInteractorTest {
     public void testLogin() {
         LoginInputData inputData = new LoginInputData("NewUser","123");
         when(userDataAccess.existsByName(inputData.getUsername())).thenReturn(true);
-        when(userDataAccess.get(inputData.getUsername())).thenReturn(user);
+        when(userDataAccess.getUser(inputData.getUsername())).thenReturn(user);
         loginInteractor.execute(inputData);
 
         verify(loginPresenter, times(1)).prepareSuccessView(any(LoginOutputData.class));
-        assertEquals(user.getName(),loggedInDataAccess.getLoggedInUser().getName());
+        assertEquals(user.getUsername(),userDataAccess.getCurrentUser().getUsername());
     }
 
     @Test
@@ -53,7 +50,7 @@ public class LoginInteractorTest {
         LoginInputData inputData = new LoginInputData("NewUser","123");
         LoginInputData inputData_wrongPwd = new LoginInputData("NewUser","123456");
         when(userDataAccess.existsByName(inputData.getUsername())).thenReturn(true);
-        when(userDataAccess.get("NewUser")).thenReturn(user);
+        when(userDataAccess.getUser("NewUser")).thenReturn(user);
 
         loginInteractor.execute(inputData_wrongPwd);
         verify(loginPresenter, times(1)).prepareFailView("Incorrect password for \"" + inputData_wrongPwd.getUsername() + "\".");
@@ -104,7 +101,7 @@ public class LoginInteractorTest {
 
         User mockUser = new User(username, password);
         when(userDataAccess.existsByName(username)).thenReturn(true);
-        when(userDataAccess.get(username)).thenReturn(mockUser);
+        when(userDataAccess.getUser(username)).thenReturn(mockUser);
 
         when(userDataAccess.loadNote(any(User.class))).thenThrow(new DataAccessException("message"));
 

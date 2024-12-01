@@ -4,8 +4,10 @@ import entity.Song;
 import interface_adapter.playlist_user_story.search_song.SearchSongController;
 import interface_adapter.playlist_user_story.search_song.SearchSongState;
 import interface_adapter.playlist_user_story.search_song.SearchSongViewModel;
+import view.login_user_story.LabelTextPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -19,11 +21,9 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
 
     private final SearchSongViewModel searchSongViewModel;
 
-    private SearchSongController searchTrackController;
+    private SearchSongController searchSongController;
 
-    private JLabel instructions = new JLabel("Search song by title or artist");
-
-    private JTextField searchText = new JTextField();
+    private JTextField searchInputField = new JTextField(15);
 
     private final JButton backButton = new JButton("Back");
     private final JButton searchButton = new JButton("Search");
@@ -35,7 +35,11 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
         this.searchSongViewModel = searchSongViewModel;
         this.searchSongViewModel.addPropertyChangeListener(this);
 
-        instructions.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        final LabelTextPanel search = new LabelTextPanel(
+                new JLabel("Search"), searchInputField);
+        searchInputField.setFont(new Font("Arial", Font.PLAIN, 16));
+        searchInputField.setMargin(new Insets(5, 5, 5, 5));
+        searchInputField.setToolTipText("Enter your username");
 
         final JPanel buttons = new JPanel();
         buttons.add(backButton);
@@ -44,21 +48,22 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
 
         backButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent evt) {
-               searchTrackController.switchToPlaylistView();
+               searchSongController.switchToPlaylistView();
            }
         }
         );
 
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                searchTrackController.searchSong(searchText.getText());
+                searchSongController.searchSong(searchInputField.getText());
             }
         }
         );
 
         addSongButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                searchTrackController.addSong(songs.getSelectedValue());
+                searchSongController.addSong(searchSongViewModel.getState().getCurrentPlaylist(),
+                        songs.getSelectedValue());
             }
         }
         );
@@ -69,8 +74,7 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        this.add(instructions);
-        this.add(searchText);
+        this.add(search);
         this.add(scrollPane);
         this.add(buttons);
     }
@@ -88,6 +92,9 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
     public void propertyChange(PropertyChangeEvent evt) {
         final SearchSongState state = (SearchSongState) evt.getNewValue();
         setFields(state);
+        if (state.getError() != null) {
+            JOptionPane.showMessageDialog(this, state.getError());
+        }
     }
 
     private void setFields(SearchSongState state) {
@@ -99,8 +106,8 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
         }
     }
 
-    public void setSearchTrackController(SearchSongController searchTrackController) {
-        this.searchTrackController = searchTrackController;
+    public void setSearchSongController(SearchSongController searchSongController) {
+        this.searchSongController = searchSongController;
     }
 
     public String getViewName() {

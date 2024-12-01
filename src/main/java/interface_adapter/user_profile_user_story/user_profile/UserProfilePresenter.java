@@ -1,5 +1,6 @@
 package interface_adapter.user_profile_user_story.user_profile;
 
+import entity.Playlist;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileState;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
@@ -17,20 +18,20 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
 
     private final UserProfileViewModel userProfileViewModel;
     private final NoteViewModel noteViewModel;
-    private final ViewManagerModel viewManagerModel;
-    private final FriendsListViewModel friendsListViewModel;
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
+    private final FriendsListViewModel friendsListViewModel;
+    private final ViewManagerModel viewManagerModel;
 
     public UserProfilePresenter(UserProfileViewModel userProfileViewModel,
                                 NoteViewModel noteViewModel,
-                                ViewManagerModel viewManagerModel,
+                                PlaylistCollectionViewModel playlistCollectionViewModel,
                                 FriendsListViewModel friendsListViewModel,
-                                PlaylistCollectionViewModel playlistCollectionViewModel) {
+                                ViewManagerModel viewManagerModel) {
         this.userProfileViewModel = userProfileViewModel;
         this.noteViewModel = noteViewModel;
-        this.viewManagerModel = viewManagerModel;
-        this.friendsListViewModel = friendsListViewModel;
         this.playlistCollectionViewModel = playlistCollectionViewModel;
+        this.friendsListViewModel = friendsListViewModel;
+        this.viewManagerModel = viewManagerModel;
     }
 
     @Override

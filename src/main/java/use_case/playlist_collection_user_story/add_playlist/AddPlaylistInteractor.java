@@ -4,6 +4,7 @@ import java.util.List;
 
 import data_access.DBPlaylistDataAccessObject;
 import data_access.DBUserDataAccessObject;
+import entity.User;
 
 /**
  * The "Use Case Interactor" for our adding playlist related use cases.

@@ -23,4 +23,10 @@ public interface SearchSongOutputBoundary {
      * @param selectedSong the selected Song.
      */
     void addSong(Song selectedSong);
+
+    /**
+     * Failure view for data access exceptions.
+     * @param message failure message to be displayed
+     */
+    void prepareFailView(String message);
 }

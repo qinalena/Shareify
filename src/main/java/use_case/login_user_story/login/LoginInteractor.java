@@ -8,14 +8,12 @@ import data_access.DataAccessException;
  */
 public class LoginInteractor implements LoginInputBoundary {
     private final LoginUserDataAccessInterface userDataAccessObject;
-    private final LoggedInDataAccessInterface loggedInUserDataAccessObject;
     private final LoginOutputBoundary loginPresenter;
 
     public LoginInteractor(LoginUserDataAccessInterface userDataAccessInterface,
-                           LoggedInDataAccessInterface loggedInDataAccessObject, LoginOutputBoundary loginOutputBoundary) {
+                           LoginOutputBoundary loginOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
         this.loginPresenter = loginOutputBoundary;
-        this.loggedInUserDataAccessObject = loggedInDataAccessObject;
     }
 
     @Override
@@ -26,23 +24,18 @@ public class LoginInteractor implements LoginInputBoundary {
             loginPresenter.prepareFailView(username + ": Account does not exist.");
         }
         else {
-            final String pwd = userDataAccessObject.get(username).getPassword();
+            final String pwd = userDataAccessObject.getUser(username).getPassword();
             if (!password.equals(pwd)) {
                 loginPresenter.prepareFailView("Incorrect password for \"" + username + "\".");
             }
             else {
 
-                final User user = userDataAccessObject.get(loginInputData.getUsername());
+                final User user = userDataAccessObject.getUser(loginInputData.getUsername());
 
-                // Update LoggedInUserDataAccessObject with logged-in user's username and password
-                final User loggedInUser = new User(user.getName(), user.getPassword());
-                loggedInUserDataAccessObject.setLoggedInUser(loggedInUser);
+                userDataAccessObject.setCurrentUser(user);
 
-                // Unnecessary code? Username has not been changed.
-                userDataAccessObject.setCurrentUsername(user.getName());
-
-                try{
-                    final LoginOutputData loginOutputData = new LoginOutputData(user.getName(), user.getPassword(), userDataAccessObject.loadNote(loggedInUser));
+                try {
+                    final LoginOutputData loginOutputData = new LoginOutputData(user.getUsername(), user.getPassword(), userDataAccessObject.loadNote(userDataAccessObject.getCurrentUser()));
                     loginPresenter.prepareSuccessView(loginOutputData);
                 }
                 catch (DataAccessException ex) {

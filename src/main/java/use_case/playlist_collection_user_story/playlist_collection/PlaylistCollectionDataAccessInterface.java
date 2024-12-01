@@ -19,7 +19,7 @@ public interface PlaylistCollectionDataAccessInterface {
      * @param newPlaylist name of playlist
      * @throws DataAccessException if user's playlist can not be loaded for some reason
      */
-    JSONArray addPlaylistinDB(User user, String newPlaylist) throws DataAccessException;
+    void addPlaylistinDB(User user, String newPlaylist) throws DataAccessException;
 
     /**
      * Returns the playlist associated with the user. The password

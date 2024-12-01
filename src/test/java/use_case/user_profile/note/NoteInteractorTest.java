@@ -3,8 +3,6 @@ import data_access.DataAccessException;
 import entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import use_case.login_user_story.login.LoginInputData;
-import use_case.login_user_story.login.LoginOutputData;
 import use_case.user_profile_user_story.note.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,7 +28,7 @@ public class NoteInteractorTest {
         NoteInputData inputData = new NoteInputData(username, updateNote);
 
         User mockUser = mock(User.class);
-        when(noteDataAccess.get(username)).thenReturn(mockUser);
+        when(noteDataAccess.getUser(username)).thenReturn(mockUser);
         when(mockUser.getNote()).thenReturn(note);
 
         noteInteractor.executeSave(inputData);
@@ -88,7 +86,7 @@ public class NoteInteractorTest {
         NoteInputData inputData = new NoteInputData(username, note);
 
         User mockUser = new User(username, password);
-        when(noteDataAccess.get(username)).thenReturn(mockUser);
+        when(noteDataAccess.getUser(username)).thenReturn(mockUser);
 
         when(noteDataAccess.saveNote(mockUser, note)).thenThrow(new DataAccessException("message"));
 

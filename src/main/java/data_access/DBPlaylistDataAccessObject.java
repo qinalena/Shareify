@@ -15,7 +15,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
-import data_access.DataAccessException;
 
 /**
  * The DAO for accessing individual playlists stored in database.
@@ -33,9 +32,9 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
     private static final String PLAYLISTCOLLECTION = "playlist collection";
 
     // Method to add playlist to the database
-    public JSONArray addPlaylistinDB(User user, String newPlaylist) throws DataAccessException {
+    public void addPlaylistinDB(User user, String newPlaylist) throws DataAccessException {
         // Make API call to get User object
-        final String username = user.getName();
+        final String username = user.getUsername();
 
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
@@ -69,8 +68,8 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                 // Check if playlist already exists
                 boolean playlistExists = false;
                 for (int i = 0; i < currentPlaylists.length(); i++) {
-                    JSONObject playlist = currentPlaylists.getJSONObject(i);
-                    if (playlist.has(newPlaylist)) {
+                    final JSONObject playlist = currentPlaylists.getJSONObject(i);
+                    if (playlist.getString("name").equals(newPlaylist)) {
                         playlistExists = true;
                         break;
                     }
@@ -79,7 +78,8 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                 if (!playlistExists) {
                     // Create a new playlist with an empty array
                     JSONObject newPlaylistObject = new JSONObject();
-                    newPlaylistObject.put(newPlaylist, new JSONArray());
+                    newPlaylistObject.put("name", newPlaylist);
+                    newPlaylistObject.put("songs", new JSONArray());
                     currentPlaylists.put(newPlaylistObject);
                     System.out.println(newPlaylist + " added successfully!");
                 } else {
@@ -122,12 +122,10 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
         catch (IOException | JSONException ex) {
             throw new DataAccessException("Error occurred while adding playlist " + ex.getMessage());
         }
-        return null;
     }
 
-
     public void removePlaylistinDB(User user, String playlistName) throws DataAccessException {
-        final String username = user.getName();
+        final String username = user.getUsername();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         // Get current user data
@@ -157,7 +155,7 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                     // Search through playlist collection and remove the playlist
                     for (int i = 0; i < playlistCollection.length(); i++) {
                         JSONObject playlist = playlistCollection.getJSONObject(i);
-                        if (playlist.has(playlistName)) {
+                        if (playlist.getString("name").equals(playlistName)) {
                             playlistCollection.remove(i);
                             playlistRemoved = true;
                             break;
@@ -243,9 +241,7 @@ public class DBPlaylistDataAccessObject implements PlaylistCollectionDataAccessI
                     for (int i = 0; i < playlistCollection.length(); i++) {
                         JSONObject playlist = playlistCollection.getJSONObject(i);
                         // Each playlist is an object with the playlist name as the key
-                        for (String key : playlist.keySet()) {
-                            playlists.add(key);  // Add playlist name to the list
-                        }
+                        playlists.add(playlist.getString("name"));
                     }
                 }
                 return playlists;

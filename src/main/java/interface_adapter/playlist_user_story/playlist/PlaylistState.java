@@ -8,6 +8,7 @@ import entity.Song;
  */
 public class PlaylistState {
     private Playlist currentPlaylist;
+    private String error;
 
     public void setCurrentPlaylist(Playlist currentPlaylist) {
         this.currentPlaylist = currentPlaylist;
@@ -31,5 +32,13 @@ public class PlaylistState {
      */
     public void removeSong(int songIndex) {
         currentPlaylist.removeSong(songIndex);
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public String getError() {
+        return error;
     }
 }

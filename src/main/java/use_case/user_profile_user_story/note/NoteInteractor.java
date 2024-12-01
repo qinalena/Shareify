@@ -25,7 +25,7 @@ public class NoteInteractor implements NoteInputBoundary {
         try {
             String username = noteInputData.getUsername();
             String note = noteInputData.getNote();
-            user = noteDataAccessInterface.get(username);
+            user = noteDataAccessInterface.getUser(username);
             String updatedNote = noteDataAccessInterface.saveNote(user, note);
             user.setNote(updatedNote);
             NoteOutputData outputData = new NoteOutputData(username, note);

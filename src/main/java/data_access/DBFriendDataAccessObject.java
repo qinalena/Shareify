@@ -45,7 +45,7 @@ public class DBFriendDataAccessObject implements FriendsListDataAccessInterface,
         // POST method to create a new user (same as save method)
         final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
         final JSONObject requestBody = new JSONObject();
-        requestBody.put(USERNAME, user.getName());
+        requestBody.put(USERNAME, user.getUsername());
         requestBody.put(PASSWORD, user.getPassword());
 
         final JSONObject userInfo = new JSONObject();
@@ -91,7 +91,7 @@ public class DBFriendDataAccessObject implements FriendsListDataAccessInterface,
      */
     public String getUserByUsername(String username) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
-        System.out.println("before database call username: " + username);
+
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
                 .addHeader("Content-Type", CONTENT_TYPE_JSON)
@@ -120,7 +120,7 @@ public class DBFriendDataAccessObject implements FriendsListDataAccessInterface,
      * @throws DataAccessException If there is an error updating the user information, such as invalid credentials or a database error.
      */
     public void updateUserInfo(User user, String key, String newInfo) throws DataAccessException {
-        final String username = user.getName();
+        final String username = user.getUsername();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         // URL to fetch the current user data
@@ -196,7 +196,11 @@ public class DBFriendDataAccessObject implements FriendsListDataAccessInterface,
      * @throws DataAccessException If there is an error adding the friend, such as invalid credentials or a database error.
      */
     public void addFriendinDB(User user, String newName) throws DataAccessException {
-        final String username = user.getName();
+
+        // Dummy user
+        // user = new User("newUserName7", "password123");
+
+        final String username = user.getUsername();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         // URL to fetch the current user data
@@ -268,40 +272,6 @@ public class DBFriendDataAccessObject implements FriendsListDataAccessInterface,
         }
     }
 
-    // Helper method to check if the friend already exists
-    private boolean friendAlreadyExists(User user, String newName) throws DataAccessException {
-        // Database logic to check if the friend already exists
-        // For example:
-        OkHttpClient client = new OkHttpClient().newBuilder().build();
-        Request request = new Request.Builder()
-                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", user.getName()))
-                .addHeader("Content-Type", CONTENT_TYPE_JSON)
-                .build();
-
-        try {
-            Response response = client.newCall(request).execute();
-            JSONObject responseBody = new JSONObject(response.body().string());
-
-            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
-                JSONObject userJSONObject = responseBody.getJSONObject("user");
-                JSONObject data = userJSONObject.getJSONObject("info");
-
-                if (data.has("friends")) {
-                    JSONArray friends = data.getJSONArray("friends");
-                    for (int i = 0; i < friends.length(); i++) {
-                        if (friends.getString(i).equals(newName)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        } catch (IOException | JSONException ex) {
-            throw new DataAccessException("Error checking friend existence: " + ex.getMessage());
-        }
-
-        return false;
-    }
-
     /**
      * Removes a friend from the user's friend list in the database.
      *
@@ -312,7 +282,7 @@ public class DBFriendDataAccessObject implements FriendsListDataAccessInterface,
     public void removeFriendinDB(User user, int index) throws DataAccessException {
         // Dummy user
         // user = new User("newUserName7", "password123");
-        final String username = user.getName();
+        final String username = user.getUsername();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         // URL to fetch the current user data

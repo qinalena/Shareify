@@ -1,10 +1,9 @@
 package use_case.playlist_collection_user_story.playlist_collection;
 
 import entity.Playlist;
-import entity.Song;
 import entity.User;
-import data_access.DBPlaylistDataAccessObject;
 import data_access.DataAccessException;
+import use_case.playlist_user_story.playlist.PlaylistDataAccessInterface;
 
 import java.util.List;
 
@@ -14,12 +13,15 @@ import java.util.List;
  */
 
 public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoundary {
+    private final PlaylistCollectionDataAccessInterface dbPlaylistDataAccessObject;
+    private final PlaylistDataAccessInterface playlistDataAccessObject;
     private final PlaylistCollectionOutputBoundary playlistCollectionPresenter;
-    private final DBPlaylistDataAccessObject dbPlaylistDataAccessObject;
 
-    public PlaylistCollectionInteractor(PlaylistCollectionOutputBoundary playlistCollectionPresenter) {
+    public PlaylistCollectionInteractor(PlaylistCollectionDataAccessInterface playlistCollectionDataAccessObject,
+                                        PlaylistDataAccessInterface playlistDataAccessObject, PlaylistCollectionOutputBoundary playlistCollectionPresenter) {
+        this.dbPlaylistDataAccessObject = playlistCollectionDataAccessObject;
+        this.playlistDataAccessObject = playlistDataAccessObject;
         this.playlistCollectionPresenter = playlistCollectionPresenter;
-        this.dbPlaylistDataAccessObject = new DBPlaylistDataAccessObject();
     }
 
     @Override
@@ -63,14 +65,22 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
             playlistCollectionPresenter.prepareFailView("Must select a playlist.");
         }
         else {
-            // Hard coded playlist collection example
-            // Actual code should search the DB using the playlist name and then
-            // populate a playlist in PlaylistCollectionOutputData (convert JSON string values into Song objects)
-            Playlist playlistTest = new Playlist("Playlist1");
-            playlistTest.addSong(new Song("Starships", new String[]{"Nicki Minaj"}));
+            // Actual code getting Playlist Collection from the DB (PlaylistCollectionOutputData might be redundant; pass playlist directly to presenter)
+            try {
+                final Playlist playlist = playlistDataAccessObject.getPlaylist(playlistName);
+                final PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlist);
+                playlistCollectionPresenter.switchToPlaylistView(playlistCollectionOutputData);
+            }
+            catch (DataAccessException exception) {
+                playlistCollectionPresenter.prepareFailView(exception.getMessage());
+            }
 
-            PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlistTest);
-            playlistCollectionPresenter.switchToPlaylistView(playlistCollectionOutputData, playlistName);
+            // Hard coded playlist collection example
+//            Playlist playlistTest = new Playlist(playlistName);
+//            playlistTest.addSong(new Song("Starships", new String[]{"Nicki Minaj"}));
+//
+//            PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlistTest);
+//            playlistCollectionPresenter.switchToPlaylistView(playlistCollectionOutputData, playlistName);
         }
     }
 
