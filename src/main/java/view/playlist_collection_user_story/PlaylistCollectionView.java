@@ -162,6 +162,8 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
                 // Remove playlist from the list model after successful deletion
                 listModel.removeElement(selectedPlaylist);
+                playlistCollectionViewModel.getState().removePlaylist(selectedPlaylist);
+                playlistCollectionViewModel.firePropertyChanged();
                 System.out.println("Deleted playlist: " + selectedPlaylist);
             }
             catch (DataAccessException error) {
