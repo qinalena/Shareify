@@ -15,7 +15,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
-import use_case.user_profile_user_story.note.DataAccessException;
+import data_access.DataAccessException;
 
 /**
  * The DAO for accessing individual playlists stored in database.

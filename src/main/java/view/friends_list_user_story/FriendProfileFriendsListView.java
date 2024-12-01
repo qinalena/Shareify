@@ -1,11 +1,11 @@
 package view.friends_list_user_story;
 
-import data_access.DBNoteDataAccessObject;
+import data_access.DBFriendDataAccessObject;
 import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListViewModel;
 import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListController;
 import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListState;
 import entity.User;
-import use_case.user_profile_user_story.note.DataAccessException;
+import data_access.DataAccessException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +22,7 @@ public class FriendProfileFriendsListView extends JPanel implements ActionListen
     private final String viewName = "friendProfileFriendsList";
     private final FriendProfileFriendsListViewModel viewModel;
     private FriendProfileFriendsListController friendsListController;
-    private DBNoteDataAccessObject dbNoteDataAccessObject;
+    private DBFriendDataAccessObject dbFriendDataAccessObject;
     private String username;
     private String password;
 
@@ -35,10 +35,10 @@ public class FriendProfileFriendsListView extends JPanel implements ActionListen
     private final JButton backButton = new JButton("Back");
 
     public FriendProfileFriendsListView(FriendProfileFriendsListController friendsListController, FriendProfileFriendsListViewModel viewModel,
-                                        DBNoteDataAccessObject dbNoteDataAccessObject) {
+                                        DBFriendDataAccessObject dbFriendDataAccessObject) {
         this.friendsListController = friendsListController;
         this.viewModel = viewModel;
-        this.dbNoteDataAccessObject = dbNoteDataAccessObject;
+        this.dbFriendDataAccessObject = dbFriendDataAccessObject;
         this.viewModel.addPropertyChangeListener(this);
 
         friendsListName.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -75,7 +75,7 @@ public class FriendProfileFriendsListView extends JPanel implements ActionListen
     private void populateFriendsListFromDatabase() {
         try {
             final User realUser = new User(username, password);
-            final List<String> friends = dbNoteDataAccessObject.getFriends(realUser.getName());
+            final List<String> friends = dbFriendDataAccessObject.getFriends(realUser.getName());
             populateFriendsList(friends);
         } catch (DataAccessException error) {
             JOptionPane.showMessageDialog(this, "They have no friends");

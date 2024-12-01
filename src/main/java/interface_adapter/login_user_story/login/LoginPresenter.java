@@ -59,6 +59,10 @@ public class LoginPresenter implements LoginOutputBoundary {
 
         final UserProfileState userProfileState = userProfileViewModel.getState();
         userProfileState.setCurrentUsername(response.getUsername());
+        if (response.getNote() == ""){
+            userProfileState.setBio("Hi! I'm new to Shareify! :)");
+        } else {
+            userProfileState.setBio(response.getNote());}
         this.userProfileViewModel.setState(userProfileState);
         this.userProfileViewModel.firePropertyChanged();
 

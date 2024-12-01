@@ -15,7 +15,7 @@ import entity.User;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionController;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
-import use_case.user_profile_user_story.note.DataAccessException;
+import data_access.DataAccessException;
 
 /**
  * The View for when the user is viewing the playlist collection page in the program.

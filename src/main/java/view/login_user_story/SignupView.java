@@ -14,7 +14,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.login_user_story.signup.SignupController;
 import interface_adapter.login_user_story.signup.SignupState;
 import interface_adapter.login_user_story.signup.SignupViewModel;
-import use_case.user_profile_user_story.note.DataAccessException;
+import data_access.DataAccessException;
 
 
 public class SignupView extends JPanel implements ActionListener, PropertyChangeListener {

@@ -3,6 +3,8 @@ package interface_adapter.user_profile_user_story.logout;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.login_user_story.login.LoginState;
 import interface_adapter.login_user_story.login.LoginViewModel;
+import interface_adapter.login_user_story.signup.SignupState;
+import interface_adapter.login_user_story.signup.SignupViewModel;
 import interface_adapter.login_user_story.welcome.WelcomeViewModel;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
@@ -18,13 +20,15 @@ public class LogoutPresenter implements LogoutOutputBoundary {
     private ViewManagerModel viewManagerModel;
     private LoginViewModel loginViewModel;
     private WelcomeViewModel welcomeViewModel = new WelcomeViewModel();
+    private SignupViewModel signupViewModel = new SignupViewModel();
 
     public LogoutPresenter(ViewManagerModel viewManagerModel,
                            UserProfileViewModel UserprofileViewModel,
-                           LoginViewModel loginViewModel) {
+                           LoginViewModel loginViewModel, SignupViewModel signupViewModel) {
         this.userProfileViewModel = UserprofileViewModel;
         this.loginViewModel = loginViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.signupViewModel = signupViewModel;
     }
 
     @Override
@@ -40,7 +44,13 @@ public class LogoutPresenter implements LogoutOutputBoundary {
         loginViewModel.setState(currentLoginState);
         loginViewModel.firePropertyChanged();
 
-        // This code tells the View Manager to switch to the LoginView.
+        final SignupState currentSignupState = signupViewModel.getState();
+        currentSignupState.setUsername("");
+        currentSignupState.setPassword("");
+        currentSignupState.setRepeatPassword("");
+        signupViewModel.setState(currentSignupState);
+        signupViewModel.firePropertyChanged();
+
         this.viewManagerModel.setState(welcomeViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }

@@ -1,8 +1,7 @@
 package use_case.login_user_story.login;
 
-import data_access.LoggedInDataAccessObject;
 import entity.User;
-import data_access.LoggedInDataAccessInterface;
+import data_access.DataAccessException;
 
 /**
  * The Login Interactor.
@@ -13,7 +12,7 @@ public class LoginInteractor implements LoginInputBoundary {
     private final LoginOutputBoundary loginPresenter;
 
     public LoginInteractor(LoginUserDataAccessInterface userDataAccessInterface,
-                           LoggedInDataAccessObject loggedInDataAccessObject, LoginOutputBoundary loginOutputBoundary) {
+                           LoggedInDataAccessInterface loggedInDataAccessObject, LoginOutputBoundary loginOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
         this.loginPresenter = loginOutputBoundary;
         this.loggedInUserDataAccessObject = loggedInDataAccessObject;
@@ -42,8 +41,13 @@ public class LoginInteractor implements LoginInputBoundary {
                 // Unnecessary code? Username has not been changed.
                 userDataAccessObject.setCurrentUsername(user.getName());
 
-                final LoginOutputData loginOutputData = new LoginOutputData(user.getName(), user.getPassword(), false);
-                loginPresenter.prepareSuccessView(loginOutputData);
+                try{
+                    final LoginOutputData loginOutputData = new LoginOutputData(user.getName(), user.getPassword(), userDataAccessObject.loadNote(loggedInUser));
+                    loginPresenter.prepareSuccessView(loginOutputData);
+                }
+                catch (DataAccessException ex) {
+                    loginPresenter.prepareFailView(ex.getMessage());
+                }
             }
         }
     }

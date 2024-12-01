@@ -6,6 +6,7 @@ package interface_adapter.user_profile_user_story.user_profile;
 public class UserProfileState {
     private String currentUsername;
     private String password;
+    private String bio;
 
     private String error;
 
@@ -31,6 +32,14 @@ public class UserProfileState {
 
     public String getError() {
         return error;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
 }

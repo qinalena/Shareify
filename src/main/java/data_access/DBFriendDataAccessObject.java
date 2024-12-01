@@ -13,13 +13,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import use_case.user_profile_user_story.note.DataAccessException;
-import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 /**
  * The DAO for accessing notes stored in the database.
  */
-public class DBNoteDataAccessObject implements NoteDataAccessInterface {
+public class DBFriendDataAccessObject {
     private static final int SUCCESS_CODE = 200;
     private static final int CREDENTIAL_ERROR = 401;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -29,90 +27,6 @@ public class DBNoteDataAccessObject implements NoteDataAccessInterface {
     private static final String PASSWORD = "password";
     private static final String MESSAGE = "message";
 
-    /**
-     * Saves a note for the given user.
-     *
-     * @param user The user for whom the note is being saved.
-     * @param note The note to be saved.
-     * @return The saved note if the operation is successful.
-     * @throws DataAccessException If there is an error saving the note, such as invalid credentials or a database error.
-     */
-    @Override
-    public String saveNote(User user, String note) throws DataAccessException {
-        final OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-
-        // Update user object's note
-        user.setNote(note);
-
-        // POST METHOD to save note
-        final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
-        final JSONObject requestBody = new JSONObject();
-        requestBody.put(USERNAME, user.getName());
-        requestBody.put(PASSWORD, user.getPassword());
-        final JSONObject extra = new JSONObject();
-        extra.put("note", note);
-        requestBody.put("info", extra);
-        final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
-        final Request request = new Request.Builder()
-                .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
-                .method("PUT", body)
-                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
-                .build();
-        try {
-            final Response response = client.newCall(request).execute();
-
-            final JSONObject responseBody = new JSONObject(response.body().string());
-
-            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
-                return loadNote(user);
-            }
-            else if (responseBody.getInt(STATUS_CODE_LABEL) == CREDENTIAL_ERROR) {
-                throw new DataAccessException("Message could not be found or password was incorrect");
-            }
-            else {
-                throw new DataAccessException("Database error: " + responseBody.getString(MESSAGE));
-            }
-        }
-        catch (IOException | JSONException ex) {
-            throw new DataAccessException(ex.getMessage());
-        }
-    }
-
-    /**
-     * Loads the note associated with the given user.
-     *
-     * @param user The user for whom the note is being loaded.
-     * @return The loaded note if the operation is successful.
-     * @throws DataAccessException If there is an error loading the note, such as invalid credentials or a database error.
-     */
-    @Override
-    public String loadNote(User user) throws DataAccessException {
-        // Make an API call to get the user object.
-        final String username = user.getName();
-        final OkHttpClient client = new OkHttpClient().newBuilder().build();
-        final Request request = new Request.Builder()
-                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
-                .addHeader("Content-Type", CONTENT_TYPE_JSON)
-                .build();
-        try {
-            final Response response = client.newCall(request).execute();
-
-            final JSONObject responseBody = new JSONObject(response.body().string());
-
-            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
-                final JSONObject userJSONObject = responseBody.getJSONObject("user");
-                final JSONObject data = userJSONObject.getJSONObject("info");
-                return data.getString("note");
-            }
-            else {
-                throw new DataAccessException(responseBody.getString(MESSAGE));
-            }
-        }
-        catch (IOException | JSONException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
 
     /**
      * Creates a new user in the database.

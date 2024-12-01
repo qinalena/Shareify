@@ -21,9 +21,6 @@ import interface_adapter.friends_list_user_story.friend_profile_playlists.Friend
 import interface_adapter.friends_list_user_story.friend_profile_friends_list.*;
 import interface_adapter.friends_list_user_story.add_friend.*;
 import interface_adapter.friends_list_user_story.friends_list.*;
-import interface_adapter.friends_list_user_story.friend_profile.*;
-import interface_adapter.friends_list_user_story.friend_profile_playlists.*;
-import interface_adapter.friends_list_user_story.friend_profile_friends_list.*;
 import interface_adapter.login_user_story.login.*;
 import interface_adapter.login_user_story.signup.*;
 import interface_adapter.login_user_story.welcome.*;
@@ -48,9 +45,6 @@ import interface_adapter.user_profile_user_story.logout.*;
 import spotify_api.SpotifyConnectionInterface;
 import use_case.friends_list_user_story.add_friend.*;
 import use_case.friends_list_user_story.friends_list.*;
-import use_case.friends_list_user_story.friend_profile.*;
-import use_case.friends_list_user_story.friend_profile_playlists.*;
-import use_case.friends_list_user_story.friend_profile_friends_list.*;
 import use_case.login_user_story.login.*;
 import use_case.login_user_story.signup.*;
 import use_case.playlist_collection_user_story.add_playlist.*;
@@ -95,7 +89,7 @@ public class ShareifyAppBuilder {
     private SignupViewModel signupViewModel;
     private final UserFactoryInter userFactory = new UserFactory();
 
-    private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
+    private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject();
     private final LoggedInDataAccessObject loggedInDAO = new LoggedInDataAccessObject();
     private final DBPlaylistDataAccessObject dbPlaylistDataAccessObject = new DBPlaylistDataAccessObject();
 
@@ -148,7 +142,7 @@ public class ShareifyAppBuilder {
     private FriendsListController friendsListController;
     private FriendsListOutputBoundary friendsListOutputBoundary;
     private FriendsListInteractor friendsListInteractor;
-    private DBNoteDataAccessObject dbNoteDataAccessObject = new DBNoteDataAccessObject();
+    private DBFriendDataAccessObject dbFriendDataAccessObject = new DBFriendDataAccessObject();
     private FriendProfileInteractor friendProfileInteractor;
     private AddFriendInteractor addFriendInteractor;
     private FriendView friendProfileView;
@@ -188,7 +182,7 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addUserProfileView() {
         userProfileViewModel = new UserProfileViewModel();
-        userProfileView = new UserProfileView(userProfileViewModel, userDataAccessObject, dbNoteDataAccessObject);
+        userProfileView = new UserProfileView(userProfileViewModel);
         cardPanel.add(userProfileView, userProfileView.getViewName());
 
         if (loginView == null) {
@@ -259,7 +253,7 @@ public class ShareifyAppBuilder {
         friendsListViewModel = new FriendsListViewModel();
         addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel,
                 viewManagerModel, friendsListViewModel);
-        friendsListView = new FriendsListView(friendsListViewModel, dbNoteDataAccessObject,
+        friendsListView = new FriendsListView(friendsListViewModel, dbFriendDataAccessObject,
                 addFriendOutputBoundary);
         cardPanel.add(friendsListView, friendsListView.getViewName());
         return this;
@@ -390,7 +384,7 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addNoteView() {
         noteViewModel = new NoteViewModel();
-        noteView = new NoteView(noteViewModel, dbNoteDataAccessObject, userDataAccessObject);
+        noteView = new NoteView(noteViewModel);
         cardPanel.add(noteView, noteView.getViewName());
         return this;
     }
@@ -405,8 +399,7 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addNoteUseCase() {
         final NoteOutputBoundary noteOutputBoundary = new NotePresenter(noteViewModel,
                 userProfileViewModel, viewManagerModel);
-        noteInteractor = new NoteInteractor(userDataAccessObject,
-                noteDAO, noteOutputBoundary);
+        noteInteractor = new NoteInteractor(noteDAO, noteOutputBoundary);
 
         final NoteController noteController = new NoteController(noteInteractor);
         if (noteView == null) {
@@ -427,7 +420,7 @@ public class ShareifyAppBuilder {
                 new ChangePasswordPresenter(userProfileViewModel, viewManagerModel);
 
         final ChangePasswordInputBoundary changePasswordInteractor =
-                new ChangePasswordInteractor((ChangePasswordUserDataAccessInterface) userDataAccessObject, changePasswordOutputBoundary, userFactory);
+                new ChangePasswordInteractor( userDataAccessObject, changePasswordOutputBoundary);
 
         final ChangePasswordController changePasswordController =
                 new ChangePasswordController(changePasswordInteractor);
@@ -540,7 +533,7 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addAddFriendUseCase() {
         final AddFriendOutputBoundary addFriendOutPutBoundary = new AddFriendPresenter(addFriendViewModel, viewManagerModel, friendsListViewModel);
-        addFriendInteractor = new AddFriendInteractor(dbNoteDataAccessObject, addFriendOutPutBoundary, new ArrayList<>());
+        addFriendInteractor = new AddFriendInteractor(dbFriendDataAccessObject, addFriendOutPutBoundary, new ArrayList<>());
         final AddFriendController addFriendController = new AddFriendController(addFriendInteractor);
         if (addFriendView == null) {
             throw new RuntimeException("addFriendProfileView must be called before addFriendProfileUseCase");
@@ -618,7 +611,7 @@ public class ShareifyAppBuilder {
 
     public ShareifyAppBuilder addfriendProfileFriendsListView() {
         friendProfileFriendsListViewModel = new FriendProfileFriendsListViewModel();
-        friendProfileFriendsListView = new FriendProfileFriendsListView(friendProfileFriendsListController, friendProfileFriendsListViewModel, dbNoteDataAccessObject);
+        friendProfileFriendsListView = new FriendProfileFriendsListView(friendProfileFriendsListController, friendProfileFriendsListViewModel, dbFriendDataAccessObject);
         cardPanel.add(friendProfileFriendsListView, friendProfileFriendsListView.getViewName());
         return this;
     }
@@ -629,7 +622,7 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addLogoutUseCase() {
         final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
-                userProfileViewModel, loginViewModel);
+                userProfileViewModel, loginViewModel, signupViewModel);
 
         final LogoutInputBoundary logoutInteractor =
                 new LogoutInteractor(userDataAccessObject, logoutOutputBoundary);

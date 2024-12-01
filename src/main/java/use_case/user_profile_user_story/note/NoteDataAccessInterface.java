@@ -1,5 +1,6 @@
 package use_case.user_profile_user_story.note;
 
+import data_access.DataAccessException;
 import entity.User;
 
 import java.util.List;
@@ -28,5 +29,7 @@ public interface NoteDataAccessInterface {
      * @throws DataAccessException if the user's note can not be loaded for any reason
      */
     String loadNote(User user) throws DataAccessException;
+
+    User get(String username);
 
 }

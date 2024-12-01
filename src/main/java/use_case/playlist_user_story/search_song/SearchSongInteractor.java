@@ -5,7 +5,7 @@ import entity.User;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 import spotify_api.SpotifyConnectionInterface;
-import data_access.LoggedInDataAccessInterface;
+import use_case.login_user_story.login.LoggedInDataAccessInterface;
 
 /**
  * The Interactor for SearchTrack.
