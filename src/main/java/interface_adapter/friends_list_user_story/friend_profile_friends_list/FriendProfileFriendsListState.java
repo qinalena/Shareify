@@ -7,7 +7,7 @@ public class FriendProfileFriendsListState {
     private String error;
     private String username;
     private String password;
-    private final List<String> friends = new ArrayList<>();
+    private List<String> friends = new ArrayList<>();
 
     public String getError() {
         return error;
@@ -35,6 +35,10 @@ public class FriendProfileFriendsListState {
 
     public List<String> getFriends() {
         return friends;
+    }
+
+    public void setFriends(List<String> friends) {
+        this.friends = friends;
     }
 
     public String getMostRecentFriend() {

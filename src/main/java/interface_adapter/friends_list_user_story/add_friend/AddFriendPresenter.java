@@ -1,5 +1,6 @@
 package interface_adapter.friends_list_user_story.add_friend;
 
+import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
 import use_case.friends_list_user_story.add_friend.AddFriendOutputBoundary;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
@@ -27,13 +28,18 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
      * @param updatedFriendsList the list of friends to be added to our friends list.
      */
     @Override
-    public void prepareSuccessView(List<String> updatedFriendsList) {
+    public void prepareSuccessView(List<String> updatedFriendsList, String friendName) {
         // Directly set the updated list of friends in the state
         AddFriendState state = new AddFriendState();
         state.setFriendsList(updatedFriendsList);
         state.setError(null);
         addFriendViewModel.setState(state);
         addFriendViewModel.firePropertyChanged();
+
+        final FriendsListState friendsListState = friendsListViewModel.getState();
+        friendsListState.setFriendUsername(friendName);
+        this.friendsListViewModel.setState(friendsListState);
+        this.friendsListViewModel.firePropertyChanged();
     }
 
     /**
@@ -57,5 +63,12 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
     public void swtichToFriendsListView() {
         viewManagerModel.setState(friendsListViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareGetUserByUserNameSuccessView(String username) {
+        addFriendViewModel.getState().setDbUsername(username);
+        addFriendViewModel.getState().setError(null);
+        addFriendViewModel.firePropertyChanged();
     }
 }
