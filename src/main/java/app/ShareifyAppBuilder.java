@@ -599,8 +599,7 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addFriendProfilePlaylistView() {
         friendProfilePlaylistsViewModel = new FriendProfilePlaylistsViewModel();
-        friendProfilePlaylistsView = new FriendProfilePlaylistsView(friendProfilePlaylistsController,
-                friendProfilePlaylistsViewModel, userDataAccessObject);
+        friendProfilePlaylistsView = new FriendProfilePlaylistsView(friendProfilePlaylistsViewModel, dbPlaylistDataAccessObject);
         cardPanel.add(friendProfilePlaylistsView, friendProfilePlaylistsViewModel.getViewName());
         return this;
     }

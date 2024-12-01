@@ -1,10 +1,13 @@
 package view.friends_list_user_story;
 
+import data_access.DBPlaylistDataAccessObject;
 import data_access.DBUserDataAccessObject;
 
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsViewModel;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsController;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsState;
+import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
+import use_case.user_profile_user_story.note.DataAccessException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,16 +15,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 public class FriendProfilePlaylistsView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "friendProfilePlaylistCollection";
 
     private FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel;
     private FriendProfilePlaylistsController friendProfilePlaylistsController;
-    private DBUserDataAccessObject dbUserDataAccessObject;
+    private DBPlaylistDataAccessObject dbPlaylistDataAccessObject;
 
     // Initialize components
     private final JLabel playlistCollectionName = new JLabel();
+    private DefaultListModel<String> listModel;
 
     // JList to show the names of the playlists
     private JList<String> playlistCollectionList;
@@ -30,13 +35,10 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
     private String username;
     private String password;
 
-    public FriendProfilePlaylistsView(FriendProfilePlaylistsController friendProfilePlaylistsController,
-                                      FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel,
-                                      DBUserDataAccessObject dbUserDataAccessObject) {
-
-        this.friendProfilePlaylistsController = friendProfilePlaylistsController;
+    public FriendProfilePlaylistsView(FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel,
+                                      DBPlaylistDataAccessObject dbPlaylistDataAccessObject) {
         this.friendProfilePlaylistsViewModel = friendProfilePlaylistsViewModel;
-        this.dbUserDataAccessObject = dbUserDataAccessObject;
+        this.dbPlaylistDataAccessObject = dbPlaylistDataAccessObject;
         this.friendProfilePlaylistsViewModel.addPropertyChangeListener(this);
 
         // Setting label properties
@@ -44,7 +46,7 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
         playlistCollectionName.setText("Shareify - Friend's Playlist Collection"); // Default text
 
         // Initializing JList
-        DefaultListModel<String> listModel = new DefaultListModel<>();
+        listModel = new DefaultListModel<>();
         playlistCollectionList = new JList<>(listModel);
         playlistCollectionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         playlistCollectionList.setLayoutOrientation(JList.VERTICAL);
@@ -83,10 +85,14 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         final FriendProfilePlaylistsState state = (FriendProfilePlaylistsState) e.getNewValue();
-        updatePlaylistCollection(state);
-        updateState(state);
-        this.username = state.getUsername();
-        this.password = state.getPassword();
+        if (state.getUsername() != this.username) {
+            this.username = state.getUsername();
+            this.password = state.getPassword();
+            populatePlaylistListFromDB();
+        }
+        else {
+            updatePlaylistCollection(state);
+        }
 
         if (state.getPlaylistError() != null) {
             JOptionPane.showMessageDialog(this, state.getPlaylistError(),
@@ -94,26 +100,51 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
         }
     }
 
-    private void updateState(FriendProfilePlaylistsState state) {
-        playlistCollectionName.setText("Shareify - " + state.getUsername() + "'s Playlist Collection");
+    /**
+     * Populate playlist collection from database.
+     */
+    private void populatePlaylistListFromDB() {
+        try {
+            final List<String> playlists = dbPlaylistDataAccessObject.getPlaylists(username);
+
+            // Debugging
+            System.out.println("Fetching playlist from data base: " + playlists);
+
+            // Populate playlist collection in view
+            populatePlaylistList(playlists);
+        }
+        catch (DataAccessException error) {
+            JOptionPane.showMessageDialog(this,
+                    "Error getting playlists: " + error.getMessage(), "Error getting playlist",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Populates playlist collection with given list of playlist.
+     * @param playlists list of playlists to populate
+     */
+    private void populatePlaylistList(List<String> playlists) {
+        // clear current list
+        listModel.clear();
+        // Add each component to the list
+        for (String playlist : playlists) {
+            listModel.addElement(playlist);
+        }
     }
 
     private void updatePlaylistCollection(FriendProfilePlaylistsState playlistCollectionState) {
-        final DefaultListModel<String> listModel = (DefaultListModel<String>) playlistCollectionList.getModel();
-        listModel.clear();
-
+        // Adds all playlist that have been added to the view, including any newly created playlist
         for (String playlist : playlistCollectionState.getPlaylist()) {
-            listModel.addElement(playlist);
+            // Only add playlists that are not already in listModel
+            if (!listModel.contains(playlist)) {
+                listModel.addElement(playlist);
+            }
         }
-        listModel.addElement("test1");
     }
 
     public void setPlaylistCollectionController(FriendProfilePlaylistsController playlistCollectionController) {
         this.friendProfilePlaylistsController = playlistCollectionController;
-    }
-
-    public void setDbUserDataAccessObject(DBUserDataAccessObject dbUserDataAccessObject) {
-        this.dbUserDataAccessObject = dbUserDataAccessObject;
     }
 
     public String getViewName() {
