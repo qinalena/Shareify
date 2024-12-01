@@ -12,6 +12,7 @@ import java.util.List;
 public class SearchSongState {
     private Playlist currentPlaylist;
     private List<Song> searchResults = new ArrayList<>();
+    private String error;
 
     public void setCurrentSearchResults(List<Song> searchResults) {
         this.searchResults = searchResults;
@@ -19,5 +20,21 @@ public class SearchSongState {
 
     public List<Song> getSearchResults() {
         return searchResults;
+    }
+
+    public void setCurrentPlaylist(Playlist currentPlaylist) {
+        this.currentPlaylist = currentPlaylist;
+    }
+
+    public Playlist getCurrentPlaylist() {
+        return currentPlaylist;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public String getError() {
+        return error;
     }
 }

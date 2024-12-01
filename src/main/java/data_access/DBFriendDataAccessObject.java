@@ -41,7 +41,7 @@ public class DBFriendDataAccessObject {
         // POST method to create a new user (same as save method)
         final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
         final JSONObject requestBody = new JSONObject();
-        requestBody.put(USERNAME, user.getName());
+        requestBody.put(USERNAME, user.getUsername());
         requestBody.put(PASSWORD, user.getPassword());
 
         final JSONObject userInfo = new JSONObject();
@@ -116,7 +116,7 @@ public class DBFriendDataAccessObject {
      * @throws DataAccessException If there is an error updating the user information, such as invalid credentials or a database error.
      */
     public void updateUserInfo(User user, String key, String newInfo) throws DataAccessException {
-        final String username = user.getName();
+        final String username = user.getUsername();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         // URL to fetch the current user data
@@ -196,7 +196,7 @@ public class DBFriendDataAccessObject {
         // Dummy user
         // user = new User("newUserName7", "password123");
 
-        final String username = user.getName();
+        final String username = user.getUsername();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         // URL to fetch the current user data
@@ -275,7 +275,7 @@ public class DBFriendDataAccessObject {
     public void removeFriendinDB(User user, int index) throws DataAccessException {
         // Dummy user
         // user = new User("newUserName7", "password123");
-        final String username = user.getName();
+        final String username = user.getUsername();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         // URL to fetch the current user data

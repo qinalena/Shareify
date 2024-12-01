@@ -27,11 +27,11 @@ public class LogoutInteractorTest {
         String userName = "NewUser";
         LogoutInputData inputData = new LogoutInputData(userName);
 
-        doNothing().when(userDataAccess).setCurrentUsername(null);
+        doNothing().when(userDataAccess).setCurrentUser(null);
 
         logoutInteractor.execute(inputData);
 
-        verify(userDataAccess, times(1)).setCurrentUsername(null);
+        verify(userDataAccess, times(1)).setCurrentUser(null);
         verify(logoutPresenter, times(1)).prepareSuccessView(any(LogoutOutputData.class));
     }
 

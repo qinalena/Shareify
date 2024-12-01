@@ -106,7 +106,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     private void populateFriendsListFromDatabase() {
         try {
             final User realUser = new User(username, password);
-            final List<String> friends = dbFriendDataAccessObject.getFriends(realUser.getName());
+            final List<String> friends = dbFriendDataAccessObject.getFriends(realUser.getUsername());
 
             populateFriendsList(friends);
         }

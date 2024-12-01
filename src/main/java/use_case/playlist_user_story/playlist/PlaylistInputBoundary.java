@@ -1,5 +1,7 @@
 package use_case.playlist_user_story.playlist;
 
+import entity.Playlist;
+
 /**
  * The Input Boundary for our Playlist use cases.
  */
@@ -7,13 +9,17 @@ public interface PlaylistInputBoundary {
 
     /**
      * Executes the remove track from playlist Use Case.
+     *
+     * @param playlist
+     * @param songIndex
      */
-    void removeSong(int songIndex);
+    void removeSong(Playlist playlist, int songIndex);
 
     /**
-     * Switches to Search Tracks View.
+     * Switches to Search Song View.
+     * @param currentPlaylist the opened Playlist, so we can remember what playlist we're adding songs to
      */
-    void switchToSearchTracksView();
+    void switchToSearchSongView(Playlist currentPlaylist);
 
     /**
      * Switches to Playlist Collection View.

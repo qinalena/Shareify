@@ -39,4 +39,10 @@ public class SearchSongPresenter implements SearchSongOutputBoundary {
         playlistViewModel.getState().addSong(song);
         playlistViewModel.firePropertyChanged();
     }
+
+    @Override
+    public void prepareFailView(String message) {
+        searchSongViewModel.getState().setError(message);
+        searchSongViewModel.firePropertyChanged();
+    }
 }

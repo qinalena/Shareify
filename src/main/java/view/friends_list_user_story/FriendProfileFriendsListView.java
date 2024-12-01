@@ -75,7 +75,7 @@ public class FriendProfileFriendsListView extends JPanel implements ActionListen
     private void populateFriendsListFromDatabase() {
         try {
             final User realUser = new User(username, password);
-            final List<String> friends = dbFriendDataAccessObject.getFriends(realUser.getName());
+            final List<String> friends = dbFriendDataAccessObject.getFriends(realUser.getUsername());
             populateFriendsList(friends);
         } catch (DataAccessException error) {
             JOptionPane.showMessageDialog(this, "They have no friends");

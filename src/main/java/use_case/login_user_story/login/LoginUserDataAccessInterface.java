@@ -26,19 +26,19 @@ public interface LoginUserDataAccessInterface {
      * @param username the username to look up
      * @return the user with the given username
      */
-    User get(String username);
+    User getUser(String username);
 
     /**
-     * Returns the username of the curren user of the application.
+     * Returns the current user of the application.
      * @return the username of the current user; null indicates that no one is logged into the application.
      */
-    String getCurrentUsername();
+    User getCurrentUser();
 
     /**
-     * Sets the username indicating who is the current user of the application.
-     * @param username the new current username; null to indicate that no one is currently logged into the application.
+     * Sets the current user of the application.
+     * @param user the new current user; null to indicate that no one is currently logged into the application.
      */
-    void setCurrentUsername(String username);
+    void setCurrentUser(User user);
 
     public String loadNote(User user) throws DataAccessException;
 }

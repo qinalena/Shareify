@@ -66,7 +66,7 @@ public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoun
     }
 
     @Override
-    public void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData, String playlistName) {
+    public void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData) {
         playlistViewModel.getState().setCurrentPlaylist(playlistCollectionOutputData.getPlaylist());
         playlistViewModel.firePropertyChanged();
 
