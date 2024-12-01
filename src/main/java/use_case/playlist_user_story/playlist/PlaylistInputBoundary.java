@@ -9,9 +9,11 @@ public interface PlaylistInputBoundary {
 
     /**
      * Executes the remove track from playlist Use Case.
+     *
+     * @param playlist
      * @param songIndex
      */
-    void removeSong(int songIndex);
+    void removeSong(Playlist playlist, int songIndex);
 
     /**
      * Switches to Search Song View.

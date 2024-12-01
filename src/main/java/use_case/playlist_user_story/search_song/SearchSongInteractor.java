@@ -5,7 +5,7 @@ import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 import spotify_api.SpotifyConnectionInterface;
 import use_case.DataAccessException;
-import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
+import use_case.playlist_user_story.playlist.PlaylistDataAccessInterface;
 
 /**
  * The Interactor for Search Song.
@@ -13,13 +13,13 @@ import use_case.playlist_collection_user_story.playlist_collection.PlaylistColle
 public class SearchSongInteractor implements SearchSongInputBoundary {
 
     private final SpotifyConnectionInterface spotifyDAO;
-    private final PlaylistCollectionDataAccessInterface playlistCollectionDAO;
+    private final PlaylistDataAccessInterface playlistDAO;
     private final SearchSongOutputBoundary searchSongPresenter;
 
     public SearchSongInteractor(SpotifyConnectionInterface spotifyDAO,
-                                PlaylistCollectionDataAccessInterface playlistCollectionDAO, SearchSongOutputBoundary searchSongPresenter) {
+                                PlaylistDataAccessInterface playlistDAO, SearchSongOutputBoundary searchSongPresenter) {
         this.spotifyDAO = spotifyDAO;
-        this.playlistCollectionDAO = playlistCollectionDAO;
+        this.playlistDAO = playlistDAO;
         this.searchSongPresenter = searchSongPresenter;
     }
 
@@ -55,7 +55,7 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
     public void addSong(SearchSongInputData searchSongInputData) {
         // TODO: Update playlist in DB with new song
         try {
-            playlistCollectionDAO.addSongToPlaylist(searchSongInputData.getCurrentPlaylist(),
+            playlistDAO.addSongToPlaylist(searchSongInputData.getCurrentPlaylist(),
                     searchSongInputData.getSelectedSong());
 
             // Update Playlist View with new song

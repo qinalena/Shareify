@@ -16,11 +16,13 @@ public class PlaylistController {
 
     /**
      * Executes the remove song from playlist Use Case.
-     * @param songIndex  the selected song
+     *
+     * @param playlist the playlist to remove the song from
+     * @param songIndex the selected song
      */
-    public void removeSong(int songIndex) {
+    public void removeSong(Playlist playlist, int songIndex) {
         // Need index of the song so we remember which song to delete if we have multiple songs that are the same
-        playlistInteractor.removeSong(songIndex);
+        playlistInteractor.removeSong(playlist, songIndex);
     }
 
     /**

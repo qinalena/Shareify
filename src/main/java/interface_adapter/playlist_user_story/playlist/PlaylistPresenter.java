@@ -47,4 +47,10 @@ public class PlaylistPresenter implements PlaylistOutputBoundary {
         viewManagerModel.firePropertyChanged();
 
     }
+
+    @Override
+    public void prepareFailView(String message) {
+        playlistViewModel.getState().setError(message);
+        playlistViewModel.firePropertyChanged();
+    }
 }

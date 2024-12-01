@@ -257,8 +257,106 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
     }
 
     @Override
-    public void addSongToPlaylist(Playlist playlist, Song song) throws DataAccessException {
+    public Playlist getPlaylist(String playlistName) throws DataAccessException {
+        final OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
 
+        final Request request = new Request.Builder()
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", currentUser.getUsername()))
+                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                final JSONObject userJSONObject = responseBody.getJSONObject("user");
+                final JSONObject data = userJSONObject.getJSONObject("info");
+                final JSONArray playlistCollection = data.getJSONArray("playlist collection");
+
+                for (int i = 0; i < playlistCollection.length(); i++) {
+                    final JSONObject playlist = playlistCollection.getJSONObject(i);
+                    if (playlist.get("name").equals(playlistName)) {
+                        final Playlist playlistObject = new Playlist(playlistName);
+
+                        if (playlist.has("songs")) {
+                            final JSONArray songs = playlist.getJSONArray("songs");
+                            for (int j = 0; j < songs.length(); j++) {
+                                final JSONObject song = songs.getJSONObject(j);
+
+                                final JSONArray artists = song.getJSONArray("artists");
+                                final String[] artistArray = new String[artists.length()];
+                                for (int k = 0; k < artists.length(); k++) {
+                                    artistArray[k] = artists.getString(k);
+                                }
+
+                                final Song songObject = new Song(song.getString("name"), artistArray);
+                                playlistObject.addSong(songObject);
+                            }
+
+                        }
+                        return playlistObject;
+                    }
+
+                }
+            }
+
+            else {
+                throw new DataAccessException(responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException ex) {
+            throw new DataAccessException(ex.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public void addSongToPlaylist(Playlist playlist, Song song) throws DataAccessException {
+        final OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+
+        final Request request = new Request.Builder()
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", currentUser.getUsername()))
+                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                final JSONObject userJSONObject = responseBody.getJSONObject("user");
+                final JSONObject data = userJSONObject.getJSONObject("info");
+                final JSONArray playlistCollection = data.getJSONArray("playlist collection");
+
+                for (int i = 0; i < playlistCollection.length(); i++) {
+                    final JSONObject playlist = playlistCollection.getJSONObject(i);
+                    if (playlist.get("name").equals(playlistName)) {
+                        final Playlist playlistObject = new Playlist(playlistName);
+
+                        if (playlist.has("songs")) {
+                            final JSONArray songs = playlist.getJSONArray("songs");
+                            for (int j = 0; j < songs.length(); j++) {
+                                final JSONObject song = songs.getJSONObject(j);
+
+                                final JSONArray artists = song.getJSONArray("artists");
+                                final String[] artistArray = new String[artists.length()];
+                                for (int k = 0; k < artists.length(); k++) {
+                                    artistArray[k] = artists.getString(k);
+                                }
+
+                                final Song songObject = new Song(song.getString("name"), artistArray);
+                                playlistObject.addSong(songObject);
+                            }
+
+                        }
+                        return playlistObject;
+                    }
+
+                }
+            }
     }
 
     @Override

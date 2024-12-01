@@ -58,10 +58,10 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
                     }
                 }
             }
-            catch (DataAccessException e) {}
+            catch (DataAccessException exception) {}
 
             // Hard coded playlist collection example
-//            Playlist playlistTest = new Playlist("Playlist1");
+//            Playlist playlistTest = new Playlist(playlistName);
 //            playlistTest.addSong(new Song("Starships", new String[]{"Nicki Minaj"}));
 //
 //            PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlistTest);
