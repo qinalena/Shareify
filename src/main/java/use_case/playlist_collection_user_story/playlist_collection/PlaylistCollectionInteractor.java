@@ -4,7 +4,7 @@ import entity.Playlist;
 import entity.Song;
 import entity.User;
 import data_access.DBPlaylistDataAccessObject;
-import use_case.user_profile_user_story.note.DataAccessException;
+import data_access.DataAccessException;
 
 import java.util.List;
 

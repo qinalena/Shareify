@@ -1,14 +1,10 @@
 package view.user_profile_user_story;
 
-import data_access.DBNoteDataAccessObject;
-import data_access.DBUserDataAccessObject;
-import interface_adapter.login_user_story.login.LoginState;
 import interface_adapter.user_profile_user_story.logout.LogoutController;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileController;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
-import org.json.JSONException;
-import use_case.user_profile_user_story.note.DataAccessException;
+import data_access.DataAccessException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,9 +20,6 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     private final String viewName = "user profile";
 
     private final UserProfileViewModel userProfileViewModel;
-    private DBUserDataAccessObject dbUserDataAccessObject;
-    private DBNoteDataAccessObject dbNoteDataAccessObject;
-
     private JLabel username = new JLabel();
     private final JLabel note = new JLabel();
 
@@ -42,12 +35,10 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     private String stateUserName;
     private String statePassword;
 
-    public UserProfileView(UserProfileViewModel userProfileViewModel, DBUserDataAccessObject userDataAccessObject, DBNoteDataAccessObject dbNoteDataAccessObject) {
+    public UserProfileView(UserProfileViewModel userProfileViewModel) {
 
         this.userProfileViewModel = userProfileViewModel;
         this.userProfileViewModel.addPropertyChangeListener(this);
-        this.dbUserDataAccessObject = userDataAccessObject;
-        this.dbNoteDataAccessObject = dbNoteDataAccessObject;
 
         username.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -138,12 +129,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
         this.statePassword = state.getPassword();
         this.stateUserName = state.getCurrentUsername();
         username.setText("Shareify - " + state.getCurrentUsername());
-        try{
-            note.setText("Bio: " + dbNoteDataAccessObject.loadNote(dbUserDataAccessObject.get(state.getCurrentUsername())));
-        } catch (RuntimeException e) {
-            note.setText("Bio: " + "Hi! I'm new to Shareify! :)");
-        }
-//        note.setText("Bio: " + dbUserDataAccessObject.get(state.getFriendUsername()).getNote());
+        note.setText("Bio: " + state.getBio());
     }
 
     public void setUserProfileController(UserProfileController controller) {
@@ -151,7 +137,6 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     }
 
     public void setLogoutController(LogoutController logoutController) {
-        // TODO: save the logout controller in the instance variable.
         this.logoutController = logoutController;
     }
 

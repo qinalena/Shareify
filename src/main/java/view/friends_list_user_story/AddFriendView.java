@@ -3,7 +3,6 @@ package view.friends_list_user_story;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendController;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendViewModel;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendState;
-import data_access.DBNoteDataAccessObject;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

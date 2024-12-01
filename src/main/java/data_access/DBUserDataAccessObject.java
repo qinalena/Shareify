@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import entity.UserFactoryInter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,16 +23,15 @@ import use_case.comment.CommentDataAccessInterface;
 import use_case.user_profile_user_story.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.login_user_story.login.LoginUserDataAccessInterface;
 import use_case.user_profile_user_story.logout.LogoutUserDataAccessInterface;
-import use_case.user_profile_user_story.note.DataAccessException;
 import use_case.login_user_story.signup.SignupUserDataAccessInterface;
+import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 /**
  * The DAO for user data.
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface,
-        ChangePasswordUserDataAccessInterface,
-        LogoutUserDataAccessInterface, PlaylistDataAccessInterface, SearchSongDataAccessInterface,
-    CommentDataAccessInterface, ChatDataAccessInterface {
+        ChangePasswordUserDataAccessInterface, LogoutUserDataAccessInterface, PlaylistDataAccessInterface,
+        SearchSongDataAccessInterface, CommentDataAccessInterface, ChatDataAccessInterface, NoteDataAccessInterface{
     private static final int SUCCESS_CODE = 200;
     private static final int CREDENTIAL_ERROR = 401;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -47,12 +45,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
     // Static field to track current logged-in user
     private static String currentUsername;
 
-    private final UserFactoryInter userFactory;
-
-    public DBUserDataAccessObject(UserFactoryInter userFactory) {
-        this.userFactory = userFactory;
-        // No need to do anything to reinitialize a user list! The data is the cloud that may be miles away.
-    }
 
     public User get(String username) throws RuntimeException {
         // Make an API call to get the user object.
@@ -71,7 +63,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
                 final String name = userJSONObject.getString(USERNAME);
                 final String password = userJSONObject.getString(PASSWORD);
 
-                return userFactory.createUser(name, password);
+                return new User(name, password);
             }
             else {
                 throw new RuntimeException(responseBody.getString(MESSAGE));
@@ -427,6 +419,87 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
 
     public String getCurrentUsername() {
         return currentUsername;
+    }
+
+    /**
+     * Saves a note for the given user.
+     *
+     * @param user The user for whom the note is being saved.
+     * @param note The note to be saved.
+     * @return The saved note if the operation is successful.
+     * @throws DataAccessException If there is an error saving the note, such as invalid credentials or a database error.
+     */
+    public String saveNote(User user, String note) throws DataAccessException {
+        final OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+
+        // POST METHOD to save note
+        final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
+        final JSONObject requestBody = new JSONObject();
+        requestBody.put(USERNAME, user.getName());
+        requestBody.put(PASSWORD, user.getPassword());
+        final JSONObject extra = new JSONObject();
+        extra.put("note", note);
+        requestBody.put("info", extra);
+        final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
+        final Request request = new Request.Builder()
+                .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
+                .method("PUT", body)
+                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                return loadNote(user);
+            }
+            else if (responseBody.getInt(STATUS_CODE_LABEL) == CREDENTIAL_ERROR) {
+                throw new DataAccessException("Message could not be found or password was incorrect");
+            }
+            else {
+                throw new DataAccessException("Database error: " + responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException ex) {
+            throw new DataAccessException(ex.getMessage());
+        }
+    }
+
+    /**
+     * Loads the note associated with the given user.
+     *
+     * @param user The user for whom the note is being loaded.
+     * @return The loaded note if the operation is successful.
+     * @throws DataAccessException If there is an error loading the note, such as invalid credentials or a database error.
+     */
+    @Override
+    public String loadNote(User user) throws DataAccessException {
+        // Make an API call to get the user object.
+        final String username = user.getName();
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
+        final Request request = new Request.Builder()
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
+                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                final JSONObject userJSONObject = responseBody.getJSONObject("user");
+                final JSONObject data = userJSONObject.getJSONObject("info");
+                return data.getString("note");
+            }
+            else {
+                throw new DataAccessException(responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException ex) {
+            return "";
+        }
     }
 
 }
