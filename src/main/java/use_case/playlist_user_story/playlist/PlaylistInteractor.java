@@ -1,7 +1,7 @@
 package use_case.playlist_user_story.playlist;
 
 import entity.Playlist;
-import use_case.DataAccessException;
+import data_access.DataAccessException;
 
 /**
  * The interactor for a playlist.

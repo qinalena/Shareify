@@ -1,24 +1,23 @@
 package use_case.friends_list_user_story.add_friend;
 
-import data_access.DBNoteDataAccessObject;
-import interface_adapter.friends_list_user_story.add_friend.AddFriendPresenter;
-import use_case.friends_list_user_story.add_friend.AddFriendOutputBoundary;
+import data_access.DBFriendDataAccessObject;
+
 import java.util.List;
 
 public class AddFriendInteractor implements AddFriendInputBoundary {
 
-    private final DBNoteDataAccessObject dbNoteDataAccessObject;
+    private final DBFriendDataAccessObject dbFriendDataAccessObject;
     private final AddFriendOutputBoundary outputBoundary;
     private final List<String> friendsList;
     private AddFriendOutputBoundary addFriendPresenter;
 
-    public AddFriendInteractor(DBNoteDataAccessObject dbNoteDataAccessObject,
+    public AddFriendInteractor(DBFriendDataAccessObject dbFriendDataAccessObject,
                                AddFriendOutputBoundary outputBoundary,
                                List<String> friendsList) {
         if (outputBoundary == null) {
             throw new NullPointerException("Output boundary cannot be null");
         }
-        this.dbNoteDataAccessObject = dbNoteDataAccessObject;
+        this.dbFriendDataAccessObject = dbFriendDataAccessObject;
         this.outputBoundary = outputBoundary;
         this.addFriendPresenter = outputBoundary;
         this.friendsList = friendsList;  // Initialize the friends list
@@ -34,7 +33,7 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
 
         try {
             // Check if the user exists in the database
-            String foundUsername = dbNoteDataAccessObject.getUserByUsername(friendName);
+            String foundUsername = dbFriendDataAccessObject.getUserByUsername(friendName);
 
             if (foundUsername != null) {
                 // Add friend to the friends list

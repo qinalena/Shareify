@@ -2,7 +2,7 @@ package use_case.playlist_user_story.playlist;
 
 import entity.Playlist;
 import entity.Song;
-import use_case.DataAccessException;
+import data_access.DataAccessException;
 
 /**
  * Data Access Interface for Playlist.

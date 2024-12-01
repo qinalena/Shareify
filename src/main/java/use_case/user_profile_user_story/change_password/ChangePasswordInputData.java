@@ -12,13 +12,12 @@ public class ChangePasswordInputData {
         this.password = password;
         this.username = username;
     }
-
-    String getPassword() {
-        return password;
+    public String getUserName() {
+        return username;
     }
 
-    String getUsername() {
-        return username;
+    public String getPassword() {
+        return password;
     }
 
 }

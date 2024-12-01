@@ -1,9 +1,8 @@
 package use_case.user_profile_user_story.note;
 
+import data_access.DataAccessException;
 import entity.User;
-import use_case.DataAccessException;
-
-import java.util.List;
+import data_access.DataAccessException;
 
 /**
  * Interface for the NoteDAO. It consists of methods for
@@ -29,5 +28,7 @@ public interface NoteDataAccessInterface {
      * @throws DataAccessException if the user's note can not be loaded for any reason
      */
     String loadNote(User user) throws DataAccessException;
+
+    User getUser(String username);
 
 }

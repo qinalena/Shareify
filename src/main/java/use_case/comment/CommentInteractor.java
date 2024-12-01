@@ -1,7 +1,7 @@
 package use_case.comment;
 
 import data_access.DBUserDataAccessObject;
-import use_case.DataAccessException;
+import data_access.DataAccessException;
 
 import java.util.List;
 

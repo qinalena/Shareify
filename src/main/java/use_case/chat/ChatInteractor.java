@@ -1,6 +1,6 @@
 package use_case.chat;
 
-import use_case.DataAccessException;
+import data_access.DataAccessException;
 
 import java.util.List;
 

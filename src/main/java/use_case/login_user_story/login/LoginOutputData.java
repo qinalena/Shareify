@@ -7,11 +7,11 @@ public class LoginOutputData {
 
     private final String username;
     private final String password;
-    private final boolean useCaseFailed;
+    private final String note;
 
-    public LoginOutputData(String username, String password, boolean useCaseFailed) {
+    public LoginOutputData(String username, String password, String note) {
         this.username = username;
-        this.useCaseFailed = useCaseFailed;
+        this.note = note;
         this.password = password;
     }
 
@@ -21,6 +21,10 @@ public class LoginOutputData {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getNote() {
+        return note;
     }
 
 }

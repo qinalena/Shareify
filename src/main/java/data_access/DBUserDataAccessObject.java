@@ -7,7 +7,6 @@ import java.util.List;
 
 import entity.Playlist;
 import entity.Song;
-import entity.UserFactoryInter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,7 +17,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
 import use_case.playlist_user_story.playlist.PlaylistDataAccessInterface;
 import use_case.playlist_user_story.search_song.SearchSongDataAccessInterface;
 import use_case.chat.ChatDataAccessInterface;
@@ -26,17 +24,15 @@ import use_case.comment.CommentDataAccessInterface;
 import use_case.user_profile_user_story.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.login_user_story.login.LoginUserDataAccessInterface;
 import use_case.user_profile_user_story.logout.LogoutUserDataAccessInterface;
-import use_case.DataAccessException;
 import use_case.login_user_story.signup.SignupUserDataAccessInterface;
+import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 /**
  * The DAO for user data.
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface,
-        ChangePasswordUserDataAccessInterface,
-        LogoutUserDataAccessInterface,
-        PlaylistDataAccessInterface, SearchSongDataAccessInterface,
-    CommentDataAccessInterface, ChatDataAccessInterface {
+        ChangePasswordUserDataAccessInterface, LogoutUserDataAccessInterface, PlaylistDataAccessInterface,
+        SearchSongDataAccessInterface, CommentDataAccessInterface, ChatDataAccessInterface, NoteDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final int CREDENTIAL_ERROR = 401;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -46,16 +42,11 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
     private static final String PASSWORD = "password";
     private static final String INFO = "info";
     private static final String MESSAGE = "message";
+    private static final String NAME = "name";
+    private static final String SONGS = "songs";
 
     // Keep track of current logged-in user so we can make calls to the DB
     private User currentUser;
-
-    private final UserFactoryInter userFactory;
-
-    public DBUserDataAccessObject(UserFactoryInter userFactory) {
-        this.userFactory = userFactory;
-        // No need to do anything to reinitialize a user list! The data is the cloud that may be miles away.
-    }
 
     @Override
     public User getCurrentUser() {
@@ -73,7 +64,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
-                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
                 .build();
         try {
             final Response response = client.newCall(request).execute();
@@ -85,7 +76,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
                 final String name = userJSONObject.getString(USERNAME);
                 final String password = userJSONObject.getString(PASSWORD);
 
-                return userFactory.createUser(name, password);
+                return new User(name, password);
             }
             else {
                 throw new RuntimeException(responseBody.getString(MESSAGE));
@@ -196,7 +187,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
 
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", currentUser.getUsername()))
-                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
                 .build();
         try {
             final Response response = client.newCall(request).execute();
@@ -205,15 +196,15 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
 
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
-                final JSONObject data = userJSONObject.getJSONObject("info");
+                final JSONObject data = userJSONObject.getJSONObject(INFO);
                 final JSONArray playlistCollection = data.getJSONArray("playlist collection");
 
                 for (int i = 0; i < playlistCollection.length(); i++) {
                     final JSONObject playlist = playlistCollection.getJSONObject(i);
-                    if (playlist.get("name").equals(playlistName)) {
+                    if (playlist.get(NAME).equals(playlistName)) {
                         final Playlist playlistObject = new Playlist(playlistName);
 
-                        final JSONArray songs = playlist.getJSONArray("songs");
+                        final JSONArray songs = playlist.getJSONArray(SONGS);
                         for (int j = 0; j < songs.length(); j++) {
                             final JSONObject song = songs.getJSONObject(j);
 
@@ -223,7 +214,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
                                 artistArray[k] = artists.getString(k);
                             }
 
-                            final Song songObject = new Song(song.getString("name"), artistArray);
+                            final Song songObject = new Song(song.getString(NAME), artistArray);
                             playlistObject.addSong(songObject);
                         }
                         return playlistObject;
@@ -248,7 +239,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
 
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", currentUser.getUsername()))
-                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
                 .build();
         try {
             final Response response = client.newCall(request).execute();
@@ -257,17 +248,17 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
 
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
-                final JSONObject data = userJSONObject.getJSONObject("info");
+                final JSONObject data = userJSONObject.getJSONObject(INFO);
                 final JSONArray playlistCollection = data.getJSONArray("playlist collection");
 
                 for (int i = 0; i < playlistCollection.length(); i++) {
                     final JSONObject jsonPlaylist = playlistCollection.getJSONObject(i);
-                    if (jsonPlaylist.get("name").equals(playlist.getName())) {
+                    if (jsonPlaylist.get(NAME).equals(playlist.getName())) {
 
-                        final JSONArray jsonSongs = jsonPlaylist.getJSONArray("songs");
+                        final JSONArray jsonSongs = jsonPlaylist.getJSONArray(SONGS);
 
                         final JSONObject jsonSong = new JSONObject();
-                        jsonSong.put("name", song.getName());
+                        jsonSong.put(NAME, song.getName());
                         jsonSong.put("artists", song.getArtists());
 
                         jsonSongs.put(jsonSong);
@@ -277,14 +268,14 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
                 final JSONObject updatedUser = new JSONObject();
                 updatedUser.put(USERNAME, currentUser.getUsername());
                 updatedUser.put(PASSWORD, currentUser.getPassword());
-                updatedUser.put("info", data);
+                updatedUser.put(INFO, data);
 
                 final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
                 final RequestBody body = RequestBody.create(updatedUser.toString(), mediaType);
                 final Request updateRequest = new Request.Builder()
                         .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
                         .method("PUT", body)
-                        .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                        .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
                         .build();
 
                 // Send the update request
@@ -315,7 +306,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
 
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", currentUser.getUsername()))
-                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
                 .build();
         try {
             final Response response = client.newCall(request).execute();
@@ -324,14 +315,14 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
 
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
-                final JSONObject data = userJSONObject.getJSONObject("info");
+                final JSONObject data = userJSONObject.getJSONObject(INFO);
                 final JSONArray playlistCollection = data.getJSONArray("playlist collection");
 
                 for (int i = 0; i < playlistCollection.length(); i++) {
                     final JSONObject jsonPlaylist = playlistCollection.getJSONObject(i);
-                    if (jsonPlaylist.get("name").equals(playlist.getName())) {
+                    if (jsonPlaylist.get(NAME).equals(playlist.getName())) {
 
-                        final JSONArray jsonSongs = jsonPlaylist.getJSONArray("songs");
+                        final JSONArray jsonSongs = jsonPlaylist.getJSONArray(SONGS);
                         jsonSongs.remove(songIndex);
 
                     }
@@ -340,14 +331,14 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
                 final JSONObject updatedUser = new JSONObject();
                 updatedUser.put(USERNAME, currentUser.getUsername());
                 updatedUser.put(PASSWORD, currentUser.getPassword());
-                updatedUser.put("info", data);
+                updatedUser.put(INFO, data);
 
                 final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
                 final RequestBody body = RequestBody.create(updatedUser.toString(), mediaType);
                 final Request updateRequest = new Request.Builder()
                         .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
                         .method("PUT", body)
-                        .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                        .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
                         .build();
 
                 // Send the update request
@@ -432,7 +423,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
         final JSONObject requestBody = new JSONObject();
         // Get the User object with username using Get Method.
-        final User thisPerson = getUser(username);
+        final User thisPerson = this.getUser(username);
         requestBody.put(USERNAME, thisPerson.getUsername());
         requestBody.put(PASSWORD, thisPerson.getPassword());
         // Add the comment to the existing comments
@@ -612,6 +603,87 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         }
         catch (IOException | JSONException ex) {
             throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * Saves a note for the given user.
+     *
+     * @param user The user for whom the note is being saved.
+     * @param note The note to be saved.
+     * @return The saved note if the operation is successful.
+     * @throws DataAccessException If there is an error saving the note, such as invalid credentials or a database error.
+     */
+    public String saveNote(User user, String note) throws DataAccessException {
+        final OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+
+        // POST METHOD to save note
+        final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
+        final JSONObject requestBody = new JSONObject();
+        requestBody.put(USERNAME, user.getUsername());
+        requestBody.put(PASSWORD, user.getPassword());
+        final JSONObject extra = new JSONObject();
+        extra.put("note", note);
+        requestBody.put("info", extra);
+        final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
+        final Request request = new Request.Builder()
+                .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
+                .method("PUT", body)
+                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                return loadNote(user);
+            }
+            else if (responseBody.getInt(STATUS_CODE_LABEL) == CREDENTIAL_ERROR) {
+                throw new DataAccessException("Message could not be found or password was incorrect");
+            }
+            else {
+                throw new DataAccessException("Database error: " + responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException ex) {
+            throw new DataAccessException(ex.getMessage());
+        }
+    }
+
+    /**
+     * Loads the note associated with the given user.
+     *
+     * @param user The user for whom the note is being loaded.
+     * @return The loaded note if the operation is successful.
+     * @throws DataAccessException If there is an error loading the note, such as invalid credentials or a database error.
+     */
+    @Override
+    public String loadNote(User user) throws DataAccessException {
+        // Make an API call to get the user object.
+        final String username = user.getUsername();
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
+        final Request request = new Request.Builder()
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
+                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                final JSONObject userJSONObject = responseBody.getJSONObject("user");
+                final JSONObject data = userJSONObject.getJSONObject("info");
+                return data.getString("note");
+            }
+            else {
+                throw new DataAccessException(responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException ex) {
+            return "";
         }
     }
 

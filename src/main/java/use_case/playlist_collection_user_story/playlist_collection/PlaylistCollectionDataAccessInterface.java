@@ -4,7 +4,7 @@ import java.util.List;
 
 import entity.User;
 import org.json.JSONArray;
-import use_case.DataAccessException;
+import data_access.DataAccessException;
 
 /**
  * Interface for the PlaylistCollectionDAO. It consists of methods for

@@ -1,4 +1,4 @@
-package use_case;
+package data_access;
 
 /**
  * Exception thrown when there is an error with accessing data.

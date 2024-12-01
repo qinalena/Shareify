@@ -1,6 +1,7 @@
 package use_case.login_user_story.login;
 
 import entity.User;
+import data_access.DataAccessException;
 
 /**
  * The Login Interactor.
@@ -31,11 +32,15 @@ public class LoginInteractor implements LoginInputBoundary {
 
                 final User user = userDataAccessObject.getUser(loginInputData.getUsername());
 
-                // Unnecessary code? Username has not been changed.
                 userDataAccessObject.setCurrentUser(user);
 
-                final LoginOutputData loginOutputData = new LoginOutputData(user.getUsername(), user.getPassword(), false);
-                loginPresenter.prepareSuccessView(loginOutputData);
+                try {
+                    final LoginOutputData loginOutputData = new LoginOutputData(user.getUsername(), user.getPassword(), userDataAccessObject.loadNote(userDataAccessObject.getCurrentUser()));
+                    loginPresenter.prepareSuccessView(loginOutputData);
+                }
+                catch (DataAccessException ex) {
+                    loginPresenter.prepareFailView(ex.getMessage());
+                }
             }
         }
     }
