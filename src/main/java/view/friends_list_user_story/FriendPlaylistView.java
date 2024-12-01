@@ -86,6 +86,7 @@ public class FriendPlaylistView extends JPanel implements ActionListener, Proper
 
     private void setFields(FriendPlaylistState state) {
         final Playlist currentPlaylist = state.getCurrentPlaylist();
+        playlistTitle.setText(currentPlaylist.getName());
 
         final DefaultListModel<String> listModel = (DefaultListModel<String>) songs.getModel();
         listModel.clear();

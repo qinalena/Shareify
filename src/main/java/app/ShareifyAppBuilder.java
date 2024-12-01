@@ -566,7 +566,8 @@ public class ShareifyAppBuilder {
 
         // Instantiate the input boundary/interactor
         friendProfilePlaylistsInteractor =
-                new FriendProfilePlaylistsInteractor(friendProfilePlaylistsOutputBoundary, friendProfilePlaylistsViewModel);
+                new FriendProfilePlaylistsInteractor(friendProfilePlaylistsOutputBoundary,
+                        friendProfilePlaylistsViewModel, userDataAccessObject);
 
         // Creating controller + connect to interactor
         friendProfilePlaylistsController = new FriendProfilePlaylistsController(friendProfilePlaylistsInteractor);

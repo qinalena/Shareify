@@ -53,7 +53,7 @@ public class FriendProfilePlaylistsPresenter implements FriendProfilePlaylistsOu
     }
 
     @Override
-    public void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData, String playlistName, String username, String password) {
+    public void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData, String username, String password) {
         friendPlaylistViewModel.getState().setCurrentPlaylist(playlistCollectionOutputData.getPlaylist());
         friendPlaylistViewModel.getState().setFriendUsername(username);
         friendPlaylistViewModel.getState().setFriendPassword(password);

@@ -43,7 +43,7 @@ public class FriendProfilePlaylistsView extends JPanel implements ActionListener
 
         // Setting label properties
         playlistCollectionName.setAlignmentX(Component.CENTER_ALIGNMENT);
-        playlistCollectionName.setText("Shareify - Friend's Playlist Collection"); // Default text
+        playlistCollectionName.setText("Shareify - Friend's Playlist Collection");
 
         // Initializing JList
         listModel = new DefaultListModel<>();

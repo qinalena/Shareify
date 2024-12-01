@@ -1,17 +1,24 @@
 package use_case.friends_list_user_story.friend_profile_playlists;
 
+import data_access.DataAccessException;
 import entity.Playlist;
 import entity.Song;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsViewModel;
+import use_case.friends_list_user_story.friend_playlist.FriendPlaylistDataAccessInterface;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputData;
+import use_case.playlist_user_story.playlist.PlaylistDataAccessInterface;
 
 public class FriendProfilePlaylistsInteractor implements FriendProfilePlaylistsInputBoundary {
     private final FriendProfilePlaylistsOutputBoundary friendProfilePlaylistsPresenter;
     private final FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel;
+    private final FriendPlaylistDataAccessInterface playlistDataAccessObject;
 
-    public FriendProfilePlaylistsInteractor(FriendProfilePlaylistsOutputBoundary friendProfilePlaylistsPresenter, FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel) {
+    public FriendProfilePlaylistsInteractor(FriendProfilePlaylistsOutputBoundary friendProfilePlaylistsPresenter,
+                                            FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel,
+                                            FriendPlaylistDataAccessInterface playlistDataAccessObject) {
         this.friendProfilePlaylistsViewModel = friendProfilePlaylistsViewModel;
         this.friendProfilePlaylistsPresenter = friendProfilePlaylistsPresenter;
+        this.playlistDataAccessObject = playlistDataAccessObject;
     }
 
     @Override
@@ -29,17 +36,15 @@ public class FriendProfilePlaylistsInteractor implements FriendProfilePlaylistsI
     public void switchToPlaylistView(String playlistName, String username, String password) {
         if (playlistName == null) {
             friendProfilePlaylistsPresenter.prepareFailView("Must select a playlist.");
-        }
-        else {
-            // Hard coded playlist collection example
-            // Actual code should search the DB using the playlist name and then
-            // populate a playlist in PlaylistCollectionOutputData (convert JSON string values into Song objects)
-            Playlist playlistTest = new Playlist("Playlist1");
-            playlistTest.addSong(new Song("Starships", new String[]{"Nicki Minaj"}));
-
-            PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlistTest);
-            friendProfilePlaylistsPresenter.switchToPlaylistView(playlistCollectionOutputData, playlistName, username, password);
+        } else {
+            // Actual code getting Playlist Collection from the DB (PlaylistCollectionOutputData might be redundant; pass playlist directly to presenter)
+            try {
+                final Playlist playlist = playlistDataAccessObject.getFriendPlaylist(username, playlistName);
+                final PlaylistCollectionOutputData playlistCollectionOutputData = new PlaylistCollectionOutputData(playlist);
+                friendProfilePlaylistsPresenter.switchToPlaylistView(playlistCollectionOutputData, username, password);
+            } catch (DataAccessException exception) {
+                friendProfilePlaylistsPresenter.prepareFailView(exception.getMessage());
+            }
         }
     }
-
 }
