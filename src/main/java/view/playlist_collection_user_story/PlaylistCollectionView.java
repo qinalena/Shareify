@@ -138,7 +138,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
             final List<String> playlists = dbPlaylistDataAccessObject.getPlaylists(username);
 
             // Debugging
-//            System.out.println("Fetching playlist from data base: " + playlists);
+            System.out.println("Fetching playlist from data base: " + playlists);
 
             // Populate playlist collection in view
             populatePlaylistList(playlists);
@@ -191,12 +191,16 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         // Debugging
 //        System.out.println("Property change trigger: " + evt.getNewValue());
 
-        updatePlaylistCollection(playlistCollectionState);
-
         if (!playlistCollectionState.getUsername().equals(this.username)) {
             this.username = playlistCollectionState.getUsername();
             this.password = playlistCollectionState.getPassword();
+            // clear listmodel and repopulate
             populatePlaylistListFromDB();
+        }
+        else {
+            // Update view using state without duplication
+//            listModel.clear();
+            updatePlaylistCollection(playlistCollectionState);
         }
         if (playlistCollectionState.getPlaylistError() != null) {
             JOptionPane.showMessageDialog(this, playlistCollectionState.getPlaylistError(),
@@ -210,8 +214,10 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     private void updatePlaylistCollection(PlaylistCollectionState playlistCollectionState) {
         // Adds all playlist that have been added to the view, including any newly created playlist
         for (String playlist : playlistCollectionState.getPlaylist()) {
-            // Add each playlist to the listModel
-            listModel.addElement(playlist);
+            // Only add playlists that are not already in listModel
+            if (!listModel.contains(playlist)) {
+                listModel.addElement(playlist);
+            }
         }
     }
 

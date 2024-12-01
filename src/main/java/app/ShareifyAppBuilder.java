@@ -319,8 +319,6 @@ public class ShareifyAppBuilder {
      * @throws RuntimeException for runtime exceptions
      */
     public ShareifyAppBuilder addFriendProfileUseCase() {
-        friendProfilePlaylistsViewModel = new FriendProfilePlaylistsViewModel();
-        friendProfileFriendsListViewModel = new FriendProfileFriendsListViewModel();
         final FriendProfileOutputBoundary friendProfileOutputBoundary = new FriendProfilePresenter(
                 friendProfileViewModel, viewManagerModel, noteViewModel, friendProfilePlaylistsViewModel,
                 friendProfileFriendsListViewModel, chatViewModel);
