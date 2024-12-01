@@ -17,7 +17,7 @@ import okhttp3.Response;
 /**
  * The DAO for accessing notes stored in the database.
  */
-public class DBNoteDataAccessObject {
+public class DBFriendDataAccessObject {
     private static final int SUCCESS_CODE = 200;
     private static final int CREDENTIAL_ERROR = 401;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";

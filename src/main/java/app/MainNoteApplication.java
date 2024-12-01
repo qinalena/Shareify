@@ -1,6 +1,5 @@
 package app;
 
-import data_access.DBNoteDataAccessObject;
 import data_access.DBUserDataAccessObject;
 import spotify_api.SpotifyConnection;
 import use_case.user_profile_user_story.note.NoteDataAccessInterface;
@@ -64,6 +63,7 @@ public class MainNoteApplication {
                 .addNoteView()
                 .addChangePasswordView()
                 .addPlaylistCollectionView()
+                .addAddPlaylistView()
                 .addFriendsListView()
                 .addAddFriendView()
                 .addFriendProfileView()
@@ -79,6 +79,7 @@ public class MainNoteApplication {
                 .addChangePasswordUseCase()
                 .addLogoutUseCase()
                 .addPlaylistCollectionUseCase()
+                .addAddPlaylistUseCase()
                 .addFriendsListUseCase()
                 .addAddFriendUseCase()
                 .addPlaylistUseCase()

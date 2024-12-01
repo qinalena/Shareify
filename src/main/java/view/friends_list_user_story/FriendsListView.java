@@ -1,6 +1,6 @@
 package view.friends_list_user_story;
 
-import data_access.DBNoteDataAccessObject;
+import data_access.DBFriendDataAccessObject;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListController;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
@@ -24,7 +24,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     private final FriendsListViewModel viewModel;
     private FriendsListController friendsListController;
     private AddFriendOutputBoundary addFriendOutputBoundary;
-    private DBNoteDataAccessObject dbNoteDataAccessObject;
+    private DBFriendDataAccessObject dbFriendDataAccessObject;
     private String username;
     private String password;
     private String selectedFriend;
@@ -44,14 +44,14 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
      * Constructs a FriendsListView with the given controller, view model, data access object, and output boundary.
      *
      * @param viewModel The view model for the friends list.
-     * @param dbNoteDataAccessObject The data access object for notes and user data.
+     * @param dbFriendDataAccessObject The data access object for notes and user data.
      * @param addFriendOutputBoundary The output boundary for adding friends.
      */
     public FriendsListView(FriendsListViewModel viewModel,
-                           DBNoteDataAccessObject dbNoteDataAccessObject,
+                           DBFriendDataAccessObject dbFriendDataAccessObject,
                            AddFriendOutputBoundary addFriendOutputBoundary) {
         this.viewModel = viewModel;
-        this.dbNoteDataAccessObject = dbNoteDataAccessObject;
+        this.dbFriendDataAccessObject = dbFriendDataAccessObject;
         this.addFriendOutputBoundary = addFriendOutputBoundary;
         this.viewModel.addPropertyChangeListener(this);
 
@@ -106,7 +106,8 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     private void populateFriendsListFromDatabase() {
         try {
             final User realUser = new User(username, password);
-            final List<String> friends = dbNoteDataAccessObject.getFriends(realUser.getName());
+            final List<String> friends = dbFriendDataAccessObject.getFriends(realUser.getName());
+
             populateFriendsList(friends);
         }
         catch (DataAccessException error) {
@@ -132,7 +133,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
                     listModel.remove(selectedIndices[i]);
                     try {
                         final User user = new User(username, password);
-                        dbNoteDataAccessObject.removeFriendinDB(user, selectedIndices[i]);
+                        dbFriendDataAccessObject.removeFriendinDB(user, selectedIndices[i]);
                     }
                     catch (DataAccessException error) {
                         JOptionPane.showMessageDialog(this, "Error removing friend from database:"
@@ -153,7 +154,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
 
                 // GET THE SELECTED USER'S PASSWORD
                 try {
-                    final String selectedFriendPw = dbNoteDataAccessObject.getPasswordByUserName(selectedFriend);
+                    final String selectedFriendPw = dbFriendDataAccessObject.getPasswordByUserName(selectedFriend);
                     System.out.println("This is the friend's password: " + selectedFriendPw);
                     friendsListController.switchToFriendProfileView(selectedFriend, selectedFriendPw);
                 }
@@ -181,6 +182,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     public void propertyChange(PropertyChangeEvent evt) {
         // React to changes in the view model (e.g., when the friends list or errors change)
         final FriendsListState state = (FriendsListState) evt.getNewValue();
+
         updateFriendsList(state);
         if (state.getUsername() != this.username) {
             this.username = state.getUsername();

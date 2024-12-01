@@ -3,7 +3,7 @@ package view.friends_list_user_story;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendController;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendViewModel;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendState;
-import data_access.DBNoteDataAccessObject;
+import data_access.DBFriendDataAccessObject;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,7 +27,7 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
     private JButton saveButton;
     private JButton back;
     private FriendsListController friendsListcontroller;
-    private DBNoteDataAccessObject dbNoteDataAccessObject = new DBNoteDataAccessObject();
+    private DBFriendDataAccessObject dbFriendDataAccessObject = new DBFriendDataAccessObject();
     private String username;
     private String password;
 
@@ -72,7 +72,7 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
         if (!friendName.isEmpty()) {
             try {
                 // Check if the user exists in the database
-                String foundUsername = dbNoteDataAccessObject.getUserByUsername(friendName);
+                String foundUsername = dbFriendDataAccessObject.getUserByUsername(friendName);
 
                 if (foundUsername != null) {
                     // Add friend to the list
@@ -80,7 +80,7 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
                     listModel.addElement(friendName);
                     addFriendViewModel.setNewFriend(friendName);
                     friendsListcontroller.addFriend(friendName);
-                    dbNoteDataAccessObject.addFriendinDB(new User(username, password), foundUsername);
+                    dbFriendDataAccessObject.addFriendinDB(new User(username, password), foundUsername);
                     // Update FriendsListView with this friend that was added follow AddPlaylistView
                     addFriendController.switchToFriendsListView();
                 } else {
