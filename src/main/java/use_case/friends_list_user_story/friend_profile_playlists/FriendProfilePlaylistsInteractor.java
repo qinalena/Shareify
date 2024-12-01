@@ -10,25 +10,8 @@ public class FriendProfilePlaylistsInteractor implements FriendProfilePlaylistsI
     private final FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel;
 
     public FriendProfilePlaylistsInteractor(FriendProfilePlaylistsOutputBoundary friendProfilePlaylistsPresenter, FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel) {
-        if (friendProfilePlaylistsPresenter == null) {
-            throw new NullPointerException("Presenter cannot be null");
-        }
         this.friendProfilePlaylistsViewModel = friendProfilePlaylistsViewModel;
         this.friendProfilePlaylistsPresenter = friendProfilePlaylistsPresenter;
-    }
-
-    @Override
-    public void addPlaylist(String playlist) {
-        if (playlist == null || playlist.isEmpty()) {
-            friendProfilePlaylistsPresenter.prepareFailView("Error");
-            return;
-        }
-        friendProfilePlaylistsPresenter.preparePlaylistAddedView(playlist);
-    }
-
-    @Override
-    public void removePlaylist(String playlist) {
-        friendProfilePlaylistsPresenter.preparePlaylistRemovedView(playlist);
     }
 
     @Override

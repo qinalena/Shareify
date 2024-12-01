@@ -9,14 +9,6 @@ public class FriendProfilePlaylistsController {
         this.friendProfilePlaylistsInteractor = friendProfilePlaylistsInteractor;
     }
 
-    public void addPlaylist(String playlistName) {
-        friendProfilePlaylistsInteractor.addPlaylist(playlistName);
-    }
-
-    public void removePlaylist(String playlistName) {
-        friendProfilePlaylistsInteractor.removePlaylist(playlistName);
-    }
-
     public void switchToFriendProfileView(String selectedFriendName, String password) {
         friendProfilePlaylistsInteractor.switchToFriendProfileView(selectedFriendName, password);
     }

@@ -14,12 +14,14 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import use_case.friends_list_user_story.add_friend.AddFriendDataAccessInterface;
+import use_case.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListDataAccessInterface;
 import use_case.friends_list_user_story.friends_list.FriendsListDataAccessInterface;
 
 /**
  * The DAO for accessing notes stored in the database.
  */
-public class DBFriendDataAccessObject implements FriendsListDataAccessInterface, AddFriendDataAccessInterface {
+public class DBFriendDataAccessObject implements FriendsListDataAccessInterface, AddFriendDataAccessInterface,
+        FriendProfileFriendsListDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final int CREDENTIAL_ERROR = 401;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -194,10 +196,6 @@ public class DBFriendDataAccessObject implements FriendsListDataAccessInterface,
      * @throws DataAccessException If there is an error adding the friend, such as invalid credentials or a database error.
      */
     public void addFriendinDB(User user, String newName) throws DataAccessException {
-
-        // Dummy user
-        // user = new User("newUserName7", "password123");
-
         final String username = user.getName();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
@@ -212,22 +210,25 @@ public class DBFriendDataAccessObject implements FriendsListDataAccessInterface,
             final Response response = client.newCall(request).execute();
             final JSONObject responseBody = new JSONObject(response.body().string());
 
-            // Check if the response was successful
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 // Get the 'user' and 'info' data from the response
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
-                final JSONObject data = userJSONObject.getJSONObject("info");
-                // Debug: Print current info to check the state before update
-                System.out.println("Before update - Info JSON file: " + data.toString(4));
+                JSONObject data = userJSONObject.optJSONObject("info"); // Use optJSONObject to avoid NullPointerException
+
+                if (data == null) {
+                    data = new JSONObject(); // Create a new JSONObject if it is null
+                }
 
                 // Check if the key exists in the 'info' JSON
-                if (data.has("friends")) {
-                    final JSONArray currentfriends = data.getJSONArray("friends");
-                    data.put("friends", currentfriends.put(newName));
-                } else {
-                    final JSONArray friends = new JSONArray();
+                if (!data.has("friends")) {
+                    // If 'friends' key does not exist, create it
+                    JSONArray friends = new JSONArray();
                     friends.put(newName);
                     data.put("friends", friends);
+                } else {
+                    // If 'friends' key exists, append to the array
+                    JSONArray currentFriends = data.getJSONArray("friends");
+                    currentFriends.put(currentFriends.length(), newName);
                 }
 
                 // Debug: Print the updated 'info' JSON
@@ -265,6 +266,40 @@ public class DBFriendDataAccessObject implements FriendsListDataAccessInterface,
         } catch (IOException | JSONException ex) {
             throw new DataAccessException("Error occurred while updating user info: " + ex.getMessage());
         }
+    }
+
+    // Helper method to check if the friend already exists
+    private boolean friendAlreadyExists(User user, String newName) throws DataAccessException {
+        // Database logic to check if the friend already exists
+        // For example:
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        Request request = new Request.Builder()
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", user.getName()))
+                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                JSONObject userJSONObject = responseBody.getJSONObject("user");
+                JSONObject data = userJSONObject.getJSONObject("info");
+
+                if (data.has("friends")) {
+                    JSONArray friends = data.getJSONArray("friends");
+                    for (int i = 0; i < friends.length(); i++) {
+                        if (friends.getString(i).equals(newName)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        } catch (IOException | JSONException ex) {
+            throw new DataAccessException("Error checking friend existence: " + ex.getMessage());
+        }
+
+        return false;
     }
 
     /**

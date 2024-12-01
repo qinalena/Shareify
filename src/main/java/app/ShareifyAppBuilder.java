@@ -324,7 +324,7 @@ public class ShareifyAppBuilder {
         final FriendProfileOutputBoundary friendProfileOutputBoundary = new FriendProfilePresenter(
                 friendProfileViewModel, viewManagerModel, noteViewModel, friendProfilePlaylistsViewModel,
                 friendProfileFriendsListViewModel, chatViewModel);
-        friendProfileInteractor = new FriendProfileInteractor(noteDAO, friendProfileOutputBoundary);
+        friendProfileInteractor = new FriendProfileInteractor(friendProfileOutputBoundary);
 
         final FriendProfileController friendProfileController = new FriendProfileController(friendProfileInteractor);
         if (friendProfileView == null) {

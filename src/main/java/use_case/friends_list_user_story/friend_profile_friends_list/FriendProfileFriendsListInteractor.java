@@ -7,15 +7,12 @@ import java.util.List;
 
 public class FriendProfileFriendsListInteractor implements FriendProfileFriendsListInputBoundary {
     private final FriendProfileFriendsListOutputBoundary presenter;
-    private final DBFriendDataAccessObject dbNoteDataAccessObject;
+    private final FriendProfileFriendsListDataAccessInterface friendsListDataAccessInterface;
 
     public FriendProfileFriendsListInteractor(FriendProfileFriendsListOutputBoundary presenter,
-                                              DBFriendDataAccessObject dbNoteDataAccessObject) {
-        if (presenter == null) {
-            throw new NullPointerException("Presenter cannot be null");
-        }
+                                              FriendProfileFriendsListDataAccessInterface friendsListDataAccessInterface) {
         this.presenter = presenter;
-        this.dbNoteDataAccessObject = dbNoteDataAccessObject;
+        this.friendsListDataAccessInterface = friendsListDataAccessInterface;
     }
 
     @Override
@@ -27,7 +24,7 @@ public class FriendProfileFriendsListInteractor implements FriendProfileFriendsL
     public void executeGetFriends(String username) {
         final List<String> friends;
         try {
-            friends = dbNoteDataAccessObject
+            friends = friendsListDataAccessInterface
                     .getFriends(username);
             presenter.prepareGetFriendsSuccessView(friends);
         } catch (DataAccessException e) {

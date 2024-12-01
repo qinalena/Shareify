@@ -66,18 +66,23 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
         if (!friendName.isEmpty()) {
             try {
                 addFriendController.executeGetUserByUsername(friendName);
+                System.out.println("executeGetUserByUsername passes");
 
                 if (foundUsername != null) {
                     // Add friend to the list
                     DefaultListModel<String> listModel = friendsListModel;
                     listModel.addElement(friendName);
+                    System.out.println("addElement passes");
                     addFriendController.addFriend(friendName);
+                    System.out.println("addFriend passes");
                     addFriendController.executeAddFriendinDB(new User(username, password), friendName);
+                    System.out.println("executeAddFriendinDB passes");
                     addFriendController.switchToFriendsListView();
                 } else {
                     JOptionPane.showMessageDialog(this, "User does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (Exception e) {
+                System.out.println("This is the error 2");
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {

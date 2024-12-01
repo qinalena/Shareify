@@ -174,7 +174,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
     }
 
     private void updateFriendsList(FriendsListState state) {
-        if (state.getMostRecentFriend() != null) {
+        if (state.getFriends().isEmpty() || state.getMostRecentFriend() != null) {
             listModel.addElement(state.getFriendUsername());
         }
     }
