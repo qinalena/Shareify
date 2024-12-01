@@ -1,48 +1,33 @@
 package use_case.friends_list_user_story.add_friend;
 
-import data_access.DBNoteDataAccessObject;
+import data_access.DBFriendDataAccessObject;
 import entity.User;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendPresenter;
 import use_case.friends_list_user_story.add_friend.AddFriendOutputBoundary;
-import use_case.user_profile_user_story.note.DataAccessException;
+import data_access.DataAccessException;
 
 import java.util.ArrayList;
-import data_access.DBFriendDataAccessObject;
-
 import java.util.List;
 
 public class AddFriendInteractor implements AddFriendInputBoundary {
 
-    private final DBFriendDataAccessObject dbFriendDataAccessObject;
+    private final DBFriendDataAccessObject dbNoteDataAccessObject;
     private final AddFriendOutputBoundary outputBoundary;
     private final List<String> friendsList = new ArrayList<>();
     private AddFriendOutputBoundary addFriendPresenter;
 
-    public AddFriendInteractor(DBFriendDataAccessObject dbFriendDataAccessObject,
+    public AddFriendInteractor(DBFriendDataAccessObject dbNoteDataAccessObject,
                                AddFriendOutputBoundary outputBoundary) {
         if (outputBoundary == null) {
             throw new NullPointerException("Output boundary cannot be null");
         }
-        this.dbFriendDataAccessObject = dbFriendDataAccessObject;
+        this.dbNoteDataAccessObject = dbNoteDataAccessObject;
         this.outputBoundary = outputBoundary;
         this.addFriendPresenter = outputBoundary;
     }
 
     @Override
     public void execute(String friendName) {
-        if (this.outputBoundary == null) {
-            // Handle the case where outputBoundary is null
-            System.err.println("Output boundary is null");
-            return;
-        }
-
-        try {
-            // Check if the user exists in the database
-            String foundUsername = dbFriendDataAccessObject.getUserByUsername(friendName);
-
-            if (foundUsername != null) {
-                // Add friend to the friends list
-                friendsList.add(friendName);
         // Add friend to the friends list
         friendsList.add(friendName);
 

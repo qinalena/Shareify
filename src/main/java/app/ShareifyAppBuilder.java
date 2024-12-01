@@ -448,7 +448,7 @@ public class ShareifyAppBuilder {
         // Instantiate the output boundary (presenter) and input boundary (interactor)
         friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel, viewManagerModel,
                 addFriendViewModel, friendProfileViewModel, userProfileViewModel);
-        friendsListInteractor = new FriendsListInteractor(friendsListOutputBoundary, dbNoteDataAccessObject);
+        friendsListInteractor = new FriendsListInteractor(friendsListOutputBoundary, dbFriendDataAccessObject);
 
         // Create the controller and connect it to the interactor
         friendsListController = new FriendsListController(friendsListInteractor);
@@ -541,7 +541,7 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addAddFriendUseCase() {
         final AddFriendOutputBoundary addFriendOutPutBoundary = new AddFriendPresenter(addFriendViewModel, viewManagerModel, friendsListViewModel);
-        addFriendInteractor = new AddFriendInteractor(dbNoteDataAccessObject, addFriendOutPutBoundary);
+        addFriendInteractor = new AddFriendInteractor(dbFriendDataAccessObject, addFriendOutPutBoundary);
         final AddFriendController addFriendController = new AddFriendController(addFriendInteractor);
         if (addFriendView == null) {
             throw new RuntimeException("addFriendProfileView must be called before addFriendProfileUseCase");
@@ -605,7 +605,7 @@ public class ShareifyAppBuilder {
 //        friendProfileFriendsListViewModel = new FriendProfileFriendsListViewModel();
         // Instantiate the output boundary (presenter) and input boundary (interactor)
         friendProfileFriendsListOutputBoundary = new FriendProfileFriendsListPresenter(friendProfileViewModel, viewManagerModel, friendProfileFriendsListViewModel);
-        friendProfileFriendsListInteractor = new FriendProfileFriendsListInteractor(friendProfileFriendsListOutputBoundary, dbNoteDataAccessObject);
+        friendProfileFriendsListInteractor = new FriendProfileFriendsListInteractor(friendProfileFriendsListOutputBoundary, dbFriendDataAccessObject);
         // Create the controller and connect it to the interactor
         friendProfileFriendsListController = new FriendProfileFriendsListController(friendProfileFriendsListInteractor);
 

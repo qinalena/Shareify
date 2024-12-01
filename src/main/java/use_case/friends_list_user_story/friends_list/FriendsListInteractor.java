@@ -1,17 +1,17 @@
 package use_case.friends_list_user_story.friends_list;
 
 
-import data_access.DBNoteDataAccessObject;
+import data_access.DBFriendDataAccessObject;
 import entity.User;
-import use_case.user_profile_user_story.note.DataAccessException;
+import data_access.DataAccessException;
 
 import java.util.List;
 
 public class FriendsListInteractor implements FriendsListInputBoundary {
     private final FriendsListOutputBoundary presenter;
-    private DBNoteDataAccessObject dbNoteDataAccessObject;
+    private DBFriendDataAccessObject dbNoteDataAccessObject;
 
-    public FriendsListInteractor(FriendsListOutputBoundary presenter, DBNoteDataAccessObject dbNoteDataAccessObject) {
+    public FriendsListInteractor(FriendsListOutputBoundary presenter, DBFriendDataAccessObject dbNoteDataAccessObject) {
         this.presenter = presenter;
         this.dbNoteDataAccessObject = dbNoteDataAccessObject;
     }

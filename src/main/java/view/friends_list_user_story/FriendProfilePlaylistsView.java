@@ -7,7 +7,7 @@ import interface_adapter.friends_list_user_story.friend_profile_playlists.Friend
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsController;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsState;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
-import use_case.user_profile_user_story.note.DataAccessException;
+import data_access.DataAccessException;
 
 import javax.swing.*;
 import java.awt.*;
