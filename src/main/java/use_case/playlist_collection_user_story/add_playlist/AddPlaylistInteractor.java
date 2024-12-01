@@ -2,6 +2,7 @@ package use_case.playlist_collection_user_story.add_playlist;
 
 import java.util.List;
 
+import data_access.DBPlaylistDataAccessObject;
 import data_access.DBUserDataAccessObject;
 
 /**
@@ -9,39 +10,60 @@ import data_access.DBUserDataAccessObject;
  */
 public class AddPlaylistInteractor implements AddPlaylistInputBoundary {
 
-    private final DBUserDataAccessObject dbUserDataAccessObject;
+    private final DBPlaylistDataAccessObject playlistDataAccessObject;
+    private final DBUserDataAccessObject userDataAccessObject;
     private final AddPlaylistOutputBoundary addPlaylistOutputBoundary;
-    private final List<String> playlistList;
+    private final List<String> playlistCollectionNames;
+    private final AddPlaylistOutputBoundary addPlaylistPresenter;
+    private entity.User user;
 
-    public AddPlaylistInteractor(DBUserDataAccessObject dbUserDataAccessObject,
+    public AddPlaylistInteractor(DBPlaylistDataAccessObject playlistDataAccessObject,
+                                 DBUserDataAccessObject userDataAccessObject,
                                  AddPlaylistOutputBoundary addPlaylistOutputBoundary,
                                  List<String> playlistList) {
-        this.dbUserDataAccessObject = dbUserDataAccessObject;
-        this.addPlaylistOutputBoundary = addPlaylistOutputBoundary;
-        this.playlistList = playlistList;
-
         if (addPlaylistOutputBoundary == null) {
-            throw new NullPointerException("addPlaylistOutputBoundary is null");
+            throw new NullPointerException("Output boundary cannot be null!");
+        }
+        this.playlistDataAccessObject = playlistDataAccessObject;
+        this.userDataAccessObject = userDataAccessObject;
+        this.addPlaylistOutputBoundary = addPlaylistOutputBoundary;
+        this.addPlaylistPresenter = addPlaylistOutputBoundary;
+        this.playlistCollectionNames = playlistList;
+    }
+
+    /**
+     * Executes the save playlist use case.
+     * @param playlistName inputted name of playlist
+     */
+    @Override
+    public void executeCreatePlaylist(String playlistName) {
+        if (this.addPlaylistOutputBoundary == null) {
+            System.err.println("Outputboundary cannot be null!");
+            return;
+        }
+
+        try {
+            if (!user.getInfo().contains(playlistName)) {
+                // Add playlist to playlist collection list
+                playlistCollectionNames.add(playlistName);
+
+                // Debugging
+//                System.out.println("updated playlist: " + playlistCollectionNames);
+
+                // Pass update to output boundary
+                addPlaylistOutputBoundary.prepareSuccessView(playlistCollectionNames);
+            }
+            else {
+                addPlaylistOutputBoundary.prepareFailureView("Playlist already exists!");
+            }
+        }
+        catch (Exception e) {
+            addPlaylistOutputBoundary.prepareFailureView(e.getMessage());
         }
     }
 
     @Override
-    public void execute(String playlistName) {
-        if (this.addPlaylistOutputBoundary == null) {
-            System.err.println("addPlaylistOutputBoundary is null");
-            return;
-        }
-        // Returns the current logged-in user's username
-        final String currentUser = dbUserDataAccessObject.getCurrentUsername();
-        // Add playlist to the playlist collection list
-        if (currentUser != null) {
-            // Add playlist to user's profile
-            playlistList.add(playlistName);
-            addPlaylistOutputBoundary.prepareSuccessView(playlistList);
-        }
-        // Case that the user doesn't exist
-        else {
-            addPlaylistOutputBoundary.prepareFailureView("User does not exist.");
-        }
+    public void switchToPlaylistCollectionView() {
+        addPlaylistPresenter.switchToPlaylistCollectionView();
     }
 }

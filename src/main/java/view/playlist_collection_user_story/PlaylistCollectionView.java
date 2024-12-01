@@ -1,24 +1,21 @@
 package view.playlist_collection_user_story;
 
-import data_access.DBUserDataAccessObject;
-import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistController;
-import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistPresenter;
-import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
-import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionController;
-import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
-import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
-import use_case.playlist_collection_user_story.add_playlist.AddPlaylistInputBoundary;
-import use_case.playlist_collection_user_story.add_playlist.AddPlaylistInteractor;
-import use_case.playlist_collection_user_story.add_playlist.AddPlaylistOutputBoundary;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
+
+import javax.swing.*;
+
 import java.util.List;
+
+import data_access.DBPlaylistDataAccessObject;
+import entity.User;
+import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionController;
+import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
+import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
+import use_case.user_profile_user_story.note.DataAccessException;
 
 /**
  * The View for when the user is viewing the playlist collection page in the program.
@@ -30,44 +27,44 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
     private PlaylistCollectionController playlistCollectionController;
 
-    private AddPlaylistOutputBoundary addPlaylistOutputBoundary;
-    private DBUserDataAccessObject dbUserDataAccessObject;
-    private AddPlaylistInputBoundary addPlaylistInputBoundary;
+    private DBPlaylistDataAccessObject dbPlaylistDataAccessObject;
+    private String username;
+    private String password;
+
+    // Global listModel Variable
+    private DefaultListModel<String> listModel;
 
     private final JLabel playlistCollectionName = new JLabel("Shareify - Playlist Collection");
 
     // Initialize components
-    private JButton createPlaylistButton = new JButton("Create Playlist");
-    private JButton deletePlaylistButton = new JButton("Delete Playlist");
-    private JButton openPlaylistButton = new JButton("Open Playlist");
+    private final JButton backButton = new JButton("Back");
+    private final JButton createPlaylistButton = new JButton("Create Playlist");
+    private final JButton deletePlaylistButton = new JButton("Delete Playlist");
+    private final JButton openPlaylistButton = new JButton("Open Playlist");
 
     // JList to show the names of the playlists
-    private JList<String> playlistCollectionList = new JList<>(new DefaultListModel<>());
+    private final JList<String> playlistCollectionList = new JList<>(new DefaultListModel<>());
 
     public PlaylistCollectionView(PlaylistCollectionViewModel playlistCollectionViewModel,
-                                  DBUserDataAccessObject dbUserDataAccessObject,
-                                  AddPlaylistOutputBoundary addPlaylistOutputBoundary) {
+                                  DBPlaylistDataAccessObject dbPlaylistDataAccessObject) {
 
         this.playlistCollectionViewModel = playlistCollectionViewModel;
-        this.dbUserDataAccessObject = dbUserDataAccessObject;
-        this.addPlaylistOutputBoundary = addPlaylistOutputBoundary;
+        this.dbPlaylistDataAccessObject = dbPlaylistDataAccessObject;
         this.playlistCollectionViewModel.addPropertyChangeListener(this);
+
+        // Debugging
+//        System.out.println("Property Change listener registered!");
 
         // Setting label properties
         playlistCollectionName.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Initializing JList
-        playlistCollectionList = new JList<>(new DefaultListModel<>());
+        // Initializing DefaultListModel
+        listModel = new DefaultListModel<>();
+        playlistCollectionList.setModel(listModel);
 
         // Initialize AddPlaylistInputBoundary after dependencies are set
         playlistCollectionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         playlistCollectionList.setLayoutOrientation(JList.VERTICAL);
-
-        if (this.dbUserDataAccessObject != null && this.addPlaylistOutputBoundary != null) {
-            this.addPlaylistInputBoundary = new AddPlaylistInteractor(
-                    dbUserDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
-            );
-        }
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -77,17 +74,35 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         // Add buttons to frame
         final JPanel buttons = new JPanel();
         buttons.setLayout(new FlowLayout());
+        buttons.add(backButton);
         buttons.add(createPlaylistButton);
         buttons.add(deletePlaylistButton);
         buttons.add(openPlaylistButton);
 
-        // Set up button actions
-        createPlaylistButton.addActionListener(this);
-        deletePlaylistButton.addActionListener(this);
+        createPlaylistButton.addActionListener(evt -> {
+            if (evt.getSource().equals(createPlaylistButton)) {
+                this.playlistCollectionController.switchToAddPlaylistView();
+            }
+        }
+        );
 
-        openPlaylistButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                playlistCollectionController.switchToPlaylistView(playlistCollectionList.getSelectedValue());
+        deletePlaylistButton.addActionListener(evt -> {
+            if (evt.getSource().equals(deletePlaylistButton)) {
+                deletePlaylistLogic();
+            }
+        }
+        );
+
+        backButton.addActionListener(evt -> {
+            if (evt.getSource().equals(backButton)) {
+                this.playlistCollectionController.switchToUserProfileView();
+            }
+        }
+        );
+
+        openPlaylistButton.addActionListener(evt -> {
+            if (evt.getSource().equals(openPlaylistButton)) {
+                this.playlistCollectionController.switchToPlaylistView(playlistCollectionList.getSelectedValue());
             }
         }
         );
@@ -96,69 +111,99 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
         // Adding components to the frame
         this.add(playlistCollectionName);
+        // Add buttons to frame
         this.add(buttons);
         // Add scroll panel to frame for list of playlists created
         this.add(scrollPane);
     }
 
-    private List<String> playlistListModelToList() {
-        final DefaultListModel<String> playlistListModel = (DefaultListModel<String>) playlistCollectionList.getModel();
-        final List<String> playlistList = new ArrayList<>();
-        for (int i = 0; i < playlistListModel.size(); i++) {
-            playlistList.add(playlistListModel.get(i));
+    /**
+     * Populates playlist collection with given list of playlist.
+     * @param playlists list of playlists to populate
+     */
+    private void populatePlaylistList(List<String> playlists) {
+        // clear current list
+        listModel.clear();
+        // Add each component to the list
+        for (String playlist : playlists) {
+            listModel.addElement(playlist);
         }
-        return playlistList;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Button to open Add Playlist screen
-        if (e.getSource() == createPlaylistButton) {
-            this.addPlaylistInputBoundary = new AddPlaylistInteractor(
-                    dbUserDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
-            );
+    /**
+     * Populate playlist collection from database.
+     */
+    private void populatePlaylistListFromDB() {
+        try {
+            final List<String> playlists = dbPlaylistDataAccessObject.getPlaylists(username);
 
-            // Create ViewModel
-            final AddPlaylistViewModel addPlaylistViewModel = new AddPlaylistViewModel();
+            // Debugging
+            System.out.println("Fetching playlist from data base: " + playlists);
 
-            // Create Presenter
-            final AddPlaylistPresenter addPlaylistPresenter = new AddPlaylistPresenter(addPlaylistViewModel);
-
-            // Create Controller
-            final AddPlaylistController addPlaylistController = new AddPlaylistController(addPlaylistInputBoundary);
-
-            // Create + configure AddPlaylistView
-            final AddPlaylistView addPlaylistView = new AddPlaylistView(
-                    (DefaultListModel<String>) playlistCollectionList.getModel(),
-                    addPlaylistViewModel
-            );
-            // Injects the controller
-            addPlaylistView.setAddPlaylistController(addPlaylistController);
-
-            // Displays the AddPlaylist window
-            addPlaylistView.setVisible(true);
+            // Populate playlist collection in view
+            populatePlaylistList(playlists);
         }
-        // Button to delete the selected playlist
-        else if (e.getSource() == deletePlaylistButton) {
-            final int[] selectedIndices = playlistCollectionList.getSelectedIndices();
-            if (selectedIndices.length > 0) {
-                final DefaultListModel<String> listModel = (DefaultListModel<String>) playlistCollectionList.getModel();
-                for (int i = selectedIndices.length - 1; i >= 0; i--) {
-                    listModel.remove(selectedIndices[i]);
-                }
+        catch (DataAccessException error) {
+            JOptionPane.showMessageDialog(this,
+                    "Error getting playlists: " + error.getMessage(), "Error getting playlist",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Logic for deleting a playlist button.
+     */
+    private void deletePlaylistLogic() {
+        final String selectedPlaylist = playlistCollectionList.getSelectedValue();
+        if (selectedPlaylist != null) {
+            try {
+                dbPlaylistDataAccessObject.removePlaylistinDB(new User(username, password),
+                        selectedPlaylist);
+
+                // Remove playlist from the list model after successful deletion
+                listModel.removeElement(selectedPlaylist);
+                playlistCollectionViewModel.getState().removePlaylist(selectedPlaylist);
+                playlistCollectionViewModel.firePropertyChanged();
+                System.out.println("Deleted playlist: " + selectedPlaylist);
             }
-            else {
-                JOptionPane.showMessageDialog(this, "Please select a playlist to delete.",
+            catch (DataAccessException error) {
+                JOptionPane.showMessageDialog(this, "Error in removing playlist from database: " + error.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+        else {
+            JOptionPane.showMessageDialog(this, "Please selected a playlist to delete.",
+                    "Playlist error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * React to a button click that results in evt.
+     * @param e the ActionEvent to react to
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("Click " + e.getActionCommand());
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        final PlaylistCollectionState playlistCollectionState = (PlaylistCollectionState) e.getNewValue();
-        updatePlaylistCollection(playlistCollectionState);
+    public void propertyChange(PropertyChangeEvent evt) {
+        final PlaylistCollectionState playlistCollectionState = (PlaylistCollectionState) evt.getNewValue();
 
+        // Debugging
+//        System.out.println("Property change trigger: " + evt.getNewValue());
+
+        if (!playlistCollectionState.getUsername().equals(this.username)) {
+            this.username = playlistCollectionState.getUsername();
+            this.password = playlistCollectionState.getPassword();
+            // clear listmodel and repopulate
+            populatePlaylistListFromDB();
+        }
+        else {
+            // Update view using state without duplication
+//            listModel.clear();
+            updatePlaylistCollection(playlistCollectionState);
+        }
         if (playlistCollectionState.getPlaylistError() != null) {
             JOptionPane.showMessageDialog(this, playlistCollectionState.getPlaylistError(),
                     "Error", JOptionPane.ERROR_MESSAGE);
@@ -167,47 +212,19 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
 
     /**
      * Updates JList playlist collection with the latest playlist data.
-     * @param playlistCollectionState playlist collection state
      */
     private void updatePlaylistCollection(PlaylistCollectionState playlistCollectionState) {
-        final DefaultListModel<String> listModel = (DefaultListModel<String>) playlistCollectionList.getModel();
-        listModel.clear();
-
-        for (String playlist : playlistCollectionState.getPlaylistList()) {
-            listModel.addElement(playlist);
+        // Adds all playlist that have been added to the view, including any newly created playlist
+        for (String playlist : playlistCollectionState.getPlaylist()) {
+            // Only add playlists that are not already in listModel
+            if (!listModel.contains(playlist)) {
+                listModel.addElement(playlist);
+            }
         }
     }
 
     public void setPlaylistCollectionController(PlaylistCollectionController playlistCollectionController) {
         this.playlistCollectionController = playlistCollectionController;
-    }
-
-    /**
-     * Set up DbUserDAO + reinitialize AddPlaylistInputBoundary if dependencies change.
-     * @param dbUserDataAccessObject output data
-     */
-    public void setDbUserDataAccessObject(DBUserDataAccessObject dbUserDataAccessObject) {
-        this.dbUserDataAccessObject = dbUserDataAccessObject;
-
-        if (this.addPlaylistOutputBoundary != null) {
-            this.addPlaylistInputBoundary = new AddPlaylistInteractor(
-                    dbUserDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
-            );
-        }
-    }
-
-    /**
-     * Set up addPlaylistOutputBoundary + reinitialize AddPlaylistInputBoundary if dependencies change.
-     * @param addPlaylistOutputBoundary output data
-     */
-    public void setAddPlaylistOutputBoundary(AddPlaylistOutputBoundary addPlaylistOutputBoundary) {
-        this.addPlaylistOutputBoundary = addPlaylistOutputBoundary;
-
-        if (this.dbUserDataAccessObject != null) {
-            this.addPlaylistInputBoundary = new AddPlaylistInteractor(
-                    dbUserDataAccessObject, addPlaylistOutputBoundary, playlistListModelToList()
-            );
-        }
     }
 
     public String getViewName() {

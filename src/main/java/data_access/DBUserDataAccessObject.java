@@ -32,8 +32,7 @@ import use_case.login_user_story.signup.SignupUserDataAccessInterface;
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
-        LogoutUserDataAccessInterface, PlaylistCollectionDataAccessInterface,
-        PlaylistDataAccessInterface, SearchSongDataAccessInterface,
+        LogoutUserDataAccessInterface, PlaylistDataAccessInterface, SearchSongDataAccessInterface,
     CommentDataAccessInterface, ChatDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final int CREDENTIAL_ERROR = 401;
@@ -179,71 +178,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         }
         catch (IOException | JSONException ex) {
             throw new RuntimeException(ex);
-        }
-    }
-
-
-    public void addPlaylistToUser(User user, String playlistName) throws DataAccessException {
-        final String username = user.getName();
-        final OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        final Request request = new Request.Builder()
-                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
-                .addHeader("Content-Type", CONTENT_TYPE_JSON)
-                .build();
-        try {
-            final Response response = client.newCall(request).execute();
-
-            final JSONObject responseBody = new JSONObject(response.body().string());
-
-            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
-                final JSONObject userJSONObject = responseBody.getJSONObject("user");
-                final JSONObject data = userJSONObject.getJSONObject("info");
-
-                // Get current list of playlists or initialize an empty list
-                JSONArray playlists = data.optJSONArray("playlists");
-                if (playlists == null) {
-                    playlists = new JSONArray();
-                }
-
-                // Add new playlist to the list
-                playlists.put(playlistName);
-
-                // Update info field with new playlist list
-                data.put("playlists", playlists);
-
-                // Create updated request
-                JSONObject updatedUser = new JSONObject();
-                updatedUser.put(USERNAME, username);
-                updatedUser.put(PASSWORD, user.getPassword());
-                updatedUser.put("info", data);
-
-                final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
-                final RequestBody body = RequestBody.create(updatedUser.toString(), mediaType);
-                final Request updateRequest = new Request.Builder()
-                        .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
-                        .method("PUT", body)
-                        .addHeader("Content-Type", CONTENT_TYPE_JSON)
-                        .build();
-
-                // Send the update request
-                final Response updateResponse = client.newCall(updateRequest).execute();
-                final JSONObject updateResponseBody = new JSONObject(updateResponse.body().string());
-
-                // Handle the response from the server after updating the user info
-                if (updateResponseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
-                    System.out.println("User info updated with new playlist successfully!");
-                }
-                else {
-                    throw new DataAccessException("Error updating user info: " + updateResponseBody.getString(MESSAGE));
-                }
-            }
-            else {
-                throw new DataAccessException("Error retrieving user data: " + responseBody.getString(MESSAGE));
-            }
-        }
-        catch (IOException | JSONException ex) {
-            throw new DataAccessException("Error occurred while updating user info: " + ex.getMessage());
         }
     }
 
