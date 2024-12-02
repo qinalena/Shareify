@@ -92,7 +92,7 @@ public class FriendPlaylistView extends JPanel implements ActionListener, Proper
         listModel.clear();
 
         for (Song song : currentPlaylist.getSongs()) {
-            listModel.addElement(song.getName() + " - " + song.artistsToString());
+            listModel.addElement(song.toString());
         }
         if (this.friendUsername != state.getFriendUsername()) {
             this.friendUsername = state.getFriendUsername();

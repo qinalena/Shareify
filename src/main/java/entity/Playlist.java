@@ -45,7 +45,7 @@ public class Playlist {
     public List<String> songsToStrings() {
         final List<String> strings = new ArrayList<>();
         for (Song song : songs) {
-            strings.add(song.getName());
+            strings.add(song.toString());
         }
         return strings;
     }
