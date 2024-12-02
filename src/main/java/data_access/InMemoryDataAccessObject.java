@@ -2,8 +2,6 @@ package data_access;
 
 import entity.Playlist;
 import entity.Song;
-import entity.User;
-import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
 import use_case.playlist_user_story.PlaylistDataAccessInterface;
 
 import java.util.ArrayList;
@@ -12,11 +10,21 @@ import java.util.List;
 /**
  * In-memory DAO for writing tests.
  */
-public class InMemoryDataAccessObject implements PlaylistDataAccessInterface, PlaylistCollectionDataAccessInterface {
+public class InMemoryDataAccessObject implements PlaylistDataAccessInterface {
     private final List<Playlist> playlistCollection = new ArrayList<>();
 
+    public List<Playlist> getPlaylistCollection() {
+        return playlistCollection;
+    }
+
     @Override
-    public Playlist getPlaylist(String playlistName) throws DataAccessException {
+    public Playlist getPlaylist(String playlistName) {
+
+        for (Playlist playlist : playlistCollection) {
+            if (playlist.getName().equals(playlistName)) {
+                return playlist;
+            }
+        }
         return null;
     }
 
@@ -40,21 +48,30 @@ public class InMemoryDataAccessObject implements PlaylistDataAccessInterface, Pl
     }
 
     @Override
-    public void removeSongFromPlaylist(String playlistName, int songIndex) throws DataAccessException {
+    public void removeSongFromPlaylist(String currentPlaylistName, int songIndex) throws DataAccessException {
+        boolean playlistFound = false;
 
+        for (Playlist playlist : playlistCollection) {
+            if (playlist.getName() == currentPlaylistName) {
+                playlist.removeSong(songIndex);
+                playlistFound = true;
+                break;
+                // Exit the loop once the playlist is found and updated
+            }
+        }
+
+        // Throw exception if the playlist was not found
+        if (!playlistFound) {
+            throw new DataAccessException("Playlist not found in the collection.");
+        }
     }
 
-    @Override
-    public void addPlaylistinDB(User user, String newPlaylist) throws DataAccessException {
+    /**
+     * Add a Playlist to the playlistCollection for testing purposes.
+     * @param playlist the playlist to be added
+     */
+    public void addPlaylist(Playlist playlist) {
+        playlistCollection.add(playlist);
     }
 
-    @Override
-    public void removePlaylistinDB(User user, String playlistName) throws DataAccessException {
-
-    }
-
-    @Override
-    public List<String> getPlaylists(String username) throws DataAccessException {
-        return List.of();
-    }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Interface for connecting to Spotify API.
  */
-public interface SpotifyConnectionInterface {
+public interface SpotifyDataAccessInterface {
 
     /**
      * Returns the search results in a list of Songs.
