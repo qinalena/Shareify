@@ -334,8 +334,7 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addAddPlaylistUseCase() {
         addPlaylistOutputBoundary = new AddPlaylistPresenter(addPlaylistViewModel,
                 viewManagerModel, playlistCollectionViewModel);
-        addPlaylistInteractor = new AddPlaylistInteractor(dbPlaylistDataAccessObject, userDataAccessObject,
-                addPlaylistOutputBoundary, new ArrayList<>());
+        addPlaylistInteractor = new AddPlaylistInteractor(addPlaylistOutputBoundary);
 
         final AddPlaylistController addPlaylistController = new AddPlaylistController(addPlaylistInteractor);
         final PlaylistCollectionController playlistCollectionController =

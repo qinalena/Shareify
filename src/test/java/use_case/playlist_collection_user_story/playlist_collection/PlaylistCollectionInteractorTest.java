@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Test;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
 import use_case.playlist_collection_user_story.playlist_collection.*;
 import data_access.DataAccessException;
-import use_case.playlist_user_story.playlist.PlaylistDataAccessInterface;
-import use_case.playlist_user_story.playlist.PlaylistOutputData;
+import use_case.playlist_user_story.PlaylistDataAccessInterface;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -18,7 +20,6 @@ class PlaylistCollectionInteractorTest {
     private DBPlaylistDataAccessObject playlistCollectionDB;
     private PlaylistDataAccessInterface playlistDataAccessObject;
     private PlaylistCollectionOutputBoundary playlistCollectionPresenter;
-    private PlaylistCollectionOutputData playlistCollectionOutputData;
 
     @BeforeEach
     public void setUp() {
@@ -102,9 +103,12 @@ class PlaylistCollectionInteractorTest {
 
     @Test
     void testSwitchToPlaylistView() {
-        playlistCollectionPresenter.switchToPlaylistView(playlistCollectionOutputData);
+        String playlistName = "My playlist";
+        List<String> songs = new ArrayList<>();
+
+        playlistCollectionPresenter.switchToPlaylistView(playlistName, songs);
         verify(playlistCollectionPresenter, times(1)).switchToPlaylistView(
-                playlistCollectionOutputData);
+                playlistName, songs);
     }
 
     @Test
