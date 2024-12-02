@@ -6,7 +6,7 @@
 - ### Junyu Li (Jasjas7777)
   - User Stories: [Signup/Login/Logout an account](#signup--login--logout-an-account)
 - ### Don Prathap C. Edirisinghe (DonPrathap)
-  - User Stories: [Interact with friends through chat feature and commenting on their playlists](#)
+  - User Stories: [Interact with friends through chat feature and commenting on their playlists](#interact-with-friends)
 - ### Aseef Ali Hasan (aseef2289)
   - User Stories: [View and manage friends list](#view-and-manage-friends-list)
 - ### Ashleigh Wong (Ash-uwu)
@@ -68,23 +68,23 @@ profile view.  ![img_18.png](img_18.png)
 
 Once clicked, it will lead to the playlist collection page where all playlists will be displayed.  User 
 can create a playlist by clicking the 'Create Playlist' button, which will then prompt them to type in a name for the 
-playlist in the text field provided. ![img_10.png](img_10.png)
+playlist in the text field provided. ![img_47.png](img_47.png)
 
 User will be prompted to click the 'Save' button, or 'Cancel' if they decide they
-don't want to create a new playlist. ![img_11.png](img_11.png) 
+don't want to create a new playlist. ![img_48.png](img_48.png)
 
 Both buttons will lead back to the playlist collection view, with the new playlist
 showing in the scrollPane of the playlist collection view. 
-![img_12.png](img_12.png)
+![img_49.png](img_49.png)
 
 ## Deleting playlists
 User's can delete their playlists by selected a playlist they want to delete by clicking the name of the playlist
 listed, and click the 'Delete Playlist' button.
-![img_14.png](img_14.png)
+![img_50.png](img_50.png)
 
 ### Adding songs
 User's can add songs to their playlist by selecting the playlist they want songs added to, click the 'Open Playlist' 
-button. ![img_39.png](img_39.png)
+button. ![img_51.png](img_51.png)
 
 Then, as it leads you to the playlist's view, click 'Search Tracks'.
 ![img_40.png](img_40.png) 

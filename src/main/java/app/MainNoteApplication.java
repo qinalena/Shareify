@@ -20,7 +20,7 @@ import use_case.user_profile_user_story.note.NoteDataAccessInterface;
  * view. Your team may wish to bring back the ViewManager or make your own implementation of supporting
  * switching between views depending on your project.
  */
-public class MainShareifyApplication {
+public class MainNoteApplication {
     /**
      * The main entry point of the application.
      * <p>
