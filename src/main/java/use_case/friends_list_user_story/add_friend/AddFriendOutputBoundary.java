@@ -5,10 +5,12 @@ import java.util.List;
 public interface AddFriendOutputBoundary {
 
     // Method for handling success, taking a list of friends as an argument
-    void prepareSuccessView(List<String> updatedFriendsList);
+    void prepareSuccessView(List<String> updatedFriendsList, String friendName);
 
     // Method for handling failure, taking an error message as an argument
     void prepareFailView(String errorMessage);
 
     void swtichToFriendsListView();
+
+    void prepareGetUserByUserNameSuccessView(String username);
 }

@@ -9,6 +9,8 @@ import interface_adapter.user_profile_user_story.note.NoteViewModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
 import interface_adapter.ViewManagerModel;
 
+import java.util.List;
+
 public class FriendsListPresenter implements FriendsListOutputBoundary {
 
     // THe view manager model is intantioed wrong
@@ -89,5 +91,23 @@ public class FriendsListPresenter implements FriendsListOutputBoundary {
     public void switchToUserProfileView() {
         viewManagerModel.setState(userProfileViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareGetFriendsSuccessView(List<String> friends) {
+        friendsListViewModel.getState().setFriends(friends);
+        friendsListViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareFailView(String error) {
+        friendsListViewModel.getState().setError(error);
+        friendsListViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareGetFriendPasswordbyUserNameSuccessView(String password) {
+        friendsListViewModel.getState().setFriendPassword(password);
+        friendsListViewModel.firePropertyChanged();
     }
 }
