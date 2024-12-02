@@ -62,10 +62,10 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         // Buttons for adding and deleting friends
         final JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
+        buttonPanel.add(backButton);
         buttonPanel.add(addFriendButton);
         buttonPanel.add(deleteFriendButton);
         buttonPanel.add(viewFriendButton);
-        buttonPanel.add(backButton);
 
         // Add components to panel
         add(scrollPane);

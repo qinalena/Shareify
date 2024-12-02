@@ -39,10 +39,10 @@ public class FriendView extends JPanel implements ActionListener, PropertyChange
         friendUsername.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JPanel buttons = new JPanel();
+        buttons.add(backButton);
         buttons.add(viewPlaylists);
         buttons.add(viewFriends);
         buttons.add(sendMessage);
-        buttons.add(backButton);
 
         viewPlaylists.addActionListener(
                 new ActionListener() {
