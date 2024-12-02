@@ -23,7 +23,6 @@ public class LoginInteractorTest {
         loginInteractor = new LoginInteractor(userDataAccess,loginPresenter);
         user = new User("NewUser","123");
 
-
     }
 
     @Test
@@ -31,6 +30,8 @@ public class LoginInteractorTest {
         LoginInputData inputData = new LoginInputData("NewUser","123");
         when(userDataAccess.existsByName(inputData.getUsername())).thenReturn(true);
         when(userDataAccess.getUser(inputData.getUsername())).thenReturn(user);
+        when(userDataAccess.getCurrentUser()).thenReturn(user);
+
         loginInteractor.execute(inputData);
 
         verify(loginPresenter, times(1)).prepareSuccessView(any(LoginOutputData.class));
@@ -51,6 +52,7 @@ public class LoginInteractorTest {
         LoginInputData inputData_wrongPwd = new LoginInputData("NewUser","123456");
         when(userDataAccess.existsByName(inputData.getUsername())).thenReturn(true);
         when(userDataAccess.getUser("NewUser")).thenReturn(user);
+        when(userDataAccess.getCurrentUser()).thenReturn(user);
 
         loginInteractor.execute(inputData_wrongPwd);
         verify(loginPresenter, times(1)).prepareFailView("Incorrect password for \"" + inputData_wrongPwd.getUsername() + "\".");
