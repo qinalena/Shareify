@@ -15,9 +15,8 @@ public class PlaylistController {
 
     /**
      * Executes the remove song from playlist Use Case.
-     *
      * @param currentPlaylistName the playlist to remove the song from
-     * @param songIndex           the selected song
+     * @param songIndex the index of the selected song
      */
     public void removeSong(String currentPlaylistName, int songIndex) {
         // Need index of the song so we remember which song to delete if we have multiple songs that are the same
@@ -33,8 +32,7 @@ public class PlaylistController {
 
     /**
      * Switches to Search Song View.
-     *
-     * @param currentPlaylistName the opened Playlist, so we can remember what playlist we're adding songs to
+     * @param currentPlaylistName the name of the opened playlist
      */
     public void switchToSearchSongView(String currentPlaylistName) {
         playlistInteractor.switchToSearchSongView(currentPlaylistName);

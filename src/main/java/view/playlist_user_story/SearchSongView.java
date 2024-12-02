@@ -1,6 +1,5 @@
 package view.playlist_user_story;
 
-import entity.Song;
 import interface_adapter.playlist_user_story.search_song.SearchSongController;
 import interface_adapter.playlist_user_story.search_song.SearchSongState;
 import interface_adapter.playlist_user_story.search_song.SearchSongViewModel;

@@ -18,10 +18,6 @@ public class Playlist {
         return name;
     }
 
-    public List<Song> getSongs() {
-        return songs;
-    }
-
     /**
      * Add a song to a playlist.
      * @param song the song to be added
@@ -42,12 +38,4 @@ public class Playlist {
         return strings;
     }
 
-    /**
-     * Remove a song from a playlist.
-     *
-     * @param songIndex the song to be removed
-     */
-    public void removeSong(int songIndex) {
-        songs.remove(songIndex);
-    }
 }

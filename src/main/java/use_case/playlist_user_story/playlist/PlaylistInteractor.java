@@ -1,6 +1,5 @@
 package use_case.playlist_user_story.playlist;
 
-import entity.Playlist;
 import data_access.DataAccessException;
 import use_case.playlist_user_story.PlaylistDataAccessInterface;
 
@@ -21,9 +20,7 @@ public class PlaylistInteractor implements PlaylistInputBoundary {
     @Override
     public void removeSong(String currentPlaylistName, int songIndex) {
         try {
-            final Playlist playlist = new Playlist(currentPlaylistName);
-
-            playlistDataAccessObject.removeSongFromPlaylist(playlist, songIndex);
+            playlistDataAccessObject.removeSongFromPlaylist(currentPlaylistName, songIndex);
             playlistPresenter.removeSong(songIndex);
         }
         catch (DataAccessException exception) {

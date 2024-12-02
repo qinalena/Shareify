@@ -1,8 +1,5 @@
 package interface_adapter.playlist_user_story.playlist;
 
-import entity.Playlist;
-import entity.Song;
-
 import java.util.ArrayList;
 import java.util.List;
 

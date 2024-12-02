@@ -232,7 +232,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
     }
 
     @Override
-    public void addSongToPlaylist(Playlist playlist, Song song) throws DataAccessException {
+    public void addSongToPlaylist(String currentPlaylistName, Song song) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
 
@@ -252,7 +252,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
 
                 for (int i = 0; i < playlistCollection.length(); i++) {
                     final JSONObject jsonPlaylist = playlistCollection.getJSONObject(i);
-                    if (jsonPlaylist.get(NAME).equals(playlist.getName())) {
+                    if (jsonPlaylist.get(NAME).equals(currentPlaylistName)) {
 
                         final JSONArray jsonSongs = jsonPlaylist.getJSONArray(SONGS);
 
@@ -299,7 +299,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
     }
 
     @Override
-    public void removeSongFromPlaylist(Playlist playlist, int songIndex) throws DataAccessException {
+    public void removeSongFromPlaylist(String playlistName, int songIndex) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
 
@@ -319,7 +319,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
 
                 for (int i = 0; i < playlistCollection.length(); i++) {
                     final JSONObject jsonPlaylist = playlistCollection.getJSONObject(i);
-                    if (jsonPlaylist.get(NAME).equals(playlist.getName())) {
+                    if (jsonPlaylist.get(NAME).equals(playlistName)) {
 
                         final JSONArray jsonSongs = jsonPlaylist.getJSONArray(SONGS);
                         jsonSongs.remove(songIndex);

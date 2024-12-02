@@ -1,9 +1,7 @@
 package use_case.playlist_user_story.search_song;
 
 import data_access.DataAccessException;
-import entity.Playlist;
 import entity.Song;
-import se.michaelthelin.spotify.model_objects.specification.Track;
 import use_case.playlist_user_story.PlaylistDataAccessInterface;
 
 import java.util.ArrayList;
@@ -36,7 +34,6 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
             }
             searchSongPresenter.searchSong(displaySearchResults);
         }
-
     }
 
     @Override
@@ -48,9 +45,8 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
     public void addSong(SearchSongInputData searchSongInputData) {
         try {
             final Song selectedSong = new Song(searchSongInputData.getSongName(), searchSongInputData.getArtists());
-            final Playlist currentPlaylist = new Playlist(searchSongInputData.getCurrentPlaylistName());
 
-            playlistDAO.addSongToPlaylist(currentPlaylist, selectedSong);
+            playlistDAO.addSongToPlaylist(searchSongInputData.getCurrentPlaylistName(), selectedSong);
 
             searchSongPresenter.addSong(selectedSong.toString());
         }

@@ -1,7 +1,5 @@
 package view.playlist_user_story;
 
-import entity.Playlist;
-import entity.Song;
 import interface_adapter.playlist_user_story.playlist.PlaylistController;
 import interface_adapter.playlist_user_story.playlist.PlaylistState;
 import interface_adapter.playlist_user_story.playlist.PlaylistViewModel;
