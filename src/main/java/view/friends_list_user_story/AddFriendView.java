@@ -11,9 +11,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
 
-import entity.User;
-import interface_adapter.friends_list_user_story.friends_list.FriendsListController;
-
 /**
  * The view for adding a friend to the user's friend list.
  * This class extends JPanel and implements PropertyChangeListener to handle updates from the AddFriendViewModel.
@@ -72,17 +69,13 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
                     // Add friend to the list
                     DefaultListModel<String> listModel = friendsListModel;
                     listModel.addElement(friendName);
-                    System.out.println("addElement passes");
                     addFriendController.addFriend(friendName);
-                    System.out.println("addFriend passes");
-                    addFriendController.executeAddFriendinDB(new User(username, password), friendName);
-                    System.out.println("executeAddFriendinDB passes");
+                    addFriendController.executeAddFriendinDB(username, password, friendName);
                     addFriendController.switchToFriendsListView();
                 } else {
                     JOptionPane.showMessageDialog(this, "User does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (Exception e) {
-                System.out.println("This is the error 2");
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {

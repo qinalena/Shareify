@@ -1,6 +1,5 @@
 package interface_adapter.friends_list_user_story.add_friend;
 
-import entity.User;
 import use_case.friends_list_user_story.add_friend.AddFriendInputBoundary;
 
 /**
@@ -33,8 +32,8 @@ public class AddFriendController {
         interactor.executeGetUserByUserName(username);
     }
 
-    public void executeAddFriendinDB(User user, String friendName) {
-        interactor.executeAddFriendInDB(user, friendName);
+    public void executeAddFriendinDB(String username, String password, String friendName) {
+        interactor.executeAddFriendInDB(username, password, friendName);
     }
 }
 

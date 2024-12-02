@@ -92,9 +92,9 @@ public class FriendsListInteractorTest {
         User mockUser = new User("username", "password");
         int index = 0;
 
-        friendsListInteractor.executeRemoveFriendInDB(mockUser, index);
+        friendsListInteractor.executeRemoveFriendInDB(mockUser.getUsername(), mockUser.getPassword(), index);
 
-        verify(friendsListDataAccessInterface, times(1)).removeFriendinDB(mockUser, index);
+        verify(friendsListDataAccessInterface, times(1)).removeFriendinDB(mockUser.getUsername(), mockUser.getPassword(), index);
     }
 
     @Test
@@ -102,9 +102,9 @@ public class FriendsListInteractorTest {
         User mockUser = new User("username", "password");
         int index = 0;
         doThrow(new DataAccessException("Failed to remove friend"))
-                .when(friendsListDataAccessInterface).removeFriendinDB(mockUser, index);
+                .when(friendsListDataAccessInterface).removeFriendinDB(mockUser.getUsername(), mockUser.getPassword(), index);
 
-        friendsListInteractor.executeRemoveFriendInDB(mockUser, index);
+        friendsListInteractor.executeRemoveFriendInDB(mockUser.getUsername(), mockUser.getPassword(), index);
 
         verify(presenter, times(1)).prepareFailView("Failed to remove friend");
     }
