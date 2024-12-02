@@ -48,8 +48,10 @@ public class PlaylistView extends JPanel implements ActionListener, PropertyChan
 
         removeSongButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                playlistController.removeSong(playlistViewModel.getState().getCurrentPlaylistName(),
-                        songs.getSelectedIndex());
+                if (songs.getSelectedIndex() != -1) {
+                    playlistController.removeSong(playlistViewModel.getState().getCurrentPlaylistName(),
+                            songs.getSelectedIndex());
+                }
             }
         }
         );

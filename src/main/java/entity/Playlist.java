@@ -31,13 +31,21 @@ public class Playlist {
     }
 
     /**
+     * Remove song from this playlist.
+     * @param songIndex the index of the song to be removed
+     */
+    public void removeSong(int songIndex) {
+        songs.remove(songIndex);
+    }
+
+    /**
      * Returns a playlist's list of Songs as a list of Strings.
      * @return the list of Strings.
      */
     public List<String> songsToStrings() {
         final List<String> strings = new ArrayList<>();
         for (Song song : songs) {
-            strings.add(song.getName());
+            strings.add(song.toString());
         }
         return strings;
     }
