@@ -13,11 +13,15 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import use_case.friends_list_user_story.add_friend.AddFriendDataAccessInterface;
+import use_case.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListDataAccessInterface;
+import use_case.friends_list_user_story.friends_list.FriendsListDataAccessInterface;
 
 /**
  * The DAO for accessing notes stored in the database.
  */
-public class DBFriendDataAccessObject {
+public class DBFriendDataAccessObject implements FriendsListDataAccessInterface, AddFriendDataAccessInterface,
+        FriendProfileFriendsListDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final int CREDENTIAL_ERROR = 401;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -85,7 +89,7 @@ public class DBFriendDataAccessObject {
      * @return The username of the user if found, otherwise throws an exception.
      * @throws DataAccessException If the user is not found or there is an error accessing the database.
      */
-    public static String getUserByUsername(String username) throws DataAccessException {
+    public String getUserByUsername(String username) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         final Request request = new Request.Builder()
@@ -210,22 +214,25 @@ public class DBFriendDataAccessObject {
             final Response response = client.newCall(request).execute();
             final JSONObject responseBody = new JSONObject(response.body().string());
 
-            // Check if the response was successful
             if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 // Get the 'user' and 'info' data from the response
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
-                final JSONObject data = userJSONObject.getJSONObject("info");
-                // Debug: Print current info to check the state before update
-                System.out.println("Before update - Info JSON file: " + data.toString(4));
+                JSONObject data = userJSONObject.optJSONObject("info"); // Use optJSONObject to avoid NullPointerException
+
+                if (data == null) {
+                    data = new JSONObject(); // Create a new JSONObject if it is null
+                }
 
                 // Check if the key exists in the 'info' JSON
-                if (data.has("friends")) {
-                    final JSONArray currentfriends = data.getJSONArray("friends");
-                    data.put("friends", currentfriends.put(newName));
-                } else {
-                    final JSONArray friends = new JSONArray();
+                if (!data.has("friends")) {
+                    // If 'friends' key does not exist, create it
+                    JSONArray friends = new JSONArray();
                     friends.put(newName);
                     data.put("friends", friends);
+                } else {
+                    // If 'friends' key exists, append to the array
+                    JSONArray currentFriends = data.getJSONArray("friends");
+                    currentFriends.put(currentFriends.length(), newName);
                 }
 
                 // Debug: Print the updated 'info' JSON

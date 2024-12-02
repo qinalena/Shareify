@@ -1,5 +1,7 @@
 package use_case.friends_list_user_story.friend_profile_playlists;
 
+import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputData;
+
 public interface FriendProfilePlaylistsOutputBoundary {
 
     void preparePlaylistAddedView(String playlistName);
@@ -9,4 +11,11 @@ public interface FriendProfilePlaylistsOutputBoundary {
     void prepareFailView(String error);
 
     void switchToFriendProfileView(String selectedFriendName, String password);
+
+    /**
+     * Switches to Playlist View.
+     *
+     * @param playlistCollectionOutputData output data
+     */
+    void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData, String username, String password);
 }
