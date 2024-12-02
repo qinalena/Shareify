@@ -171,7 +171,7 @@ ____
 1. On your github, clone the repository.  This is the link of the 
 repository on the github website: https://github.com/qinalena/Shareify
 2. You will then click the green '<>Code' button, and copy the HTTPS link 
-(https://github.com/qinalena/Shareify.git)![img.png](img.png)
+(https://github.com/qinalena/Shareify.git) ![img.png](img.png)
 3. Open your IntelliJ, and on the welcome screen click 'Get from VCS' button on
 the top right, and then paste the HTTPS link in the URL text field and click 'Clone'.
 ![img_2.png](img_2.png)![img_1.png](img_1.png)
@@ -261,7 +261,7 @@ view their friends’ account profiles. ***[Aseef Ali Hasan]***
 ### Interact with friends
 Users can message their friends by viewing a friend from the User's friend list, inputting a message, and sending it. 
 Users can also view their friend's playlists and comment on them, being able to see everyone else's comments on that 
-playlist aswell. ***[Don Edirisinghe]***
+playlist as well. ***[Don Edirisinghe]***
 ----
 ## Entities
 - User
