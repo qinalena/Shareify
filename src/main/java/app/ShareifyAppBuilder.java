@@ -12,6 +12,9 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.chat.ChatController;
 import interface_adapter.chat.ChatPresenter;
 import interface_adapter.chat.ChatViewModel;
+import interface_adapter.comment.CommentController;
+import interface_adapter.comment.CommentPresenter;
+import interface_adapter.comment.CommentViewModel;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileController;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfilePresenter;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileViewModel;
@@ -36,6 +39,9 @@ import interface_adapter.user_profile_user_story.user_profile.*;
 import use_case.chat.ChatInputBoundary;
 import use_case.chat.ChatInteractor;
 import use_case.chat.ChatOutputBoundary;
+import use_case.comment.CommentInputBoundary;
+import use_case.comment.CommentInteractor;
+import use_case.comment.CommentOutputBoundary;
 import use_case.friends_list_user_story.friend_profile.FriendProfileInteractor;
 import use_case.friends_list_user_story.friend_profile.FriendProfileOutputBoundary;
 import use_case.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsInteractor;
@@ -59,7 +65,8 @@ import use_case.playlist_user_story.playlist.*;
 import use_case.playlist_user_story.search_song.*;
 import use_case.user_profile_user_story.note.*;
 import use_case.user_profile_user_story.user_profile.*;
-import view.ChatView;
+import view.interact_with_friends_user_story.ChatView;
+import view.interact_with_friends_user_story.CommentView;
 import view.friends_list_user_story.FriendProfilePlaylistsView;
 import view.friends_list_user_story.FriendView;
 import use_case.user_profile_user_story.change_password.*;
@@ -113,6 +120,9 @@ public class ShareifyAppBuilder {
 
     private ChatViewModel chatViewModel;
     private ChatView chatView;
+
+    private CommentViewModel commentViewModel;
+    private CommentView commentView;
 
     private FriendProfilePlaylistsView friendProfilePlaylistsView;
     private FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel;
@@ -484,7 +494,7 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 userProfileViewModel, loginViewModel, friendsListViewModel, addFriendViewModel,
-                playlistCollectionViewModel, addPlaylistViewModel, chatViewModel);
+                playlistCollectionViewModel, addPlaylistViewModel, chatViewModel, commentViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary);
 
@@ -648,7 +658,7 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addFriendPlaylistUseCase() {
         final FriendPlaylistOutputBoundary friendPlaylistOutputBoundary =
-                new FriendPlaylistPresenter(friendPlaylistViewModel, viewManagerModel, friendProfilePlaylistsViewModel);
+                new FriendPlaylistPresenter(friendPlaylistViewModel, viewManagerModel, friendProfilePlaylistsViewModel, commentViewModel);
         final FriendPlaylistInputBoundary playlistInteractor = new FriendPlaylistInteractor(friendPlaylistOutputBoundary);
 
         final FriendPlaylistController playlistController = new FriendPlaylistController(playlistInteractor);
@@ -673,11 +683,38 @@ public class ShareifyAppBuilder {
      * @return this builder.
      */
     public ShareifyAppBuilder addChatUseCase() {
-        final ChatOutputBoundary chatOutputBoundary = new ChatPresenter(chatViewModel);
+        final ChatOutputBoundary chatOutputBoundary = new ChatPresenter(chatViewModel,
+                viewManagerModel, friendProfileViewModel);
         final ChatInputBoundary chatInteractor = new ChatInteractor(userDataAccessObject, chatOutputBoundary);
 
         final ChatController chatController = new ChatController(chatInteractor);
         chatView.setChatController(chatController);
+        return this;
+
+    }
+
+    /**
+     * Adds the Comment View.
+     * @return this builder
+     */
+    public ShareifyAppBuilder addCommentView() {
+        commentViewModel = new CommentViewModel();
+        commentView = new CommentView(commentViewModel);
+        cardPanel.add(commentView, commentView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the comment Use Case.
+     * @return this builder.
+     */
+    public ShareifyAppBuilder addCommentUseCase() {
+        final CommentOutputBoundary commentOutputBoundary = new CommentPresenter(commentViewModel, viewManagerModel,
+                friendPlaylistViewModel);
+        final CommentInputBoundary commentInteractor = new CommentInteractor(userDataAccessObject, commentOutputBoundary);
+
+        final CommentController commentController = new CommentController(commentInteractor);
+        commentView.setCommentController(commentController);
         return this;
 
     }

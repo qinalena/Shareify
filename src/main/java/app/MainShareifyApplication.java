@@ -72,6 +72,7 @@ public class MainShareifyApplication {
                 .addFriendProfilePlaylistView()
                 .addfriendProfileFriendsListView()
                 .addFriendPlaylistView()
+                .addCommentView()
                 .addChatView()
                 .addSignupUseCase()
                 .addLoginUseCase()
@@ -90,6 +91,7 @@ public class MainShareifyApplication {
                 .addFriendProfileFriendsListUseCase()
                 .addFriendPlaylistUseCase()
                 .addChatUseCase()
+                .addCommentUseCase()
                 .build().setVisible(true);
     }
 }

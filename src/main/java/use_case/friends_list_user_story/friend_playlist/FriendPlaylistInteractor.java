@@ -11,6 +11,10 @@ public class FriendPlaylistInteractor implements FriendPlaylistInputBoundary {
     @Override
     public void switchToPlaylistCollectionView() {
         friendPlaylistOutputBoundary.switchToPlaylistCollectionView();
+    }
 
+    @Override
+    public void switchToCommentView(String friendUsername, String playlistName) {
+        friendPlaylistOutputBoundary.switchToCommentView(friendUsername, playlistName);
     }
 }
