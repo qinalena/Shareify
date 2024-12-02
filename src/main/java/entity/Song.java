@@ -22,20 +22,12 @@ public class Song {
         return artists;
     }
 
-    /**
-     * Convert artists to a singular string for display purposes.
-     * @return string of artists
-     */
-    public String artistsToString() {
+    @Override
+    public String toString() {
         final StringJoiner joiner = new StringJoiner(", ");
         for (String artist : artists) {
             joiner.add(artist);
         }
-        return joiner.toString();
-    }
-
-    @Override
-    public String toString() {
-        return name + " - " + artistsToString();
+        return name + " - " + joiner;
     }
 }
