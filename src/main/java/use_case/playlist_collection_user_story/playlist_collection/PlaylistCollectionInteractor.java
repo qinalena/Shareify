@@ -51,7 +51,6 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
         try {
             // Call to DAO to remove playlist from the database
             dbPlaylistDataAccessObject.removePlaylistinDB(user, playlistName);
-            playlistCollectionPresenter.preparePlaylistRemovedView(playlistName);
         }
         catch (DataAccessException e) {
             playlistCollectionPresenter.prepareFailView("Failed to remove playlist: " + e.getMessage());

@@ -1,6 +1,5 @@
 package interface_adapter.playlist_collection_user_story.add_playlist;
 
-import entity.User;
 import use_case.playlist_collection_user_story.add_playlist.AddPlaylistInputBoundary;
 
 /**
