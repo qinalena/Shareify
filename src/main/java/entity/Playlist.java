@@ -18,6 +18,10 @@ public class Playlist {
         return name;
     }
 
+    public List<Song> getSongs() {
+        return songs;
+    }
+
     /**
      * Add a song to a playlist.
      * @param song the song to be added
