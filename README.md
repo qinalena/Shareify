@@ -6,7 +6,7 @@
 - ### Junyu Li (Jasjas7777)
   - User Stories: Signup/Login/Logout an account
 - ### Don Prathap C. Edirisinghe (DonPrathap)
-  - User Stories: Interact with friend through chat feature
+  - User Stories: Interact with friends through chat feature and commenting on their playlists
 - ### Aseef Ali Hasan (aseef2289)
   - User Stories: View and manage friends list
 - ### Ashleigh Wong (Ash-uwu)
@@ -23,10 +23,10 @@ or log into their existing account.  Once logged in, the user will have access t
 can write a new bio, change their password, and view their friends list and playlist collection.
 
 In a user's playlist collection, they can add or remove playlists. Opening a specific playlist displays the songs stored. 
-The user can remove songs or add new songs using a search function. The user can also like and/or comment on the playlists of their friends.
+The user can remove songs or add new songs using a search function. The user can also comment on the playlists of their friends.
 
 Users will also have their own friends list, where they can add other users to this list or remove them from it.  
-Any users that are friends with each other will be able to view each other’s user profiles.
+Any users that are friends will be able to view each other’s account profiles and chat with each other.
 ____
 ## User Stories
 ### Customize and manage an account profile
@@ -53,9 +53,10 @@ Users can remove songs or add new songs using the search function, which will di
 Users can view their friends list which is linked to their profile. Friends can be added and removed. Users can also
 view their friends’ account profiles. ***[Aseef Ali Hasan]***
 
-### Interact with friends through chat feature
-Users can message their friends by viewing a friend from the User's friend list, click the button 'send message', and 
-input text to message them. [placeholder user story - Don, you can change it to be more specific] ***[Don Edirisinghe]***
+### Interact with friends
+Users can message their friends by viewing a friend from the User's friend list, inputting a message, and sending it. 
+Users can also view their friend's playlists and comment on them, being able to see everyone else's comments on that 
+playlist aswell. ***[Don Edirisinghe]***
 ----
 ## Entities
 - User
@@ -84,6 +85,7 @@ ____
 - Create friend list
   - Add friends
 - Message friend
+- Comment on friend's playlists
 ____
 ## API
 - Spotify Web API: https://developer.spotify.com/documentation/web-api/reference/get-an-album

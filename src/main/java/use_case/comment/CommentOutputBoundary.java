@@ -18,4 +18,9 @@ public interface CommentOutputBoundary {
      * @param errorMessage the explanation of the failure
      */
     void prepareFailView(String errorMessage);
+
+    /**
+     * Switch to friend playlist view when back button is pressed.
+     */
+    void switchToFriendPlaylistView();
 }

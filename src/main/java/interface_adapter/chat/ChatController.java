@@ -27,4 +27,11 @@ public class ChatController {
             chatUseCaseInteractor.executeLoadMessages(sender, reciever);
         }
     }
+
+    /**
+     * Switch to friend view when you press the back button.
+     */
+    public void switchToFriendView() {
+        chatUseCaseInteractor.switchToFriendView();
+    }
 }

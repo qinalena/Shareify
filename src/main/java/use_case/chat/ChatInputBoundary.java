@@ -19,4 +19,9 @@ public interface ChatInputBoundary {
      * @param reciever current reciever in chat
      */
     void executeLoadMessages(String sender, String reciever);
+
+    /**
+     * Switch to friend view when back button is pressed.
+     */
+    void switchToFriendView();
 }

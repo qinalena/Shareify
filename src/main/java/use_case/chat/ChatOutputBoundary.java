@@ -18,4 +18,9 @@ public interface ChatOutputBoundary {
      * @param errorMessage the explanation of the failure
      */
     void prepareFailView(String errorMessage);
+
+    /**
+     * Switch to friend view when back button is pressed.
+     */
+    void switchToFriendView();
 }

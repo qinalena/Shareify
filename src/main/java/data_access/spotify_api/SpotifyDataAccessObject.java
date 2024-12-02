@@ -1,4 +1,4 @@
-package spotify_api;
+package data_access.spotify_api;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,16 +14,16 @@ import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.data.search.simplified.SearchTracksRequest;
-import use_case.playlist_user_story.search_song.SpotifyConnectionInterface;
+import use_case.playlist_user_story.search_song.SpotifyDataAccessInterface;
 
 /**
- * Class that implements SpotifyConnectionInterface.
+ * Class that implements SpotifyDataAccessInterface.
  */
-public class SpotifyConnection implements SpotifyConnectionInterface {
+public class SpotifyDataAccessObject implements SpotifyDataAccessInterface {
     private final SpotifyAuthorization spotifyAuthorization = new SpotifyAuthorization();
     private final SpotifyApi spotifyApi = spotifyAuthorization.getSpotifyApi();
 
-    public SpotifyConnection() {
+    public SpotifyDataAccessObject() {
     }
 
     @Override

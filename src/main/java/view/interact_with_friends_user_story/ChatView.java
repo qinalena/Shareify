@@ -1,12 +1,10 @@
-package view;
+package view.interact_with_friends_user_story;
 
 import interface_adapter.chat.ChatController;
 import interface_adapter.chat.ChatState;
 import interface_adapter.chat.ChatViewModel;
-import interface_adapter.comment.CommentController;
 
 import javax.swing.*;
-import javax.swing.text.View;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -47,10 +45,11 @@ public class ChatView extends JPanel implements PropertyChangeListener, ActionLi
                 evt -> {
                     if (evt.getSource().equals(messageButton)) {
                         final ChatState chatState = chatViewModel.getState();
-                        chatController.execute(chatInputField
-                                .getText() + " - [" + chatState.getUsername() + "]",
-                                chatState.getUsername(), chatState.getFriendUsername());
-
+                        if (!chatInputField.getText().isEmpty()) {
+                            chatController.execute(chatInputField
+                                            .getText() + " - [" + chatState.getUsername() + "]",
+                                    chatState.getUsername(), chatState.getFriendUsername());
+                        }
                     }
                 }
         );
@@ -60,6 +59,15 @@ public class ChatView extends JPanel implements PropertyChangeListener, ActionLi
                     if (evt.getSource().equals(refreshMessagesButton)) {
                         final ChatState chatState = chatViewModel.getState();
                         chatController.execute(null, chatState.getUsername(), chatState.getFriendUsername());
+
+                    }
+                }
+        );
+
+        backButton.addActionListener(
+                evt -> {
+                    if (evt.getSource().equals(backButton)) {
+                        chatController.switchToFriendView();
 
                     }
                 }

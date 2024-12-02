@@ -41,4 +41,9 @@ public class ChatInteractor implements ChatInputBoundary {
             chatOutputBoundary.prepareFailView(ex.getMessage());
         }
     }
+
+    @Override
+    public void switchToFriendView() {
+        chatOutputBoundary.switchToFriendView();
+    }
 }

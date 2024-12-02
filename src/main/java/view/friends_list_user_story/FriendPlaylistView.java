@@ -28,6 +28,7 @@ public class FriendPlaylistView extends JPanel implements ActionListener, Proper
     private final JButton comment = new JButton("Comment");
     private String friendUsername;
     private String friendPassword;
+    private String playlistName;
 
     private JList<String> songs = new JList<>(new DefaultListModel<>());
 
@@ -50,8 +51,8 @@ public class FriendPlaylistView extends JPanel implements ActionListener, Proper
 
         comment.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                // TODO: NOT IMPLEMENTED YET
-//                friendPlaylistController.comment(songs.getSelectedIndex());
+                friendPlaylistController.switchToCommentView(friendUsername,
+                        playlistName);
             }
         }
         );
@@ -92,11 +93,12 @@ public class FriendPlaylistView extends JPanel implements ActionListener, Proper
         listModel.clear();
 
         for (Song song : currentPlaylist.getSongs()) {
-            listModel.addElement(song.getName() + " - " + song.artistsToString());
+            listModel.addElement(song.toString());
         }
         if (this.friendUsername != state.getFriendUsername()) {
             this.friendUsername = state.getFriendUsername();
             this.friendPassword = state.getFriendPassword();
+            this.playlistName = state.getCurrentPlaylist().getName();
             playlistTitle.setText(this.friendUsername + "'s Playlist: " + state.getCurrentPlaylist().getName());
         }
     }
