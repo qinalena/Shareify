@@ -14,16 +14,19 @@ import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.data.search.simplified.SearchTracksRequest;
+import use_case.playlist_user_story.search_song.SpotifyAuthorizationInterface;
 import use_case.playlist_user_story.search_song.SpotifyDataAccessInterface;
 
 /**
  * Class that implements SpotifyDataAccessInterface.
  */
 public class SpotifyDataAccessObject implements SpotifyDataAccessInterface {
-    private final SpotifyAuthorization spotifyAuthorization = new SpotifyAuthorization();
-    private final SpotifyApi spotifyApi = spotifyAuthorization.getSpotifyApi();
+    private final SpotifyAuthorizationInterface spotifyAuthorization;
+    private final SpotifyApi spotifyApi;
 
-    public SpotifyDataAccessObject() {
+    public SpotifyDataAccessObject(SpotifyAuthorizationInterface spotifyAuthorization) {
+        this.spotifyAuthorization = spotifyAuthorization;
+        this.spotifyApi = this.spotifyAuthorization.getSpotifyApi();
     }
 
     @Override

@@ -1,7 +1,10 @@
 package app;
 
 import data_access.DBUserDataAccessObject;
+import data_access.spotify_api.SpotifyClientCredAuth;
 import data_access.spotify_api.SpotifyDataAccessObject;
+import use_case.playlist_user_story.search_song.SpotifyAuthorizationInterface;
+import use_case.playlist_user_story.search_song.SpotifyDataAccessInterface;
 import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 /**
@@ -49,7 +52,8 @@ public class MainNoteApplication {
         final NoteDataAccessInterface noteDAO = new DBUserDataAccessObject();
 
         // create Spotify data access and inject it into our builder!
-        final SpotifyDataAccessObject spotifyDAO = new SpotifyDataAccessObject();
+        final SpotifyAuthorizationInterface spotifyAuthorization = new SpotifyClientCredAuth();
+        final SpotifyDataAccessInterface spotifyDAO = new SpotifyDataAccessObject(spotifyAuthorization);
 
         // ADD ALL VIEWS FIRST BEFORE USE CASES!!!
         final ShareifyAppBuilder shareifyAppBuilder = new ShareifyAppBuilder();

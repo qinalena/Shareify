@@ -23,11 +23,14 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     private JLabel username = new JLabel();
     private final JLabel note = new JLabel();
 
+    private final JPanel buttons = new JPanel();
     private final JButton editBio = new JButton("Edit Bio");
     private final JButton playlistsButton = new JButton("Playlists");
     private final JButton friendsButton = new JButton("Friends");
     private final JButton logoutButton = new JButton("Logout");
     private final JButton changePasswordButton = new JButton("Change Password");
+    private final JButton nightModeButton = new JButton("Night Mode");
+    private boolean isNightMode = false;
 
     private UserProfileController userProfileController;
     private LogoutController logoutController;
@@ -41,15 +44,15 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
         this.userProfileViewModel.addPropertyChangeListener(this);
 
         username.setAlignmentX(Component.CENTER_ALIGNMENT);
+        note.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
         final JPanel buttons = new JPanel();
         buttons.add(editBio);
         buttons.add(playlistsButton);
         buttons.add(friendsButton);
-        buttons.add(logoutButton);
         buttons.add(changePasswordButton);
-
+        buttons.add(logoutButton);
         editBio.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 userProfileController.switchToNoteView();
@@ -92,11 +95,64 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
                 }
         );
 
+        nightModeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                toggleNightMode();
+                if (isNightMode) {
+                    buttons.setBackground(Color.BLACK);
+                    changePasswordButton.setBackground(Color.BLACK);
+                    changePasswordButton.setForeground(Color.WHITE);
+                    editBio.setBackground(Color.BLACK);
+                    editBio.setForeground(Color.WHITE);
+                    playlistsButton.setBackground(Color.BLACK);
+                    playlistsButton.setForeground(Color.WHITE);
+                    friendsButton.setBackground(Color.BLACK);
+                    friendsButton.setForeground(Color.WHITE);
+                    logoutButton.setBackground(Color.BLACK);
+                    logoutButton.setForeground(Color.WHITE);
+                    nightModeButton.setBackground(Color.BLACK);
+                    nightModeButton.setForeground(Color.WHITE);
+                } else{
+                    buttons.setBackground(Color.WHITE);
+                    changePasswordButton.setBackground(Color.WHITE);
+                    changePasswordButton.setForeground(Color.BLACK);
+                    editBio.setBackground(Color.WHITE);
+                    editBio.setForeground(Color.BLACK);
+                    playlistsButton.setBackground(Color.WHITE);
+                    playlistsButton.setForeground(Color.BLACK);
+                    friendsButton.setBackground(Color.WHITE);
+                    friendsButton.setForeground(Color.BLACK);
+                    logoutButton.setBackground(Color.WHITE);
+                    logoutButton.setForeground(Color.BLACK);
+                    nightModeButton.setBackground(Color.WHITE);
+                    nightModeButton.setForeground(Color.BLACK);
+                }
+            }
+        });
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        nightModeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.add(username);
         this.add(note);
         this.add(buttons);
+        this.add(nightModeButton);
+    }
+
+    private void toggleNightMode() {
+        if (isNightMode) {
+            this.setBackground(Color.WHITE);
+            username.setForeground(Color.BLACK);
+            note.setForeground(Color.BLACK);
+            nightModeButton.setText("Night Mode");
+        } else {
+            this.setBackground(Color.DARK_GRAY);
+            username.setForeground(Color.WHITE);
+            note.setForeground(Color.WHITE);
+            nightModeButton.setText("Light Mode");
+        }
+        isNightMode = !isNightMode; // Toggle the flag
     }
 
 
@@ -118,10 +174,6 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
                 throw new RuntimeException(e);
             }
         }
-//        if (state.getError() != null) {
-//            JOptionPane.showMessageDialog(this, state.getError(),
-//                    "Error", JOptionPane.ERROR_MESSAGE);
-//        }
     }
 
     private void setFields(UserProfileState state) throws DataAccessException {
@@ -143,6 +195,7 @@ public class UserProfileView extends JPanel implements ActionListener, PropertyC
     public String getViewName() {
         return viewName;
     }
+
 
 }
 
