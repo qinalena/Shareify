@@ -18,7 +18,7 @@ public interface SearchSongInputBoundary {
 
     /**
      * Add selected song to playlist.
-     * @param selectedSong the song that was selected in the list of search results
+     * @param searchSongInputData data representing the song that was selected in the list of search results
      */
-    void addSong(SearchSongInputData selectedSong);
+    void addSong(SearchSongInputData searchSongInputData);
 }

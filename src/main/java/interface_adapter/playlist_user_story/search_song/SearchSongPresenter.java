@@ -1,10 +1,10 @@
 package interface_adapter.playlist_user_story.search_song;
 
-import entity.Song;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.playlist_user_story.playlist.PlaylistViewModel;
 import use_case.playlist_user_story.search_song.SearchSongOutputBoundary;
-import use_case.playlist_user_story.search_song.SearchSongOutputData;
+
+import java.util.List;
 
 /**
  * The presenter for Search Track.
@@ -23,8 +23,8 @@ public class SearchSongPresenter implements SearchSongOutputBoundary {
     }
 
     @Override
-    public void searchSong(SearchSongOutputData searchSongOutputData) {
-        searchSongViewModel.getState().setCurrentSearchResults(searchSongOutputData.getSearchResults());
+    public void searchSong(List<String> displaySearchResults) {
+        searchSongViewModel.getState().setCurrentSearchResults(displaySearchResults);
         searchSongViewModel.firePropertyChanged();
     }
 
@@ -35,7 +35,7 @@ public class SearchSongPresenter implements SearchSongOutputBoundary {
     }
 
     @Override
-    public void addSong(Song song) {
+    public void addSong(String song) {
         playlistViewModel.getState().addSong(song);
         playlistViewModel.firePropertyChanged();
     }
