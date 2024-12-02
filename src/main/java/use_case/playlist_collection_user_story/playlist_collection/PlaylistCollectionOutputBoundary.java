@@ -1,5 +1,7 @@
 package use_case.playlist_collection_user_story.playlist_collection;
 
+import java.util.List;
+
 /**
  * The output boundary for Playlist Collection.
  */
@@ -26,9 +28,10 @@ public interface PlaylistCollectionOutputBoundary {
     /**
      * Switches to Playlist View.
      *
-     * @param playlistCollectionOutputData output data
+     * @param playlistName the name of the playlist to be displayed
+     * @param songs the songs in the playlist
      */
-    void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData);
+    void switchToPlaylistView(String playlistName, List<String> songs);
 
     /**
      * Switches to UserProfileView - for back button in Playlist Collection View.

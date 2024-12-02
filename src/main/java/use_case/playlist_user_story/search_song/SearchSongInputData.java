@@ -1,32 +1,31 @@
 package use_case.playlist_user_story.search_song;
 
-import entity.Playlist;
-import entity.Song;
-
 /**
  * The Input Data for Search Song.
  */
 public class SearchSongInputData {
-    private Song selectedSong;
-    private Playlist currentPlaylist;
+    private String songName;
+    private String[] artists;
+    private String currentPlaylistName;
 
-    public SearchSongInputData(Playlist currentPlaylist, String selectedString) {
-        this.currentPlaylist = currentPlaylist;
+    public SearchSongInputData(String currentPlaylistName, String selectedString) {
+        this.currentPlaylistName = currentPlaylistName;
 
         final String[] splitString = selectedString.split(" - ");
-        final String name = splitString[0];
+        this.songName = splitString[0];
 
-        final String[] artists = splitString[1].split(", ");
-
-        final Song song = new Song(name, artists);
-        this.selectedSong = song;
+        this.artists = splitString[1].split(", ");
     }
 
-    public Playlist getCurrentPlaylist() {
-        return currentPlaylist;
+    public String getCurrentPlaylistName() {
+        return currentPlaylistName;
     }
 
-    public Song getSelectedSong() {
-        return selectedSong;
+    public String getSongName() {
+        return songName;
+    }
+
+    public String[] getArtists() {
+        return artists;
     }
 }

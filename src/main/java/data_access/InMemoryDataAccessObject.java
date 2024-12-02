@@ -3,9 +3,8 @@ package data_access;
 import entity.Playlist;
 import entity.Song;
 import entity.User;
-import data_access.DataAccessException;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionDataAccessInterface;
-import use_case.playlist_user_story.playlist.PlaylistDataAccessInterface;
+import use_case.playlist_user_story.PlaylistDataAccessInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +21,11 @@ public class InMemoryDataAccessObject implements PlaylistDataAccessInterface, Pl
     }
 
     @Override
-    public void addSongToPlaylist(Playlist currentPlaylist, Song song) throws DataAccessException {
+    public void addSongToPlaylist(String currentPlaylistName, Song song) throws DataAccessException {
         boolean playlistFound = false;
 
         for (Playlist playlist : playlistCollection) {
-            if (playlist.getName() == currentPlaylist.getName()) {
+            if (playlist.getName() == currentPlaylistName) {
                 playlist.addSong(song);
                 playlistFound = true;
                 break;
@@ -41,7 +40,7 @@ public class InMemoryDataAccessObject implements PlaylistDataAccessInterface, Pl
     }
 
     @Override
-    public void removeSongFromPlaylist(Playlist playlist, int songIndex) throws DataAccessException {
+    public void removeSongFromPlaylist(String playlistName, int songIndex) throws DataAccessException {
 
     }
 
