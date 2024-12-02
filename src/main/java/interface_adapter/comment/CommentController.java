@@ -16,16 +16,23 @@ public class CommentController {
     /**
      * Executes comment use case.
      * @param comment the comment inputted (null if no comment)
-     * @param username friend's username
+     * @param friendUsername friend's username
      * @param playlistName friend's playlist name
      */
-    public void execute(String comment, String username, String playlistName) {
+    public void execute(String comment, String friendUsername, String playlistName) {
         if (comment != null) {
-            commentUseCaseInteractor.executeSaveComment(comment, username, playlistName);
+            commentUseCaseInteractor.executeSaveComment(comment, friendUsername, playlistName);
         }
         else {
-            commentUseCaseInteractor.executeLoadComments(username, playlistName);
+            commentUseCaseInteractor.executeLoadComments(friendUsername, playlistName);
         }
+    }
+
+    /**
+     * Switch to friend playlist view when back button is pressed.
+     */
+    public void switchToFriendPlaylistView() {
+        commentUseCaseInteractor.switchToFriendPlaylistView();
     }
 }
 

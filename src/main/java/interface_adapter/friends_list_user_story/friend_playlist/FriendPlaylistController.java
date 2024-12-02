@@ -16,4 +16,8 @@ public class FriendPlaylistController {
         friendPlaylistInputBoundary.switchToPlaylistCollectionView();
     }
 
+    public void switchToCommentView(String friendUsername, String playlistName) {
+        friendPlaylistInputBoundary.switchToCommentView(friendUsername, playlistName);
+    }
+
 }

@@ -1,7 +1,12 @@
 package interface_adapter.comment;
 
+import interface_adapter.ViewManagerModel;
+import interface_adapter.friends_list_user_story.friend_playlist.FriendPlaylistViewModel;
 import use_case.comment.CommentOutputBoundary;
+import view.ViewManager;
+import view.friends_list_user_story.FriendPlaylistView;
 
+import javax.swing.text.View;
 import java.util.List;
 
 /**
@@ -10,9 +15,14 @@ import java.util.List;
 public class CommentPresenter implements CommentOutputBoundary {
 
     private final CommentViewModel commentViewModel;
+    private final ViewManagerModel viewManagerModel;
+    private final FriendPlaylistViewModel friendPlaylistViewModel;
 
-    public CommentPresenter(CommentViewModel commentViewModel) {
+    public CommentPresenter(CommentViewModel commentViewModel, ViewManagerModel viewManagerModel,
+                            FriendPlaylistViewModel friendPlaylistViewModel) {
         this.commentViewModel = commentViewModel;
+        this.viewManagerModel = viewManagerModel;
+        this.friendPlaylistViewModel = friendPlaylistViewModel;
     }
 
     @Override
@@ -27,6 +37,12 @@ public class CommentPresenter implements CommentOutputBoundary {
         commentViewModel.getState().setError(errorMessage);
         commentViewModel.firePropertyChanged();
 
+    }
+
+    @Override
+    public void switchToFriendPlaylistView() {
+        viewManagerModel.setState(friendPlaylistViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
 }

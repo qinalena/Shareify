@@ -11,6 +11,7 @@ public class CommentState {
     private String error;
     private String friendUsername;
     private String playlistName;
+    private String username;
 
     public List<String> getComments() {
         return comments;
@@ -42,5 +43,13 @@ public class CommentState {
 
     public void setPlaylistName(String playlistName) {
         this.playlistName = playlistName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
