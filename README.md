@@ -165,6 +165,11 @@ User's can log out of their account by click the "Logout' button on their profil
 
 After logging out, it will bring the user back to the welcome screen.
 ![img_37.png](images/img_37.png)
+
+### Light and dark mode
+User's get to choose whether they like to have their user profile page in light or dark mode.  To make
+this change, user will click 'Night Mode' or 'Light Mode' bottom on the bottom of the user profile page!
+![img.png](images/img52.png) ![img.png](images/img53.png)
 ____
 ## Installation instructions
 #### Steps to access the Shareify app:
