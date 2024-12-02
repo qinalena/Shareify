@@ -17,7 +17,6 @@ import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendViewModel;
 import use_case.login_user_story.login.LoginOutputBoundary;
 import use_case.login_user_story.login.LoginOutputData;
-import view.ChatView;
 
 /**
  * The Presenter for the Login Use Case.

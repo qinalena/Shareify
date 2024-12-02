@@ -20,10 +20,10 @@ public class CommentInteractor implements CommentInputBoundary {
     }
 
     @Override
-    public void executeSaveComment(String comment, String username, String playlistName) {
+    public void executeSaveComment(String comment, String friendUsername, String playlistName) {
         try {
             final List<String> comments = commentDataAccessInterface
-                    .saveCommentFromUser(comment, username, playlistName);
+                    .saveCommentFromUser(playlistName, friendUsername, comment);
             commentOutputBoundary.prepareSuccessView(comments);
         }
         catch (DataAccessException ex) {
@@ -32,14 +32,19 @@ public class CommentInteractor implements CommentInputBoundary {
     }
 
     @Override
-    public void executeLoadComments(String username, String playlistName) {
+    public void executeLoadComments(String friendUsername, String playlistName) {
         try {
             final List<String> updatedComments = commentDataAccessInterface
-                    .loadCommentsFromUser(username, playlistName);
+                    .loadCommentsFromUser(playlistName, friendUsername);
             commentOutputBoundary.prepareSuccessView(updatedComments);
         }
         catch (DataAccessException ex) {
             commentOutputBoundary.prepareFailView(ex.getMessage());
         }
+    }
+
+    @Override
+    public void switchToFriendPlaylistView() {
+        commentOutputBoundary.switchToFriendPlaylistView();
     }
 }
