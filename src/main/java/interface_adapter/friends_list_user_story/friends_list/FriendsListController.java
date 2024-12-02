@@ -1,6 +1,5 @@
 package interface_adapter.friends_list_user_story.friends_list;
 
-import entity.User;
 import use_case.friends_list_user_story.friends_list.FriendsListInputBoundary;
 
 public class FriendsListController {
@@ -40,8 +39,8 @@ public class FriendsListController {
         interactor.executeGetFriends(username);
     }
 
-    public void executeRemoveFriendInDB(User user, int idx) {
-        interactor.executeRemoveFriendInDB(user, idx);
+    public void executeRemoveFriendInDB(String username, String password, int idx) {
+        interactor.executeRemoveFriendInDB(username, password, idx);
     }
 
     public void executeGetPasswordByUserName(String username) {

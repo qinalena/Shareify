@@ -128,14 +128,16 @@ username in the Friends List, and clicking the 'View Friend' button.  In there t
 see the friend's playlist or click 'View Friends' to see the friends list of this friend.
 ![img_25.png](images/img_25.png)
 
-Viewing playlist:
+Viewing a friend's playlist:
 ![img_26.png](images/img_26.png)
-Playlists would be listed here, this user currently has no playlists:
+Playlists are listed here.
 ![img_27.png](images/img_27.png)
+Here are the songs in this friend's playlist.
+![FriendPlaylistView.png](images/FriendPlaylistView.png)
 
-Viewing friends list:
+Viewing a friend's friends list:
 ![img_28.png](images/img_28.png)
-Friends would be listed here, this user currently has no friends :(
+Friends are listed here.
 ![img_29.png](images/img_29.png)
 
 ### Chatting with friends
@@ -306,7 +308,7 @@ User's can contribute to our app by forking the repository on the github website
 and making any changes they feel is necessary to improve the Shareify app.
 
 To fork it, simply click the 'Fork' button, this should make a copy of the repository for you.
-![img_38.png](ImagesForREADME/Screenshots%20for%20README%20file/img_38.png)
+![img_38.png](images/img_38.png)
 
 ### Tips:
 - Good merge request

@@ -3,9 +3,6 @@ package view.friends_list_user_story;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListController;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
-import use_case.friends_list_user_story.add_friend.AddFriendOutputBoundary;
-import entity.User;
-import data_access.DataAccessException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,10 +62,10 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
         // Buttons for adding and deleting friends
         final JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
+        buttonPanel.add(backButton);
         buttonPanel.add(addFriendButton);
         buttonPanel.add(deleteFriendButton);
         buttonPanel.add(viewFriendButton);
-        buttonPanel.add(backButton);
 
         // Add components to panel
         add(scrollPane);
@@ -109,8 +105,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
             if (selectedIndices.length > 0) {
                 for (int i = selectedIndices.length - 1; i >= 0; i--) {
                     listModel.remove(selectedIndices[i]);
-                    final User user = new User(username, password);
-                    friendsListController.executeRemoveFriendInDB(user, selectedIndices[i]);
+                    friendsListController.executeRemoveFriendInDB(username, password, selectedIndices[i]);
                 }
             }
             else {

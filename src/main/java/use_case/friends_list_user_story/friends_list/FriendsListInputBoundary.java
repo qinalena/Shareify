@@ -1,7 +1,5 @@
 package use_case.friends_list_user_story.friends_list;
 
-import entity.User;
-
 public interface FriendsListInputBoundary {
     void switchToNoteView();
     void switchToFriendsListView();
@@ -10,7 +8,7 @@ public interface FriendsListInputBoundary {
     void switchToAddFriendView();
     void switchToUserProfileView();
     void executeGetFriends(String username);
-    void executeRemoveFriendInDB(User user, int idx);
+    void executeRemoveFriendInDB(String username, String password, int idx);
     void executeGetPasswordByUserName(String username);
 }
 

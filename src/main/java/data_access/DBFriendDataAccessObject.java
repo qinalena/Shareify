@@ -191,16 +191,14 @@ public class DBFriendDataAccessObject implements FriendsListDataAccessInterface,
     /**
      * Adds a friend to the user's friend list in the database.
      *
-     * @param user The user to whom the friend is being added.
+     * @param username The user to whom the friend is being added.
+     * @param password its their pw.
      * @param newName The name of the friend to be added.
-     * @throws DataAccessException If there is an error adding the friend, such as invalid credentials or a database error.
+     * @throws DataAccessException If there is an error adding the friend, such as invalid credentials
+     * or a database error.
      */
-    public void addFriendinDB(User user, String newName) throws DataAccessException {
+    public void addFriendinDB(String username, String password, String newName) throws DataAccessException {
 
-        // Dummy user
-        // user = new User("newUserName7", "password123");
-
-        final String username = user.getUsername();
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         // URL to fetch the current user data
@@ -241,7 +239,7 @@ public class DBFriendDataAccessObject implements FriendsListDataAccessInterface,
                 // Create the updated request body
                 JSONObject updatedUser = new JSONObject();
                 updatedUser.put("username", username);
-                updatedUser.put("password", user.getPassword());
+                updatedUser.put("password", password);
                 updatedUser.put("info", data);
 
                 final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
@@ -275,14 +273,12 @@ public class DBFriendDataAccessObject implements FriendsListDataAccessInterface,
     /**
      * Removes a friend from the user's friend list in the database.
      *
-     * @param user The user from whom the friend is being removed.
+     * @param username The user from whom the friend is being removed.
+     * @param password the password of the user that is being removed.
      * @param index The index of the friend to be removed in the friend list.
      * @throws DataAccessException If there is an error removing the friend, such as invalid credentials, a database error, or an invalid index.
      */
-    public void removeFriendinDB(User user, int index) throws DataAccessException {
-        // Dummy user
-        // user = new User("newUserName7", "password123");
-        final String username = user.getUsername();
+    public void removeFriendinDB(String username, String password, int index) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         // URL to fetch the current user data
@@ -330,7 +326,7 @@ public class DBFriendDataAccessObject implements FriendsListDataAccessInterface,
                 // Create the updated request body
                 JSONObject updatedUser = new JSONObject();
                 updatedUser.put("username", username);
-                updatedUser.put("password", user.getPassword());
+                updatedUser.put("password", password);
                 updatedUser.put("info", data);
 
                 final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);

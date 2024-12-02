@@ -77,10 +77,10 @@ public class AddFriendInteractorTest {
         User user = new User("User1", "password");
         String friendName = "Friend1";
 
-        addFriendInteractor.executeAddFriendInDB(user, friendName);
+        addFriendInteractor.executeAddFriendInDB(user.getUsername(), user.getPassword(), friendName);
 
         verify(addFriendDataAccessInterface, times(1))
-                .addFriendinDB(user, friendName);
+                .addFriendinDB(user.getUsername(), user.getPassword(), friendName);
     }
 
     @Test
@@ -88,9 +88,9 @@ public class AddFriendInteractorTest {
         User user = new User("User1", "password");
         String friendName = "Friend1";
         doThrow(new DataAccessException("Failed to add friend"))
-                .when(addFriendDataAccessInterface).addFriendinDB(user, friendName);
+                .when(addFriendDataAccessInterface).addFriendinDB(user.getUsername(), user.getPassword(), friendName);
 
-        addFriendInteractor.executeAddFriendInDB(user, friendName);
+        addFriendInteractor.executeAddFriendInDB(user.getUsername(), user.getPassword(), friendName);
 
         verify(outputBoundary, times(1))
                 .prepareFailView("Failed to add friend");
