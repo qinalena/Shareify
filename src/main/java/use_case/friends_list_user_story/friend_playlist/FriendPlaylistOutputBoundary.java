@@ -6,4 +6,11 @@ public interface FriendPlaylistOutputBoundary {
      * Switches to Playlist Collection View.
      */
     void switchToPlaylistCollectionView();
+
+    /**
+     * Switch to comment view.
+     * @param friendUsername name
+     * @param playlistName name
+     */
+    void switchToCommentView(String friendUsername, String playlistName);
 }
