@@ -28,7 +28,6 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
         if (query != null) {
             final List<Song> searchResults = spotifyDAO.searchTrack(query);
             final List<String> displaySearchResults = new ArrayList<>();
-
             for (final Song searchResult : searchResults) {
                 displaySearchResults.add(searchResult.toString());
             }

@@ -21,10 +21,12 @@ import use_case.playlist_user_story.search_song.SpotifyDataAccessInterface;
  * Class that implements SpotifyDataAccessInterface.
  */
 public class SpotifyDataAccessObject implements SpotifyDataAccessInterface {
+    private final SpotifyAuthorizationInterface spotifyAuthorization;
     private final SpotifyApi spotifyApi;
 
     public SpotifyDataAccessObject(SpotifyAuthorizationInterface spotifyAuthorization) {
-        this.spotifyApi = spotifyAuthorization.getSpotifyApi();
+        this.spotifyAuthorization = spotifyAuthorization;
+        this.spotifyApi = this.spotifyAuthorization.getSpotifyApi();
     }
 
     @Override
