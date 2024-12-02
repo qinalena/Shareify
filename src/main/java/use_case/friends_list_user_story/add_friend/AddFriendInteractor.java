@@ -49,9 +49,9 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
     }
 
     @Override
-    public void executeAddFriendInDB(User user, String friendName) {
+    public void executeAddFriendInDB(String username, String password, String friendName) {
         try {
-            addFriendDataAccessInterface.addFriendinDB(user, friendName);
+            addFriendDataAccessInterface.addFriendinDB(username, password, friendName);
         } catch (DataAccessException e) {
             outputBoundary.prepareFailView(e.getMessage());
         }
