@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import use_case.friends_list_user_story.friend_playlist.FriendPlaylistDataAccessInterface;
-import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputData;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -62,7 +61,7 @@ public class FriendProfilePlaylistsInteractorTest {
     }
 
     @Test
-    public void testSwitchToPlaylistViewSuccess() throws DataAccessException{
+    public void testSwitchToPlaylistViewSuccess() throws DataAccessException {
         String playlistName = "Playlist1";
         String username = "User1";
         String password = "password123";
@@ -72,7 +71,8 @@ public class FriendProfilePlaylistsInteractorTest {
 
         interactor.switchToPlaylistView(playlistName, username, password);
 
-        verify(presenter, times(1)).switchToPlaylistView(any(PlaylistCollectionOutputData.class), eq(username), eq(password));
+        // Use Mockito's argThat matcher to verify the Playlist object
+        verify(presenter, times(1)).switchToPlaylistView(argThat(playlist -> playlist.getName().equals(playlistName)), eq(username), eq(password));
     }
 
     @Test
