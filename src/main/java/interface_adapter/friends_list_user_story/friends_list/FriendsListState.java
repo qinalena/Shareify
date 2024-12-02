@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FriendsListState {
-    private final List<String> friends = new ArrayList<>();
+    private List<String> friends;
     private String error;
     private String username;
     private String password;
+    private String friendPassword;
+    private String friendUsername;
 
     public List<String> getFriends() {
         return friends;
     }
+    public void setFriends(List<String> friends) {
+        this.friends = friends;
+    }
 
     public String getMostRecentFriend() {
-        if (!friends.isEmpty()) {
+        if (friends != null) {
             return friends.get(friends.size() - 1);
         }
         else {
@@ -54,4 +59,19 @@ public class FriendsListState {
         return password;
     }
 
+    public String getFriendPassword() {
+        return friendPassword;
+    }
+
+    public void setFriendPassword(String friendPassword) {
+        this.friendPassword = friendPassword;
+    }
+
+    public String getFriendUsername() {
+        return friendUsername;
+    }
+
+    public void setFriendUsername(String friendUsername) {
+        this.friendUsername = friendUsername;
+    }
 }

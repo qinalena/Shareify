@@ -1,6 +1,5 @@
 package view.friends_list_user_story;
 
-import data_access.DBFriendDataAccessObject;
 import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListViewModel;
 import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListController;
 import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListState;
@@ -22,7 +21,6 @@ public class FriendProfileFriendsListView extends JPanel implements ActionListen
     private final String viewName = "friendProfileFriendsList";
     private final FriendProfileFriendsListViewModel viewModel;
     private FriendProfileFriendsListController friendsListController;
-    private DBFriendDataAccessObject dbFriendDataAccessObject;
     private String username;
     private String password;
 
@@ -34,11 +32,8 @@ public class FriendProfileFriendsListView extends JPanel implements ActionListen
     private final JList<String> friendsList;
     private final JButton backButton = new JButton("Back");
 
-    public FriendProfileFriendsListView(FriendProfileFriendsListController friendsListController, FriendProfileFriendsListViewModel viewModel,
-                                        DBFriendDataAccessObject dbFriendDataAccessObject) {
-        this.friendsListController = friendsListController;
+    public FriendProfileFriendsListView(FriendProfileFriendsListViewModel viewModel) {
         this.viewModel = viewModel;
-        this.dbFriendDataAccessObject = dbFriendDataAccessObject;
         this.viewModel.addPropertyChangeListener(this);
 
         friendsListName.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -72,26 +67,17 @@ public class FriendProfileFriendsListView extends JPanel implements ActionListen
         }
     }
 
-    private void populateFriendsListFromDatabase() {
-        try {
-            final User realUser = new User(username, password);
-            final List<String> friends = dbFriendDataAccessObject.getFriends(realUser.getUsername());
-            populateFriendsList(friends);
-        } catch (DataAccessException error) {
-            JOptionPane.showMessageDialog(this, "They have no friends");
-        }
-    }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         // React to changes in the view model (e.g., when the friends list or errors change)
         final FriendProfileFriendsListState state = (FriendProfileFriendsListState) evt.getNewValue();
-        updateFriendsList(state);
+        setFields(state);
         System.out.println("Creds received in FriendProfileFriendsListView: " + state.getUsername());
         if (state.getUsername() != this.username) {
             this.username = state.getUsername();
             this.password = state.getPassword();
-            populateFriendsListFromDatabase();
+            friendsListController.executeGetFriends(username);
+            populateFriendsList(state.getFriends());
         }
 
         if (state.getError() != null) {
@@ -99,8 +85,7 @@ public class FriendProfileFriendsListView extends JPanel implements ActionListen
         }
     }
 
-    private void updateFriendsList(FriendProfileFriendsListState state) {
-        listModel.addElement(state.getMostRecentFriend());
+    private void setFields(FriendProfileFriendsListState state) {
         friendsListName.setText("Shareify - " + state.getUsername() + "'s Friends List");
     }
 

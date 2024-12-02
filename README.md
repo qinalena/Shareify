@@ -2,7 +2,7 @@
 
 ## Team: Pineapple
 - ### Alena Qin (qinalena)
-  - User Stories: [Creating and editing a playlist](#creating-and-editing-a-playlist)
+  - User Stories: [Search songs, add/remove songs to/from a playlist](#search-songs-addremove-songs-tofrom-a-playlist)
 - ### Junyu Li (Jasjas7777)
   - User Stories: [Signup/Login/Logout an account](#signup--login--logout-an-account)
 - ### Don Prathap C. Edirisinghe (DonPrathap)
@@ -19,16 +19,15 @@ ____
 This program is a social media platform that allows users to connect with
 others through their common interests in music.
 
-When the user opens the app, they will be prompted to either sign up for an account by creating a friendUsername and password
-or log into their existing account.  Once logged in, the user will have access to their own account profile, where they
-can edit their friendUsername, and write a prompt for their bibliography/description section.  Their profile will display these
-features, as well as their friend list and playlist collection.
+When the user opens the app, they will be prompted to either sign up for an account by creating an account with a username and password
+or log into their existing account.  Once logged in, the user will have access to their own user profile, where a default bio is displayed. They
+can write a new bio, change their password, and view their friends list and playlist collection.
 
-Each user will have the ability to create their own playlist of soundtracks/songs.  Each playlist the user creates will
-be added to the user’s collection.  The user can also like and/or comment on the playlists of their friends.
+In a user's playlist collection, they can add or remove playlists. Opening a specific playlist displays the songs stored. 
+The user can remove songs or add new songs using a search function. The user can also like and/or comment on the playlists of their friends.
 
 Users will also have their own friends list, where they can add other users to this list or remove them from it.  
-Any users that are friends with each other will be able to view each other’s account profiles.
+Any users that are friends with each other will be able to view each other’s user profiles.
 ____
 ## Table of Contents
 - ### [Features of Shareify](#features-of-shareify)
@@ -234,17 +233,13 @@ Link to code license: [LICENSE](LICENSE)
 ____
 ## User Stories
 ### Customize and manage an account profile
-Users have an account profile which will display basic personal information (friendUsername and bio), their friends list,
+Users have a user profile which will display basic personal information (username and bio), their friends list,
 and their playlist collection. Users can write and edit a custom bio. ***[Team]***
 
 ### Signup / Login / Logout an account
-Users can sign up for an account by creating a friendUsername and password. The app will show the “This friendUsername is taken”
-to avoid repetition in friendUsername if the user creates a friendUsername that already exists. They could log in to or log out
+Users can sign up for an account by creating a friendUsername and password. The app will show the “This User is taken”
+to avoid repetition in usernames if the user creates a user with a username that already exists. They could log in to or log out
 their account. A new account starts with an empty playlist collection. ***[Junyu Li]***
-
-### Creating and editing a playlist
-Users can search for tracks by inputting the song’s title or artist names. 
-Tracks can be added or removed from a playlist. ***[Alena Qin]***
 
 ### View and manage a playlist collection
 Users can create, delete, view, and manage their playlists that are stored within the playlist collection. 
@@ -253,6 +248,11 @@ displays all playlists that have been created by the user.  To add a new playlis
 button, inputs a name of their choosing in the text field, click save, and the playlist will be shown in the 
 playlist collection view.  Users can also delete their playlist by selecting it and clicking the 'delete playlist'
 button.  Users can open their playlists by clicking the 'open playlist' button. ***[Ashleigh Wong]***
+
+### Search songs, add/remove songs to/from a playlist
+Users can open playlists in their playlist collection, displaying any previously added songs. 
+Users can remove songs or add new songs using the search function, which will display the 10 most relevant songs to the query. 
+***[Alena Qin]***
 
 ### View and manage friends list
 Users can view their friends list which is linked to their profile. Friends can be added and removed. Users can also
@@ -265,17 +265,19 @@ input text to message them. Messages can be refreshed to get history of messages
 ----
 ## Entities
 - User
-  - name
+  - username
   - password
+  - note
   - info
   - playlistCollection
   - friendsList
-- Song
+- Tracks
   - Name
   - Artist
+  - Genre
 - Playlist
   - Name
-  - Songs
+  - Tracks
 ____
 ## Use Cases
 - Login
