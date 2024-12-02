@@ -11,7 +11,7 @@ import se.michaelthelin.spotify.requests.authorization.client_credentials.Client
 import use_case.playlist_user_story.search_song.SpotifyAuthorizationInterface;
 
 /**
- * Class for authorizing Spotify usign Client Credential Flow.
+ * Class for authorizing Spotify using Client Credential Flow.
  */
 public class SpotifyClientCredAuth implements SpotifyAuthorizationInterface {
     private static final String CLIENT_ID = "c2cd5d9b2e994bfcae5dbea6d8df3c5b";

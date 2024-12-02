@@ -44,9 +44,7 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
     public void addSong(SearchSongInputData searchSongInputData) {
         try {
             final Song selectedSong = new Song(searchSongInputData.getSongName(), searchSongInputData.getArtists());
-
             playlistDAO.addSongToPlaylist(searchSongInputData.getCurrentPlaylistName(), selectedSong);
-
             searchSongPresenter.addSong(selectedSong.toString());
         }
         catch (DataAccessException exception) {
