@@ -1,8 +1,5 @@
 package interface_adapter.playlist_user_story.search_song;
 
-import entity.Playlist;
-import entity.Song;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,24 +7,24 @@ import java.util.List;
  * The state of Search Song.
  */
 public class SearchSongState {
-    private Playlist currentPlaylist;
-    private List<Song> searchResults = new ArrayList<>();
+    private String currentPlaylistName;
+    private List<String> searchResults = new ArrayList<>();
     private String error;
 
-    public void setCurrentSearchResults(List<Song> searchResults) {
+    public void setCurrentSearchResults(List<String> searchResults) {
         this.searchResults = searchResults;
     }
 
-    public List<Song> getSearchResults() {
+    public List<String> getSearchResults() {
         return searchResults;
     }
 
-    public void setCurrentPlaylist(Playlist currentPlaylist) {
-        this.currentPlaylist = currentPlaylist;
+    public void setCurrentPlaylistName(String currentPlaylistName) {
+        this.currentPlaylistName = currentPlaylistName;
     }
 
-    public Playlist getCurrentPlaylist() {
-        return currentPlaylist;
+    public String getCurrentPlaylistName() {
+        return currentPlaylistName;
     }
 
     public void setError(String error) {

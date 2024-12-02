@@ -1,15 +1,5 @@
 package use_case.playlist_user_story;
 
-import data_access.InMemoryDataAccessObject;
-import entity.Playlist;
-import entity.Song;
-import org.junit.Test;
-import spotify_api.SpotifyConnection;
-import spotify_api.SpotifyConnectionInterface;
-import use_case.playlist_user_story.search_song.*;
-
-import static org.junit.Assert.*;
-
 //public class SearchSongInteractorTest {
 //    SpotifyConnectionInterface spotifyDAO = new SpotifyConnection();
 //

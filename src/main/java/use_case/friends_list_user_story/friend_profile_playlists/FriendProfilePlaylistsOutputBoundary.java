@@ -1,6 +1,6 @@
 package use_case.friends_list_user_story.friend_profile_playlists;
 
-import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputData;
+import entity.Playlist;
 
 public interface FriendProfilePlaylistsOutputBoundary {
 
@@ -15,7 +15,7 @@ public interface FriendProfilePlaylistsOutputBoundary {
     /**
      * Switches to Playlist View.
      *
-     * @param playlistCollectionOutputData output data
+     * @param playlist output data
      */
-    void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData, String username, String password);
+    void switchToPlaylistView(Playlist playlist, String username, String password);
 }
