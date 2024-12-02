@@ -66,14 +66,12 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         playlistCollectionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         playlistCollectionList.setLayoutOrientation(JList.VERTICAL);
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
         // Set up scroll pane
         final JScrollPane scrollPane = new JScrollPane(playlistCollectionList);
 
         // Add buttons to frame
         final JPanel buttons = new JPanel();
-        buttons.setLayout(new FlowLayout());
+        buttons.setLayout(new FlowLayout(FlowLayout.CENTER));
         buttons.add(backButton);
         buttons.add(createPlaylistButton);
         buttons.add(deletePlaylistButton);
@@ -107,14 +105,14 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         }
         );
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new BorderLayout());
 
         // Adding components to the frame
-        this.add(playlistCollectionName);
+        this.add(playlistCollectionName, BorderLayout.NORTH);
         // Add buttons to frame
-        this.add(buttons);
+        this.add(buttons, BorderLayout.SOUTH);
         // Add scroll panel to frame for list of playlists created
-        this.add(scrollPane);
+        this.add(scrollPane, BorderLayout.CENTER);
     }
 
     /**
