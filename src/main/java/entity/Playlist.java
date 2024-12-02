@@ -31,6 +31,14 @@ public class Playlist {
     }
 
     /**
+     * Remove song from this playlist.
+     * @param songIndex the index of the song to be removed
+     */
+    public void removeSong(int songIndex) {
+        songs.remove(songIndex);
+    }
+
+    /**
      * Returns a playlist's list of Songs as a list of Strings.
      * @return the list of Strings.
      */

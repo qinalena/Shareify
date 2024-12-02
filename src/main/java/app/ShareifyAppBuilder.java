@@ -45,7 +45,7 @@ import use_case.friends_list_user_story.friend_profile_friends_list.FriendProfil
 import interface_adapter.user_profile_user_story.change_password.*;
 import interface_adapter.user_profile_user_story.logout.*;
 
-import use_case.playlist_user_story.search_song.SpotifyConnectionInterface;
+import use_case.playlist_user_story.search_song.SpotifyDataAccessInterface;
 import use_case.friends_list_user_story.add_friend.*;
 import use_case.friends_list_user_story.friend_playlist.FriendPlaylistInputBoundary;
 import use_case.friends_list_user_story.friend_playlist.FriendPlaylistInteractor;
@@ -85,7 +85,7 @@ public class ShareifyAppBuilder {
     private final UserFactoryInter userFactory = new UserFactory();
 
     private NoteDataAccessInterface noteDAO;
-    private SpotifyConnectionInterface spotifyDAO;
+    private SpotifyDataAccessInterface spotifyDAO;
     private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject();
     private final DBPlaylistDataAccessObject dbPlaylistDataAccessObject = new DBPlaylistDataAccessObject();
 
@@ -178,7 +178,7 @@ public class ShareifyAppBuilder {
      * @param spotifyConnection the DAO to use
      * @return this builder
      */
-    public ShareifyAppBuilder addSpotifyDAO(SpotifyConnectionInterface spotifyConnection) {
+    public ShareifyAppBuilder addSpotifyDAO(SpotifyDataAccessInterface spotifyConnection) {
         spotifyDAO = spotifyConnection;
         return this;
     }

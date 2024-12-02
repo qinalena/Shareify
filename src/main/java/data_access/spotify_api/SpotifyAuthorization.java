@@ -1,4 +1,4 @@
-package spotify_api;
+package data_access.spotify_api;
 
 import java.io.IOException;
 

@@ -12,11 +12,11 @@ import java.util.List;
  */
 public class SearchSongInteractor implements SearchSongInputBoundary {
 
-    private final SpotifyConnectionInterface spotifyDAO;
+    private final SpotifyDataAccessInterface spotifyDAO;
     private final PlaylistDataAccessInterface playlistDAO;
     private final SearchSongOutputBoundary searchSongPresenter;
 
-    public SearchSongInteractor(SpotifyConnectionInterface spotifyDAO,
+    public SearchSongInteractor(SpotifyDataAccessInterface spotifyDAO,
                                 PlaylistDataAccessInterface playlistDAO, SearchSongOutputBoundary searchSongPresenter) {
         this.spotifyDAO = spotifyDAO;
         this.playlistDAO = playlistDAO;
