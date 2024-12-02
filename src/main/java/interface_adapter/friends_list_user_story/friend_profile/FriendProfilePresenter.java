@@ -7,10 +7,13 @@ import interface_adapter.friends_list_user_story.friend_profile_friends_list.Fri
 import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListViewModel;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsState;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsViewModel;
-import interface_adapter.user_profile_user_story.note.NoteViewModel;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
+import interface_adapter.user_profile_user_story.note.NoteViewModel;
 import use_case.friends_list_user_story.friend_profile.FriendProfileOutputBoundary;
 
+/**
+ * Presenter for FriendProfile.
+ */
 public class FriendProfilePresenter implements FriendProfileOutputBoundary {
     private final ViewManagerModel viewManagerModel;
     private final FriendProfileViewModel friendProfileViewModel;

@@ -2,6 +2,9 @@ package use_case.friends_list_user_story.add_friend;
 
 import data_access.DataAccessException;
 
+/**
+ * DAI for AddFriend.
+ */
 public interface AddFriendDataAccessInterface {
 
     /**
@@ -19,7 +22,7 @@ public interface AddFriendDataAccessInterface {
      * @param username The user to whom the friend is being added.
      * @param password its their pw.
      * @param newName The name of the friend to be added.
-     * @throws DataAccessException If there is an error adding the friend, such as invalid credentials or a database error.
+     * @throws DataAccessException If there is an error adding the friend, such as invalid credentials or an error.
      */
-     void addFriendinDB(String username, String password, String newName) throws DataAccessException;
+    void addFriendinDB(String username, String password, String newName) throws DataAccessException;
 }

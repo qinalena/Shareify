@@ -1,16 +1,25 @@
 package view.friends_list_user_story;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+
 import entity.Playlist;
 import entity.Song;
 import interface_adapter.friends_list_user_story.friend_playlist.FriendPlaylistController;
 import interface_adapter.friends_list_user_story.friend_playlist.FriendPlaylistState;
 import interface_adapter.friends_list_user_story.friend_playlist.FriendPlaylistViewModel;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * The View for when a playlist is clicked on in PlaylistCollection View.
@@ -43,19 +52,16 @@ public class FriendPlaylistView extends JPanel implements ActionListener, Proper
         buttons.add(comment);
 
         backButton.addActionListener(new ActionListener() {
-             public void actionPerformed(ActionEvent evt) {
-                 friendPlaylistController.switchToPlaylistCollectionView();
-             }
-         }
-        );
+            public void actionPerformed(ActionEvent evt) {
+                friendPlaylistController.switchToPlaylistCollectionView();
+            }
+        });
 
         comment.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                friendPlaylistController.switchToCommentView(friendUsername,
-                        playlistName);
+                friendPlaylistController.switchToCommentView(friendUsername, playlistName);
             }
-        }
-        );
+        });
 
         songs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         songs.setLayoutOrientation(JList.VERTICAL);
@@ -66,7 +72,6 @@ public class FriendPlaylistView extends JPanel implements ActionListener, Proper
         this.add(playlistTitle);
         this.add(scrollPane);
         this.add(buttons);
-
     }
 
     /**
@@ -75,14 +80,12 @@ public class FriendPlaylistView extends JPanel implements ActionListener, Proper
      */
     public void actionPerformed(ActionEvent evt) {
         System.out.println("Click" + evt.getActionCommand());
-
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final FriendPlaylistState state = (FriendPlaylistState) evt.getNewValue();
         setFields(state);
-
     }
 
     private void setFields(FriendPlaylistState state) {
@@ -103,12 +106,11 @@ public class FriendPlaylistView extends JPanel implements ActionListener, Proper
         }
     }
 
-    public void setPlaylistController(FriendPlaylistController friendPlaylistController) {
-        this.friendPlaylistController = friendPlaylistController;
+    public void setPlaylistController(FriendPlaylistController controller) {
+        this.friendPlaylistController = controller;
     }
 
     public String getViewName() {
         return viewName;
     }
 }
-
