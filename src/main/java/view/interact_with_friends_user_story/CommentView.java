@@ -1,22 +1,15 @@
-package view;
+package view.interact_with_friends_user_story;
 
 import interface_adapter.comment.CommentController;
 import interface_adapter.comment.CommentState;
 import interface_adapter.comment.CommentViewModel;
 
-import java.awt.Component;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.*;
 
 /**
  * View for when a user wants to comment and see comments.
@@ -66,21 +59,23 @@ public class CommentView extends JPanel implements PropertyChangeListener, Actio
                 evt -> {
                     if (evt.getSource().equals(commentButton)) {
                         final CommentState currentState = commentViewModel.getState();
-                        commentController.execute(commentInputField.getText(), currentState
-                                .getFriendUsername(), currentState.getPlaylistName());
-
+                        if (!commentInputField.getText().isEmpty()) {
+                            commentController.execute(commentInputField.getText() + " - [" + currentState.getUsername()
+                                            + "]",
+                                    currentState.getFriendUsername(), currentState.getPlaylistName());
+                        }
                     }
                 }
         );
 
-//        backButton.addActionListener(
-//                evt -> {
-//                    if (evt.getSource().equals(backButton)) {
-//                        commentController.execute(null);
-//
-//                    }
-//                }
-//        );
+        backButton.addActionListener(
+                evt -> {
+                    if (evt.getSource().equals(backButton)) {
+                        commentController.switchToFriendPlaylistView();
+
+                    }
+                }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -93,6 +88,7 @@ public class CommentView extends JPanel implements PropertyChangeListener, Actio
 
     /**
      * React to a button click that results in evt.
+     *
      * @param evt the ActionEvent to react to
      */
     public void actionPerformed(ActionEvent evt) {
@@ -111,8 +107,14 @@ public class CommentView extends JPanel implements PropertyChangeListener, Actio
 
     private void setFields(CommentState state) {
 
-        commentsList.setListData((String[]) state.getComments().toArray());
-        commentSectionTitle.setText(state.getPlaylistName() + " Comment Section");
+        if (state.getComments() == null) {
+            final String[] comments = {};
+            commentsList.setListData(comments);
+        }
+        else {
+            commentsList.setListData(state.getComments().toArray(new String[0]));
+        }
+        commentSectionTitle.setText("Comment Section For Playlist " + state.getPlaylistName());
     }
 
     public String getViewName() {
@@ -123,4 +125,3 @@ public class CommentView extends JPanel implements PropertyChangeListener, Actio
         this.commentController = controller;
     }
 }
-
