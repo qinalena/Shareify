@@ -1,11 +1,11 @@
 package use_case.playlist_user_story.search_song;
 
-import entity.Song;
-import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
-import se.michaelthelin.spotify.model_objects.specification.Track;
-import spotify_api.SpotifyConnectionInterface;
 import data_access.DataAccessException;
-import use_case.playlist_user_story.playlist.PlaylistDataAccessInterface;
+import entity.Song;
+import use_case.playlist_user_story.PlaylistDataAccessInterface;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Interactor for Search Song.
@@ -26,24 +26,14 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
     @Override
     public void searchSong(String query) {
         if (query != null) {
-            final SearchSongOutputData searchSongOutputData = new SearchSongOutputData();
-            final Track[] searchResults = spotifyDAO.searchTrack(query);
+            final List<Song> searchResults = spotifyDAO.searchTrack(query);
+            final List<String> displaySearchResults = new ArrayList<>();
 
-            for (Track searchResult : searchResults) {
-                final ArtistSimplified[] artists = searchResult.getArtists();
-                final String[] artistNames = new String[artists.length];
-
-                for (int i = 0; i < artists.length; i++) {
-                    artistNames[i] = artists[i].getName();
-                }
-
-                final Song song = new Song(searchResult.getName(), artistNames);
-                searchSongOutputData.addSong(song);
+            for (final Song searchResult : searchResults) {
+                displaySearchResults.add(searchResult.toString());
             }
-
-            searchSongPresenter.searchSong(searchSongOutputData);
+            searchSongPresenter.searchSong(displaySearchResults);
         }
-
     }
 
     @Override
@@ -53,16 +43,14 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
 
     @Override
     public void addSong(SearchSongInputData searchSongInputData) {
-        // TODO: Update playlist in DB with new song
         try {
-            playlistDAO.addSongToPlaylist(searchSongInputData.getCurrentPlaylist(),
-                    searchSongInputData.getSelectedSong());
+            final Song selectedSong = new Song(searchSongInputData.getSongName(), searchSongInputData.getArtists());
 
-            // Update Playlist View with new song
-            searchSongPresenter.addSong(searchSongInputData.getSelectedSong());
+            playlistDAO.addSongToPlaylist(searchSongInputData.getCurrentPlaylistName(), selectedSong);
+
+            searchSongPresenter.addSong(selectedSong.toString());
         }
         catch (DataAccessException exception) {
-            // Prepare some sort of failure message
             searchSongPresenter.prepareFailView(exception.getMessage());
         }
     }

@@ -10,7 +10,6 @@ import interface_adapter.friends_list_user_story.friend_profile_playlists.Friend
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputData;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;

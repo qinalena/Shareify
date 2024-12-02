@@ -1,6 +1,5 @@
 package interface_adapter.playlist_user_story.search_song;
 
-import entity.Playlist;
 import use_case.playlist_user_story.search_song.SearchSongInputBoundary;
 import use_case.playlist_user_story.search_song.SearchSongInputData;
 
@@ -32,13 +31,12 @@ public class SearchSongController {
 
     /**
      * Add selected song to playlist.
-     *
-     * @param currentPlaylist the current playlist that we are adding the song to
-     * @param selectedString the song that was selected in the list of search results
+     * @param currentPlaylistName the current playlist that we are adding the song to
+     * @param selectedString      the song that was selected in the list of search results
      */
-    public void addSong(Playlist currentPlaylist, String selectedString) {
+    public void addSong(String currentPlaylistName, String selectedString) {
         if (selectedString != null) {
-            final SearchSongInputData searchSongInputData = new SearchSongInputData(currentPlaylist, selectedString);
+            final SearchSongInputData searchSongInputData = new SearchSongInputData(currentPlaylistName, selectedString);
             searchTrackInteractor.addSong(searchSongInputData);
         }
 

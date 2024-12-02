@@ -5,7 +5,8 @@ import interface_adapter.playlist_user_story.playlist.PlaylistViewModel;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputBoundary;
-import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputData;
+
+import java.util.List;
 
 /**
  * The Presenter for Playlist Collection Use Case.
@@ -66,8 +67,9 @@ public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoun
     }
 
     @Override
-    public void switchToPlaylistView(PlaylistCollectionOutputData playlistCollectionOutputData) {
-        playlistViewModel.getState().setCurrentPlaylist(playlistCollectionOutputData.getPlaylist());
+    public void switchToPlaylistView(String playlistName, List<String> songs) {
+        playlistViewModel.getState().setCurrentPlaylistName(playlistName);
+        playlistViewModel.getState().setSongs(songs);
         playlistViewModel.firePropertyChanged();
 
         viewManagerModel.setState(playlistViewModel.getViewName());
