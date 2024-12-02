@@ -1,5 +1,6 @@
 package use_case.playlist_user_story;
 
+import data_access.spotify_api.SpotifyClientCredAuth;
 import data_access.spotify_api.SpotifyDataAccessObject;
 import data_access.InMemoryDataAccessObject;
 import entity.Playlist;
@@ -12,7 +13,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class SearchSongInteractorTest {
-    SpotifyDataAccessInterface spotifyDAO = new SpotifyDataAccessObject();
+    SpotifyAuthorizationInterface spotifyAuth = new SpotifyClientCredAuth();
+    SpotifyDataAccessInterface spotifyDAO = new SpotifyDataAccessObject(spotifyAuth);
 
     @Test
     public void testAddSongSuccess() {

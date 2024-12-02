@@ -8,11 +8,12 @@ import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
+import use_case.playlist_user_story.search_song.SpotifyAuthorizationInterface;
 
 /**
- * Class for authorizing Spotify.
+ * Class for authorizing Spotify using Client Credential Flow.
  */
-public class SpotifyAuthorization {
+public class SpotifyClientCredAuth implements SpotifyAuthorizationInterface {
     private static final String CLIENT_ID = "c2cd5d9b2e994bfcae5dbea6d8df3c5b";
     private static final String CLIENT_SECRET = System.getenv("ShareifySecret");
 
@@ -27,7 +28,7 @@ public class SpotifyAuthorization {
      * Executes a Client Credentials request and saves the access token to spotifyApi.
      * spotifyApi can then be used to make calls to the Spotify API.
      */
-    public SpotifyAuthorization() {
+    public SpotifyClientCredAuth() {
         setClientCredentials();
     }
 
@@ -42,6 +43,7 @@ public class SpotifyAuthorization {
         }
     }
 
+    @Override
     public SpotifyApi getSpotifyApi() {
         return spotifyApi;
     }
