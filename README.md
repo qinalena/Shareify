@@ -1,4 +1,4 @@
-# Sharify
+![Logo.png](src%2Fmain%2Fjava%2Fview%2Flogin_user_story%2FLogo.png)
 
 ## Team: Pineapple
 - ### Alena Qin (qinalena)
@@ -50,11 +50,13 @@ User will input their username and password within the given text fields, and cl
 
 ### Sign up
 Through the welcome page, user will be prompted to create a new account / sign up if they do not have an 
-existing account. ![img_5.png](images/img_5.png)
+existing account. 
+![img_5.png](images/img_5.png)
 
 User will be asked to input a username, and password within the given text fields.  User will be 
 required to put in the password twice for password confirmation, ensure what they've entered in is the same.  User
-will then click the 'Sign Up' button. ![img_6.png](images/img_6.png)
+will then click the 'Sign Up' button. 
+![img_6.png](images/img_6.png)
 
 ### Bio
 Through the user's profile page, which is shown right after the login/sign up page, user's can type in a bio to talk
@@ -64,14 +66,17 @@ like.  User must save their progress by clicking the 'Save' button. ![img_7.png]
 
 ### Creating playlists
 User's will be able to create their own playlists!  This can be accessed through the 'Playlists' button in the user's
-profile view.  ![img_18.png](images/img_18.png)
+profile view.  
+![img_18.png](images/img_18.png)
 
 Once clicked, it will lead to the playlist collection page where all playlists will be displayed.  User 
 can create a playlist by clicking the 'Create Playlist' button, which will then prompt them to type in a name for the 
-playlist in the text field provided. ![img_47.png](images/img_47.png)
+playlist in the text field provided. 
+![img_47.png](images/img_47.png)
 
 User will be prompted to click the 'Save' button, or 'Cancel' if they decide they
-don't want to create a new playlist. ![img_48.png](images/img_48.png)
+don't want to create a new playlist. 
+![img_48.png](images/img_48.png)
 
 Both buttons will lead back to the playlist collection view, with the new playlist
 showing in the scrollPane of the playlist collection view. 
@@ -84,7 +89,8 @@ listed, and click the 'Delete Playlist' button.
 
 ### Adding songs
 User's can add songs to their playlist by selecting the playlist they want songs added to, click the 'Open Playlist' 
-button. ![img_51.png](images/img_51.png)
+button. 
+![img_51.png](images/img_51.png)
 
 Then, as it leads you to the playlist's view, click 'Search Tracks'.
 ![img_40.png](images/img_40.png) 
@@ -97,11 +103,13 @@ scrollPane on the bottom of the page that's been provided by the Spotify API, an
 ![img_42.png](images/img_42.png)
 
 User will be prompted to click the 'Back' button to return to the playlist and see the song they added within the 
-playlist. ![img_43.png](images/img_43.png) ![img_44.png](images/img_44.png)
+playlist. 
+![img_43.png](images/img_43.png) ![img_44.png](images/img_44.png)
 
 ### Removing songs
 User's can remove a song in their playlist by simply selected the song they don't want within the playlist, and then 
-click 'Remove Track'. ![img_45.png](images/img_45.png) ![img_46.png](images/img_46.png)
+click 'Remove Track'. 
+![img_45.png](images/img_45.png) ![img_46.png](images/img_46.png)
 
 ### Making friends
 User's can add other users on the Shareify app as friends in their friend list.  User can access their friend list
@@ -116,11 +124,13 @@ To add a friend, click the 'Add Friend Button'.
 
 Type in your friend's username in the text field and click 'Save', or the 'Back' button to cancel.  Your new friend will
 then pop up on the Friend list!
-![img_21.png](images/img_21.png)![img_22.png](images/img_22.png)
+![img_21.png](images/img_21.png)
+![img_22.png](images/img_22.png)
 
 ### Deleting a friend
 User can delete friends from their Friend list by selecting the friend they don't want, and then clicking the 
-'Delete Friend' button.![img_24.png](/images/img_24.png)
+'Delete Friend' button.
+![img_24.png](/images/img_24.png)
 
 ### Viewing Friend's info
 User can view their friend's playlists, and their friend's friend list!  User can access this by selected the friend's
@@ -145,7 +155,8 @@ User's can chat with their friends by selecting the friend they want to chat wit
 'View Friend' button, and then click the 'Send Message' button. ![img_30.png](images/img_30.png)
 
 To send a message, type something you want to say to the other user in the text field on the bottom of the page,
-and then click 'Send Message'. ![img_31.png](images/img_31.png)
+and then click 'Send Message'. 
+![img_31.png](images/img_31.png)
 
 Message will be seen in message view above the text field.
 ![img_32.png](images/img_32.png)
@@ -171,17 +182,20 @@ After logging out, it will bring the user back to the welcome screen.
 ### Light and dark mode
 User's get to choose whether they like to have their user profile page in light or dark mode.  To make
 this change, user will click 'Night Mode' or 'Light Mode' bottom on the bottom of the user profile page!
-![img.png](images/img52.png) ![img.png](images/img53.png)
+![img.png](images/img52.png) 
+![img.png](images/img53.png)
 ____
 ## Installation instructions
 #### Steps to access the Shareify app:
 1. On your github, clone the repository.  This is the link of the 
 repository on the github website: https://github.com/qinalena/Shareify
 2. You will then click the green '<>Code' button, and copy the HTTPS link 
-(https://github.com/qinalena/Shareify.git) ![img.png](images/img.png)
+(https://github.com/qinalena/Shareify.git) 
+![img.png](images/img.png)
 3. Open your IntelliJ, and on the welcome screen click 'Get from VCS' button on
 the top right, and then paste the HTTPS link in the URL text field and click 'Clone'.
-![img_2.png](images/img_2.png)![img_1.png](images/img_1.png)
+![img_2.png](images/img_2.png)
+![img_1.png](images/img_1.png)
 4. On the left panel 'Project', open the src folder -> main folder -> java folder -> app package
 -> run 'MainShareifyApplication'
 
@@ -269,6 +283,7 @@ view their friends’ account profiles. ***[Aseef Ali Hasan]***
 Users can message their friends by viewing a friend from the User's friend list, inputting a message, and sending it. 
 Users can also view their friend's playlists and comment on them, being able to see everyone else's comments on that 
 playlist as well. ***[Don Edirisinghe]***
+
 ----
 ## Entities
 - User
