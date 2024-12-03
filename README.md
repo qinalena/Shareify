@@ -249,8 +249,13 @@ After logging out, it will bring the user back to the welcome screen.
 ### Light and dark mode
 User's get to choose whether they like to have their user profile page in light or dark mode.  To make
 this change, user will click 'Night Mode' or 'Light Mode' bottom on the bottom of the user profile page!
-![img.png](images/img52.png) ![img.png](images/img53.png)
+<p align="center">
+<img width="732" height="365" src="images/img52.png">
+<img width="732" height="365" src="images/img53.png">
+</p>
+
 ____
+
 ## Installation instructions
 #### Steps to access the Shareify app:
 1. On your github, clone the repository. This is the link of the
