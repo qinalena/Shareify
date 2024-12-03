@@ -12,7 +12,7 @@
 #### We arrange all of our back buttons on the left most. There is a back button on every page that allow users to make mistake in the process. There will be error message pop us if the user did something undesired, like input wrong password, add a playlist with the same name, etc. The error messages notify users the hazards and erros occured, and minimize confusion.
 
 
-## Targe customers
+## Target customers
 #### Shareify is mainly targeting music lovers who use Spotify intensively and young-to-middle-age people. These customers have a high social demand to share their favourite playlists and makes friends through music. Shareify provides them a platform to connect with other music lovers, and being able to comment friend's playlist and chat with friends.
 
 ## Unreached groups:
