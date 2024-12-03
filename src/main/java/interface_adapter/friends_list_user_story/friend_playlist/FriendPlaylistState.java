@@ -2,6 +2,9 @@ package interface_adapter.friends_list_user_story.friend_playlist;
 
 import entity.Playlist;
 
+/**
+ * State for FriendPlaylist.
+ */
 public class FriendPlaylistState {
     private Playlist currentPlaylist;
     private String friendUsername;
