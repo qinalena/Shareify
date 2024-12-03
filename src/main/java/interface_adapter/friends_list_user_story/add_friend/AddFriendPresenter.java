@@ -1,12 +1,11 @@
 package interface_adapter.friends_list_user_story.add_friend;
 
-import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
-import use_case.friends_list_user_story.add_friend.AddFriendOutputBoundary;
+import java.util.List;
+
 import interface_adapter.ViewManagerModel;
+import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
 import use_case.friends_list_user_story.add_friend.AddFriendOutputBoundary;
-
-import java.util.List;
 
 /**
  * Presenter for add friend use case.
@@ -16,7 +15,8 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
     private final ViewManagerModel viewManagerModel;
     private final FriendsListViewModel friendsListViewModel;
 
-    public AddFriendPresenter(AddFriendViewModel addFriendViewModel, ViewManagerModel viewManagerModel, FriendsListViewModel friendsListViewModel) {
+    public AddFriendPresenter(AddFriendViewModel addFriendViewModel, ViewManagerModel viewManagerModel,
+                              FriendsListViewModel friendsListViewModel) {
         this.addFriendViewModel = addFriendViewModel;
         this.viewManagerModel = viewManagerModel;
         this.friendsListViewModel = friendsListViewModel;
@@ -30,7 +30,7 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
     @Override
     public void prepareSuccessView(List<String> updatedFriendsList, String friendName) {
         // Directly set the updated list of friends in the state
-        AddFriendState state = new AddFriendState();
+        final AddFriendState state = new AddFriendState();
         state.setFriendsList(updatedFriendsList);
         state.setError(null);
         addFriendViewModel.setState(state);
@@ -50,7 +50,7 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
     @Override
     public void prepareFailView(String errorMessage) {
         // Set the error message in the state
-        AddFriendState state = new AddFriendState();
+        final AddFriendState state = new AddFriendState();
         state.setError(errorMessage);
         addFriendViewModel.setState(state);
         addFriendViewModel.firePropertyChanged();

@@ -6,6 +6,9 @@ import interface_adapter.comment.CommentViewModel;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsViewModel;
 import use_case.friends_list_user_story.friend_playlist.FriendPlaylistOutputBoundary;
 
+/**
+ * Presenter for FriendPlaylist.
+ */
 public class FriendPlaylistPresenter implements FriendPlaylistOutputBoundary {
 
     private final FriendPlaylistViewModel friendPlaylistViewModel;

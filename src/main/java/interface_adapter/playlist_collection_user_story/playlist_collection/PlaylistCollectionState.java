@@ -26,7 +26,7 @@ public class PlaylistCollectionState {
     }
 
     /**
-     * Remove playlist from list lof playlists.
+     * Remove playlist from list of playlists.
      * @param playlist the playlist
      */
     public void removePlaylist(String playlist) {
@@ -56,6 +56,4 @@ public class PlaylistCollectionState {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 }

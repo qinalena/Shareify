@@ -5,17 +5,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import javax.swing.*;
 
-import java.util.List;
-
 import data_access.DBPlaylistDataAccessObject;
+import data_access.DataAccessException;
 import entity.User;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionController;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
-import data_access.DataAccessException;
 
 /**
  * The View for when the user is viewing the playlist collection page in the program.
@@ -53,7 +52,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         this.playlistCollectionViewModel.addPropertyChangeListener(this);
 
         // Debugging
-//        System.out.println("Property Change listener registered!");
+        // System.out.println("Property Change listener registered!");
 
         // Setting label properties
         playlistCollectionName.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -189,7 +188,7 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         final PlaylistCollectionState playlistCollectionState = (PlaylistCollectionState) evt.getNewValue();
 
         // Debugging
-//        System.out.println("Property change trigger: " + evt.getNewValue());
+        // System.out.println("Property change trigger: " + evt.getNewValue());
 
         if (!playlistCollectionState.getUsername().equals(this.username)) {
             this.username = playlistCollectionState.getUsername();
@@ -199,7 +198,6 @@ public class PlaylistCollectionView extends JPanel implements ActionListener, Pr
         }
         else {
             // Update view using state without duplication
-//            listModel.clear();
             updatePlaylistCollection(playlistCollectionState);
         }
         if (playlistCollectionState.getPlaylistError() != null) {

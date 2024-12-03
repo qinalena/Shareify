@@ -1,12 +1,12 @@
 package use_case.friends_list_user_story.friends_list;
 
-
-import data_access.DBFriendDataAccessObject;
-import entity.User;
-import data_access.DataAccessException;
-
 import java.util.List;
 
+import data_access.DataAccessException;
+
+/**
+ * Interactor for FriendsList.
+ */
 public class FriendsListInteractor implements FriendsListInputBoundary {
     private final FriendsListOutputBoundary presenter;
     private FriendsListDataAccessInterface friendsListDataAccessInterface;
@@ -61,9 +61,9 @@ public class FriendsListInteractor implements FriendsListInputBoundary {
     }
 
     @Override
-    public void executeRemoveFriendInDB(User user, int idx) {
+    public void executeRemoveFriendInDB(String username, String password, int idx) {
         try {
-            friendsListDataAccessInterface.removeFriendinDB(user, idx);
+            friendsListDataAccessInterface.removeFriendinDB(username, password, idx);
         }
         catch (DataAccessException ext) {
             presenter.prepareFailView(ext.getMessage());

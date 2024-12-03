@@ -1,8 +1,10 @@
 package interface_adapter.friends_list_user_story.friends_list;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * State for Friends List.
+ */
 public class FriendsListState {
     private List<String> friends;
     private String error;
@@ -14,23 +16,35 @@ public class FriendsListState {
     public List<String> getFriends() {
         return friends;
     }
+
     public void setFriends(List<String> friends) {
         this.friends = friends;
     }
 
+    /**
+     * Gets the most recent friend in the friends list.
+     * @return mostRecentFriend.
+     */
     public String getMostRecentFriend() {
-        if (friends != null) {
-            return friends.get(friends.size() - 1);
+        String mostRecentFriend = null;
+        if (friends != null && !friends.isEmpty()) {
+            mostRecentFriend = friends.get(friends.size() - 1);
         }
-        else {
-            return null;
-        }
+        return mostRecentFriend;
     }
 
+    /**
+     * Adds a friend to our friend list.
+     * @param friend the friend to add.
+     */
     public void addFriend(String friend) {
         friends.add(friend);
     }
 
+    /**
+     * Removes a friend to our friend list.
+     * @param friend the friend to remove.
+     */
     public void removeFriend(String friend) {
         friends.remove(friend);
     }

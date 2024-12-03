@@ -1,5 +1,8 @@
 package interface_adapter.friends_list_user_story.friend_profile;
 
+/**
+ * State for Friend Profile.
+ */
 public class FriendProfileState {
     private String error;
     private String username;

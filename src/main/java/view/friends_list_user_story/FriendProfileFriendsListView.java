@@ -1,18 +1,26 @@
 package view.friends_list_user_story;
 
-import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListViewModel;
-import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListController;
-import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListState;
-import entity.User;
-import data_access.DataAccessException;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+
+import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListController;
+import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListState;
+import interface_adapter.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListViewModel;
 
 /**
  * The View for when a friend's list is opened for the logged-in user, displaying only the list of friends.

@@ -1,19 +1,23 @@
 package interface_adapter.friends_list_user_story.friend_profile_friends_list;
 
-import interface_adapter.friends_list_user_story.friend_profile.FriendProfileState;
-import interface_adapter.friends_list_user_story.friend_profile.FriendProfileViewModel;
-import interface_adapter.ViewManagerModel;
-import use_case.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListOutputBoundary;
-
 import java.util.List;
 
+import interface_adapter.ViewManagerModel;
+import interface_adapter.friends_list_user_story.friend_profile.FriendProfileState;
+import interface_adapter.friends_list_user_story.friend_profile.FriendProfileViewModel;
+import use_case.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListOutputBoundary;
+
+/**
+ * Presenter for FriendProfileFriendsList.
+ */
 public class FriendProfileFriendsListPresenter implements FriendProfileFriendsListOutputBoundary {
 
     private final ViewManagerModel viewManagerModel;
     private final FriendProfileViewModel friendProfileViewModel;
     private final FriendProfileFriendsListViewModel friendProfileFriendsListViewModel;
 
-    public FriendProfileFriendsListPresenter(FriendProfileViewModel friendProfileViewModel, ViewManagerModel viewManagerModel,
+    public FriendProfileFriendsListPresenter(FriendProfileViewModel friendProfileViewModel,
+                                             ViewManagerModel viewManagerModel,
                                              FriendProfileFriendsListViewModel friendProfileFriendsListViewModel) {
         this.friendProfileViewModel = friendProfileViewModel;
         this.viewManagerModel = viewManagerModel;

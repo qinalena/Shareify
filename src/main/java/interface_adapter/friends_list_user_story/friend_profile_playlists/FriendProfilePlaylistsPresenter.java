@@ -7,6 +7,9 @@ import interface_adapter.friends_list_user_story.friend_profile.FriendProfileSta
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileViewModel;
 import use_case.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsOutputBoundary;
 
+/**
+ * Presenter for FriendProfilePlaylists.
+ */
 public class FriendProfilePlaylistsPresenter implements FriendProfilePlaylistsOutputBoundary {
     private final FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel;
     private final ViewManagerModel viewManagerModel;
@@ -14,7 +17,8 @@ public class FriendProfilePlaylistsPresenter implements FriendProfilePlaylistsOu
     private final FriendPlaylistViewModel friendPlaylistViewModel;
 
     public FriendProfilePlaylistsPresenter(FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel,
-                                           ViewManagerModel viewManagerModel, FriendProfileViewModel friendProfileViewModel,
+                                           ViewManagerModel viewManagerModel,
+                                           FriendProfileViewModel friendProfileViewModel,
                                            FriendPlaylistViewModel friendPlaylistViewModel) {
         this.friendProfilePlaylistsViewModel = friendProfilePlaylistsViewModel;
         this.viewManagerModel = viewManagerModel;
