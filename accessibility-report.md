@@ -3,17 +3,17 @@
 ## Principle of Universal Design:
 
 ## - Principle 2: Flexible in use: 
-#### We developed night mode for our app to accomodate people with eyes not feeling comfortable using light mode. It gives people a choice to freely switch to night mode given their preferences.
+#### We developed a night mode display to accommodate people who may experience eye strain looking at bright screens. This gives people a choice to freely switch between display modes given their preferences.
 
 ## - Principle 3: Simple and intuitive use:
-#### All of our views are easy to understand. The labels in all buttons make them easy to follow. When users hover their mouse on an input field, they can see instruction for what should they input. Our app is designed to follow intuition, regardless of user's experience and knowledge.
+#### Our application UI is easy to understand, regardless of the user's experience or knowledge of our application. This is due to its simple and intuitive design. Button names are concise and clearly indicate their purpose, and all input fields provide instructions for the user.
 
 ## - Principle 5: Tolerance for error:
-#### We arrange all of our back buttons on the left most. There is a back button on every page that allow users to make mistake in the process. There will be error message pop us if the user did something undesired, like input wrong password, add a playlist with the same name, etc. The error messages notify users the hazards and erros occured, and minimize confusion.
+#### Back buttons are present on every page on the left most area, allowing users to return to the previous page. An error message will also pop up if the user did something undesired, such as input the wrong password, add a playlist with the same name, etc. This will provide clarity to users, minimizing confusion.
 
 
 ## Target customers
-#### Shareify is mainly targeting music lovers who use Spotify intensively and young-to-middle-age people. These customers have a high social demand to share their favourite playlists and makes friends through music. Shareify provides them a platform to connect with other music lovers, and being able to comment friend's playlist and chat with friends.
+#### Shareify is targeted to music lovers who use Spotify extensively. This mainly comprises a younger to middle-aged demographic. These customers have a high social demand to share their favourite playlists and makes friends through music. Shareify provides them a platform to connect with other music lovers, and supports chatting with friends and commenting on their playlists.
 
 ## Unreached groups:
-#### Shareify is less likely to be used by users of other music platform, like Apple Music users. Since Shareify only support searching songs in Spotify, certains songs they want may not be available. However, they are less likely to feel discriminated against, because they are not minority compared with spotify users. Also, they can still found songs that's available on Spotify and enjoy them.
+#### Shareify is less likely to be used by users of other music platform, like Apple Music users. Since Shareify only supports searching songs in Spotify, certain songs they want may not be available. However, they are less likely to feel discriminated against, because its reasonable to assume that a social media app geared towards music will focus on one streaming service. Also, they can still find songs available on Spotify and enjoy them.
