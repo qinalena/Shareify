@@ -21,4 +21,17 @@ public class FriendPlaylistInteractorTest {
 
         Mockito.verify(outputBoundary, Mockito.times(1)).switchToPlaylistCollectionView();
     }
+
+    @Test
+    public void testSwitchToCommentView() {
+        // Arrange
+        String friendUsername = "testUser";
+        String playlistName = "testPlaylist";
+
+        // Act
+        interactor.switchToCommentView(friendUsername, playlistName);
+
+        // Assert
+        Mockito.verify(outputBoundary, Mockito.times(1)).switchToCommentView(friendUsername, playlistName);
+    }
 }
