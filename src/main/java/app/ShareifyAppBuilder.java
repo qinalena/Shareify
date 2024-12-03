@@ -449,9 +449,10 @@ public class ShareifyAppBuilder {
             throw new RuntimeException("addFriendsListView must be called before addFriendsListUseCase");
         }
         // Instantiate the output boundary (presenter) and input boundary (interactor)
-        final FriendsListOutputBoundary friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel, viewManagerModel,
-                addFriendViewModel, friendProfileViewModel, userProfileViewModel);
-        final FriendsListInteractor friendsListInteractor = new FriendsListInteractor(friendsListOutputBoundary, dbFriendDataAccessObject);
+        final FriendsListOutputBoundary friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel,
+                viewManagerModel, addFriendViewModel, friendProfileViewModel, userProfileViewModel);
+        final FriendsListInteractor friendsListInteractor = new FriendsListInteractor(friendsListOutputBoundary,
+                dbFriendDataAccessObject);
 
         // Create the controller and connect it to the interactor
         final FriendsListController friendsListController = new FriendsListController(friendsListInteractor);
