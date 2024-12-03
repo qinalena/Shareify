@@ -14,7 +14,8 @@ public class NotePresenter implements NoteOutputBoundary {
     private final UserProfileViewModel userProfileViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public NotePresenter(NoteViewModel noteViewModel, UserProfileViewModel userProfileViewModel, ViewManagerModel viewManagerModel) {
+    public NotePresenter(NoteViewModel noteViewModel, UserProfileViewModel userProfileViewModel,
+                         ViewManagerModel viewManagerModel) {
         this.noteViewModel = noteViewModel;
         this.userProfileViewModel = userProfileViewModel;
         this.viewManagerModel = viewManagerModel;
@@ -22,7 +23,7 @@ public class NotePresenter implements NoteOutputBoundary {
 
     @Override
     public void prepareSuccessView(NoteOutputData outputData) {
-        String note = outputData.getNote();
+        final String note = outputData.getNote();
         noteViewModel.getState().setNote(note);
         noteViewModel.getState().setError(null);
         noteViewModel.firePropertyChanged();

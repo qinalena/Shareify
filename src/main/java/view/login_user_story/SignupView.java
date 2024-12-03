@@ -1,21 +1,32 @@
 package view.login_user_story;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import data_access.DataAccessException;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.login_user_story.signup.SignupController;
 import interface_adapter.login_user_story.signup.SignupState;
 import interface_adapter.login_user_story.signup.SignupViewModel;
-import data_access.DataAccessException;
-
 
 public class SignupView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "sign up";
@@ -29,7 +40,17 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     private final JButton signUp;
     private final JButton cancel;
-    private final JButton toLogin;
+    private JButton toLogin;
+
+    private final String fontName = "Arial";
+    private final int borderMargin = 5;
+    private final int buttonWidth = 100;
+    private final int buttonHeight = 30;
+    private final int passwordSize = 12;
+    private final int fontSize = 18;
+    private final int titleMargin = 20;
+    private final int titleFont = 28;
+    private final int buttonSize = 50;
 
     public SignupView(SignupViewModel signupViewModel, ViewManagerModel viewManagerModel) {
         this.signupViewModel = signupViewModel;
@@ -37,51 +58,31 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         signupViewModel.addPropertyChangeListener(this);
 
         // Title
-        final JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
-        title.setFont(new Font("Arial", Font.BOLD, 28));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
+        final JLabel title = getTitle();
 
         // Username field
-        final LabelTextPanel usernameInfo = new LabelTextPanel(
-                new JLabel(SignupViewModel.USERNAME_LABEL), usernameInputField);
-        usernameInputField.setFont(new Font("Arial", Font.PLAIN, 12));
-        usernameInputField.setMargin(new Insets(5, 5, 5, 5));
-        usernameInputField.setToolTipText("Enter your username");
+        final LabelTextPanel usernameInfo = getUsernameInputField();
 
         // Password field
-        final LabelTextPanel passwordInfo = new LabelTextPanel(
-                new JLabel(SignupViewModel.PASSWORD_LABEL), passwordInputField);
-        passwordInputField.setFont(new Font("Arial", Font.PLAIN, 12));
-        passwordInputField.setMargin(new Insets(5, 5, 5, 5));
-        passwordInputField.setToolTipText("Enter your password");
+        final LabelTextPanel passwordInfo = getPasswordInputField();
 
         // Repeated Password field
         final LabelTextPanel repeatPasswordInfo = new LabelTextPanel(
                 new JLabel(SignupViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
-        repeatPasswordInputField.setFont(new Font("Arial", Font.PLAIN, 12));
-        repeatPasswordInputField.setMargin(new Insets(5, 5, 5, 5));
-        repeatPasswordInputField.setToolTipText("Enter your password again");
+        getRepeatedPwdField();
 
         // Buttons
         final JPanel buttons = new JPanel();
-        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));
-        toLogin = new JButton(SignupViewModel.TO_LOGIN_BUTTON_LABEL);
-        toLogin.setFont(new Font("Arial", Font.BOLD, 18));
-        toLogin.setBackground(Color.WHITE);
-        toLogin.setPreferredSize(new Dimension(100, 30));
+        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, buttonSize, 0));
+        toLogin = getToLogin();
         buttons.add(toLogin);
 
         signUp = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
-        signUp.setFont(new Font("Arial", Font.BOLD, 18));
-        signUp.setBackground(Color.WHITE);
-        signUp.setPreferredSize(new Dimension(100, 30));
+        getSignUp();
         buttons.add(signUp);
 
         cancel = new JButton(SignupViewModel.CANCEL_BUTTON_LABEL);
-        cancel.setFont(new Font("Arial", Font.BOLD, 18));
-        cancel.setBackground(Color.WHITE);
-        cancel.setPreferredSize(new Dimension(100, 30));
+        getCancel();
         buttons.add(cancel);
 
         signUp.addActionListener(
@@ -96,8 +97,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                                         currentState.getPassword(),
                                         currentState.getRepeatPassword()
                                 );
-                            } catch (DataAccessException e) {
-                                throw new RuntimeException(e);
+                            }
+                            catch (DataAccessException exception) {
+                                throw new RuntimeException(exception);
                             }
                         }
                     }
@@ -133,6 +135,59 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         this.add(repeatPasswordInfo);
         this.add(buttons);
     }
+
+    private void getRepeatedPwdField() {
+        repeatPasswordInputField.setFont(new Font(fontName, Font.PLAIN, passwordSize));
+        repeatPasswordInputField.setMargin(new Insets(borderMargin, borderMargin, borderMargin, borderMargin));
+        repeatPasswordInputField.setToolTipText("Enter your password again");
+    }
+
+    private void getCancel() {
+        cancel.setFont(new Font(fontName, Font.BOLD, fontSize));
+        cancel.setBackground(Color.WHITE);
+        cancel.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+    }
+
+    private void getSignUp() {
+        signUp.setFont(new Font(fontName, Font.BOLD, fontSize));
+        signUp.setBackground(Color.WHITE);
+        signUp.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+    }
+
+    private JButton getToLogin() {
+        toLogin = new JButton(SignupViewModel.TO_LOGIN_BUTTON_LABEL);
+        toLogin.setFont(new Font(fontName, Font.BOLD, fontSize));
+        toLogin.setBackground(Color.WHITE);
+        toLogin.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+        return toLogin;
+    }
+
+    private LabelTextPanel getPasswordInputField() {
+        final LabelTextPanel passwordInfo = new LabelTextPanel(
+                new JLabel(SignupViewModel.PASSWORD_LABEL), passwordInputField);
+        passwordInputField.setFont(new Font(fontName, Font.PLAIN, passwordSize));
+        passwordInputField.setMargin(new Insets(borderMargin, borderMargin, borderMargin, borderMargin));
+        passwordInputField.setToolTipText("Enter your password");
+        return passwordInfo;
+    }
+
+    private LabelTextPanel getUsernameInputField() {
+        final LabelTextPanel usernameInfo = new LabelTextPanel(
+                new JLabel(SignupViewModel.USERNAME_LABEL), usernameInputField);
+        usernameInputField.setFont(new Font(fontName, Font.PLAIN, passwordSize));
+        usernameInputField.setMargin(new Insets(borderMargin, borderMargin, borderMargin, borderMargin));
+        usernameInputField.setToolTipText("Enter your username");
+        return usernameInfo;
+    }
+
+    private JLabel getTitle() {
+        final JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
+        title.setFont(new Font(fontName, Font.BOLD, titleFont));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setBorder(BorderFactory.createEmptyBorder(titleMargin, 0, titleMargin, 0));
+        return title;
+    }
+
     private void addUsernameListener() {
         usernameInputField.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -231,9 +286,4 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     public void setSignupController(SignupController controller) {
         this.signupController = controller;
     }
-
-
 }
-
-
-

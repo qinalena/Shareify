@@ -10,12 +10,12 @@ public class NoteOutputData {
 
     public NoteOutputData(String username, String note) {
         this.username = username;
-        this.note = note;}
+        this.note = note;
+    }
 
     public String getUsername() {
         return username;
     }
-
 
     public String getNote() {
         return note;
@@ -24,5 +24,4 @@ public class NoteOutputData {
     public void setNote(String note) {
         this.note = note;
     }
-
 }

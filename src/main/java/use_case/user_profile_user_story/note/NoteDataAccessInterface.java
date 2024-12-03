@@ -2,7 +2,6 @@ package use_case.user_profile_user_story.note;
 
 import data_access.DataAccessException;
 import entity.User;
-import data_access.DataAccessException;
 
 /**
  * Interface for the NoteDAO. It consists of methods for
@@ -12,7 +11,6 @@ public interface NoteDataAccessInterface {
 
     /**
      * Saves a note for a given user. This will replace any existing note.
-     * <p>The password of the user must match that of the user saved in the system.</p>
      * @param user the user information associated with the note
      * @param note the note to be saved
      * @return the contents of the note
@@ -29,6 +27,12 @@ public interface NoteDataAccessInterface {
      */
     String loadNote(User user) throws DataAccessException;
 
+    /**
+     * Returns the note associated with the user. The password
+     * is not checked, so anyone can read the information.
+     * @param username the logged-in user's username
+     * @return User.
+     */
     User getUser(String username);
 
 }

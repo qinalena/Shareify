@@ -24,6 +24,9 @@ public class ChangePasswordController {
         userChangePasswordUseCaseInteractor.execute(changePasswordInputData);
     }
 
+    /**
+     * Switch to UserProfile view.
+     */
     public void switchToUserProfileView() {
         userChangePasswordUseCaseInteractor.switchToUserProfileView();
     }

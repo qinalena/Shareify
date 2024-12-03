@@ -1,14 +1,12 @@
 package interface_adapter.user_profile_user_story.user_profile;
 
-import entity.Playlist;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.friends_list_user_story.friend_profile.FriendProfileState;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
 import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
+import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
 import interface_adapter.user_profile_user_story.note.NoteState;
 import interface_adapter.user_profile_user_story.note.NoteViewModel;
-import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
 import use_case.user_profile_user_story.user_profile.UserProfileOutputBoundary;
 
 /**
@@ -63,12 +61,6 @@ public class UserProfilePresenter implements UserProfileOutputBoundary {
         // Switch view in the ViewManagerModel
         viewManagerModel.setState(playlistCollectionViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
-
-        // Debugging - verify username and password being set
-//        System.out.println("switching to PlaylistCollectionView with username: " +
-//                playlistCollectionState.getUsername() + ", password: " +
-//                playlistCollectionState.getPassword() + "current playlist: " +
-//                playlistCollectionState.getPlaylist());
     }
 
     @Override

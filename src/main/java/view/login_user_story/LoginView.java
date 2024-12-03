@@ -1,18 +1,30 @@
 package view.login_user_story;
 
-import interface_adapter.ViewManagerModel;
-import interface_adapter.login_user_story.login.LoginController;
-import interface_adapter.login_user_story.login.LoginState;
-import interface_adapter.login_user_story.login.LoginViewModel;
-
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import interface_adapter.ViewManagerModel;
+import interface_adapter.login_user_story.login.LoginController;
+import interface_adapter.login_user_story.login.LoginState;
+import interface_adapter.login_user_story.login.LoginViewModel;
 
 /**
  * The View for when the user is logging into the program.
@@ -33,6 +45,15 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     private LoginController loginController;
     private final ViewManagerModel viewManagerModel;
 
+    private final String fontName = "Arial";
+    private final int borderMargin = 5;
+    private final int buttonWidth = 100;
+    private final int buttonHeight = 30;
+    private final int passwordSize = 16;
+    private final int fontSize = 20;
+    private final int titleMargin = 20;
+    private final int titleFont = 28;
+    private final int buttonSize = 50;
 
     public LoginView(LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
 
@@ -40,40 +61,31 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         this.loginViewModel.addPropertyChangeListener(this);
         this.viewManagerModel = viewManagerModel;
 
-        // Title
-        final JLabel title = new JLabel("Log in");
-        title.setFont(new Font("Arial", Font.BOLD, 28));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
+        final JLabel title = getTitle();
 
         // Username field
         final LabelTextPanel usernameInfo = new LabelTextPanel(
                 new JLabel("Username"), usernameInputField);
-        usernameInputField.setFont(new Font("Arial", Font.PLAIN, 16));
-        usernameInputField.setMargin(new Insets(5, 5, 5, 5));
-        usernameInputField.setToolTipText("Enter your username");
+        formatUsernameInputField();
 
         // Password field
         final LabelTextPanel passwordInfo = new LabelTextPanel(
                 new JLabel("Password"), passwordInputField);
-        passwordInputField.setFont(new Font("Arial", Font.PLAIN, 16));
-        passwordInputField.setMargin(new Insets(5, 5, 5, 5));
-        passwordInputField.setToolTipText("Enter your password");
-
+        formatPasswordInputField();
 
         // Buttons
         final JPanel buttons = new JPanel();
-        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));
+        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, buttonSize, 0));
         logIn = new JButton("log in");
-        logIn.setFont(new Font("Arial", Font.BOLD, 20));
+        logIn.setFont(new Font(fontName, Font.BOLD, fontSize));
         logIn.setBackground(Color.WHITE);
-        logIn.setPreferredSize(new Dimension(100, 30));
+        logIn.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
         buttons.add(logIn);
 
         cancel = new JButton("cancel");
-        cancel.setFont(new Font("Arial", Font.BOLD, 20));
+        cancel.setFont(new Font(fontName, Font.BOLD, fontSize));
         cancel.setBackground(Color.WHITE);
-        cancel.setPreferredSize(new Dimension(100, 30));
+        cancel.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
         buttons.add(cancel);
 
         logIn.addActionListener(
@@ -128,6 +140,16 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+        getAddDocumentListener();
+
+        this.add(title);
+        this.add(usernameInfo);
+        this.add(usernameErrorField);
+        this.add(passwordInfo);
+        this.add(buttons);
+    }
+
+    private void getAddDocumentListener() {
         passwordInputField.getDocument().addDocumentListener(new DocumentListener() {
 
             private void documentListenerHelper() {
@@ -151,12 +173,26 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 documentListenerHelper();
             }
         });
+    }
 
-        this.add(title);
-        this.add(usernameInfo);
-        this.add(usernameErrorField);
-        this.add(passwordInfo);
-        this.add(buttons);
+    private void formatPasswordInputField() {
+        passwordInputField.setFont(new Font(fontName, Font.PLAIN, passwordSize));
+        passwordInputField.setMargin(new Insets(borderMargin, borderMargin, borderMargin, borderMargin));
+        passwordInputField.setToolTipText("Enter your password");
+    }
+
+    private void formatUsernameInputField() {
+        usernameInputField.setFont(new Font(fontName, Font.PLAIN, passwordSize));
+        usernameInputField.setMargin(new Insets(borderMargin, borderMargin, borderMargin, borderMargin));
+        usernameInputField.setToolTipText("Enter your username");
+    }
+
+    private JLabel getTitle() {
+        final JLabel title = new JLabel("Log in");
+        title.setFont(new Font(fontName, Font.BOLD, titleFont));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setBorder(BorderFactory.createEmptyBorder(titleMargin, 0, titleMargin, 0));
+        return title;
     }
 
     /**

@@ -29,7 +29,8 @@ public class ChangePasswordPresenter implements ChangePasswordOutputBoundary {
         // note: this use case currently can't fail
     }
 
-    public void switchToUserProfileView(){
+    @Override
+    public void switchToUserProfileView() {
         userProfileViewModel.firePropertyChanged();
         viewManagerModel.setState(userProfileViewModel.getViewName());
         viewManagerModel.firePropertyChanged();

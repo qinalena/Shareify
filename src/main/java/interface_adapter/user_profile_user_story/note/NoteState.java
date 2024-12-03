@@ -2,7 +2,6 @@ package interface_adapter.user_profile_user_story.note;
 
 /**
  * The State for a note.
- * <p>For this example, a note is simply a string.</p>
  */
 public class NoteState {
     private String note = "Hi! I'm new to Shareify :)";
@@ -33,7 +32,6 @@ public class NoteState {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     public void setError(String errorMessage) {
         this.error = errorMessage;

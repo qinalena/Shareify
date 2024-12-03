@@ -8,6 +8,7 @@ public interface NoteInputBoundary {
 
     /**
      * Executes the save note use case.
+     * @param noteInputData the input data.
      */
     void executeSave(NoteInputData noteInputData);
 
