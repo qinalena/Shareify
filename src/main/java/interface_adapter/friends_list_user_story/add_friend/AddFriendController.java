@@ -28,10 +28,20 @@ public class AddFriendController {
         interactor.switchToFriendsListView();
     }
 
+    /**
+     * Executes the get user by the username to check if a user exists in the DB.
+     * @param username the username.
+     */
     public void executeGetUserByUsername(String username) {
         interactor.executeGetUserByUserName(username);
     }
 
+    /**
+     * Executes the add friend in DB use case.
+     * @param username the username of the user.
+     * @param password the password of the user.
+     * @param friendName the name of the friend you want to add.
+     */
     public void executeAddFriendinDB(String username, String password, String friendName) {
         interactor.executeAddFriendInDB(username, password, friendName);
     }

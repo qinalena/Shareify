@@ -2,21 +2,15 @@ package interface_adapter.friends_list_user_story.add_friend;
 
 import java.util.List;
 
+/**
+ * State for AddFriend use case.
+ */
 public class AddFriendState {
-    private String successMessage;
     private String error;
     private List<String> friendsList;
     private String username;
     private String password;
     private String dbUsername;
-
-    public String getSuccessMessage() {
-        return successMessage;
-    }
-
-    public void setSuccessMessage(String successMessage) {
-        this.successMessage = successMessage;
-    }
 
     public String getError() {
         return error;

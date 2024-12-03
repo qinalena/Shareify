@@ -5,6 +5,9 @@ import entity.Playlist;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsViewModel;
 import use_case.friends_list_user_story.friend_playlist.FriendPlaylistDataAccessInterface;
 
+/**
+ * Interactor for friend profile playlsits.
+ */
 public class FriendProfilePlaylistsInteractor implements FriendProfilePlaylistsInputBoundary {
     private final FriendProfilePlaylistsOutputBoundary friendProfilePlaylistsPresenter;
     private final FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel;

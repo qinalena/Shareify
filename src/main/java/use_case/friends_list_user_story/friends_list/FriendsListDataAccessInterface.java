@@ -1,9 +1,13 @@
 package use_case.friends_list_user_story.friends_list;
 
-import data_access.DataAccessException;
-
 import java.util.List;
 
+import data_access.DataAccessException;
+
+/**
+ * DAI for Friends List.
+ * Allows access to DB functions.
+ */
 public interface FriendsListDataAccessInterface {
 
     /**

@@ -3,6 +3,9 @@ package interface_adapter.friends_list_user_story.friend_profile_friends_list;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * State for FriendProfileFriendsList.
+ */
 public class FriendProfileFriendsListState {
     private String error;
     private String username;
@@ -39,14 +42,5 @@ public class FriendProfileFriendsListState {
 
     public void setFriends(List<String> friends) {
         this.friends = friends;
-    }
-
-    public String getMostRecentFriend() {
-        if (!friends.isEmpty()) {
-            return friends.get(friends.size() - 1);
-        }
-        else {
-            return null;
-        }
     }
 }

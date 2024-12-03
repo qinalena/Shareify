@@ -1,16 +1,20 @@
 package view.friends_list_user_story;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileController;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileState;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileViewModel;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * The View for when a friend's profile is opened, displaying their profile.
@@ -75,8 +79,6 @@ public class FriendView extends JPanel implements ActionListener, PropertyChange
                     }
                 }
         );
-
-
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

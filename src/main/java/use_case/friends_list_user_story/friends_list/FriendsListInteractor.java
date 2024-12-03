@@ -1,9 +1,12 @@
 package use_case.friends_list_user_story.friends_list;
 
-import data_access.DataAccessException;
-
 import java.util.List;
 
+import data_access.DataAccessException;
+
+/**
+ * Interactor for FriendsList.
+ */
 public class FriendsListInteractor implements FriendsListInputBoundary {
     private final FriendsListOutputBoundary presenter;
     private FriendsListDataAccessInterface friendsListDataAccessInterface;

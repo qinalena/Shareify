@@ -1,22 +1,33 @@
 package view.friends_list_user_story;
 
-import data_access.DBPlaylistDataAccessObject;
-import data_access.DBUserDataAccessObject;
-
-import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsViewModel;
-import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsController;
-import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsState;
-import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
-import data_access.DataAccessException;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+
+import data_access.DBPlaylistDataAccessObject;
+import data_access.DataAccessException;
+import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsController;
+import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsState;
+import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsViewModel;
+
+/**
+ * The FriendProfilePlaylistsView is responsible for rendering the friend profile playlists UI.
+ * It communicates with the controller and observes the view model for state changes.
+ */
 public class FriendProfilePlaylistsView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "friendProfilePlaylistCollection";
 

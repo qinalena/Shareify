@@ -1,21 +1,32 @@
 package view.friends_list_user_story;
 
-import interface_adapter.friends_list_user_story.friends_list.FriendsListController;
-import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
-import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+
+import interface_adapter.friends_list_user_story.friends_list.FriendsListController;
+import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
+import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
+
 /**
  * The View for when a friend's list is opened for the logged-in user.
  */
 public class FriendsListView extends JPanel implements ActionListener, PropertyChangeListener {
+    private static final String ERROR_MESSAGE = "Error";
     private final String viewName = "friendsList";
     private final FriendsListViewModel viewModel;
     private FriendsListController friendsListController;
@@ -110,7 +121,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
             }
             else {
                 JOptionPane.showMessageDialog(this, "Please select a friend to delete.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                        ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE);
             }
         }
         else if (evt.getSource() == viewFriendButton) {
@@ -126,7 +137,7 @@ public class FriendsListView extends JPanel implements ActionListener, PropertyC
             }
             else {
                 JOptionPane.showMessageDialog(this, "Please select a friend to view.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                        ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE);
             }
         }
         else if (evt.getSource() == backButton) {
