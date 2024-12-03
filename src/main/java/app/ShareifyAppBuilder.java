@@ -165,9 +165,6 @@ public class ShareifyAppBuilder {
     private FriendView friendProfileView;
     private AddFriendOutputBoundary addFriendOutputBoundary;
 
-    // For refreshing the note before displaying the Note View
-    private NoteInputBoundary noteInteractor;
-
     public ShareifyAppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
@@ -408,7 +405,7 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addNoteUseCase() {
         final NoteOutputBoundary noteOutputBoundary = new NotePresenter(noteViewModel,
                 userProfileViewModel, viewManagerModel);
-        noteInteractor = new NoteInteractor(noteDAO, noteOutputBoundary);
+        final NoteInputBoundary noteInteractor = new NoteInteractor(noteDAO, noteOutputBoundary);
 
         final NoteController noteController = new NoteController(noteInteractor);
         if (noteView == null) {
@@ -424,7 +421,7 @@ public class ShareifyAppBuilder {
         return this;
     }
 
-    public ShareifyAppBuilder addChangePasswordUseCase(){
+    public ShareifyAppBuilder addChangePasswordUseCase() {
         final ChangePasswordOutputBoundary changePasswordOutputBoundary =
                 new ChangePasswordPresenter(userProfileViewModel, viewManagerModel);
 
