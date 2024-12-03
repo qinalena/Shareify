@@ -1,7 +1,6 @@
 package app;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -18,11 +17,11 @@ import interface_adapter.comment.CommentViewModel;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileController;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfilePresenter;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileViewModel;
+import interface_adapter.friends_list_user_story.friend_profile_friends_list.*;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsController;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsPresenter;
-import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsViewModel;
-import interface_adapter.friends_list_user_story.friend_profile_friends_list.*;
 import interface_adapter.friends_list_user_story.add_friend.*;
+import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsViewModel;
 import interface_adapter.friends_list_user_story.friend_playlist.FriendPlaylistController;
 import interface_adapter.friends_list_user_story.friend_playlist.FriendPlaylistPresenter;
 import interface_adapter.friends_list_user_story.friend_playlist.FriendPlaylistViewModel;
@@ -43,14 +42,13 @@ import use_case.comment.CommentInputBoundary;
 import use_case.comment.CommentInteractor;
 import use_case.comment.CommentOutputBoundary;
 import use_case.friends_list_user_story.friend_profile.FriendProfileInteractor;
+import use_case.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListInteractor;
 import use_case.friends_list_user_story.friend_profile.FriendProfileOutputBoundary;
+import interface_adapter.user_profile_user_story.change_password.*;
+import use_case.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListOutputBoundary;
 import use_case.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsInteractor;
 import use_case.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsOutputBoundary;
-import use_case.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListInteractor;
-import use_case.friends_list_user_story.friend_profile_friends_list.FriendProfileFriendsListOutputBoundary;
-import interface_adapter.user_profile_user_story.change_password.*;
 import interface_adapter.user_profile_user_story.logout.*;
-
 import use_case.playlist_user_story.search_song.SpotifyDataAccessInterface;
 import use_case.friends_list_user_story.add_friend.*;
 import use_case.friends_list_user_story.friend_playlist.FriendPlaylistInputBoundary;
@@ -66,14 +64,16 @@ import use_case.playlist_user_story.search_song.*;
 import use_case.user_profile_user_story.note.*;
 import use_case.user_profile_user_story.user_profile.*;
 import view.interact_with_friends_user_story.ChatView;
-import view.interact_with_friends_user_story.CommentView;
-import view.friends_list_user_story.FriendProfilePlaylistsView;
-import view.friends_list_user_story.FriendView;
+import view.ViewManager;
+import view.friends_list_user_story.*;
 import use_case.user_profile_user_story.change_password.*;
+import view.friends_list_user_story.FriendProfilePlaylistsView;
+import view.interact_with_friends_user_story.CommentView;
+import view.friends_list_user_story.FriendView;
+
 import use_case.user_profile_user_story.logout.*;
 
-import view.friends_list_user_story.*;
-import view.ViewManager;
+
 import view.login_user_story.*;
 import view.playlist_collection_user_story.*;
 import view.playlist_user_story.*;
@@ -274,13 +274,14 @@ public class ShareifyAppBuilder {
 
     /**
      * Adds the UserProfile Use Case to the application.
-     * <p>This method must be called after addUserProfileView!</p>
+     * < p>This method must be called after addUserProfileView!< /p>
      * @return this builder
      * @throws RuntimeException if this method is called before addUserProfileView
      */
     public ShareifyAppBuilder addUserProfileUseCase() {
         final UserProfileOutputBoundary userProfileOutputBoundary =
-                new UserProfilePresenter(userProfileViewModel, noteViewModel, playlistCollectionViewModel, friendsListViewModel, viewManagerModel);
+                new UserProfilePresenter(userProfileViewModel, noteViewModel, playlistCollectionViewModel,
+                        friendsListViewModel, viewManagerModel);
         final UserProfileInputBoundary userProfileInteractor = new UserProfileInteractor(
                 userProfileOutputBoundary);
 
@@ -305,7 +306,8 @@ public class ShareifyAppBuilder {
 
         // Instantiate the input boundary/interactor
         playlistCollectionInteractor =
-                new PlaylistCollectionInteractor(dbPlaylistDataAccessObject, userDataAccessObject, playlistCollectionOutputBoundary);
+                new PlaylistCollectionInteractor(dbPlaylistDataAccessObject, userDataAccessObject,
+                        playlistCollectionOutputBoundary);
 
         // Creating controller + connect to interactor
         playlistCollectionController = new PlaylistCollectionController(playlistCollectionInteractor);
@@ -347,8 +349,7 @@ public class ShareifyAppBuilder {
         addPlaylistInteractor = new AddPlaylistInteractor(addPlaylistOutputBoundary);
 
         final AddPlaylistController addPlaylistController = new AddPlaylistController(addPlaylistInteractor);
-        final PlaylistCollectionController playlistCollectionController =
-                new PlaylistCollectionController(playlistCollectionInteractor);
+        playlistCollectionController = new PlaylistCollectionController(playlistCollectionInteractor);
         if (addPlaylistView == null) {
             throw new RuntimeException("addPlaylistView must be called before addAddPlaylistUseCase");
         }
@@ -363,8 +364,10 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addPlaylistUseCase() {
         final PlaylistOutputBoundary playlistOutputBoundary =
-                new PlaylistPresenter(playlistViewModel, playlistCollectionViewModel, searchSongViewModel, viewManagerModel);
-        final PlaylistInputBoundary playlistInteractor = new PlaylistInteractor(userDataAccessObject, playlistOutputBoundary);
+                new PlaylistPresenter(playlistViewModel, playlistCollectionViewModel, searchSongViewModel,
+                        viewManagerModel);
+        final PlaylistInputBoundary playlistInteractor = new PlaylistInteractor(userDataAccessObject,
+                playlistOutputBoundary);
 
         final PlaylistController playlistController = new PlaylistController(playlistInteractor);
         playlistView.setPlaylistController(playlistController);
@@ -402,7 +405,9 @@ public class ShareifyAppBuilder {
     /**
      * Creates the objects for the Note Use Case and connects the NoteView to its
      * controller.
-     * <p>This method must be called after addNoteView!</p>
+     * < p>
+     *     This method must be called after addNoteView!
+     * < /p>
      * @return this builder
      * @throws RuntimeException if this method is called before addNoteView
      */
@@ -419,18 +424,26 @@ public class ShareifyAppBuilder {
         return this;
     }
 
+    /**
+     * Adds Change Password view to application.
+     * @return this builder
+     */
     public ShareifyAppBuilder addChangePasswordView() {
         changePasswordView = new ChangePasswordView(userProfileViewModel);
         cardPanel.add(changePasswordView, changePasswordView.getViewName());
         return this;
     }
 
-    public ShareifyAppBuilder addChangePasswordUseCase(){
+    /**
+     * Adds Change Password use case to application.
+     * @return this builder
+     */
+    public ShareifyAppBuilder addChangePasswordUseCase() {
         final ChangePasswordOutputBoundary changePasswordOutputBoundary =
                 new ChangePasswordPresenter(userProfileViewModel, viewManagerModel);
 
         final ChangePasswordInputBoundary changePasswordInteractor =
-                new ChangePasswordInteractor( userDataAccessObject, changePasswordOutputBoundary);
+                new ChangePasswordInteractor(userDataAccessObject, changePasswordOutputBoundary);
 
         final ChangePasswordController changePasswordController =
                 new ChangePasswordController(changePasswordInteractor);
@@ -542,7 +555,8 @@ public class ShareifyAppBuilder {
      * @throws RuntimeException for idk
      */
     public ShareifyAppBuilder addAddFriendUseCase() {
-        final AddFriendOutputBoundary addFriendOutPutBoundary = new AddFriendPresenter(addFriendViewModel, viewManagerModel, friendsListViewModel);
+        final AddFriendOutputBoundary addFriendOutPutBoundary = new AddFriendPresenter(addFriendViewModel,
+                viewManagerModel, friendsListViewModel);
         addFriendInteractor = new AddFriendInteractor(dbFriendDataAccessObject, addFriendOutPutBoundary);
         final AddFriendController addFriendController = new AddFriendController(addFriendInteractor);
         if (addFriendView == null) {
@@ -595,20 +609,27 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addFriendProfilePlaylistView() {
         friendProfilePlaylistsViewModel = new FriendProfilePlaylistsViewModel();
-        friendProfilePlaylistsView = new FriendProfilePlaylistsView(friendProfilePlaylistsViewModel, dbPlaylistDataAccessObject);
+        friendProfilePlaylistsView = new FriendProfilePlaylistsView(friendProfilePlaylistsViewModel,
+                dbPlaylistDataAccessObject);
         cardPanel.add(friendProfilePlaylistsView, friendProfilePlaylistsViewModel.getViewName());
         return this;
     }
 
+    /**
+     * Adds the viewing friend's friend list use case.
+     * @return this builder
+     */
     public ShareifyAppBuilder addFriendProfileFriendsListUseCase() {
         if (friendProfileFriendsListView == null) {
             throw new RuntimeException("addFriendsListView must be called before addFriendsListUseCase");
         }
 
-//        friendProfileFriendsListViewModel = new FriendProfileFriendsListViewModel();
+        // friendProfileFriendsListViewModel = new FriendProfileFriendsListViewModel();
         // Instantiate the output boundary (presenter) and input boundary (interactor)
-        friendProfileFriendsListOutputBoundary = new FriendProfileFriendsListPresenter(friendProfileViewModel, viewManagerModel, friendProfileFriendsListViewModel);
-        friendProfileFriendsListInteractor = new FriendProfileFriendsListInteractor(friendProfileFriendsListOutputBoundary, dbFriendDataAccessObject);
+        friendProfileFriendsListOutputBoundary = new FriendProfileFriendsListPresenter(friendProfileViewModel,
+                viewManagerModel, friendProfileFriendsListViewModel);
+        friendProfileFriendsListInteractor = new FriendProfileFriendsListInteractor(
+                friendProfileFriendsListOutputBoundary, dbFriendDataAccessObject);
         // Create the controller and connect it to the interactor
         friendProfileFriendsListController = new FriendProfileFriendsListController(friendProfileFriendsListInteractor);
 
@@ -618,6 +639,10 @@ public class ShareifyAppBuilder {
         return this;
     }
 
+    /**
+     * Shows a friend's Friends list view.
+     * @return this builder
+     */
     public ShareifyAppBuilder addfriendProfileFriendsListView() {
         friendProfileFriendsListViewModel = new FriendProfileFriendsListViewModel();
         friendProfileFriendsListView = new FriendProfileFriendsListView(friendProfileFriendsListViewModel);
@@ -658,8 +683,10 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addFriendPlaylistUseCase() {
         final FriendPlaylistOutputBoundary friendPlaylistOutputBoundary =
-                new FriendPlaylistPresenter(friendPlaylistViewModel, viewManagerModel, friendProfilePlaylistsViewModel, commentViewModel);
-        final FriendPlaylistInputBoundary playlistInteractor = new FriendPlaylistInteractor(friendPlaylistOutputBoundary);
+                new FriendPlaylistPresenter(friendPlaylistViewModel, viewManagerModel,
+                        friendProfilePlaylistsViewModel, commentViewModel);
+        final FriendPlaylistInputBoundary playlistInteractor = new FriendPlaylistInteractor(
+                friendPlaylistOutputBoundary);
 
         final FriendPlaylistController playlistController = new FriendPlaylistController(playlistInteractor);
         friendPlaylistView.setPlaylistController(playlistController);
@@ -711,7 +738,8 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addCommentUseCase() {
         final CommentOutputBoundary commentOutputBoundary = new CommentPresenter(commentViewModel, viewManagerModel,
                 friendPlaylistViewModel);
-        final CommentInputBoundary commentInteractor = new CommentInteractor(userDataAccessObject, commentOutputBoundary);
+        final CommentInputBoundary commentInteractor = new CommentInteractor(userDataAccessObject,
+                commentOutputBoundary);
 
         final CommentController commentController = new CommentController(commentInteractor);
         commentView.setCommentController(commentController);

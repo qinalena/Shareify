@@ -1,12 +1,12 @@
 package interface_adapter.playlist_collection_user_story.playlist_collection;
 
+import java.util.List;
+
 import interface_adapter.ViewManagerModel;
-import interface_adapter.playlist_user_story.playlist.PlaylistViewModel;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
+import interface_adapter.playlist_user_story.playlist.PlaylistViewModel;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
 import use_case.playlist_collection_user_story.playlist_collection.PlaylistCollectionOutputBoundary;
-
-import java.util.List;
 
 /**
  * The Presenter for Playlist Collection Use Case.
@@ -18,7 +18,6 @@ public class PlaylistCollectionPresenter implements PlaylistCollectionOutputBoun
     private final PlaylistViewModel playlistViewModel;
     private final UserProfileViewModel userProfileViewModel;
     private final ViewManagerModel viewManagerModel;
-
 
     public PlaylistCollectionPresenter(PlaylistCollectionViewModel playlistCollectionViewModel,
                                        AddPlaylistViewModel addPlaylistViewModel,

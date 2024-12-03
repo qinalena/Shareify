@@ -27,16 +27,16 @@ public class AddPlaylistInteractor implements AddPlaylistInputBoundary {
     public void executeCreatePlaylist(String playlistName) {
         if (this.addPlaylistOutputBoundary == null) {
             System.err.println("Outputboundary cannot be null!");
-            return;
-        }
-
-        List<String> playlists = user.getInfo();
-        if (playlists.contains(playlistName)) {
-            addPlaylistOutputBoundary.prepareFailureView("Playlist already exists!");
         }
         else {
-            playlists.add(playlistName);
-            addPlaylistOutputBoundary.prepareSuccessView(playlists);
+            final List<String> playlists = user.getInfo();
+            if (playlists.contains(playlistName)) {
+                addPlaylistOutputBoundary.prepareFailureView("Playlist already exists!");
+            }
+            else {
+                playlists.add(playlistName);
+                addPlaylistOutputBoundary.prepareSuccessView(playlists);
+            }
         }
     }
 

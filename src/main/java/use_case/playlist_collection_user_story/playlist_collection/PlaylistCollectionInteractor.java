@@ -1,8 +1,8 @@
 package use_case.playlist_collection_user_story.playlist_collection;
 
+import data_access.DataAccessException;
 import entity.Playlist;
 import entity.User;
-import data_access.DataAccessException;
 import use_case.playlist_user_story.PlaylistDataAccessInterface;
 
 /**
@@ -16,7 +16,8 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
     private final PlaylistCollectionOutputBoundary playlistCollectionPresenter;
 
     public PlaylistCollectionInteractor(PlaylistCollectionDataAccessInterface playlistCollectionDataAccessObject,
-                                        PlaylistDataAccessInterface playlistDataAccessObject, PlaylistCollectionOutputBoundary playlistCollectionPresenter) {
+                                        PlaylistDataAccessInterface playlistDataAccessObject,
+                                        PlaylistCollectionOutputBoundary playlistCollectionPresenter) {
         this.dbPlaylistDataAccessObject = playlistCollectionDataAccessObject;
         this.playlistDataAccessObject = playlistDataAccessObject;
         this.playlistCollectionPresenter = playlistCollectionPresenter;
@@ -26,34 +27,37 @@ public class PlaylistCollectionInteractor implements PlaylistCollectionInputBoun
     public void addPlaylist(User user, String playlistName) {
         if (playlistName == null || playlistName.isEmpty()) {
             playlistCollectionPresenter.prepareFailView("Playlist name cannot be empty.");
-            return;
         }
-        try {
-            // Call DAO to add playlist to database
-            // individual playlist
-            dbPlaylistDataAccessObject.addPlaylistinDB(user, playlistName);
+        else {
+            try {
+                // Call DAO to add playlist to database
+                // individual playlist
+                dbPlaylistDataAccessObject.addPlaylistinDB(user, playlistName);
 
-            playlistCollectionPresenter.preparePlaylistAddedView(playlistName);
+                playlistCollectionPresenter.preparePlaylistAddedView(playlistName);
+            }
+            catch (DataAccessException exception) {
+                playlistCollectionPresenter.prepareFailView("Failed to add playlist: " + exception.getMessage());
+            }
         }
-        catch (DataAccessException e) {
-            playlistCollectionPresenter.prepareFailView("Failed to add playlist: " + e.getMessage());
-        }
+
     }
 
     @Override
     public void removePlaylist(User user, String playlistName) {
         if (playlistName == null || playlistName.isEmpty()) {
             playlistCollectionPresenter.prepareFailView("Playlist name cannot be empty.");
-            return;
         }
-        try {
-            // Call to DAO to remove playlist from the database
-            dbPlaylistDataAccessObject.removePlaylistinDB(user, playlistName);
+        else {
+            try {
+                // Call to DAO to remove playlist from the database
+                dbPlaylistDataAccessObject.removePlaylistinDB(user, playlistName);
+            }
+            catch (DataAccessException exception) {
+                playlistCollectionPresenter.prepareFailView("Failed to remove playlist: " + exception.getMessage());
+            }
+            playlistCollectionPresenter.preparePlaylistRemovedView(playlistName);
         }
-        catch (DataAccessException e) {
-            playlistCollectionPresenter.prepareFailView("Failed to remove playlist: " + e.getMessage());
-        }
-        playlistCollectionPresenter.preparePlaylistRemovedView(playlistName);
     }
 
     @Override

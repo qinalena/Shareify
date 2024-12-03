@@ -1,4 +1,4 @@
-# Sharify
+![Logo.png](src%2Fmain%2Fjava%2Fview%2Flogin_user_story%2FLogo.png)
 
 ## Team: Pineapple
 - ### Alena Qin (qinalena)
@@ -16,13 +16,20 @@ ____
 ## Software Specification
 - Domain: Social Media
 
-This program is a social media platform that allows users to connect with others through their common interests in music.
+This program is a social media platform that allows users to connect with others through their common interests in 
+music.
 
-When the user opens the app, they will be prompted to either sign up for an account by creating an account with a username and password or log into their existing account. Once logged in, the user will have access to their own user profile, where a default bio is displayed. They can write a new bio, change their password, and view their friends list and playlist collection.
+When the user opens the app, they will be prompted to either sign up for an account by creating an account with a 
+username and password or log into their existing account. Once logged in, the user will have access to their own user 
+profile, where a default bio is displayed. They can write a new bio, change their password, and view their friends list 
+and playlist collection.
 
-In a user's playlist collection, they can add or remove playlists. Opening a specific playlist displays the songs stored. The user can remove songs or add new songs using a search function. The user can also comment on the playlists of their friends.
+In a user's playlist collection, they can add or remove playlists. Opening a specific playlist displays the songs 
+stored. The user can remove songs or add new songs using a search function. The user can also comment on the playlists 
+of their friends.
 
-Users will also have their own friends list, where they can add other users to this list or remove them from it. Any users that are friends will be able to view each other’s account profiles and chat with each other.
+Users will also have their own friends list, where they can add other users to this list or remove them from it. Any 
+users that are friends will be able to view each other’s account profiles and chat with each other.
 
 ____
 ## Table of Contents
@@ -149,7 +156,8 @@ To add a friend, click the 'Add Friend Button'.
     <img width="731" height="362" src="images/img_19.png">
 </p>
 
-Type in your friend's username in the text field and click 'Save', or the 'Back' button to cancel. Your new friend will then pop up on the Friend list!
+Type in your friend's username in the text field and click 'Save', or the 'Back' button to cancel. Your new friend will 
+then pop up on the Friend list!
 <p align="center">
     <img width="584" height="292" src="images/img_21.png">
 </p>
@@ -158,13 +166,15 @@ Type in your friend's username in the text field and click 'Save', or the 'Back'
 </p>
 
 ### Deleting a friend
-User can delete friends from their Friend list by selecting the friend they don't want, and then clicking the 'Delete Friend' button.
+User can delete friends from their Friend list by selecting the friend they don't want, and then clicking the 'Delete 
+Friend' button.
 <p align="center">
     <img width="735" height="365" src="/images/img_24.png">
 </p>
 
 ### Viewing Friend's info
-User can view their friend's playlists, and their friend's friend list User can access this by selected the friend's username in the Friends List, and clicking the 'View Friend' button. In there the user can click 'View Playlists' to see the friend's playlist or click 'View Friends' to see the friends list of this friend.
+User can view their friend's playlists, and their friend's friend list User can access this by selected the friend's 
+username in the Friends List, and clicking the 'View Friend' button. In there the user can click 'View Playlists' to see the friend's playlist or click 'View Friends' to see the friends list of this friend.
 <p align="center">
     <img width="585" height="289" src="images/img_25.png">
 </p>
@@ -207,7 +217,8 @@ Message will be seen in message view above the text field.
     <img width="730" height="362" src="images/img_32.png">
 </p>
 
-If user exits the message page, and decides to chat with their friend another day. To get your message history, simply click the 'Refresh Message' button, and all messages will show.
+If user exits the message page, and decides to chat with their friend another day. To get your message history, simply 
+click the 'Refresh Message' button, and all messages will show.
 <p align="center">
     <img width="736" height="381" src="images/img_33.png">
 </p>
@@ -218,7 +229,8 @@ If the user decided that they want to change their password, through the user's 
     <img width="728" height="360" src="images/img_34.png">
 </p>
 
-User will be prompted to put in a new password in the text field, and then click 'Change Password' to save this change. User can also click the 'Back' button if they change their mind.
+User will be prompted to put in a new password in the text field, and then click 'Change Password' to save this change. 
+User can also click the 'Back' button if they change their mind.
 <p align="center">
     <img width="733" height="367" src="images/img_35.png">
 </p>
@@ -237,8 +249,13 @@ After logging out, it will bring the user back to the welcome screen.
 ### Light and dark mode
 User's get to choose whether they like to have their user profile page in light or dark mode.  To make
 this change, user will click 'Night Mode' or 'Light Mode' bottom on the bottom of the user profile page!
-![img.png](images/img52.png) ![img.png](images/img53.png)
+<p align="center">
+<img width="732" height="365" src="images/img52.png">
+<img width="732" height="365" src="images/img53.png">
+</p>
+
 ____
+
 ## Installation instructions
 #### Steps to access the Shareify app:
 1. On your github, clone the repository. This is the link of the
@@ -326,6 +343,7 @@ view their friends’ account profiles. ***[Aseef Ali Hasan]***
 Users can message their friends by viewing a friend from the User's friend list, inputting a message, and sending it. 
 Users can also view their friend's playlists and comment on them, being able to see everyone else's comments on that 
 playlist as well. ***[Don Edirisinghe]***
+
 ----
 ## Entities
 - User
