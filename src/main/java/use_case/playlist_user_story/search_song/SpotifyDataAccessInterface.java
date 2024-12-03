@@ -1,8 +1,8 @@
 package use_case.playlist_user_story.search_song;
 
-import entity.Song;
-
 import java.util.List;
+
+import entity.Song;
 
 /**
  * Interface for connecting to Spotify API.

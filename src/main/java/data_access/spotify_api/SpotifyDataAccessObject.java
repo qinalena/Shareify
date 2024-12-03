@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Song;
 import org.apache.hc.core5.http.ParseException;
 
 import com.neovisionaries.i18n.CountryCode;
+import entity.Song;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
@@ -21,6 +21,7 @@ import use_case.playlist_user_story.search_song.SpotifyDataAccessInterface;
  * Class that implements SpotifyDataAccessInterface.
  */
 public class SpotifyDataAccessObject implements SpotifyDataAccessInterface {
+    private static final int LIMIT = 10;
     private final SpotifyAuthorizationInterface spotifyAuthorization;
     private final SpotifyApi spotifyApi;
 
@@ -32,7 +33,7 @@ public class SpotifyDataAccessObject implements SpotifyDataAccessInterface {
     @Override
     public List<Song> searchTrack(String query) {
         final SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(query)
-                .market(CountryCode.NA).limit(10).offset(0).includeExternal("audio").build();
+                .market(CountryCode.NA).limit(LIMIT).offset(0).includeExternal("audio").build();
         try {
             final Paging<Track> trackPaging = searchTracksRequest.execute();
 

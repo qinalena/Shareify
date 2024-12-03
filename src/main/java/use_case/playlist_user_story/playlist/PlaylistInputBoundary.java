@@ -6,10 +6,9 @@ package use_case.playlist_user_story.playlist;
 public interface PlaylistInputBoundary {
 
     /**
-     * Executes the remove track from playlist Use Case.
-     *
-     * @param currentPlaylistName
-     * @param songIndex
+     * Executes the remove song from playlist Use Case.
+     * @param currentPlaylistName the name of the playlist to remove the song from
+     * @param songIndex the index of the song to remove
      */
     void removeSong(String currentPlaylistName, int songIndex);
 
