@@ -1,6 +1,5 @@
 package use_case.friends_list_user_story.friend_profile_friends_list;
 
-import data_access.DBFriendDataAccessObject;
 import data_access.DataAccessException;
 
 import java.util.List;
