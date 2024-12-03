@@ -241,14 +241,23 @@ this change, user will click 'Night Mode' or 'Light Mode' bottom on the bottom o
 ____
 ## Installation instructions
 #### Steps to access the Shareify app:
-1. On your github, clone the repository.  This is the link of the 
-repository on the github website: https://github.com/qinalena/Shareify
-2. You will then click the green '<>Code' button, and copy the HTTPS link 
-(https://github.com/qinalena/Shareify.git) ![img.png](images/img.png)
+1. On your github, clone the repository. This is the link of the
+   repository on the github website: https://github.com/qinalena/Shareify
+2. You will then click the green '<>Code' button, and copy the HTTPS link (https://github.com/qinalena/Shareify.git).
+
+<p align="center">
+    <img width="792" src="images/img.png">
+</p>
+
 3. Open your IntelliJ, and on the welcome screen click 'Get from VCS' button on
-the top right, and then paste the HTTPS link in the URL text field and click 'Clone'.
-![img_2.png](images/img_2.png)![img_1.png](images/img_1.png)
-4. On the left panel 'Project', open the src folder -> main folder -> java folder -> app package -> run 'MainShareifyApplication'
+   the top right, and then paste the HTTPS link in the URL text field and click 'Clone'.
+
+<p align="center">
+    <img width="982" src="images/img_2.png">
+    <img width="997" src="images/img_1.png">
+</p>
+
+4. On the left panel 'Project', open the src folder -> main folder -> java folder -> app package -> run 'MainShareifyApplication'.
 
 Now you can play around with the app, and its features!
 
