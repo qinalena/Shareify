@@ -492,6 +492,8 @@ public class ShareifyAppBuilder {
      * @return this builder
      */
     public ShareifyAppBuilder addLoginUseCase() {
+
+
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 userProfileViewModel, loginViewModel, friendsListViewModel, addFriendViewModel,
                 playlistCollectionViewModel, addPlaylistViewModel, chatViewModel, commentViewModel);
