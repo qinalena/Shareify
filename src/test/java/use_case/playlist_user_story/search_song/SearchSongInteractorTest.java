@@ -1,4 +1,4 @@
-package use_case.playlist_user_story;
+package use_case.playlist_user_story.search_song;
 
 import data_access.spotify_api.SpotifyClientCredAuth;
 import data_access.spotify_api.SpotifyDataAccessObject;
@@ -6,7 +6,6 @@ import data_access.InMemoryDataAccessObject;
 import entity.Playlist;
 import entity.Song;
 import org.junit.Test;
-import use_case.playlist_user_story.search_song.*;
 
 import java.util.List;
 

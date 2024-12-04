@@ -1,14 +1,15 @@
 package view.playlist_user_story;
 
-import interface_adapter.playlist_user_story.playlist.PlaylistController;
-import interface_adapter.playlist_user_story.playlist.PlaylistState;
-import interface_adapter.playlist_user_story.playlist.PlaylistViewModel;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.*;
+
+import interface_adapter.playlist_user_story.playlist.PlaylistController;
+import interface_adapter.playlist_user_story.playlist.PlaylistState;
+import interface_adapter.playlist_user_story.playlist.PlaylistViewModel;
 
 /**
  * The View for when a playlist is clicked on in PlaylistCollection View.

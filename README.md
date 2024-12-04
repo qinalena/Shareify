@@ -16,7 +16,7 @@ ____
 ## Software Specification
 - Domain: Social Media
 
-This program is a social media platform that allows users to connect with others through their common interests in 
+This program is a social media platform that allows users to connect with others through a common interest in 
 music.
 
 When the user opens the app, they will be prompted to either sign up for an account by creating an account with a 

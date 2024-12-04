@@ -1,6 +1,5 @@
 package interface_adapter.playlist_user_story.search_song;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,11 +7,11 @@ import java.util.List;
  */
 public class SearchSongState {
     private String currentPlaylistName;
-    private List<String> searchResults = new ArrayList<>();
+    private List<String> searchResults;
     private String error;
 
-    public void setCurrentSearchResults(List<String> searchResults) {
-        this.searchResults = searchResults;
+    public void setCurrentSearchResults(List<String> search) {
+        this.searchResults = search;
     }
 
     public List<String> getSearchResults() {

@@ -1,10 +1,10 @@
 package interface_adapter.playlist_user_story.search_song;
 
+import java.util.List;
+
 import interface_adapter.ViewManagerModel;
 import interface_adapter.playlist_user_story.playlist.PlaylistViewModel;
 import use_case.playlist_user_story.search_song.SearchSongOutputBoundary;
-
-import java.util.List;
 
 /**
  * The presenter for Search Track.
