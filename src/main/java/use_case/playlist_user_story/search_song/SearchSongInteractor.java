@@ -28,7 +28,6 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
         if (query != null) {
             final List<Song> searchResults = spotifyDAO.searchTrack(query);
             final List<String> displaySearchResults = new ArrayList<>();
-
             for (final Song searchResult : searchResults) {
                 displaySearchResults.add(searchResult.toString());
             }
@@ -45,9 +44,7 @@ public class SearchSongInteractor implements SearchSongInputBoundary {
     public void addSong(SearchSongInputData searchSongInputData) {
         try {
             final Song selectedSong = new Song(searchSongInputData.getSongName(), searchSongInputData.getArtists());
-
             playlistDAO.addSongToPlaylist(searchSongInputData.getCurrentPlaylistName(), selectedSong);
-
             searchSongPresenter.addSong(selectedSong.toString());
         }
         catch (DataAccessException exception) {

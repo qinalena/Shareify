@@ -3,6 +3,9 @@ package interface_adapter.friends_list_user_story.friend_profile_playlists;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * State for Friend profile playlists.
+ */
 public class FriendProfilePlaylistsState {
 
     private String playlistError;
@@ -14,10 +17,18 @@ public class FriendProfilePlaylistsState {
         return new ArrayList<>(playlistList);
     }
 
+    /**
+     * Adds the playlist to the state.
+     * @param playlist the name of the playlist.
+     */
     public void addPlaylist(String playlist) {
         playlistList.add(playlist);
     }
 
+    /**
+     * Removes the playlist from the state.
+     * @param playlist the name of the playlist.
+     */
     public void removePlaylist(String playlist) {
         playlistList.remove(playlist);
     }

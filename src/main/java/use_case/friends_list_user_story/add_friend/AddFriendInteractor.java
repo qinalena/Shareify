@@ -1,12 +1,13 @@
 package use_case.friends_list_user_story.add_friend;
 
-import data_access.DBFriendDataAccessObject;
-import entity.User;
-import data_access.DataAccessException;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import data_access.DataAccessException;
+
+/**
+ * Interactor for add friend.
+ */
 public class AddFriendInteractor implements AddFriendInputBoundary {
 
     private final AddFriendDataAccessInterface addFriendDataAccessInterface;
@@ -43,17 +44,19 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
         try {
             final String username = addFriendDataAccessInterface.getUserByUsername(userName);
             outputBoundary.prepareGetUserByUserNameSuccessView(username);
-        } catch (DataAccessException e) {
-            outputBoundary.prepareFailView(e.getMessage());
+        }
+        catch (DataAccessException err) {
+            outputBoundary.prepareFailView(err.getMessage());
         }
     }
 
     @Override
-    public void executeAddFriendInDB(User user, String friendName) {
+    public void executeAddFriendInDB(String username, String password, String friendName) {
         try {
-            addFriendDataAccessInterface.addFriendinDB(user, friendName);
-        } catch (DataAccessException e) {
-            outputBoundary.prepareFailView(e.getMessage());
+            addFriendDataAccessInterface.addFriendinDB(username, password, friendName);
+        }
+        catch (DataAccessException err) {
+            outputBoundary.prepareFailView(err.getMessage());
         }
     }
 }

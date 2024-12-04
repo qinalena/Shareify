@@ -2,9 +2,8 @@ package use_case.playlist_collection_user_story.playlist_collection;
 
 import java.util.List;
 
-import entity.User;
-import org.json.JSONArray;
 import data_access.DataAccessException;
+import entity.User;
 
 /**
  * Interface for the PlaylistCollectionDAO. It consists of methods for

@@ -6,20 +6,10 @@ import java.util.List;
  * State for addPlaylist View Model.
  */
 public class AddPlaylistState {
-
-    private String successMessage;
     private String errorMessage;
     private List<String> playlists;
     private String username;
     private String password;
-
-    public String getSuccessMessage() {
-        return successMessage;
-    }
-
-    public void setSuccessMessage(String successMessage) {
-        this.successMessage = successMessage;
-    }
 
     public String getErrorMessage() {
         return errorMessage;

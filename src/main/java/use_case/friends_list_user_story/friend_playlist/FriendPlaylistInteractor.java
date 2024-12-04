@@ -1,5 +1,8 @@
 package use_case.friends_list_user_story.friend_playlist;
 
+/**
+ * Interactor for friend playlist.
+ */
 public class FriendPlaylistInteractor implements FriendPlaylistInputBoundary {
 
     private final FriendPlaylistOutputBoundary friendPlaylistOutputBoundary;

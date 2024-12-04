@@ -5,26 +5,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import entity.Playlist;
-import entity.Song;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import entity.Playlist;
+import entity.Song;
 import entity.User;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import use_case.friends_list_user_story.friend_playlist.FriendPlaylistDataAccessInterface;
-import use_case.playlist_user_story.PlaylistDataAccessInterface;
 import use_case.chat.ChatDataAccessInterface;
 import use_case.comment.CommentDataAccessInterface;
-import use_case.user_profile_user_story.change_password.ChangePasswordUserDataAccessInterface;
+import use_case.friends_list_user_story.friend_playlist.FriendPlaylistDataAccessInterface;
 import use_case.login_user_story.login.LoginUserDataAccessInterface;
-import use_case.user_profile_user_story.logout.LogoutUserDataAccessInterface;
 import use_case.login_user_story.signup.SignupUserDataAccessInterface;
+import use_case.playlist_user_story.PlaylistDataAccessInterface;
+import use_case.user_profile_user_story.change_password.ChangePasswordUserDataAccessInterface;
+import use_case.user_profile_user_story.logout.LogoutUserDataAccessInterface;
 import use_case.user_profile_user_story.note.NoteDataAccessInterface;
 
 /**
@@ -32,7 +32,8 @@ import use_case.user_profile_user_story.note.NoteDataAccessInterface;
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface, LogoutUserDataAccessInterface, PlaylistDataAccessInterface,
-        CommentDataAccessInterface, ChatDataAccessInterface, NoteDataAccessInterface, FriendPlaylistDataAccessInterface {
+        CommentDataAccessInterface, ChatDataAccessInterface, NoteDataAccessInterface,
+        FriendPlaylistDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final int CREDENTIAL_ERROR = 401;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -148,6 +149,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         }
     }
 
+    @Override
     public void changePassword(User user) {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -283,10 +285,12 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
                         }
                     }
                 }
-            } else {
+            }
+            else {
                 throw new DataAccessException(responseBody.getString(MESSAGE));
             }
-        } catch (IOException | JSONException ex) {
+        }
+        catch (IOException | JSONException ex) {
             throw new DataAccessException(ex.getMessage());
         }
 
@@ -648,7 +652,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
-                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
                 .build();
         try {
             final Response response = client.newCall(request).execute();
@@ -674,7 +678,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
      * @param user The user for whom the note is being saved.
      * @param note The note to be saved.
      * @return The saved note if the operation is successful.
-     * @throws DataAccessException If there is an error saving the note, such as invalid credentials or a database error.
+     * @throws DataAccessException If there is an error saving the note,
+     * such as invalid credentials or a database error.
      */
     public String saveNote(User user, String note) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
@@ -728,7 +733,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
         final Request request = new Request.Builder()
                 .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
-                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
                 .build();
         try {
             final Response response = client.newCall(request).execute();

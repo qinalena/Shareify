@@ -34,7 +34,6 @@ public class AddPlaylistView extends JPanel implements ActionListener, PropertyC
     private final JButton saveButton = new JButton("Save");
     private final JButton cancelButton = new JButton("Cancel");
 
-
     private String username;
     private String password;
 
@@ -43,7 +42,8 @@ public class AddPlaylistView extends JPanel implements ActionListener, PropertyC
      * @param playlistCollectionModel model for playlist collection
      * @param addPlaylistViewModel view model for adding a playlist
      */
-    public AddPlaylistView(DefaultListModel<String> playlistCollectionModel, AddPlaylistViewModel addPlaylistViewModel) {
+    public AddPlaylistView(DefaultListModel<String> playlistCollectionModel,
+                           AddPlaylistViewModel addPlaylistViewModel) {
 
         this.playlistCollectionModel = playlistCollectionModel;
         this.addPlaylistViewModel = addPlaylistViewModel;
@@ -92,7 +92,7 @@ public class AddPlaylistView extends JPanel implements ActionListener, PropertyC
         final String playlistName = playlistNameField.getText();
         if (!playlistName.isEmpty()) {
             // Construct User object from stored username and password
-            User user = new User(username, password);
+            final User user = new User(username, password);
 
             // Notify controller
             playlistCollectionController.addPlaylist(user, playlistName);

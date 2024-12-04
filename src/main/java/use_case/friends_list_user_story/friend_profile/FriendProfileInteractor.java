@@ -1,6 +1,8 @@
 package use_case.friends_list_user_story.friend_profile;
 
-
+/**
+ * Interactor for the Friend Profile.
+ */
 public class FriendProfileInteractor implements FriendProfileInputBoundary {
     private FriendProfileOutputBoundary friendProfilePresenter;
 
@@ -8,6 +10,7 @@ public class FriendProfileInteractor implements FriendProfileInputBoundary {
         this.friendProfilePresenter = friendProfilePresenter;
     }
 
+    @Override
     public void switchToNoteView() {
         friendProfilePresenter.switchToNoteView();
     }

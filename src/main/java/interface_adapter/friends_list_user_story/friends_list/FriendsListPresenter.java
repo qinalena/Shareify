@@ -1,19 +1,21 @@
 package interface_adapter.friends_list_user_story.friends_list;
 
-import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
-import use_case.friends_list_user_story.friends_list.FriendsListOutputBoundary;
+import java.util.List;
+
+import interface_adapter.ViewManagerModel;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendViewModel;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileState;
 import interface_adapter.friends_list_user_story.friend_profile.FriendProfileViewModel;
-import interface_adapter.user_profile_user_story.note.NoteViewModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
-import interface_adapter.ViewManagerModel;
+import interface_adapter.user_profile_user_story.note.NoteViewModel;
+import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
+import use_case.friends_list_user_story.friends_list.FriendsListOutputBoundary;
 
-import java.util.List;
-
+/**
+ * Presenter for Friends list.
+ */
 public class FriendsListPresenter implements FriendsListOutputBoundary {
 
-    // THe view manager model is intantioed wrong
     private final ViewManagerModel viewManagerModel;
     private final NoteViewModel noteViewModel = new NoteViewModel();
     private final FriendsListViewModel friendsListViewModel;
@@ -59,11 +61,13 @@ public class FriendsListPresenter implements FriendsListOutputBoundary {
         viewManagerModel.firePropertyChanged();
     }
 
+    @Override
     public void switchToFriendsListView() {
         viewManagerModel.setState(friendsListViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
+    @Override
     public void switchToFriendProfileView(String selectedFriendName, String password) {
         viewManagerModel.setState(friendProfileViewModel.getViewName());
         viewManagerModel.firePropertyChanged();

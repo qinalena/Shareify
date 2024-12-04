@@ -1,5 +1,8 @@
 package use_case.friends_list_user_story.friend_playlist;
 
+/**
+ * Input boundary for the Friend Playlist use case.
+ */
 public interface FriendPlaylistInputBoundary {
 
     /**
