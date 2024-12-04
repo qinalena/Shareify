@@ -113,13 +113,10 @@ public class ShareifyAppBuilder {
     private ChangePasswordView changePasswordView;
 
     private FriendsListViewModel friendsListViewModel;
-    private FriendsListView friendsListView;
 
     private NoteViewModel noteViewModel;
     private NoteView noteView;
-
     private AddFriendView addFriendView;
-    private AddFriendViewModel addFriendViewModel;
 
     private ChatViewModel chatViewModel;
     private ChatView chatView;
@@ -129,9 +126,14 @@ public class ShareifyAppBuilder {
 
     private FriendProfilePlaylistsView friendProfilePlaylistsView;
     private FriendProfilePlaylistsViewModel friendProfilePlaylistsViewModel;
+    private FriendProfilePlaylistsInteractor friendProfilePlaylistsInteractor;
+    private FriendProfilePlaylistsController friendProfilePlaylistsController;
 
     private FriendProfileFriendsListView friendProfileFriendsListView;
     private FriendProfileFriendsListViewModel friendProfileFriendsListViewModel;
+    private FriendProfileFriendsListInteractor friendProfileFriendsListInteractor;
+    private FriendProfileFriendsListController friendProfileFriendsListController;
+    private FriendProfileFriendsListOutputBoundary friendProfileFriendsListOutputBoundary;
 
     private PlaylistViewModel playlistViewModel;
     private PlaylistView playlistView;
@@ -153,8 +155,16 @@ public class ShareifyAppBuilder {
     private AddPlaylistOutputBoundary addPlaylistOutputBoundary;
 
     private FriendProfileViewModel friendProfileViewModel;
-    private FriendView friendProfileView;
+    private AddFriendViewModel addFriendViewModel;
+    private FriendsListView friendsListView;
+    private FriendsListController friendsListController;
+    private FriendsListOutputBoundary friendsListOutputBoundary;
+    private FriendsListInteractor friendsListInteractor;
     private DBFriendDataAccessObject dbFriendDataAccessObject = new DBFriendDataAccessObject();
+    private FriendProfileInteractor friendProfileInteractor;
+    private AddFriendInteractor addFriendInteractor;
+    private FriendView friendProfileView;
+    private AddFriendOutputBoundary addFriendOutputBoundary;
 
     // For refreshing the note before displaying the Note View
     private NoteInputBoundary noteInteractor;
@@ -255,6 +265,8 @@ public class ShareifyAppBuilder {
      */
     public ShareifyAppBuilder addFriendsListView() {
         friendsListViewModel = new FriendsListViewModel();
+        addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel,
+                viewManagerModel, friendsListViewModel);
         friendsListView = new FriendsListView(friendsListViewModel);
         cardPanel.add(friendsListView, friendsListView.getViewName());
         return this;
@@ -317,7 +329,7 @@ public class ShareifyAppBuilder {
         final FriendProfileOutputBoundary friendProfileOutputBoundary = new FriendProfilePresenter(
                 friendProfileViewModel, viewManagerModel, noteViewModel, friendProfilePlaylistsViewModel,
                 friendProfileFriendsListViewModel, chatViewModel);
-        final FriendProfileInteractor friendProfileInteractor = new FriendProfileInteractor(friendProfileOutputBoundary);
+        friendProfileInteractor = new FriendProfileInteractor(friendProfileOutputBoundary);
 
         final FriendProfileController friendProfileController = new FriendProfileController(friendProfileInteractor);
         if (friendProfileView == null) {
@@ -449,13 +461,12 @@ public class ShareifyAppBuilder {
             throw new RuntimeException("addFriendsListView must be called before addFriendsListUseCase");
         }
         // Instantiate the output boundary (presenter) and input boundary (interactor)
-        final FriendsListOutputBoundary friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel,
-                viewManagerModel, addFriendViewModel, friendProfileViewModel, userProfileViewModel);
-        final FriendsListInteractor friendsListInteractor = new FriendsListInteractor(friendsListOutputBoundary,
-                dbFriendDataAccessObject);
+        friendsListOutputBoundary = new FriendsListPresenter(friendsListViewModel, viewManagerModel,
+                addFriendViewModel, friendProfileViewModel, userProfileViewModel);
+        friendsListInteractor = new FriendsListInteractor(friendsListOutputBoundary, dbFriendDataAccessObject);
 
         // Create the controller and connect it to the interactor
-        final FriendsListController friendsListController = new FriendsListController(friendsListInteractor);
+        friendsListController = new FriendsListController(friendsListInteractor);
 
         // Link the controller to the view
         friendsListView.setFriendsListController(friendsListController);
@@ -546,8 +557,7 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addAddFriendUseCase() {
         final AddFriendOutputBoundary addFriendOutPutBoundary = new AddFriendPresenter(addFriendViewModel,
                 viewManagerModel, friendsListViewModel);
-        final AddFriendInteractor addFriendInteractor = new AddFriendInteractor(dbFriendDataAccessObject,
-                addFriendOutPutBoundary);
+        addFriendInteractor = new AddFriendInteractor(dbFriendDataAccessObject, addFriendOutPutBoundary);
         final AddFriendController addFriendController = new AddFriendController(addFriendInteractor);
         if (addFriendView == null) {
             throw new RuntimeException("addFriendProfileView must be called before addFriendProfileUseCase");
@@ -578,13 +588,12 @@ public class ShareifyAppBuilder {
                         viewManagerModel, friendProfileViewModel, friendPlaylistViewModel);
 
         // Instantiate the input boundary/interactor
-        final FriendProfilePlaylistsInteractor friendProfilePlaylistsInteractor =
+        friendProfilePlaylistsInteractor =
                 new FriendProfilePlaylistsInteractor(friendProfilePlaylistsOutputBoundary,
                         friendProfilePlaylistsViewModel, userDataAccessObject);
 
         // Creating controller + connect to interactor
-        final FriendProfilePlaylistsController friendProfilePlaylistsController = new
-                FriendProfilePlaylistsController(friendProfilePlaylistsInteractor);
+        friendProfilePlaylistsController = new FriendProfilePlaylistsController(friendProfilePlaylistsInteractor);
         if (friendProfilePlaylistsView == null) {
             throw new RuntimeException("addPlaylistCollectionView must be called before addPlaylistCollectionUseCase");
         }
@@ -614,15 +623,15 @@ public class ShareifyAppBuilder {
         if (friendProfileFriendsListView == null) {
             throw new RuntimeException("addFriendsListView must be called before addFriendsListUseCase");
         }
+
+        // friendProfileFriendsListViewModel = new FriendProfileFriendsListViewModel();
         // Instantiate the output boundary (presenter) and input boundary (interactor)
-        final FriendProfileFriendsListOutputBoundary friendProfileFriendsListOutputBoundary =
-                new FriendProfileFriendsListPresenter(friendProfileViewModel,
+        friendProfileFriendsListOutputBoundary = new FriendProfileFriendsListPresenter(friendProfileViewModel,
                 viewManagerModel, friendProfileFriendsListViewModel);
-        final FriendProfileFriendsListInteractor friendProfileFriendsListInteractor =
-                new FriendProfileFriendsListInteractor(friendProfileFriendsListOutputBoundary, dbFriendDataAccessObject);
+        friendProfileFriendsListInteractor = new FriendProfileFriendsListInteractor(
+                friendProfileFriendsListOutputBoundary, dbFriendDataAccessObject);
         // Create the controller and connect it to the interactor
-        final FriendProfileFriendsListController friendProfileFriendsListController = new
-                FriendProfileFriendsListController(friendProfileFriendsListInteractor);
+        friendProfileFriendsListController = new FriendProfileFriendsListController(friendProfileFriendsListInteractor);
 
         // Link the controller to the view
         friendProfileFriendsListView.setFriendsListController(friendProfileFriendsListController);
