@@ -1,28 +1,33 @@
 package view.playlist_user_story;
 
-import interface_adapter.playlist_user_story.search_song.SearchSongController;
-import interface_adapter.playlist_user_story.search_song.SearchSongState;
-import interface_adapter.playlist_user_story.search_song.SearchSongViewModel;
-import view.login_user_story.LabelTextPanel;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.*;
+
+import interface_adapter.playlist_user_story.search_song.SearchSongController;
+import interface_adapter.playlist_user_story.search_song.SearchSongState;
+import interface_adapter.playlist_user_story.search_song.SearchSongViewModel;
+import view.login_user_story.LabelTextPanel;
+
 /**
  * The View when Search Track is clicked on in Playlist View.
  */
 public class SearchSongView extends JPanel implements ActionListener, PropertyChangeListener {
+    private static final int COLUMNS = 15;
+    private static final int FONT = 16;
+    private static final int MARGIN = 5;
+
     private final String viewName = "search track";
 
     private final SearchSongViewModel searchSongViewModel;
 
     private SearchSongController searchSongController;
 
-    private JTextField searchInputField = new JTextField(15);
+    private JTextField searchInputField = new JTextField(COLUMNS);
 
     private final JButton backButton = new JButton("Back");
     private final JButton searchButton = new JButton("Search");
@@ -36,8 +41,8 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
 
         final LabelTextPanel search = new LabelTextPanel(
                 new JLabel("Search"), searchInputField);
-        searchInputField.setFont(new Font("Arial", Font.PLAIN, 16));
-        searchInputField.setMargin(new Insets(5, 5, 5, 5));
+        searchInputField.setFont(new Font("Arial", Font.PLAIN, FONT));
+        searchInputField.setMargin(new Insets(MARGIN, MARGIN, MARGIN, MARGIN));
         searchInputField.setToolTipText("Enter your username");
 
         final JPanel buttons = new JPanel();
@@ -46,7 +51,7 @@ public class SearchSongView extends JPanel implements ActionListener, PropertyCh
         buttons.add(addSongButton);
 
         backButton.addActionListener(new ActionListener() {
-           public void actionPerformed(ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                searchSongController.switchToPlaylistView();
            }
         }
