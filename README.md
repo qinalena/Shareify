@@ -4,7 +4,8 @@
 - ### Alena Qin (qinalena)
   - User Stories: [Search songs, add/remove songs to/from a playlist](#search-songs-addremove-songs-tofrom-a-playlist)
 - ### Junyu Li (Jasjas7777)
-  - User Stories: [Signup/Login/Logout an account](#signup--login--logout-an-account)
+  - User Stories: [Welcome/Signup/Login/Logout an account](#welcomesignuploginlogout-an-account)
+  - Additional: Accessibility report
 - ### Don Prathap C. Edirisinghe (DonPrathap)
   - User Stories: [Interact with friends through chat feature and commenting on their playlists](#interact-with-friends)
 - ### Aseef Ali Hasan (aseef2289)
@@ -317,10 +318,13 @@ Link to code license: [LICENSE](LICENSE)
 ____
 ## User Stories
 ### Customize and manage an account profile
-Users have a user profile which will display basic personal information (username and bio), their friends list, and their playlist collection. Users can write and edit a custom bio. ***[Team]***
+Users have a user profile which will display basic personal information (username and bio). There are buttons that can view their friends list, playlist collection, edit their bio, change password or logout an account.
+If they are new users, they will have a bio "Hi! I'm new to Shareify!" by default. They can freely change their bio and save it. They could also change their password by entering the new password in the change password view. They could also switch to night mode or switch back to light mode by clicking the "night mode" button.***[Team]***
 
-### Signup / Login / Logout an account
-Users can sign up for an account by creating a friendUsername and password. The app will show the “This User is taken” to avoid repetition in usernames if the user creates a user with a username that already exists. They could log in to or log out their account. A new account starts with an empty playlist collection. ***[Junyu Li]***
+### Welcome/Signup/Login/Logout an account
+Users will be welcomed by the welcomed page when they run our app. From there, they can choose to signup or log in. Users can sign up for an account by inputting a username, password and repeated password. The app will show the "User already exists." to avoid repetition in usernames if the user creates a user with a username that already exists. 
+If the repeated password they input does not match, the app will show "Passwords don't match." They could also go to login view from signup if they realize they have an account.
+They could log in to or log out their account. A new account starts with an empty playlist collection. ***[Junyu Li]***
 
 ### View and manage a playlist collection
 Users can create, delete, view, and manage their playlists that are stored within the playlist collection. 
