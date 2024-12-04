@@ -19,16 +19,15 @@ public class NoteInteractor implements NoteInputBoundary {
         this.notePresenter = notePresenter;
     }
 
-
     @Override
     public void executeSave(NoteInputData noteInputData) {
         try {
-            String username = noteInputData.getUsername();
-            String note = noteInputData.getNote();
+            final String username = noteInputData.getUsername();
+            final String note = noteInputData.getNote();
             user = noteDataAccessInterface.getUser(username);
-            String updatedNote = noteDataAccessInterface.saveNote(user, note);
+            final String updatedNote = noteDataAccessInterface.saveNote(user, note);
             user.setNote(updatedNote);
-            NoteOutputData outputData = new NoteOutputData(username, note);
+            final NoteOutputData outputData = new NoteOutputData(username, note);
             notePresenter.prepareSuccessView(outputData);
         }
         catch (DataAccessException ex) {

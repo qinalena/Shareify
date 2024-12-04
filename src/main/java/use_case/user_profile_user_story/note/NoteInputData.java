@@ -6,15 +6,15 @@ public class NoteInputData {
     private String note;
 
     public NoteInputData(String username, String note) {
-            this.username = username;
-            this.note = note;
-        }
+        this.username = username;
+        this.note = note;
+    }
 
-        String getUsername() {
-            return username;
-        }
-        String getNote() {
+    String getUsername() {
+        return username;
+    }
+
+    String getNote() {
         return note;
-        }
-
+    }
 }

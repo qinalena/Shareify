@@ -6,15 +6,15 @@ import interface_adapter.chat.ChatViewModel;
 import interface_adapter.comment.CommentState;
 import interface_adapter.comment.CommentViewModel;
 import interface_adapter.friends_list_user_story.add_friend.AddFriendState;
+import interface_adapter.friends_list_user_story.add_friend.AddFriendViewModel;
+import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
+import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistState;
 import interface_adapter.playlist_collection_user_story.add_playlist.AddPlaylistViewModel;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionState;
 import interface_adapter.playlist_collection_user_story.playlist_collection.PlaylistCollectionViewModel;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileState;
 import interface_adapter.user_profile_user_story.user_profile.UserProfileViewModel;
-import interface_adapter.friends_list_user_story.friends_list.FriendsListViewModel;
-import interface_adapter.friends_list_user_story.friends_list.FriendsListState;
-import interface_adapter.friends_list_user_story.add_friend.AddFriendViewModel;
 import use_case.login_user_story.login.LoginOutputBoundary;
 import use_case.login_user_story.login.LoginOutputData;
 
@@ -25,9 +25,6 @@ public class LoginPresenter implements LoginOutputBoundary {
 
     private final LoginViewModel loginViewModel;
     private final ViewManagerModel viewManagerModel;
-    //    private final UserProfileViewModel UserProfileViewModel;
-    //    private final FriendsListViewModel FriendsListViewModel;
-    //    private final AddFriendViewModel AddFriendViewModel;
     private final ChatViewModel chatViewModel;
     private final CommentViewModel commentViewModel;
     private final UserProfileViewModel userProfileViewModel;
@@ -36,13 +33,15 @@ public class LoginPresenter implements LoginOutputBoundary {
     private final PlaylistCollectionViewModel playlistCollectionViewModel;
     private final AddPlaylistViewModel addPlaylistViewModel;
 
+    @SuppressWarnings({"checkstyle:ParameterNumber", "checkstyle:SuppressWarnings"})
     public LoginPresenter(ViewManagerModel viewManagerModel,
                           UserProfileViewModel userProfileViewModel,
                           LoginViewModel loginViewModel,
                           FriendsListViewModel friendsListViewModel,
                           AddFriendViewModel addFriendViewModel,
                           PlaylistCollectionViewModel playlistCollectionViewModel,
-                          AddPlaylistViewModel addPlaylistViewModel, ChatViewModel chatViewModel,
+                          AddPlaylistViewModel addPlaylistViewModel,
+                          ChatViewModel chatViewModel,
                           CommentViewModel commentViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.userProfileViewModel = userProfileViewModel;
@@ -63,13 +62,24 @@ public class LoginPresenter implements LoginOutputBoundary {
 
         final UserProfileState userProfileState = userProfileViewModel.getState();
         userProfileState.setCurrentUsername(response.getUsername());
-        if (response.getNote() == ""){
+        if (response.getNote().isEmpty()) {
             userProfileState.setBio("Hi! I'm new to Shareify! :)");
-        } else {
-            userProfileState.setBio(response.getNote());}
+        }
+        else {
+            userProfileState.setBio(response.getNote());
+        }
         this.userProfileViewModel.setState(userProfileState);
         this.userProfileViewModel.firePropertyChanged();
 
+        updateState(response);
+
+    }
+
+    /**
+     * Helper function to update state.
+     * @param response the loginOutputData.
+     */
+    public void updateState(LoginOutputData response) {
         final FriendsListState friendsListState = friendsListViewModel.getState();
         friendsListState.setPassword(response.getPassword());
         friendsListState.setUsername(response.getUsername());
@@ -103,7 +113,6 @@ public class LoginPresenter implements LoginOutputBoundary {
         commentState.setUsername(response.getUsername());
         this.commentViewModel.setState(commentState);
         this.commentViewModel.firePropertyChanged();
-
     }
 
     @Override

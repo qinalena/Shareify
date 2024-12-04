@@ -17,12 +17,12 @@ public class NoteController {
     /**
      * Executes the Note related Use Cases.
      * @param note the note to be recorded
+     * @param username the username of the current user.
      */
     public void execute(String note, String username) {
         final NoteInputData data = new NoteInputData(username, note);
         noteInteractor.executeSave(data);
-        }
-
+    }
 
     /**
      * Executes the switch to User Profile view use case.

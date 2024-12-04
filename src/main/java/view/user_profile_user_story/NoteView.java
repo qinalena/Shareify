@@ -24,7 +24,6 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
     private final String viewName = "note";
     private final NoteViewModel noteViewModel;
 
-
     private JLabel noteName = new JLabel();
     private final JTextArea noteInputField = new JTextArea();
 
@@ -50,7 +49,6 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
                     }
                 }
         );
-
 
         backButton.addActionListener(
                 new ActionListener() {
@@ -79,18 +77,20 @@ public class NoteView extends JPanel implements ActionListener, PropertyChangeLi
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final NoteState state = (NoteState) evt.getNewValue();
-            setFields(state);
+        setFields(state);
         if (state.getError() != null) {
             JOptionPane.showMessageDialog(this, state.getError(),
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void setFields(NoteState state){
+    private void setFields(NoteState state) {
         noteName.setText("Shareify - " + state.getUsername());
         if (state.getNote() != null) {
             noteInputField.setText(state.getNote());
-        } else { noteInputField.setText("Bio: " + "Hi! I'm new to Shareify! :)");
+        }
+        else {
+            noteInputField.setText("Bio: " + "Hi! I'm new to Shareify! :)");
         }
     }
 

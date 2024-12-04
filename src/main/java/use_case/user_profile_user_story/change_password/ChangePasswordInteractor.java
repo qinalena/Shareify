@@ -1,8 +1,6 @@
 package use_case.user_profile_user_story.change_password;
 
 import entity.User;
-import entity.UserFactory;
-import entity.UserFactoryInter;
 
 /**
  * The Change Password Interactor.
@@ -19,14 +17,15 @@ public class ChangePasswordInteractor implements ChangePasswordInputBoundary {
 
     @Override
     public void execute(ChangePasswordInputData changePasswordInputData) {
-        User user = new User(changePasswordInputData.getUserName(), changePasswordInputData.getPassword());
+        final User user = new User(changePasswordInputData.getUserName(), changePasswordInputData.getPassword());
         userDataAccessObject.changePassword(user);
 
         final ChangePasswordOutputData changePasswordOutputData = new ChangePasswordOutputData(user.getUsername());
         userPresenter.prepareSuccessView(changePasswordOutputData);
     }
 
-    public void switchToUserProfileView(){
+    @Override
+    public void switchToUserProfileView() {
         userPresenter.switchToUserProfileView();
     }
 }

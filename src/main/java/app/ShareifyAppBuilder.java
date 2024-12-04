@@ -20,8 +20,8 @@ import interface_adapter.friends_list_user_story.friend_profile.FriendProfileVie
 import interface_adapter.friends_list_user_story.friend_profile_friends_list.*;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsController;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsPresenter;
-import interface_adapter.friends_list_user_story.add_friend.*;
 import interface_adapter.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsViewModel;
+import interface_adapter.friends_list_user_story.add_friend.*;
 import interface_adapter.friends_list_user_story.friend_playlist.FriendPlaylistController;
 import interface_adapter.friends_list_user_story.friend_playlist.FriendPlaylistPresenter;
 import interface_adapter.friends_list_user_story.friend_playlist.FriendPlaylistViewModel;
@@ -49,6 +49,7 @@ import use_case.friends_list_user_story.friend_profile_friends_list.FriendProfil
 import use_case.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsInteractor;
 import use_case.friends_list_user_story.friend_profile_playlists.FriendProfilePlaylistsOutputBoundary;
 import interface_adapter.user_profile_user_story.logout.*;
+
 import use_case.playlist_user_story.search_song.SpotifyDataAccessInterface;
 import use_case.friends_list_user_story.add_friend.*;
 import use_case.friends_list_user_story.friend_playlist.FriendPlaylistInputBoundary;
@@ -155,9 +156,6 @@ public class ShareifyAppBuilder {
     private FriendProfileViewModel friendProfileViewModel;
     private FriendView friendProfileView;
     private DBFriendDataAccessObject dbFriendDataAccessObject = new DBFriendDataAccessObject();
-
-    // For refreshing the note before displaying the Note View
-    private NoteInputBoundary noteInteractor;
 
     public ShareifyAppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -402,7 +400,7 @@ public class ShareifyAppBuilder {
     public ShareifyAppBuilder addNoteUseCase() {
         final NoteOutputBoundary noteOutputBoundary = new NotePresenter(noteViewModel,
                 userProfileViewModel, viewManagerModel);
-        noteInteractor = new NoteInteractor(noteDAO, noteOutputBoundary);
+        final NoteInputBoundary noteInteractor = new NoteInteractor(noteDAO, noteOutputBoundary);
 
         final NoteController noteController = new NoteController(noteInteractor);
         if (noteView == null) {
