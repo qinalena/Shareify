@@ -17,6 +17,8 @@ public interface UserProfileInputBoundary {
 
     /**
      * Switches to Friends List view.
+     * @param username the username of friend.
+     * @param password the password of friend.
      */
     void switchToFriendsListView(String username, String password);
 

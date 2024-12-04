@@ -188,7 +188,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
                 .build();
 
         final Request request = new Request.Builder()
-                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", currentUser.getUsername()))
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s",
+                        currentUser.getUsername()))
                 .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
                 .build();
         try {
@@ -304,7 +305,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
                 .build();
 
         final Request request = new Request.Builder()
-                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", currentUser.getUsername()))
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s",
+                        currentUser.getUsername()))
                 .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
                 .build();
         try {
@@ -679,7 +681,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
      * @param note The note to be saved.
      * @return The saved note if the operation is successful.
      * @throws DataAccessException If there is an error saving the note,
-     * such as invalid credentials or a database error.
+     *      such as invalid credentials or a database error.
      */
     public String saveNote(User user, String note) throws DataAccessException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
@@ -724,7 +726,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface, Lo
      *
      * @param user The user for whom the note is being loaded.
      * @return The loaded note if the operation is successful.
-     * @throws DataAccessException If there is an error loading the note, such as invalid credentials or a database error.
+     * @throws DataAccessException If there is an error loading the note,
+     *      such as invalid credentials or a database error.
      */
     @Override
     public String loadNote(User user) throws DataAccessException {
